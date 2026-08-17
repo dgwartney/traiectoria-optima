@@ -1,7 +1,12 @@
 [project]
 name = "traiectoria-optima"
 version = "0.1.0"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
+    "folium>=0.20.0",
+    "ipyleaflet>=0.20.0",
+    "ipython>=9.16.1",
     "matplotlib>=3.11.1",
+    "numpy>=2.5.2",
+    "pandas>=3.0.5",
 ]
