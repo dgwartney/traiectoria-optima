@@ -104,7 +104,7 @@ if __name__ == "__main__":
     #
 
     df = cleaner.get_open_flights_airports()
-    cleaner.append_to_database(df, SQLITE_DB_PATH, "airport_open_flights")
+    cleaner.append_to_database(df, SQLITE_DB_PATH, "airports_open_flights")
 
     df = cleaner.get_open_flights_routes()
     cleaner.append_to_database(df, SQLITE_DB_PATH, "routes_open_flights")
