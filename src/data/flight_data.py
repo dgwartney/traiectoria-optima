@@ -88,7 +88,7 @@ class FlightDataToDB:
         Write out the data with the added headers
         """
         # Create the parent directories if the do not exist
-        dir_path = os.path.dirname(path)
+        dir_path = Path(os.path.dirname(path))
         dir_path.mkdir(parents=True, exist_ok=True)
 
         # Write the dataframe to a CSV file

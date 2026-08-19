@@ -24,8 +24,8 @@ class AtmosphericWindModel:
     def get_wind_components(self, lat, lon, altitude_m):
         """Returns scalar U (eastward) and V (northward) wind velocity in m/s."""
         point = np.array([altitude_m, lat, lon])
-        u = float(self.interp_u(point))
-        v = float(self.interp_v(point))
+        u = float(self.interp_u(point)[0])
+        v = float(self.interp_v(point)[0])
         return u, v
 
     def calculate_headwind_and_groundspeed(self, lat, lon, altitude_m, heading_rad, tas_m_s):
