@@ -12,11 +12,18 @@ It combines two classical Latin roots:
 
 - **Optima** (feminine form of optimus): Best, most favorable, or ideal.
 
+## Term Project (CMPE 180A, Fall 2026)
 
+This repo implements **A1: Flight Route Planner** — a from-scratch graph
+search over the OpenFlights airline network (BFS, a hand-rolled binary
+min-heap + Dijkstra, and A* with an admissible haversine heuristic).
 
-
-
-
+- [`docs/project_plan.md`](docs/project_plan.md) — project description, task
+  breakdown by implementation stage, and team roles/responsibilities.
+- [`docs/report.md`](docs/report.md) — outline for the final report.
+- [`docs/data.md`](docs/data.md) — OpenFlights airport/route data schemas.
+- [`docs/airlines.md`](docs/airlines.md) — background on U.S. carriers and hubs.
+- [`docs/software.md`](docs/software.md) — mapping/visualization libraries under consideration.
 ## Development Environment Setup with `uv`
 
 This project uses [uv](https://docs.astral.sh/uv/) to manage the Python
@@ -81,7 +88,7 @@ The idiomatic approach is to prefix commands with `uv run` — no manual
 activation required, and `uv` keeps the environment in sync automatically:
 
 ```bash
-uv run python src/models/flight_model.py
+uv run python src/models/flight/main.py
 uv run jupyter lab
 ```
 
@@ -129,6 +136,37 @@ uv lock --upgrade           # refresh the lock file to newest allowed versions
 `uv add`/`uv remove` update both `pyproject.toml` and `uv.lock`; commit both
 files together.
 
+### 7. Running tests
+
+Tests are written with `pytest` (a dev dependency) and live under `tests/`,
+mirroring the layout of `src/`:
+
+```
+tests/
+├── conftest.py                  # forces the non-interactive matplotlib backend
+├── data/
+│   └── test_flight_data.py      # FlightDataToDB: paths, loaders, SQLite writes
+└── models/
+    └── flight/
+        ├── test_atmosphere.py
+        ├── test_aircraft.py
+        ├── test_wind.py
+        ├── test_simulator.py
+        └── test_payload_range.py
+```
+
+Run the full suite with:
+
+```bash
+uv run pytest
+```
+
+`testpaths` and `pythonpath` are configured in `[tool.pytest.ini_options]` in
+`pyproject.toml` — the latter is needed because the modules under
+`src/models/flight/` import each other with bare (non-package) imports, so
+`src/data` and `src/models/flight` are added to `sys.path` for test
+discovery.
+
 ### Troubleshooting
 
 - **`uv: command not found` / not recognized** — reopen the terminal so the
@@ -138,8 +176,31 @@ files together.
 - **Environment feels stale or broken** — delete `.venv` and run `uv sync`
   again; the lock file makes this cheap and reproducible.
 
+## Makefile targets
+
+The `Makefile` wraps common `uv run` commands:
+
+| Target | Runs | Description |
+| --- | --- | --- |
+| `make notebook` | `uv run jupyter lab` | Start a JupyterLab session using the `uv`-managed environment. |
+| `make flight_data` | `uv run python src/data/flight_data.py` | Load the OpenFlights/OurAirports raw data into `data/processed/flight_data.db`. |
+| `make clean` | — | Delete `data/processed/flight_data.db` so it can be rebuilt from scratch. |
+
 ## Data Sets
 
 - [Open Flights](https://openflights.org/data.php)
 
 - [Our Airports](https://ourairports.com/data/)
+
+Raw files for both sources live under `data/raw/`. `src/data/flight_data.py`
+(`FlightDataToDB`) loads the OpenFlights airports/routes and OurAirports
+airports data into a SQLite database at `data/processed/flight_data.db`; run
+it directly with:
+
+```bash
+uv run python src/data/flight_data.py
+```
+
+`src/sql/airports.sql` contains a starter query for filtering to U.S.
+large/medium airports. See [`docs/data.md`](docs/data.md) for the full column
+schemas of the raw OpenFlights files.
