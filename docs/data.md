@@ -80,3 +80,46 @@ The airports dataset contains geographic, navigational, and administrative detai
 4,"Nadzab Airport","Nadzab","Papua New Guinea","LAE","AYNZ",-6.569803,146.725977,239,10,"U","Pacific/Port_Moresby","airport","OurAirports"
 5,"Port Moresby Jacksons International Airport","Port Moresby","Papua New Guinea","POM","AYPY",-9.443380355834961,147.22000122070312,146,10,"U","Pacific/Port_Moresby","airport","OurAirports"
 ```
+
+
+
+
+## Free Airport Coordinates APIs (IATA to Lat/Long)
+A curated list of free, online APIs to quickly resolve IATA airport codes into latitude and longitude coordinates.
+---## 1. AirportsAPI.com (Easiest / No Auth)
+This is the most straightforward option because it requires **no API keys, no sign-ups, and no authentication**. You can start making requests directly in your browser or code immediately.
+
+*   **Endpoint Example:** `https://airportsapi.com`
+*   **Documentation:** [AirportsAPI](https://airportsapi.com)
+### Sample JSON Response```json
+{
+  "name": "London Heathrow Airport",
+  "code": "EGLL",
+  "iata_code": "LHR",
+  "latitude": 51.4706,
+  "longitude": -0.461941,
+  "type": "large_airport"
+}
+```
+## 2. AirLabs Airport Database API (Best for Production-Ready Free Tier)
+AirLabs offers a robust, developer-friendly API. Their **Free Tier** includes full access to global IATA/ICAO codes alongside coordinates, though it requires a quick sign-up to get an API key.
+
+*   **Endpoint Example:** `https://airlabs.co`
+*   **Documentation:** [AirLabs Airports Docs](https://airlabs.co)
+
+### Key Returned Parameters*   `iata_code`
+*   `icao_code`
+*   `lat`
+*   `lng`
+
+## 3. API Ninjas - Airports API (Great for General Projects)
+API Ninjas provides a comprehensive airport lookup tool. Their free tier covers thousands of requests per month with a standard free account API key.
+
+*   **Endpoint Example:** `https://api-ninjas.com` *(Requires `X-Api-Key` header)*
+*   **Documentation:** [API Ninjas Airports](https://api-ninjas.com)
+
+## Alternative: Downloadable Datasets
+If you don't want to make live API calls over the internet and prefer a local database, you can download **[The Global Airport Database](https://partow.net)** for free. It maps IATA codes to Lat/Long positions in a simple token-delimited text format.
+
+
+
