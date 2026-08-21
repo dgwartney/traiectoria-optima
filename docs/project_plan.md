@@ -6,9 +6,9 @@
 
 ## Group Members
 
-- Astha Sharma-Flores
-- Jake Lu
-- David Gwartney
+- Astha Sharma-Flores => ASF
+- Jake Lu => JL
+- David Gwartney => DG
 
 ## Project Plan
 
