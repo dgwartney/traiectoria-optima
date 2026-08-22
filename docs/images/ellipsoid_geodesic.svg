@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <ellipse cx="200" cy="200" rx="150" ry="120" fill="#fff5eb" stroke="#dd6b20" stroke-width="2"/>
+  <ellipse cx="200" cy="200" rx="150" ry="35" fill="none" stroke="#f0b578" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <path d="M 100 150 Q 200 260 290 170" fill="none" stroke="#38a169" stroke-width="3"/>
+  <circle cx="100" cy="150" r="5" fill="#2d3748"/>
+  <circle cx="290" cy="170" r="5" fill="#2d3748"/>
+  <text x="70" y="135" font-family="Arial" font-size="14" fill="#2d3748">Point 1 (lat1, lon1)</text>
+  <text x="200" y="150" font-family="Arial" font-size="14" fill="#2d3748">Point 2 (lat2, lon2)</text>
+  <text x="140" y="290" font-family="Arial" font-size="14" fill="#38a169" font-weight="bold">Geodesic path (d)</text>
+  <text x="120" y="380" font-family="Arial" font-size="13" fill="#4a5568">Oblate Ellipsoid Earth Model</text>
+  <text x="60" y="40" font-family="Arial" font-size="12" fill="#a0522d">(flattened at poles, exaggerated)</text>
+</svg>

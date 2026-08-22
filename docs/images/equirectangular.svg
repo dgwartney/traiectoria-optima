@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <rect x="50" y="80" width="300" height="240" fill="#f0fff4" stroke="#38a169" stroke-width="2"/>
+  <line x1="50" y1="200" x2="350" y2="200" stroke="#c6f6d5" stroke-width="1"/>
+  <line x1="200" y1="80" x2="200" y2="320" stroke="#c6f6d5" stroke-width="1"/>
+  <circle cx="120" cy="140" r="5" fill="#2d3748"/>
+  <circle cx="280" cy="250" r="5" fill="#2d3748"/>
+  <line x1="120" y1="140" x2="280" y2="140" stroke="#718096" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="280" y1="140" x2="280" y2="250" stroke="#718096" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="120" y1="140" x2="280" y2="250" stroke="#e53e3e" stroke-width="3"/>
+  <text x="90" y="125" font-family="Arial" font-size="14" fill="#2d3748">Point 1</text>
+  <text x="290" y="245" font-family="Arial" font-size="14" fill="#2d3748">Point 2</text>
+  <text x="185" y="130" font-family="Arial" font-size="13" fill="#718096">x = &#916;&#955; * cos(&#966;m)</text>
+  <text x="285" y="200" font-family="Arial" font-size="13" fill="#718096">y = &#916;&#966;</text>
+  <text x="150" y="370" font-family="Arial" font-size="13" fill="#4a5568">Flat-Plane (Equirectangular) Approximation</text>
+</svg>
