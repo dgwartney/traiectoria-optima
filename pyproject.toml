@@ -12,8 +12,10 @@ dependencies = [
     "jupyterlab>=4.6.3",
     "jupyterlab-git>=0.54.1",
     "matplotlib>=3.11.1",
+    "networkx[default,extra]>=3.6.1",
     "numpy>=2.5.2",
     "pandas>=3.0.5",
+    "pandas-stubs~=3.0.5",
     "plotly>=6.9.0",
     "pyproj>=3.7.2",
     "ruff>=0.16.3",
@@ -25,11 +27,35 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.26",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = [
+    "src",
     "src/data",
     "src/models/flight",
+    "src/examples",
 ]
+
+[tool.ruff]
+extend-exclude = [
+    "notebooks",
+    "src/data/data_format.py",
+    "src/examples/graphs/adjacency_list.py",
+]
+
+[tool.ruff.lint]
+select = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+# Tests and one-off data-wrangling scripts aren't part of the documented API.
+"tests/**" = ["D"]
+"src/data/fetch_airport_coords.py" = ["D"]
+"src/data/fetch_missing_coords.py" = ["D"]

@@ -1,3 +1,5 @@
+"""Loads OpenFlights and OurAirports source data into a SQLite database."""
+
 import sqlite3
 import pandas as pd
 import os
@@ -5,36 +7,41 @@ from pathlib import Path
 
 
 class FlightDataToDB:
-    """
-    Loads selected data files into a SQLite database for easy
-    data exploration
-    """
+    """Loads selected data files into a SQLite database for easy exploration."""
 
     def __init__(self):
-        """
-        Configure member variables with relative directories
-        to our two main data sources
-        """
+        """Configure relative directories for the two main data sources."""
         self._open_flights_data_dir = "data/raw/open_flights"
         self._our_airports_data_dir = "data/raw/our_airports"
 
     def get_root_path(self):
-        """
-        Create the root path to the project
+        """Return the project root path.
+
+        Returns:
+            Absolute `Path` to the repository root, derived from this file's
+            location.
         """
         return Path(os.path.dirname(__file__)).parent.parent
 
     def get_data_path(self, dir_path, file):
-        """
-        Create a file path to a data file
+        """Build an absolute path to a data file under the project root.
+
+        Args:
+            dir_path: Directory containing `file`, relative to the project root.
+            file: File name.
+
+        Returns:
+            Absolute path string to the data file.
         """
         dir_path = Path(dir_path)
         # Combine and create an absolute path
         return os.path.abspath(os.path.join(self.get_root_path() , dir_path, file))
 
     def get_open_flights_airports(self):
-        """
-        Read the Open Flights airport data file and add missing column names
+        """Read the OpenFlights airport data file, naming its columns.
+
+        Returns:
+            `pandas.DataFrame` of airport records.
         """
         return pd.read_csv(
             self.get_data_path(self._open_flights_data_dir, "airports.dat"),
@@ -47,8 +54,10 @@ class FlightDataToDB:
         )
 
     def get_open_flights_routes(self):
-        """
-        Read the Open Flights routes data file and add missing column names
+        """Read the OpenFlights routes data file, naming its columns.
+
+        Returns:
+            `pandas.DataFrame` of route records.
         """
         return pd.read_csv(
             self.get_data_path(self._open_flights_data_dir, "routes.dat"),
@@ -60,8 +69,13 @@ class FlightDataToDB:
         )
 
     def get_our_airports(self, file):
-        """
-        Read the Our Airports airport data
+        """Read an OurAirports data file.
+
+        Args:
+            file: File name under the OurAirports data directory.
+
+        Returns:
+            `pandas.DataFrame` of the file's contents.
         """
         return pd.read_csv(
                 self.get_data_path(
@@ -69,14 +83,18 @@ class FlightDataToDB:
         )
 
     def append_to_database(self, df, database_path, table):
-        """
-        Appends the input data frame to the specified SQLite data base file
-        with the give table name
+        """Append a data frame to a table in a SQLite database.
+
+        Args:
+            df: Data to write.
+            database_path: Path to the SQLite database file, created if
+                it does not already exist.
+            table: Destination table name.
         """
         # Connect to SQLite database (creates the file if it does not exist)
         conn = sqlite3.connect(database_path)
 
-        # Write data to a table 
+        # Write data to a table
         # index=False prevents the Pandas row counter from becoming a column
         df.to_sql(table, conn, if_exists="append", index=False)
 
@@ -84,8 +102,11 @@ class FlightDataToDB:
         conn.close()
 
     def write_data_frame_to_csv(self, df, path):
-        """
-        Write out the data with the added headers
+        """Write a data frame to a CSV file, creating parent directories as needed.
+
+        Args:
+            df: Data to write.
+            path: Destination CSV file path.
         """
         # Create the parent directories if the do not exist
         dir_path = Path(os.path.dirname(path))

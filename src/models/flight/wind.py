@@ -1,18 +1,26 @@
+"""Interpolated atmospheric wind field and wind-triangle calculations."""
+
 import numpy as np
 import scipy.interpolate as interpolate
 
 class AtmosphericWindModel:
+    """Interpolates a 3D global atmospheric wind field.
+
+    Wraps two `scipy.interpolate.RegularGridInterpolator` instances (one per
+    wind component) over a (altitude, latitude, longitude) grid.
     """
-    Interpolates 3D/4D global atmospheric wind fields 
-    (Latitude, Longitude, Altitude/Pressure Level, Time).
-    """
+
     def __init__(self, lats, lons, alt_m, u_wind_grid, v_wind_grid):
-        """
-        lats: 1D array of grid latitudes [deg]
-        lons: 1D array of grid longitudes [deg]
-        alt_m: 1D array of altitudes [meters]
-        u_wind_grid: 3D array (len(alt), len(lat), len(lon)) of East-West wind [m/s]
-        v_wind_grid: 3D array (len(alt), len(lat), len(lon)) of North-South wind [m/s]
+        """Build the interpolators from a regular wind grid.
+
+        Args:
+            lats: 1D array of grid latitudes (deg).
+            lons: 1D array of grid longitudes (deg).
+            alt_m: 1D array of altitudes (m).
+            u_wind_grid: 3D array shaped ``(len(alt), len(lat), len(lon))``
+                of East-West wind component (m/s).
+            v_wind_grid: 3D array shaped ``(len(alt), len(lat), len(lon))``
+                of North-South wind component (m/s).
         """
         self.interp_u = interpolate.RegularGridInterpolator(
             (alt_m, lats, lons), u_wind_grid, bounds_error=False, fill_value=0.0
@@ -22,16 +30,35 @@ class AtmosphericWindModel:
         )
 
     def get_wind_components(self, lat, lon, altitude_m):
-        """Returns scalar U (eastward) and V (northward) wind velocity in m/s."""
+        """Look up the wind vector at a point.
+
+        Args:
+            lat: Latitude (deg).
+            lon: Longitude (deg).
+            altitude_m: Altitude (m).
+
+        Returns:
+            A tuple ``(u, v)`` of eastward and northward wind velocity (m/s).
+        """
         point = np.array([altitude_m, lat, lon])
         u = float(self.interp_u(point)[0])
         v = float(self.interp_v(point)[0])
         return u, v
 
     def calculate_headwind_and_groundspeed(self, lat, lon, altitude_m, heading_rad, tas_m_s):
-        """
-        Calculates groundspeed and drift angle accounting for wind vector drift.
-        Heading_rad: True heading angle in radians relative to True North.
+        """Solve the wind triangle for groundspeed, drift, and wind components.
+
+        Args:
+            lat: Latitude (deg).
+            lon: Longitude (deg).
+            altitude_m: Altitude (m).
+            heading_rad: True heading relative to true north (rad).
+            tas_m_s: True airspeed (m/s).
+
+        Returns:
+            A dict with keys ``headwind_m_s`` (positive = headwind),
+            ``crosswind_m_s`` (positive = from the right), ``drift_angle_deg``,
+            and ``groundspeed_m_s``.
         """
         u, v = self.get_wind_components(lat, lon, altitude_m)
         
