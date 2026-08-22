@@ -61,3 +61,5 @@ convention = "google"
 "tests/**" = ["D"]
 "src/data/fetch_airport_coords.py" = ["D"]
 "src/data/generate_airports_raw.py" = ["D"]
+"src/data/fetch_missing_coords.py" = ["D"]
+"src/data/fetch_missing_coords_api.py" = ["D"]
