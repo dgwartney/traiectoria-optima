@@ -2,6 +2,7 @@
 
 import sqlite3
 import pandas as pd
+from pandas import DataFrame
 import os
 from pathlib import Path
 
@@ -68,7 +69,7 @@ class FlightDataToDB:
             na_values="\\N"  # OpenFlights uses \N for missing values
         )
 
-    def get_our_airports(self, file):
+    def get_our_airports(self, file) -> DataFrame:
         """Read an OurAirports data file.
 
         Args:
@@ -82,7 +83,7 @@ class FlightDataToDB:
                     self._our_airports_data_dir, file)
         )
 
-    def append_to_database(self, df, database_path, table):
+    def append_to_database(self, df: DataFrame, database_path: str, table: str) -> None:
         """Append a data frame to a table in a SQLite database.
 
         Args:
@@ -101,7 +102,7 @@ class FlightDataToDB:
         # Close the connection
         conn.close()
 
-    def write_data_frame_to_csv(self, df, path):
+    def write_data_frame_to_csv(self, df, path) -> None:
         """Write a data frame to a CSV file, creating parent directories as needed.
 
         Args:
@@ -114,6 +115,20 @@ class FlightDataToDB:
 
         # Write the dataframe to a CSV file
         df.to_csv(path, index=False)
+
+
+    def read_csv_write_to_db(self, path: str, db_path: str, table: str) -> None:
+        """Read a CSV file into a dataframe then write to a sqlite database
+           with the provided path to the sqlite database and table.
+
+        Args:
+            path: Relative or absolute path to CSV file
+            db_path: Path to the sqlite database
+        """
+        df = pd.read_csv(path)
+        self.append_to_database(df, db_path, table)
+
+
 
 if __name__ == "__main__":
     cleaner = FlightDataToDB()
@@ -136,3 +151,9 @@ if __name__ == "__main__":
 
     df = cleaner.get_our_airports("airports.csv")
     cleaner.append_to_database(df, SQLITE_DB_PATH, "airports_our_airports")
+
+    #
+    # International airports
+    #
+    intl_airports_path = os.path.join(cleaner.get_root_path(), "data/intermediate", "international_airports.csv")
+    cleaner.read_csv_to_db(intl_airports_path, SQLITE_DB_PATH, "intl_airports")

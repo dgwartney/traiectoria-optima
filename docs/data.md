@@ -86,11 +86,12 @@ The airports dataset contains geographic, navigational, and administrative detai
 
 ## Free Airport Coordinates APIs (IATA to Lat/Long)
 A curated list of free, online APIs to quickly resolve IATA airport codes into latitude and longitude coordinates.
----## 1. AirportsAPI.com (Easiest / No Auth)
+
+### 1. AirportsAPI.com (Easiest / No Auth)
 This is the most straightforward option because it requires **no API keys, no sign-ups, and no authentication**. You can start making requests directly in your browser or code immediately.
 
-*   **Endpoint Example:** `https://airportsapi.com`
-*   **Documentation:** [AirportsAPI](https://airportsapi.com)
+**Endpoint Example:** [https://airportsapi.com](https://airportsapi.com)
+
 ### Sample JSON Response```json
 {
   "name": "London Heathrow Airport",
@@ -100,12 +101,11 @@ This is the most straightforward option because it requires **no API keys, no si
   "longitude": -0.461941,
   "type": "large_airport"
 }
-```
-## 2. AirLabs Airport Database API (Best for Production-Ready Free Tier)
+
+### AirLabs Airport Database API (Best for Production-Ready Free Tier)
 AirLabs offers a robust, developer-friendly API. Their **Free Tier** includes full access to global IATA/ICAO codes alongside coordinates, though it requires a quick sign-up to get an API key.
 
-*   **Endpoint Example:** `https://airlabs.co`
-*   **Documentation:** [AirLabs Airports Docs](https://airlabs.co)
+**Endpoint Example:** [AirLabs Airports Docs](https://airlabs.co)
 
 ### Key Returned Parameters*   `iata_code`
 *   `icao_code`
@@ -115,11 +115,63 @@ AirLabs offers a robust, developer-friendly API. Their **Free Tier** includes fu
 ## 3. API Ninjas - Airports API (Great for General Projects)
 API Ninjas provides a comprehensive airport lookup tool. Their free tier covers thousands of requests per month with a standard free account API key.
 
-*   **Endpoint Example:** `https://api-ninjas.com` *(Requires `X-Api-Key` header)*
-*   **Documentation:** [API Ninjas Airports](https://api-ninjas.com)
+**Documentation:** [API Ninjas Airports](https://api-ninjas.com) *(Requires `X-Api-Key` header)*
 
 ## Alternative: Downloadable Datasets
-If you don't want to make live API calls over the internet and prefer a local database, you can download **[The Global Airport Database](https://partow.net)** for free. It maps IATA codes to Lat/Long positions in a simple token-delimited text format.
+If you don't want to make live API calls over the internet and prefer a local database,
+you can download **[The Global Airport Database](https://partow.net)** for free.
+It maps IATA codes to Lat/Long positions in a simple token-delimited text format.
 
+## 3. International Airports Scrape (`airports_raw.json`)
+
+`src/data/generate_airports_raw.py` regenerates `airports_raw.json`, the raw
+input consumed by `fetch_airport_coords.py` to
+build `data/processed/international_airports.csv`. It uses Playwright to load
+[List of international airports by
+country](https://en.wikipedia.org/wiki/List_of_international_airports_by_country)
+and extract `{region, country, location, airport, href}` for every airport
+link on the page.
+
+### Requirements — local (`uv`) environment
+
+```bash
+uv sync                                    # installs the playwright package
+uv run playwright install --with-deps chromium
+uv run python src/data/generate_airports_raw.py
+```
+
+### Requirements — Google Colab
+
+Colab notebooks need extra setup that a local `uv`-managed environment
+already has, and the script's async API is deliberately used so it can be
+awaited directly from a cell:
+
+1. **Install the package and browser** in a setup cell — Colab's base image
+   ships neither:
+   ```python
+   !pip install playwright
+   !playwright install --with-deps chromium
+   ```
+   `--with-deps` is required, not optional — it apt-installs the shared
+   libraries Chromium needs that Colab's minimal container lacks. Skipping it
+   causes the browser launch to fail with missing `.so` errors.
+2. **Headless only** — Colab has no display, so the script's default
+   `launch(headless=True)` is required (already the case; do not pass
+   `headless=False`).
+3. **Use the async API, not `asyncio.run()`** — Colab's kernel already runs
+   an event loop, so Playwright's sync API (`sync_playwright`) raises
+   `Error: It looks like you are using Playwright Sync API inside the
+   asyncio loop` if called from a cell, and `asyncio.run()` raises `asyncio.run()
+   cannot be called from a running event loop`. Import the module and await
+   the coroutine directly instead of running the script's `__main__` block:
+   ```python
+   from generate_airports_raw import ExtractInternationalAirportsData, URL, OUTPUT_PATH
+
+   extractor = ExtractInternationalAirportsData(URL, OUTPUT_PATH)
+   data = await extractor.scrape()
+   with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+       import json
+       json.dump(data, f, ensure_ascii=False, indent=2)
+   ```
 
 

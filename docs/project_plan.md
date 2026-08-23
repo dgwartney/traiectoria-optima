@@ -18,8 +18,6 @@ search with an admissible haversine heuristic
 
 **Presentation:** 9/15/2026
 
-*Submitted as the Stage 1 one-page proposal.*
-
 ## Problem
 
 As stated in the project catalog:
