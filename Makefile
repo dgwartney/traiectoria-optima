@@ -61,8 +61,6 @@ all: check docs ## Run all quality gates and build the docs site
 help: ## Show this list of targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
-=======
->>>>>>> 3bbafd5 (Add complete Makefile ; mkdocs building of site, full documentation of existing code)
 
 DOCS_DIR       = docs
 DOCS_TEMPLATES = $(DOCS_DIR)/templates
@@ -87,6 +85,15 @@ PANDOC_FLAGS := \
 	--lua-filter=$(SVG_FILTER) \
 	--include-in-header=$(DOC_HEADER)
 
+#
+# International airports pipeline: raw Wikipedia scrape -> geocoded CSV
+#
+SRC_GENERATE_AIRPORTS_RAW=$(SRC_DATA_DIR)/generate_airports_raw.py
+SRC_FETCH_AIRPORT_COORDS=$(SRC_DATA_DIR)/fetch_airport_coords.py
+SRC_FETCH_MISSING_COORDS=$(SRC_DATA_DIR)/fetch_missing_coords.py
+AIRPORTS_RAW_JSON=airports_raw.json
+INTERNATIONAL_AIRPORTS_CSV=$(INTERMEDIATE_DATA_DIR)/international_airports.csv
+
 # Configure directories for mkdocs (see https://www.mkdocs.org/)
 SITE_DIR=site
 STAMP_DIR=.make
@@ -95,7 +102,7 @@ PY_SRC=$(shell find $(SRC_DIR) -name '*.py')
 PY_TESTS=$(shell find tests -name '*.py')
 DOCS_SRC=$(shell find docs -type f) mkdocs.yml
 
-.PHONY: all help notebook flight_data test lint check docs docs-serve clean
+.PHONY: all help notebook flight_data international_airports test lint check docs docs-serve clean
 
 .DEFAULT_GOAL := help
 
@@ -105,8 +112,10 @@ help: ## Show this list of targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
 
+#
 # Start a jupyter lab session from the install virtual
 # environment setup by `uv`
+<<<<<<< HEAD
 <<<<<<< HEAD
 #
 =======
@@ -202,6 +211,12 @@ docs: $(SITE_DIR)/index.html ## Build the mkdocs site into site/
 docs-serve: ## Serve the docs site locally with live reload
 	uv run mkdocs serve
 
+=======
+#
+notebook: ## Start a Jupyter Lab session
+	uv run jupyter lab
+
+>>>>>>> 258135c (Updates on slides and other docs)
 # Build all project docs (project_plan.md, report.md, ...) to PDF
 docs: $(PDFS)
 
@@ -232,8 +247,32 @@ clean: ## Remove generated data, docs site, and make stamp files
 # --- Data pipeline ----------------------------------------------------
 # Real file target: only regenerates the DB when flight_data.py (or the
 # raw inputs it reads) is newer than the existing DB file.
+#
 
-$(FLIGHT_DATA_DB_PATH): $(SRC_FLIGHT_DATA_DB)
+#
+# Step 1: scrape the raw Wikipedia airport list (network + Playwright).
+#
+$(AIRPORTS_RAW_JSON): $(SRC_GENERATE_AIRPORTS_RAW)
+	uv run python $(SRC_GENERATE_AIRPORTS_RAW)
+
+#
+# Step 2: resolve batch coordinates from the Wikipedia API into the CSV.
+#
+$(INTERNATIONAL_AIRPORTS_CSV): $(AIRPORTS_RAW_JSON) $(SRC_FETCH_AIRPORT_COORDS)
+	uv run python $(SRC_FETCH_AIRPORT_COORDS)
+
+#
+# Step 3: backfill coordinates step 2 missed. This is an in-place refinement
+# pass over the same CSV, so it can't be the file target itself; a stamp
+# records that it has run against the current CSV/raw JSON.
+#
+$(STAMP_DIR)/fetch_missing_coords: $(INTERNATIONAL_AIRPORTS_CSV) $(AIRPORTS_RAW_JSON) $(SRC_FETCH_MISSING_COORDS) | $(STAMP_DIR)
+	uv run python $(SRC_FETCH_MISSING_COORDS)
+	touch $@
+
+international_airports: $(STAMP_DIR)/fetch_missing_coords ## Scrape + geocode data/processed/international_airports.csv
+
+$(FLIGHT_DATA_DB_PATH): $(SRC_FLIGHT_DATA_DB) $(STAMP_DIR)/fetch_missing_coords
 	uv run python $(SRC_FLIGHT_DATA_DB)
 
 flight_data: $(FLIGHT_DATA_DB_PATH) ## Load source data into data/processed/flight_data.db
@@ -273,5 +312,5 @@ docs-serve: ## Serve the docs site locally with live reload
 	uv run mkdocs serve
 
 clean: ## Remove generated data, docs site, and make stamp files
-	$(RM) $(FLIGHT_DATA_DB_PATH)
+	$(RM) $(FLIGHT_DATA_DB_PATH) $(AIRPORTS_RAW_JSON) $(INTERNATIONAL_AIRPORTS_CSV)
 	$(RM) -r $(SITE_DIR) $(STAMP_DIR)

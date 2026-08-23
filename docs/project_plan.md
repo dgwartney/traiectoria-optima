@@ -31,6 +31,8 @@ A1 call for "a `RoutePlanner` supporting hops/distance queries." We therefore re
 *cheapest* in the graph sense — lowest total edge cost — with edge cost equal to
 great-circle (haversine) distance. This gives three query modes:
 
+>>>>>>> ee2eb77 (Updates on slides and other docs)
+
 | Query | Metric | Edge weight | Algorithm |
 |-------|--------|-------------|-----------|
 | Fewest stops | Layovers | Uniform (1 per hop) | BFS |

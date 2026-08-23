@@ -661,6 +661,9 @@ wheels = [
 
 [[package]]
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 258135c (Updates on slides and other docs)
 name = "greenlet"
 version = "3.5.5"
 source = { registry = "https://pypi.org/simple" }
@@ -728,8 +731,11 @@ wheels = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 =======
 >>>>>>> 3bbafd5 (Add complete Makefile ; mkdocs building of site, full documentation of existing code)
+=======
+>>>>>>> 258135c (Updates on slides and other docs)
 name = "griffelib"
 version = "2.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2237,6 +2243,9 @@ wheels = [
 
 [[package]]
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 258135c (Updates on slides and other docs)
 name = "pyee"
 version = "13.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2249,8 +2258,11 @@ wheels = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 =======
 >>>>>>> 3bbafd5 (Add complete Makefile ; mkdocs building of site, full documentation of existing code)
+=======
+>>>>>>> 258135c (Updates on slides and other docs)
 name = "pygments"
 version = "2.21.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2985,9 +2997,13 @@ dependencies = [
     { name = "pandas" },
     { name = "pandas-stubs" },
 <<<<<<< HEAD
+<<<<<<< HEAD
     { name = "playwright" },
 =======
 >>>>>>> 3bbafd5 (Add complete Makefile ; mkdocs building of site, full documentation of existing code)
+=======
+    { name = "playwright" },
+>>>>>>> 258135c (Updates on slides and other docs)
     { name = "plotly" },
     { name = "pyproj" },
     { name = "pytest-playwright" },
@@ -3021,9 +3037,13 @@ requires-dist = [
     { name = "pandas", specifier = ">=3.0.5" },
     { name = "pandas-stubs", specifier = "~=3.0.5" },
 <<<<<<< HEAD
+<<<<<<< HEAD
     { name = "playwright", specifier = ">=1.48.0" },
 =======
 >>>>>>> 3bbafd5 (Add complete Makefile ; mkdocs building of site, full documentation of existing code)
+=======
+    { name = "playwright", specifier = ">=1.48.0" },
+>>>>>>> 258135c (Updates on slides and other docs)
     { name = "plotly", specifier = ">=6.9.0" },
     { name = "pyproj", specifier = ">=3.7.2" },
     { name = "pytest-playwright", specifier = ">=0.9.0" },
