@@ -1,0 +1,55 @@
+classDiagram
+    direction LR
+
+    class Vertex {
+        +String id
+        +getData()
+        +getId()
+    }
+
+    class Edge {
+        +Vertex source
+        +Vertex destination
+        +double weight
+        +getSource()
+        +getDestination()
+        +getWeight()
+    }
+
+    class Graph {
+        #List~Vertex~ vertices
+        #List~Edge~ edges
+        +addVertex(Vertex v)
+        +addEdge(Edge e)
+        +getNeighbors(Vertex v)
+    }
+
+    Vertex <|-- Airport : inherits
+    Edge <|-- Route : inherits
+    Graph <|-- FlightPlanner : inherits
+
+    class Airport {
+        +String code
+        +String city
+        +String name
+        +getCode()
+    }
+
+    class Route {
+        +String airline
+        +double distance
+        +double duration
+        +getDuration()
+    }
+
+    class FlightPlanner {
+        +findShortestPath(Airport start, Airport end)
+        +findCheapestPath(Airport start, Airport end)
+        +loadFlightData()
+    }
+
+    Graph "1" *-- "0..*" Edge : contains
+    Graph "1" *-- "0..*" Vertex : contains
+    Route --> Airport : connects
+    FlightPlanner --> Route : manages
+    FlightPlanner --> Airport : manages
