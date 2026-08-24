@@ -155,5 +155,5 @@ if __name__ == "__main__":
     #
     # International airports
     #
-    intl_airports_path = os.path.join(cleaner.get_root_path(), "data/intermediate", "international_airports.csv")
-    cleaner.read_csv_to_db(intl_airports_path, SQLITE_DB_PATH, "intl_airports")
+    intl_airports_path = os.path.join(cleaner.get_root_path(), "data/processed", "international_airports.csv")
+    cleaner.read_csv_write_to_db(intl_airports_path, SQLITE_DB_PATH, "intl_airports")

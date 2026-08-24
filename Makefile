@@ -1,8 +1,10 @@
 # This directory is the output of our processed data
 PROCESSED_DATA_DIR=data/processed
-INTERMEDIATE_DATA_DIR=data/processed
+INTERMEDIATE_DATA_DIR=data/intermediate
+
 # This file represents the sqlite database with the flight data cleaned and ready to use
 FLIGHT_DATA_DB=flight_data.db
+
 # Build the full path to the sqlite database
 FLIGHT_DATA_DB_PATH=$(PROCESSED_DATA_DIR)/$(FLIGHT_DATA_DB)
 
@@ -39,8 +41,7 @@ PANDOC_FLAGS := \
 # International airports pipeline: raw Wikipedia scrape -> geocoded CSV
 #
 SRC_GENERATE_AIRPORTS_RAW=$(SRC_DATA_DIR)/generate_airports_raw.py
-SRC_FETCH_AIRPORT_COORDS=$(SRC_DATA_DIR)/fetch_airport_coords.py
-SRC_FETCH_MISSING_COORDS=$(SRC_DATA_DIR)/fetch_missing_coords.py
+SRC_FETCH_AIRPORT_COORDS=$(SRC_DATA_DIR)/fetch_airport_coords_api.py
 AIRPORTS_RAW_JSON=airports_raw.json
 INTERNATIONAL_AIRPORTS_CSV=$(INTERMEDIATE_DATA_DIR)/international_airports.csv
 
@@ -62,7 +63,29 @@ help: ## Show this list of targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
 
-#
+DOCS_DIR       = docs
+DOCS_TEMPLATES = $(DOCS_DIR)/templates
+DOCS_MERMAID   = $(DOCS_DIR)/mermaid
+DOC_HEADER     = $(DOCS_TEMPLATES)/doc-header.tex
+SVG_FILTER     = $(DOCS_DIR)/svg-to-png.lua
+
+BUILD_DIR = build
+PDF_DIR   = $(BUILD_DIR)/pdf
+SVG_DIR   = $(BUILD_DIR)/svg
+PNG_DIR   = $(BUILD_DIR)/png
+
+MD_SRCS  := $(wildcard $(DOCS_DIR)/*.md)
+MMD_SRCS := $(wildcard $(DOCS_MERMAID)/*.mmd)
+PDFS     := $(MD_SRCS:$(DOCS_DIR)/%.md=$(PDF_DIR)/%.pdf)
+SVGS     := $(MMD_SRCS:$(DOCS_MERMAID)/%.mmd=$(SVG_DIR)/%.svg)
+PNGS     := $(MMD_SRCS:$(DOCS_MERMAID)/%.mmd=$(PNG_DIR)/%.png)
+
+PANDOC_FLAGS := \
+	--pdf-engine=xelatex \
+	--resource-path=$(DOCS_DIR) \
+	--lua-filter=$(SVG_FILTER) \
+	--include-in-header=$(DOC_HEADER)
+
 # Start a jupyter lab session from the install virtual
 # environment setup by `uv`
 #
@@ -116,18 +139,9 @@ $(AIRPORTS_RAW_JSON): $(SRC_GENERATE_AIRPORTS_RAW)
 $(INTERNATIONAL_AIRPORTS_CSV): $(AIRPORTS_RAW_JSON) $(SRC_FETCH_AIRPORT_COORDS)
 	uv run python $(SRC_FETCH_AIRPORT_COORDS)
 
-#
-# Step 3: backfill coordinates step 2 missed. This is an in-place refinement
-# pass over the same CSV, so it can't be the file target itself; a stamp
-# records that it has run against the current CSV/raw JSON.
-#
-$(STAMP_DIR)/fetch_missing_coords: $(INTERNATIONAL_AIRPORTS_CSV) $(AIRPORTS_RAW_JSON) $(SRC_FETCH_MISSING_COORDS) | $(STAMP_DIR)
-	uv run python $(SRC_FETCH_MISSING_COORDS)
-	touch $@
+international_airports: $(INTERNATIONAL_AIRPORTS_CSV) ## Scrape + geocode data/processed/international_airports.csv
 
-international_airports: $(STAMP_DIR)/fetch_missing_coords ## Scrape + geocode data/processed/international_airports.csv
-
-$(FLIGHT_DATA_DB_PATH): $(SRC_FLIGHT_DATA_DB) $(STAMP_DIR)/fetch_missing_coords
+$(FLIGHT_DATA_DB_PATH): $(SRC_FLIGHT_DATA_DB) $(INTERNATIONAL_AIRPORTS_CSV)
 	uv run python $(SRC_FLIGHT_DATA_DB)
 
 flight_data: $(FLIGHT_DATA_DB_PATH) ## Load source data into data/processed/flight_data.db
@@ -166,6 +180,29 @@ docs: $(SITE_DIR)/index.html ## Build the mkdocs site into site/
 docs-serve: ## Serve the docs site locally with live reload
 	uv run mkdocs serve
 
+# Build all project docs (project_plan.md, report.md, ...) to PDF
+docs: $(PDFS)
+
+$(SVG_DIR)/%.svg: $(DOCS_MERMAID)/%.mmd | $(SVG_DIR)
+	mmdc -i $< -o $@
+
+$(PNG_DIR)/%.png: $(SVG_DIR)/%.svg | $(PNG_DIR)
+	rsvg-convert -f png $< -o $@
+
+$(PDF_DIR)/%.pdf: $(DOCS_DIR)/%.md $(SVG_FILTER) $(DOC_HEADER) | $(PNGS) $(PDF_DIR)
+	pandoc $< -o $@ $(PANDOC_FLAGS)
+
+$(PDF_DIR) $(SVG_DIR) $(PNG_DIR):
+	mkdir -p $@
+
+check-deps:
+	@for cmd in pandoc xelatex mmdc rsvg-convert; do \
+	  command -v $$cmd >/dev/null 2>&1 && echo "✓ $$cmd" || echo "✗ $$cmd MISSING"; \
+	done
+
 clean: ## Remove generated data, docs site, and make stamp files
 	$(RM) $(FLIGHT_DATA_DB_PATH) $(AIRPORTS_RAW_JSON) $(INTERNATIONAL_AIRPORTS_CSV)
 	$(RM) -r $(SITE_DIR) $(STAMP_DIR)
+	$(RM) -r $(BUILD_DIR)
+
+.PHONY: notebook flight_data docs check-deps clean

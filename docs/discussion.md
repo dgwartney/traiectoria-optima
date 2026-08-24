@@ -51,11 +51,11 @@ Modeled as a continuous time-parameterized trajectory vector $\mathbf{r}(t) = [x
 
 ## Flight Dynamics:
 
-Modeled by a set of non-linear differential equations (such as rigid-body Newton-Euler equations) governing translational and rotational states.Uses state vectors for position, velocity, and Euler angles or quaternions \([\phi, \theta, \psi]^\top\), driven by forces and moments acting on the body axis.Least Path Perspectives
+Modeled by a set of non-linear differential equations (such as rigid-body Newton-Euler equations) governing translational and rotational states.Uses state vectors for position, velocity, and Euler angles or quaternions $[\phi, \theta, \psi]^\top$, driven by forces and moments acting on the body axis.Least Path Perspectives
 
 ## Flight Route
 
-Optimizes path length or fuel cost using global graph search algorithms (like \(A^{*}\) or Dijkstra) across air traffic waypoints.Subject to static constraints like airspace boundaries, terrain avoidance, and jet stream optimization.
+Optimizes path length or fuel cost using global graph search algorithms (like $A^{*}$ or Dijkstra) across air traffic waypoints.Subject to static constraints like airspace boundaries, terrain avoidance, and jet stream optimization.
 
 ## Flight Path
 

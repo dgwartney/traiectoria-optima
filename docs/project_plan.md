@@ -90,12 +90,6 @@ built, so preparation doubles as rehearsal.
 | JL | 5, 6, 12, 17, 20, 21, testing slide | Query modes, network analysis, BFS, testing/validation, evaluation, visualization, references |
 | All | 22 | Q&A |
 
-## Already complete
-
-- `pytest`/`ruff` framework
-- draft slide deck
-- final report outline (`docs/report.md`).
-
 ## Required outputs checklist
 
 - From-scratch structure + required algorithms 
