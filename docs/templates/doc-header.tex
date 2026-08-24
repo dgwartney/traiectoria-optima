@@ -1,0 +1,133 @@
+% Plain academic document styling for pandoc + xelatex
+% Title page uses \@title, \@subtitle, \@author, \@date from YAML frontmatter.
+
+%% Allow URL line breaks at slashes and hyphens — must precede hyperref
+\PassOptionsToPackage{hyphens,obeyspaces,spaces}{url}
+
+%% Neutral palette
+\usepackage{xcolor}
+\definecolor{docslate}{HTML}{1B3A6B}
+\definecolor{docaccent}{HTML}{6B7280}
+\definecolor{doclightgray}{HTML}{F5F7FA}
+\definecolor{docmedgray}{HTML}{D0DCE8}
+\definecolor{docdarkgray}{HTML}{4A5568}
+
+%% Page geometry
+\setlength{\headheight}{14pt}
+
+%% Header and footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\color{docdarkgray}\small\textit{CMPE 180A \textperiodcentered\ Flight Route Planner}}
+\fancyfoot[C]{\color{docdarkgray}\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{docaccent}\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}
+\renewcommand{\footrule}{{\color{docaccent}\hrule width\headwidth height\footrulewidth \vskip\footrulewidth}}
+
+%% Section heading styles
+\usepackage{titlesec}
+\titleformat{\section}
+  {\color{docslate}\Large\bfseries\sffamily}
+  {}{0em}{}
+  [\vspace{-2pt}{\color{docaccent}\rule{\linewidth}{1.5pt}}\vspace{2pt}]
+\titleformat{\subsection}
+  {\color{docslate}\large\bfseries\sffamily}
+  {}{0em}{}
+\titleformat{\subsubsection}
+  {\color{docslate}\normalsize\bfseries\sffamily}
+  {}{0em}{}
+\titlespacing*{\section}{0pt}{18pt}{6pt}
+\titlespacing*{\subsection}{0pt}{12pt}{4pt}
+\titlespacing*{\subsubsection}{0pt}{8pt}{2pt}
+
+%% Table styling
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{array}
+\arrayrulecolor{docmedgray}
+\setlength{\arrayrulewidth}{0.5pt}
+\renewcommand{\arraystretch}{1.3}
+
+%% Callout boxes (blockquotes → styled callout panels)
+\usepackage{mdframed}
+\renewenvironment{quote}{%
+  \begin{mdframed}[%
+    backgroundcolor=doclightgray,%
+    linecolor=docaccent,%
+    linewidth=3pt,%
+    topline=false,%
+    rightline=false,%
+    bottomline=false,%
+    innerleftmargin=14pt,%
+    innerrightmargin=10pt,%
+    innertopmargin=8pt,%
+    innerbottommargin=8pt,%
+    skipabove=10pt,%
+    skipbelow=6pt%
+  ]\small\color{docdarkgray}%
+}{%
+  \end{mdframed}%
+}
+
+%% Code block background
+\usepackage{framed}
+\definecolor{shadecolor}{HTML}{F3F6F9}
+
+%% Hyperlink colors
+\AtBeginDocument{%
+  \hypersetup{%
+    colorlinks=true,%
+    linkcolor=docslate,%
+    urlcolor=docaccent,%
+    citecolor=docslate,%
+    breaklinks=true%
+  }%
+}
+
+%% Allow overfull hboxes to stretch slightly
+\emergencystretch=3em
+\setlength{\hfuzz}{2pt}
+
+%% Prevent widows and orphans
+\widowpenalty=10000
+\clubpenalty=10000
+
+%% Keep sections together (prevent page breaks mid-section)
+\usepackage{needspace}
+\usepackage{etoolbox}
+\preto{\section}{\needspace{5\baselineskip}}
+\preto{\subsection}{\needspace{4\baselineskip}}
+\preto{\subsubsection}{\needspace{3\baselineskip}}
+
+%% Long table support
+\usepackage{longtable}
+\usepackage{graphicx}
+
+%% Capture YAML subtitle: field into \@subtitle for the title page.
+%% \def is used (not \renewcommand) because \subtitle does not yet exist when
+%% --include-in-header runs — pandoc defines \subtitle later in the preamble.
+%% \def wins unconditionally; pandoc's subsequent \providecommand becomes a no-op.
+\makeatletter
+\let\@subtitle\@empty
+\def\subtitle#1{\gdef\@subtitle{#1}}
+\renewcommand{\maketitle}{%
+  \begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    \par\rule{\textwidth}{0.4pt}\par
+    \vspace{0.8cm}
+    {\Huge\bfseries\@title\par}
+    \vspace{0.8cm}
+    \par\rule{\textwidth}{0.4pt}\par
+    \vspace{1.2cm}
+    {\Large\@subtitle\par}
+    \vspace{0.8cm}
+    {\large\@author\par}
+    \vspace{0.4cm}
+    {\large\@date\par}
+    \vfill
+  \end{titlepage}%
+}
+\makeatother
