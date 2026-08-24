@@ -4,6 +4,13 @@
 %% Allow URL line breaks at slashes and hyphens — must precede hyperref
 \PassOptionsToPackage{hyphens,obeyspaces,spaces}{url}
 
+%% DejaVu covers Greek letters, math symbols (≈), subscripts, and
+%% box-drawing characters that Latin Modern lacks.
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+
 %% Neutral palette
 \usepackage{xcolor}
 \definecolor{docslate}{HTML}{1B3A6B}
@@ -118,7 +125,7 @@
     \vspace*{3cm}
     \par\rule{\textwidth}{0.4pt}\par
     \vspace{0.8cm}
-    {\Huge\bfseries\@title\par}
+    {\huge\bfseries\@title\par}
     \vspace{0.8cm}
     \par\rule{\textwidth}{0.4pt}\par
     \vspace{1.2cm}

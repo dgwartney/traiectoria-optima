@@ -1,9 +1,39 @@
+"""Commercial aircraft performance model used by the flight simulator."""
+
 import math
+
 from atomosphere import InternationalStandardAtmosphere
 
 class CommercialAircraft:
-    """Aircraft performance configuration container."""
-    def __init__(self, model_name, oew, max_payload, max_fuel, wing_area, cd0, k, mach_crit, max_thrust_sl, tsfc_sl):
+    """Aircraft performance configuration and force/fuel-flow calculations."""
+
+    def __init__(
+        self,
+        model_name: str,
+        oew: float,
+        max_payload: float,
+        max_fuel: float,
+        wing_area: float,
+        cd0: float,
+        k: float,
+        mach_crit: float,
+        max_thrust_sl: float,
+        tsfc_sl: float,
+    ) -> None:
+        """Initialize the aircraft's static performance parameters.
+
+        Args:
+            model_name: Human-readable aircraft type designation.
+            oew: Operating Empty Weight (kg).
+            max_payload: Payload capacity (kg).
+            max_fuel: Max fuel weight (kg).
+            wing_area: Wing reference area (m^2).
+            cd0: Zero-lift parasite drag coefficient.
+            k: Induced drag factor (1 / (pi * AR * e)).
+            mach_crit: Critical Mach number for wave drag onset.
+            max_thrust_sl: Max thrust at sea level (N).
+            tsfc_sl: Thrust-specific fuel consumption at sea level (kg/N/s).
+        """
         self.model_name = model_name
         self.oew = oew                   # Operating Empty Weight (kg)
         self.max_payload = max_payload   # Payload capacity (kg)
@@ -16,8 +46,16 @@ class CommercialAircraft:
         self.tsfc_sl = tsfc_sl           # Thrust-specific fuel consumption at SL (kg/N/s)
 
     @classmethod
-    def get_preset(cls, aircraft_type):
-        """Preset parameters for standard commercial aircraft types."""
+    def get_preset(cls, aircraft_type: str) -> "CommercialAircraft":
+        """Build a preset instance for a standard commercial aircraft type.
+
+        Args:
+            aircraft_type: One of ``"A321neo"``, ``"B737-800"``, ``"B787-9"``.
+
+        Returns:
+            A configured `CommercialAircraft` instance. Falls back to the
+            ``"A321neo"`` preset if `aircraft_type` is not recognized.
+        """
         presets = {
             "A321neo": cls("A321neo", 50000, 25000, 23000, 122.6, 0.018, 0.040, 0.78, 280000, 1.1e-5),
             "B737-800": cls("B737-800", 41413, 20542, 20894, 124.6, 0.019, 0.042, 0.78, 240000, 1.2e-5),
@@ -25,8 +63,26 @@ class CommercialAircraft:
         }
         return presets.get(aircraft_type, presets["A321neo"])
 
-    def calculate_forces(self, mass, altitude_m, tas_m_s, climb_angle_rad=0.0):
-        """Calculates Lift, Drag, Thrust Available, and Fuel Flow for current state."""
+    def calculate_forces(
+        self,
+        mass: float,
+        altitude_m: float,
+        tas_m_s: float,
+        climb_angle_rad: float = 0.0,
+    ) -> dict:
+        """Calculate lift, drag, available thrust, and fuel flow for a flight state.
+
+        Args:
+            mass: Current aircraft mass (kg).
+            altitude_m: Pressure altitude (m).
+            tas_m_s: True airspeed (m/s).
+            climb_angle_rad: Flight path angle relative to horizontal (rad).
+                Positive for climb, negative for descent, defaults to level flight.
+
+        Returns:
+            A dict with keys ``lift``, ``drag``, ``max_thrust``, ``tsfc``,
+            ``mach``, and ``q``, all in SI units.
+        """
         g = InternationalStandardAtmosphere.G0
         temp, press, rho, a = InternationalStandardAtmosphere.get_properties(altitude_m)
         mach = tas_m_s / a

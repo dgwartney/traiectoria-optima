@@ -1,40 +1,49 @@
+"""Loads OpenFlights and OurAirports source data into a SQLite database."""
+
 import sqlite3
 import pandas as pd
+from pandas import DataFrame
 import os
 from pathlib import Path
+from typing import Union
 
 
 class FlightDataToDB:
-    """
-    Loads selected data files into a SQLite database for easy
-    data exploration
-    """
+    """Loads selected data files into a SQLite database for easy exploration."""
 
     def __init__(self):
-        """
-        Configure member variables with relative directories
-        to our two main data sources
-        """
+        """Configure relative directories for the two main data sources."""
         self._open_flights_data_dir = "data/raw/open_flights"
         self._our_airports_data_dir = "data/raw/our_airports"
 
-    def get_root_path(self):
-        """
-        Create the root path to the project
+    def get_root_path(self) -> Path:
+        """Return the project root path.
+
+        Returns:
+            Absolute `Path` to the repository root, derived from this file's
+            location.
         """
         return Path(os.path.dirname(__file__)).parent.parent
 
-    def get_data_path(self, dir_path, file):
-        """
-        Create a file path to a data file
+    def get_data_path(self, dir_path: Union[str, Path], file: str) -> str:
+        """Build an absolute path to a data file under the project root.
+
+        Args:
+            dir_path: Directory containing `file`, relative to the project root.
+            file: File name.
+
+        Returns:
+            Absolute path string to the data file.
         """
         dir_path = Path(dir_path)
         # Combine and create an absolute path
         return os.path.abspath(os.path.join(self.get_root_path() , dir_path, file))
 
-    def get_open_flights_airports(self):
-        """
-        Read the Open Flights airport data file and add missing column names
+    def get_open_flights_airports(self) -> DataFrame:
+        """Read the OpenFlights airport data file, naming its columns.
+
+        Returns:
+            `pandas.DataFrame` of airport records.
         """
         return pd.read_csv(
             self.get_data_path(self._open_flights_data_dir, "airports.dat"),
@@ -46,9 +55,11 @@ class FlightDataToDB:
             na_values="\\N"  # OpenFlights uses \N for missing values
         )
 
-    def get_open_flights_routes(self):
-        """
-        Read the Open Flights routes data file and add missing column names
+    def get_open_flights_routes(self) -> DataFrame:
+        """Read the OpenFlights routes data file, naming its columns.
+
+        Returns:
+            `pandas.DataFrame` of route records.
         """
         return pd.read_csv(
             self.get_data_path(self._open_flights_data_dir, "routes.dat"),
@@ -59,33 +70,45 @@ class FlightDataToDB:
             na_values="\\N"  # OpenFlights uses \N for missing values
         )
 
-    def get_our_airports(self, file):
-        """
-        Read the Our Airports airport data
+    def get_our_airports(self, file: str) -> DataFrame:
+        """Read an OurAirports data file.
+
+        Args:
+            file: File name under the OurAirports data directory.
+
+        Returns:
+            `pandas.DataFrame` of the file's contents.
         """
         return pd.read_csv(
                 self.get_data_path(
                     self._our_airports_data_dir, file)
         )
 
-    def append_to_database(self, df, database_path, table):
-        """
-        Appends the input data frame to the specified SQLite data base file
-        with the give table name
+    def append_to_database(self, df: DataFrame, database_path: str, table: str) -> None:
+        """Append a data frame to a table in a SQLite database.
+
+        Args:
+            df: Data to write.
+            database_path: Path to the SQLite database file, created if
+                it does not already exist.
+            table: Destination table name.
         """
         # Connect to SQLite database (creates the file if it does not exist)
         conn = sqlite3.connect(database_path)
 
-        # Write data to a table 
+        # Write data to a table
         # index=False prevents the Pandas row counter from becoming a column
         df.to_sql(table, conn, if_exists="append", index=False)
 
         # Close the connection
         conn.close()
 
-    def write_data_frame_to_csv(self, df, path):
-        """
-        Write out the data with the added headers
+    def write_data_frame_to_csv(self, df: DataFrame, path: Union[str, Path]) -> None:
+        """Write a data frame to a CSV file, creating parent directories as needed.
+
+        Args:
+            df: Data to write.
+            path: Destination CSV file path.
         """
         # Create the parent directories if the do not exist
         dir_path = Path(os.path.dirname(path))
@@ -93,6 +116,20 @@ class FlightDataToDB:
 
         # Write the dataframe to a CSV file
         df.to_csv(path, index=False)
+
+
+    def read_csv_write_to_db(self, path: str, db_path: str, table: str) -> None:
+        """Read a CSV file into a dataframe then write to a sqlite database.
+
+        Args:
+            path: Relative or absolute path to CSV file
+            db_path: Path to the sqlite database
+            table: Name of the destination table
+        """
+        df = pd.read_csv(path)
+        self.append_to_database(df, db_path, table)
+
+
 
 if __name__ == "__main__":
     cleaner = FlightDataToDB()
@@ -115,3 +152,9 @@ if __name__ == "__main__":
 
     df = cleaner.get_our_airports("airports.csv")
     cleaner.append_to_database(df, SQLITE_DB_PATH, "airports_our_airports")
+
+    #
+    # International airports
+    #
+    intl_airports_path = os.path.join(cleaner.get_root_path(), "data/processed", "international_airports.csv")
+    cleaner.read_csv_write_to_db(intl_airports_path, SQLITE_DB_PATH, "intl_airports")

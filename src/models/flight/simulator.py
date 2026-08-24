@@ -1,10 +1,23 @@
+"""Gate-to-gate flight time and fuel-burn simulator."""
+
 import math
+from typing import Dict, Union
+
 from atomosphere import InternationalStandardAtmosphere
 from aircraft import CommercialAircraft
 
 class GateToGateFlightSimulator:
-    """4D Trajectory & Performance Solver (Gate-to-Gate)."""
+    """Integrates a climb/cruise/descent trajectory for a single flight."""
+
     def __init__(self, aircraft: CommercialAircraft, distance_nmi: float, headwind_kts: float =0.0, payload_kg: float = 18000):
+        """Set up the flight's initial conditions.
+
+        Args:
+            aircraft: Aircraft performance model to fly.
+            distance_nmi: Great-circle route distance (nautical miles).
+            headwind_kts: Constant headwind component along the route (knots).
+            payload_kg: Payload mass carried for the flight (kg).
+        """
         self.ac: CommercialAircraft = aircraft
         self.distance_m: float = float(distance_nmi) * 1852.0  # Nautical miles to meters
         self.headwind_m_s: float  = float(headwind_kts) * 0.514444 # Knots to m/s
@@ -12,8 +25,19 @@ class GateToGateFlightSimulator:
         # Weight setup
         self.current_mass: float  = self.ac.oew + payload_kg + (self.ac.max_fuel * 0.6)
         
-    def simulate(self, cruise_alt_ft=35000, cruise_mach=0.78):
-        """Simulates full flight trajectory profile and returns detailed breakdown."""
+    def simulate(self, cruise_alt_ft: float = 35000, cruise_mach: float = 0.78) -> Dict[str, Union[str, float]]:
+        """Simulate the full climb/cruise/descent trajectory.
+
+        Args:
+            cruise_alt_ft: Target cruise altitude (feet).
+            cruise_mach: Target cruise Mach number.
+
+        Returns:
+            A dict summarizing the flight: ``aircraft_model``,
+            ``flight_distance_nmi``, ``airborne_time_hr``,
+            ``gate_to_gate_time_hr``, ``gate_to_gate_time_formatted``,
+            ``total_fuel_burned_kg``, and ``average_groundspeed_kts``.
+        """
         cruise_alt_m = cruise_alt_ft * 0.3048
         
         # Ground taxi times (fixed operational baseline)

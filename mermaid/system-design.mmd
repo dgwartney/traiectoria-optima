@@ -1,0 +1,70 @@
+graph TD
+    %% Styling Configuration
+    classDef datasource fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef foundation fill:#bdf,stroke:#333,stroke-width:1px;
+    classDef logic fill:#fdd,stroke:#333,stroke-width:1px;
+    classDef engine fill:#dfd,stroke:#333,stroke-width:2px;
+    classDef testing fill:#eee,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5;
+    classDef output fill:#ffd,stroke:#333,stroke-width:2px;
+
+    %% --- LAYER 1: DATA & FOUNDATION ---
+    subgraph Layer_1 [Stage 1: Data & Foundation Layer]
+        A1[(OpenFlights / OurAirports Raw Data)] -->|src/data/flight_data.py| B1[(flight_data.db)]
+        B1 -->|src/sql/airports.sql| C1[Data Cleaning Pipeline]
+        C1 -->|Filter: US Scoped, Valid IATA, Non-Null Coordinates| D1[Clean Nodes Table & Clean Edges Table]
+    end
+    class A1,B1 datasource;
+    class C1,D1 foundation;
+
+    %% --- LAYER 2: CORE INFRASTRUCTURE ---
+    subgraph Layer_2 [Core Infrastructure & Custom Logic]
+        D1 -->|Load Data| E1[RoutePlanner Public API / Graph Builder]
+        
+        subgraph Custom_Math [Custom Mathematics]
+            F1[Haversine Formula Calculator] -->|Great-Circle Distance Weight| E1
+        end
+
+        subgraph Custom_Structures [Custom From-Scratch Data Structures]
+            G1[Binary Min-Heap <br/> No heapq Allowed] -->|Priority Queue Backbone| H1[Dijkstra Engine]
+            G1 -->|Priority Queue Backbone| I1[A* Engine]
+        end
+        
+        E1 -->|In-Memory Adjacency List<br/>dict airport -> list neighbor, weight| J1[Graph Statistics Reporter]
+    end
+    class E1,F1,G1,J1 logic;
+
+    %% --- LAYER 3: ROUTING ENGINES ---
+    subgraph Layer_3 [Stages 2 & 3: Routing Engines]
+        E1 -->|Graph Data| K1[BFS Engine<br/>Fewest-Stops / Unweighted]
+        E1 -->|Graph Data| H1[Dijkstra Engine<br/>Cheapest / Shortest-Distance]
+        E1 -->|Graph Data| I1[A* Engine<br/>Informed Search]
+        
+        F1 -->|Admissible Haversine Heuristic| I1
+    end
+    class K1,H1,I1 engine;
+
+    %% --- LAYER 4: QUALITY ASSURANCE ---
+    subgraph Layer_QA [Cross-Cutting Verification & QA]
+        E1 -.->|Mini-Graph Integration| L1[Pytest Suite]
+        K1 -.->|Route & Node Comparison| M1[NetworkX Validation Engine]
+        H1 -.->|Route & Node Comparison| M1
+        L1 -.->|CI Checks: uv run pytest| N1{Pass / Fail}
+    end
+    class L1,M1,N1 testing;
+
+    %% --- LAYER 5: EVALUATION & USER INTERFACE ---
+    subgraph Layer_5 [Stage 4: Evaluation & UI Layer]
+        K1 --> O1[Benchmark Suite]
+        H1 --> O1
+        I1 --> O1
+        
+        O1 -->|Performance Logging| P1[Empirical Runtime Plotting<br/>Matplotlib]
+        O1 -->|Node Metrics| P2[Nodes-Expanded Matrix]
+        
+        E1 --> Q1[Interactive CLI / Notebook Widget]
+        I1 -->|Optimal Path Coordinates| R1[Folium Map Visualization]
+    end
+    class O1,P1,P2,Q1,R1 output;
+
+    %% Structural Relationships
+    J1 -.->|Output Metrics| O1

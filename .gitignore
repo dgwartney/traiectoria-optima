@@ -169,6 +169,9 @@ venv.bak/
 # mkdocs documentation
 /site
 
+# make dependency-tracking stamp files
+/.make
+
 # mypy
 .mypy_cache/
 .dmypy.json

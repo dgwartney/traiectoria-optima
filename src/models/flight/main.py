@@ -1,3 +1,5 @@
+"""Example: simulate an A321neo flight and print the results."""
+
 from simulator import GateToGateFlightSimulator
 from aircraft import CommercialAircraft
 

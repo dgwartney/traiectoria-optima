@@ -1,6 +1,14 @@
+"""Payload-range envelope plotting for the Boeing 787-9 reference case."""
+
 import matplotlib.pyplot as plt
 
 def plot_payload_range_diagram():
+    """Plot the Boeing 787-9 payload-range operational envelope.
+
+    Renders the structural payload limit, max-payload-at-MTOW, max-fuel, and
+    ferry-range boundary points (A-D) with the flyable envelope shaded, and
+    displays the figure via `matplotlib.pyplot.show`.
+    """
     # Structural Boundary Points derived from model calculations
     # Format: (Range in nmi, Payload in kg)
     points = {

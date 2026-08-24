@@ -1,24 +1,26 @@
 ---
-title: "A1: Flight Route Planner"
-subtitle: "Project Plan"
+title: |
+  Flight Route Planner\
+  Project Plan
+subtitle: |
+  SJSU CMPE 180A\
+  Fall 2026 — Prof. Sanja Damjanovic
 author: "Aastha Sharma-Flores, Jake Lu, David Gwartney"
 date: 2026-08-23
 ---
 
-# A1: Flight Route Planner — Project Plan
+# Introduction
 
-**Course:** SJSU CMPE 180A, Fall 2026 — Prof. Sanja Damjanovic
-
-**Team:** Aastha Sharma-Flores (ASF) · Jake Lu (JL) · David Gwartney (DG)
-
-**Group / DSA area:** Group A — Graphs & Traversal
-
-**Stretch concept (self-learn):** Dijkstra with a from-scratch binary min-heap, and A*
-search with an admissible haversine heuristic
-
-**Presentation:** 9/15/2026
-
-*Submitted as the Stage 1 one-page proposal.*
+This project implements a flight route planner over the OpenFlights world airline network,
+comparing uninformed and informed graph search on the same underlying problem: finding a
+route between two airports by fewest stops, shortest distance, or shortest distance found
+faster. We build the graph, BFS, Dijkstra, a from-scratch binary min-heap, and A* ourselves
+using core Python data structures, then validate our results against NetworkX and measure
+how A*'s haversine-distance heuristic lets it match Dijkstra's answers while expanding fewer
+nodes. The deliverables below — a cleaned dataset, the `RoutePlanner` core, the search
+algorithms, a test suite, and a runtime/nodes-expanded evaluation — are organized to build
+toward that final demonstration, with clear ownership and sequencing across the three-person
+team.
 
 ## Problem
 
@@ -91,12 +93,6 @@ built, so preparation doubles as rehearsal.
 | ASF | 8, 10, 11, 14, 15, 18, 19 | Distance formulas, system design, adjacency list, core API, Dijkstra, A* |
 | JL | 5, 6, 12, 17, 20, 21, testing slide | Query modes, network analysis, BFS, testing/validation, evaluation, visualization, references |
 | All | 22 | Q&A |
-
-## Already complete
-
-- `pytest`/`ruff` framework
-- draft slide deck
-- final report outline (`docs/report.md`).
 
 ## Required outputs checklist
 

@@ -1,0 +1,17 @@
+graph G {
+    layout=neato;
+    node [shape=circle, style=filled, fillcolor="#d4ecd5", width=0.7, fixedsize=true];
+
+    0 [pos="0,1!", label="src\n0"];
+    1 [pos="1.5,2!"];
+    2 [pos="1.5,0!"];
+    4 [pos="3.5,2!"];
+    3 [pos="3.5,0!"];
+
+    0 -- 1 [label="4"];
+    0 -- 2 [label="8"];
+    1 -- 2 [label="3"];
+    1 -- 4 [label="6"];
+    2 -- 3 [label="2"];
+    4 -- 3 [label="10"];
+}
