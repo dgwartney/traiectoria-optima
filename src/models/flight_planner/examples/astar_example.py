@@ -8,6 +8,7 @@ from airport import Airport
 from route import Route
 from flight_planner import FlightPlanner
 from pathfinding import AStar
+from distance import Haversine, Memoized
 
 if __name__ == "__main__":
     planner = FlightPlanner()
@@ -20,10 +21,12 @@ if __name__ == "__main__":
     planner.add_edge(Route(jfk, ord_, distance_km=1150.0, flight_number="LEG1"))
     planner.add_edge(Route(ord_, lax, distance_km=2800.0, flight_number="LEG2"))
 
-    # The heuristic is any Callable[[Airport, Airport], float]. Point.distance_to
-    # (defaulting to the Haversine DistanceFormula) is admissible here because
-    # real flight distance is always >= straight-line great-circle distance.
-    astar = AStar(heuristic=lambda a, b: a.distance_to(b))
+    # The heuristic is any Callable[[Airport, Airport], float]. Haversine
+    # (wrapped in Memoized to avoid recomputing it for nodes A* relaxes more
+    # than once) is admissible here because real flight distance is always
+    # >= straight-line great-circle distance.
+    heuristic_formula = Memoized(Haversine())
+    astar = AStar(heuristic=lambda a, b: a.distance_to(b, formula=heuristic_formula))
 
     dijkstra_distance, _ = planner.find_shortest_route("JFK", "LAX")
     astar_distance, astar_legs = planner.find_shortest_route("JFK", "LAX", algorithm=astar)
