@@ -1,0 +1,34 @@
+from vertex import Vertex
+from edge import Edge
+from graph import Graph
+from pathfinding.algorithms import Dijkstra
+
+
+def _build_graph():
+    graph = Graph()
+    a, b, c, d = Vertex("A"), Vertex("B"), Vertex("C"), Vertex("D")
+    edge_ab = Edge(a, b, weight=1.0)
+    edge_ac = Edge(a, c, weight=4.0)
+    edge_bc = Edge(b, c, weight=1.0)
+    graph.add_edge(edge_ab)
+    graph.add_edge(edge_ac)
+    graph.add_edge(edge_bc)
+    graph.add_vertex(d)  # unreachable from A
+    return graph, a, b, c, d
+
+
+class TestDijkstra:
+    def test_prefers_lower_weight_multi_hop_path(self):
+        graph, a, _, c, _ = _build_graph()
+        distance, path = Dijkstra().find_path(graph, a, c)
+
+        assert distance == 2.0
+        assert [edge.weight for edge in path] == [1.0, 1.0]
+
+    def test_same_start_and_goal(self):
+        graph, a, _, _, _ = _build_graph()
+        assert Dijkstra().find_path(graph, a, a) == (0.0, [])
+
+    def test_unreachable_goal(self):
+        graph, a, _, _, d = _build_graph()
+        assert Dijkstra().find_path(graph, a, d) == (float("inf"), [])

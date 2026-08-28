@@ -1,10 +1,13 @@
 """Weighted graph abstraction built on Vertex and Edge."""
 
 from __future__ import annotations
-from typing import Generic, TypeVar, Dict, List
+from typing import Generic, TypeVar, Dict, List, Tuple, TYPE_CHECKING
 
 from vertex import Vertex
 from edge import Edge
+
+if TYPE_CHECKING:
+    from pathfinding import PathfindingAlgorithm
 
 V = TypeVar("V", bound=Vertex)
 E = TypeVar("E", bound=Edge)
@@ -40,3 +43,10 @@ class Graph(Generic[V, E]):
 
     def get_outgoing_edges(self, vertex: V) -> List[E]:
         return list(self._adjacency.get(vertex, []))
+
+    def shortest_path(
+        self, start: V, goal: V, algorithm: "PathfindingAlgorithm[V, E]"
+    ) -> Tuple[float, List[E]]:
+        """Delegates to a pathfinding Strategy; Graph has no knowledge of
+        algorithm internals (see pathfinding/algorithms.py)."""
+        return algorithm.find_path(self, start, goal)
