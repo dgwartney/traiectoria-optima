@@ -1,0 +1,863 @@
+airline_code  source_airport_code  destination_airport_code  codeshare  stops  equipment                        distance_km
+------------  -------------------  ------------------------  ---------  -----  -------------------------------  -----------
+UA            ABQ                  DEN                       Y          0      CR7 DH4 CRJ E70                  171.0      
+UA            ABQ                  IAH                                  0      320 738                          1055.0     
+UA            ABQ                  LAX                       Y          0      CRJ                              1081.0     
+UA            ABQ                  ORD                       Y          0      CR7 E70                          1620.0     
+UA            ABQ                  SFO                       Y          0      CRJ                              1410.0     
+UA            ALB                  CLE                       Y          0      DH3                              664.0      
+UA            ALB                  EWR                       Y          0      DH4 ERJ DH2                      31.0       
+UA            ALB                  IAD                       Y          0      DH4 DH2 CR7 CRJ ERJ              307.0      
+UA            ALB                  ORD                                  0      319 73G 738 739                  1157.0     
+UA            ANC                  DEN                                  0      738                              3014.0     
+UA            ANC                  ORD                                  0      738                              3999.0     
+UA            ANC                  SEA                                  0      739 738                          1746.0     
+UA            ATL                  CLE                       Y          0      ERJ                              227.0      
+UA            ATL                  DEN                       Y          0      CR7                              1796.0     
+UA            ATL                  EWR                       Y          0      ERJ                              906.0      
+UA            ATL                  IAD                       Y          0      ERJ CRJ E70                      624.0      
+UA            ATL                  IAH                       Y          0      ERJ CR7 CRJ E70                  1030.0     
+UA            ATL                  LGA                                  0      738                              931.0      
+UA            ATL                  ORD                       Y          0      CR7 ERJ E70                      304.0      
+UA            ATL                  SFO                                  0      738                              3405.0     
+UA            AUS                  CLE                       Y          0      CR7                              1414.0     
+UA            AUS                  DEN                                  0      320 738 739                      635.0      
+UA            AUS                  EWR                                  0      738 73G                          2109.0     
+UA            AUS                  IAD                       Y          0      CR7 E70                          1839.0     
+UA            AUS                  IAH                                  0      320 319 73G 738 739              223.0      
+UA            AUS                  LAX                       Y          0      CR7                              1950.0     
+UA            AUS                  ORD                                  0      739 320 752                      869.0      
+UA            AUS                  SFO                                  0      738 319 320 739                  2268.0     
+UA            BDL                  IAD                                  0      738 319 320                      403.0      
+UA            BDL                  ORD                                  0      738 73G 319                      1257.0     
+UA            BHM                  DEN                       Y          0      ERJ                              1592.0     
+UA            BHM                  IAH                       Y          0      ERJ CRJ                          811.0      
+UA            BHM                  ORD                       Y          0      ERJ CRJ                          101.0      
+UA            BNA                  CLE                       Y          0      ERJ                              418.0      
+UA            BNA                  DEN                       Y          0      ERJ                              1573.0     
+UA            BNA                  EWR                       Y          0      ERJ                              1088.0     
+UA            BNA                  IAD                       Y          0      ERJ CRJ                          812.0      
+UA            BNA                  IAH                       Y          0      ERJ                              806.0      
+UA            BNA                  ORD                       Y          0      ERJ CRJ                          106.0      
+UA            BOI                  DEN                                  0      320 319 738 739                  957.0      
+UA            BOI                  LAX                       Y          0      CR7                              188.0      
+UA            BOI                  ORD                       Y          0      CR7                              2300.0     
+UA            BOI                  SFO                       Y          0      CRJ CR7                          518.0      
+UA            BOS                  CLE                                  0      738                              897.0      
+UA            BOS                  DEN                                  0      739 320 738                      2801.0     
+UA            BOS                  EWR                                  0      73G 738 319 320 739 753 752      263.0      
+UA            BOS                  IAD                                  0      320 319 739 738 752 73G          543.0      
+UA            BOS                  IAH                                  0      739 738 320 73G 319              2159.0     
+UA            BOS                  LAX                                  0      752                              4079.0     
+UA            BOS                  ORD                                  0      739 752 738 73G 319 320 753      1390.0     
+UA            BOS                  SFO                                  0      752 753 739 738 73G              4306.0     
+UA            BUF                  CLE                                  0      DH3                              257.0      
+UA            BUF                  EWR                       Y          0      DH3 DH4 ERJ DH2                  378.0      
+UA            BUF                  IAD                       Y          0      DH4 CR7 DH2 ERJ CRJ              107.0      
+UA            BUF                  ORD                                  0      739 738 320                      752.0      
+UA            BUR                  DEN                       Y          0      CRJ                              1211.0     
+UA            BUR                  SFO                       Y          0      CR7 CRJ                          361.0      
+UA            BWI                  CLE                       Y          0      ERJ DH3                          439.0      
+UA            BWI                  DEN                                  0      739 320 738                      2392.0     
+UA            BWI                  EWR                       Y          0      DH3 ERJ DH2                      213.0      
+UA            BWI                  IAH                                  0      320 73G 739 319 738              1699.0     
+UA            BWI                  LAX                                  0      319 738                          3692.0     
+UA            BWI                  ORD                                  0      73G 738 320 739 319              948.0      
+UA            BWI                  SFO                                  0      738 739 319                      3940.0     
+UA            CHS                  CLE                       Y          0      ERJ                              160.0      
+UA            CHS                  EWR                       Y          0      ERJ                              521.0      
+UA            CHS                  IAD                       Y          0      CRJ                              232.0      
+UA            CHS                  IAH                       Y          0      ERJ CRJ                          1450.0     
+UA            CHS                  ORD                       Y          0      ERJ CRJ CR7                      691.0      
+UA            CLE                  ALB                       Y          0      DH3                              664.0      
+UA            CLE                  ATL                       Y          0      ERJ                              227.0      
+UA            CLE                  AUS                       Y          0      CR7                              1414.0     
+UA            CLE                  BNA                       Y          0      ERJ                              418.0      
+UA            CLE                  BOS                                  0      73G 319                          897.0      
+UA            CLE                  BUF                       Y          0      DH3 DH2                          257.0      
+UA            CLE                  BWI                                  0      DH3                              439.0      
+UA            CLE                  CHS                       Y          0      ERJ                              160.0      
+UA            CLE                  CLT                       Y          0      ERJ                              79.0       
+UA            CLE                  CMH                       Y          0      DH2 ERJ E70                      88.0       
+UA            CLE                  DCA                       Y          0      ERJ E70                          409.0      
+UA            CLE                  DEN                                  0      73G 319 320 739                  1920.0     
+UA            CLE                  DFW                       Y          0      ERJ CRJ                          1339.0     
+UA            CLE                  EWR                                  0      738 320 73G 319                  644.0      
+UA            CLE                  FLL                                  0      320 73G 738                      155.0      
+UA            CLE                  GRR                       Y          0      ERJ CRJ                          303.0      
+UA            CLE                  IAD                                  0      DH4                              373.0      
+UA            CLE                  IAH                                  0      319 73G 320 738                  1208.0     
+UA            CLE                  IND                       Y          0      DH3 ERJ E70                      375.0      
+UA            CLE                  LAS                                  0      739 320 738                      2867.0     
+UA            CLE                  LAX                                  0      738 739 320 319                  3185.0     
+UA            CLE                  LGA                       Y          0      ERJ E70                          668.0      
+UA            CLE                  MCI                       Y          0      DH4 ERJ                          1089.0     
+UA            CLE                  MCO                                  0      738 320 73G 739                  49.0       
+UA            CLE                  MKE                       Y          0      ERJ CR7                          498.0      
+UA            CLE                  MSP                       Y          0      ERJ                              921.0      
+UA            CLE                  MSY                       Y          0      ERJ                              754.0      
+UA            CLE                  ORD                                  0      73G 319 738 320                  503.0      
+UA            CLE                  PBI                       Y          0      ERJ                              160.0      
+UA            CLE                  PHX                                  0      738 320                          2641.0     
+UA            CLE                  RIC                       Y          0      ERJ ER4                          388.0      
+UA            CLE                  ROC                       Y          0      DH2 DH3                          344.0      
+UA            CLE                  RSW                                  0      319 738 320                      9.0        
+UA            CLE                  SDF                       Y          0      ERJ                              332.0      
+UA            CLE                  SFO                                  0      739 738 319                      3443.0     
+UA            CLE                  STL                       Y          0      ER4 ERJ                          724.0      
+UA            CLE                  SYR                       Y          0      DH3 DH2 ERJ                      472.0      
+UA            CLE                  TPA                                  0      73G 320                          62.0       
+UA            CLT                  CLE                       Y          0      ERJ                              79.0       
+UA            CLT                  EWR                       Y          0      ERJ E70                          593.0      
+UA            CLT                  IAD                       Y          0      ERJ CR7                          309.0      
+UA            CLT                  IAH                       Y          0      ERJ E70                          1346.0     
+UA            CLT                  ORD                                  0      320 319                          603.0      
+UA            CMH                  CLE                       Y          0      DH2 ERJ                          88.0       
+UA            CMH                  DEN                       Y          0      E70 CR7                          1853.0     
+UA            CMH                  EWR                       Y          0      DH4 ERJ E70                      739.0      
+UA            CMH                  IAD                       Y          0      E70 DH4 ERJ CR7 CRJ              467.0      
+UA            CMH                  IAH                       Y          0      E70 ERJ CR7                      1127.0     
+UA            CMH                  ORD                                  0      738 319 739                      421.0      
+UA            COS                  DEN                       Y          0      CR7 CRJ DH4 ERJ                  2.0        
+UA            COS                  IAD                       Y          0      CR7                              2350.0     
+UA            COS                  IAH                       Y          0      CRJ ERJ                          855.0      
+UA            COS                  LAX                       Y          0      CRJ CR7                          1224.0     
+UA            COS                  ORD                       Y          0      CR7 ERJ CRJ                      1419.0     
+UA            COS                  SFO                       Y          0      CRJ                              1542.0     
+UA            CVG                  DEN                       Y          0      CR7 ERJ                          1714.0     
+UA            CVG                  EWR                       Y          0      ERJ                              895.0      
+UA            CVG                  IAD                       Y          0      CRJ CR7 ER4 ERJ                  623.0      
+UA            CVG                  IAH                       Y          0      ERJ CR7                          973.0      
+UA            CVG                  ORD                       Y          0      CR7 ER4 ERJ CRJ                  273.0      
+UA            DAL                  IAH                       Y          0      ERJ                              143.0      
+UA            DCA                  CLE                       Y          0      ERJ E70                          409.0      
+UA            DCA                  DEN                                  0      738 752 320                      2367.0     
+UA            DCA                  EWR                       Y          0      DH4 ERJ E70                      245.0      
+UA            DCA                  IAH                                  0      738 319 73G 320 752              1669.0     
+UA            DCA                  ORD                                  0      738 320 73G 319                  919.0      
+UA            DCA                  SFO                                  0      738 73G                          3918.0     
+UA            DEN                  ABQ                       Y          0      DH4 E70 CRJ ERJ                  171.0      
+UA            DEN                  ANC                                  0      738                              3014.0     
+UA            DEN                  ATL                       Y          0      CR7                              1796.0     
+UA            DEN                  AUS                                  0      738 739 752                      635.0      
+UA            DEN                  BHM                       Y          0      ERJ                              1592.0     
+UA            DEN                  BNA                       Y          0      ERJ                              1573.0     
+UA            DEN                  BOI                                  0      319 320 738 739                  957.0      
+UA            DEN                  BOS                                  0      739 752 738 320                  2801.0     
+UA            DEN                  BUR                       Y          0      CR7 CRJ                          1211.0     
+UA            DEN                  BWI                                  0      320 739 738                      2392.0     
+UA            DEN                  CLE                                  0      320 738 319                      1920.0     
+UA            DEN                  CMH                       Y          0      ERJ CR7 E70                      1853.0     
+UA            DEN                  COS                       Y          0      ERJ DH4 CRJ CR7                  2.0        
+UA            DEN                  CVG                       Y          0      ERJ CR7                          1714.0     
+UA            DEN                  DCA                                  0      738 752 320                      2367.0     
+UA            DEN                  DFW                                  0      319 739 73G                      681.0      
+UA            DEN                  DSM                                  0      738 73G 319                      928.0      
+UA            DEN                  DTW                       Y          0      CR7 E70                          1783.0     
+UA            DEN                  ELP                       Y          0      ERJ CRJ                          153.0      
+UA            DEN                  EWR                                  0      738 752 319 739 320              2575.0     
+UA            DEN                  FAT                       Y          0      CRJ                              1310.0     
+UA            DEN                  FLL                                  0      752 738 320                      2259.0     
+UA            DEN                  GEG                                  0      738 739                          1028.0     
+UA            DEN                  GRR                       Y          0      CR7 E70                          1594.0     
+UA            DEN                  HNL                                  0      752                              4953.0     
+UA            DEN                  IAD                                  0      320 752 319 739 738              2330.0     
+UA            DEN                  IAH                                  0      739 738 752 788 320 753 319 73G  846.0      
+UA            DEN                  IND                       Y          0      ERJ E70 CR7                      1568.0     
+UA            DEN                  KOA                                  0      752                              4808.0     
+UA            DEN                  LAS                                  0      738 320 739 752                  917.0      
+UA            DEN                  LAX                                  0      739 320 319 738 753 752          1218.0     
+UA            DEN                  LGA                                  0      752 738 320                      2598.0     
+UA            DEN                  LIH                                  0      752                              5069.0     
+UA            DEN                  MCI                                  0      DH4                              853.0      
+UA            DEN                  MCO                                  0      320 738 739 752                  2130.0     
+UA            DEN                  MEM                       Y          0      CRJ ERJ                          1294.0     
+UA            DEN                  MIA                                  0      319                              2249.0     
+UA            DEN                  MKE                       Y          0      CRJ                              1396.0     
+UA            DEN                  MSP                                  0      320                              938.0      
+UA            DEN                  MSY                                  0      738  739                         1305.0     
+UA            DEN                  OGG                                  0      752                              4824.0     
+UA            DEN                  OKC                       Y          0      DH4 ERJ CRJ                      622.0      
+UA            DEN                  OMA                                  0      738 73G                          741.0      
+UA            DEN                  ONT                       Y          0      CRJ                              1145.0     
+UA            DEN                  ORD                                  0      739 752 738 319 320 73G          1406.0     
+UA            DEN                  PDX                                  0      752 319 738 739 320              1458.0     
+UA            DEN                  PHL                                  0      320 738 739 319                  2500.0     
+UA            DEN                  PHX                                  0      739 738 320                      652.0      
+UA            DEN                  PIT                                  0      320 738 73G                      2070.0     
+UA            DEN                  PSP                       Y          0      CRJ CR7                          1050.0     
+UA            DEN                  RNO                                  0      320                              1290.0     
+UA            DEN                  RSW                                  0      738                              2108.0     
+UA            DEN                  SAN                                  0      320 738 752 739 319              1118.0     
+UA            DEN                  SAT                                  0      319                              564.0      
+UA            DEN                  SDF                       Y          0      ERJ                              1633.0     
+UA            DEN                  SEA                                  0      320 738 739                      1410.0     
+UA            DEN                  SFO                                  0      752 738 320 739 73G 319 753      1532.0     
+UA            DEN                  SJC                                  0      319 752 738 73G                  1496.0     
+UA            DEN                  SLC                       Y          0      CR7 ERJ DH4 CRJ E70              619.0      
+UA            DEN                  SMF                                  0      320 739                          1454.0     
+UA            DEN                  SNA                                  0      73G 320 738 752                  1172.0     
+UA            DEN                  STL                       Y          0      CR7 E70 ERJ CRJ                  1229.0     
+UA            DEN                  TPA                                  0      739 73G 738                      2023.0     
+UA            DEN                  TUL                       Y          0      CRJ ERJ CR7                      769.0      
+UA            DEN                  TUS                       Y          0      CR7 CRJ ERJ                      562.0      
+UA            DEN                  TYS                       Y          0      ERJ                              1811.0     
+UA            DFW                  CLE                       Y          0      ERJ                              1339.0     
+UA            DFW                  DEN                                  0      319 738 320 739                  681.0      
+UA            DFW                  EWR                                  0      73G 319 738                      2024.0     
+UA            DFW                  IAD                                  0      320 73G 738                      1757.0     
+UA            DFW                  IAH                                  0      319 738 73G                      161.0      
+UA            DFW                  LAX                       Y          0      CR7                              1980.0     
+UA            DFW                  ORD                                  0      319                              802.0      
+UA            DFW                  SFO                                  0      319 739                          2291.0     
+UA            DSM                  DEN                                  0      319 738 73G                      928.0      
+UA            DSM                  EWR                       Y          0      ERJ                              1629.0     
+UA            DSM                  IAH                       Y          0      ERJ                              151.0      
+UA            DSM                  ORD                                  0      319 738 73G                      477.0      
+UA            DTW                  DEN                       Y          0      CR7 E70                          1783.0     
+UA            DTW                  EWR                       Y          0      ERJ E70                          765.0      
+UA            DTW                  IAD                       Y          0      CRJ CR7 ERJ ER4 E70              498.0      
+UA            DTW                  IAH                                  0      320 319 73G                      1067.0     
+UA            DTW                  ORD                                  0      320                              375.0      
+UA            ELP                  DEN                       Y          0      ERJ CRJ                          153.0      
+UA            ELP                  IAH                       Y          0      ERJ CRJ                          1052.0     
+UA            EWR                  ALB                       Y          0      ERJ DH4 DH2                      31.0       
+UA            EWR                  ATL                       Y          0      ERJ                              906.0      
+UA            EWR                  AUS                                  0      738 319 739                      2109.0     
+UA            EWR                  BNA                       Y          0      ERJ                              1088.0     
+UA            EWR                  BOS                                  0      738 73G 320 319 739              263.0      
+UA            EWR                  BUF                       Y          0      DH4 ERJ DH3 DH2                  378.0      
+UA            EWR                  BWI                       Y          0      ERJ DH3 DH2                      213.0      
+UA            EWR                  CHS                       Y          0      ERJ                              521.0      
+UA            EWR                  CLE                                  0      738 319 73G 320 739              644.0      
+UA            EWR                  CLT                       Y          0      ERJ E70                          593.0      
+UA            EWR                  CMH                       Y          0      ERJ DH4 E70                      739.0      
+UA            EWR                  CVG                       Y          0      ERJ                              895.0      
+UA            EWR                  DCA                                  0      DH4                              245.0      
+UA            EWR                  DEN                                  0      320 752 739 738 319              2575.0     
+UA            EWR                  DFW                                  0      319 73G 738                      2024.0     
+UA            EWR                  DSM                       Y          0      ERJ                              1629.0     
+UA            EWR                  DTW                       Y          0      ERJ E70                          765.0      
+UA            EWR                  FLL                                  0      738 320 73G 319 739              549.0      
+UA            EWR                  GRR                       Y          0      ERJ                              940.0      
+UA            EWR                  GSO                       Y          0      ERJ                              502.0      
+UA            EWR                  HNL                                  0      764                              7590.0     
+UA            EWR                  IAD                                  0      DH4                              281.0      
+UA            EWR                  IAH                                  0      739 738 320 752 73G 753 319      1904.0     
+UA            EWR                  IND                       Y          0      ERJ E70                          1029.0     
+UA            EWR                  JAX                       Y          0      ERJ                              675.0      
+UA            EWR                  LAS                                  0      739 753 320 738 752              3537.0     
+UA            EWR                  LAX                                  0      739 738 319 752 753              3864.0     
+UA            EWR                  MCI                       Y          0      ERJ E70                          1746.0     
+UA            EWR                  MCO                                  0      738 320 752 739 73G              648.0      
+UA            EWR                  MEM                       Y          0      ERJ                              1383.0     
+UA            EWR                  MIA                                  0      739 738 320 73G                  562.0      
+UA            EWR                  MKE                       Y          0      ERJ                              1136.0     
+UA            EWR                  MSP                       Y          0      E70 ERJ                          1549.0     
+UA            EWR                  MSY                                  0      319 320 738                      1449.0     
+UA            EWR                  MYR                       Y          0      DH4                              420.0      
+UA            EWR                  OKC                       Y          0      ERJ E70                          2043.0     
+UA            EWR                  OMA                       Y          0      ERJ                              1818.0     
+UA            EWR                  ORD                                  0      73G 320 738 752 319 739 763      1145.0     
+UA            EWR                  ORF                       Y          0      DH3 DH4 DH2                      176.0      
+UA            EWR                  PBI                                  0      738 319 739 320 752              542.0      
+UA            EWR                  PDX                                  0      739 320                          3866.0     
+UA            EWR                  PHX                                  0      739 320 319                      3324.0     
+UA            EWR                  PIT                       Y          0      ERJ DH4 E70                      512.0      
+UA            EWR                  PVD                       Y          0      DH3 DH2 ERJ                      230.0      
+UA            EWR                  PWM                                  0      DH4                              318.0      
+UA            EWR                  RDU                       Y          0      ERJ DH4 E70                      402.0      
+UA            EWR                  RIC                       Y          0      ERJ                              272.0      
+UA            EWR                  ROC                       Y          0      ERJ DH2                          290.0      
+UA            EWR                  RSW                                  0      320 738 739                      694.0      
+UA            EWR                  SAN                                  0      739 738                          3787.0     
+UA            EWR                  SAT                                  0      739 73G                          2189.0     
+UA            EWR                  SAV                       Y          0      ERJ                              626.0      
+UA            EWR                  SDF                       Y          0      ERJ                              992.0      
+UA            EWR                  SEA                                  0      739 320 319 738                  3776.0     
+UA            EWR                  SFO                                  0      739 319 738 752 73G              4103.0     
+UA            EWR                  SNA                                  0      319 738 73G                      3824.0     
+UA            EWR                  STL                       Y          0      ERJ E70                          1383.0     
+UA            EWR                  SYR                       Y          0      DH2 DH3                          160.0      
+UA            EWR                  TPA                                  0      739 73G 738 320 752              761.0      
+UA            EWR                  TUL                       Y          0      ERJ                              1884.0     
+UA            EWR                  TYS                       Y          0      ERJ                              856.0      
+UA            FAT                  DEN                       Y          0      CR7 CRJ                          1310.0     
+UA            FAT                  LAS                       Y          0      EM2                              408.0      
+UA            FAT                  LAX                       Y          0      CR7 EM2                          119.0      
+UA            FAT                  SFO                       Y          0      EM2 CRJ                          235.0      
+UA            FLL                  CLE                                  0      320 73G                          155.0      
+UA            FLL                  DEN                                  0      320 738                          2259.0     
+UA            FLL                  EWR                                  0      739 320 738 73G 319              549.0      
+UA            FLL                  IAD                                  0      752                              251.0      
+UA            FLL                  IAH                                  0      73G 738 739 319 320              1489.0     
+UA            FLL                  MCO                       Y          0      SF3                              114.0      
+UA            FLL                  ORD                                  0      752 739                          704.0      
+UA            FLL                  SFO                                  0      738 752                          3933.0     
+UA            FLL                  TPA                       Y          0      SF3                              236.0      
+UA            GEG                  DEN                                  0      739 738                          1028.0     
+UA            GRR                  CLE                       Y          0      ERJ CRJ ER4                      303.0      
+UA            GRR                  DEN                       Y          0      CR7 E70                          1594.0     
+UA            GRR                  EWR                       Y          0      ERJ E70                          940.0      
+UA            GRR                  IAD                       Y          0      ERJ ER4                          677.0      
+UA            GRR                  IAH                       Y          0      ERJ                              869.0      
+UA            GRR                  ORD                                  0      319 320                          195.0      
+UA            GSO                  EWR                       Y          0      ERJ                              502.0      
+UA            GSO                  IAD                       Y          0      CRJ ERJ                          219.0      
+UA            GSO                  ORD                       Y          0      CRJ ERJ CR7 ER4                  686.0      
+UA            HNL                  DEN                                  0      752                              4953.0     
+UA            HNL                  EWR                                  0      764                              7590.0     
+UA            HNL                  IAD                                  0      764                              7418.0     
+UA            HNL                  IAH                                  0      764                              6185.0     
+UA            HNL                  LAX                                  0      738 753 777 739                  3845.0     
+UA            HNL                  LIH                       Y          0      AT7                              146.0      
+UA            HNL                  OGG                       Y          0      AT7                              155.0      
+UA            HNL                  ORD                                  0      777                              6342.0     
+UA            HNL                  SFO                                  0      764 777 738 753 739              3381.0     
+UA            IAD                  ALB                       Y          0      DH4 DH2 CR7 CRJ ERJ              307.0      
+UA            IAD                  ATL                       Y          0      CR7 CRJ ERJ E70                  624.0      
+UA            IAD                  AUS                                  0      319                              1839.0     
+UA            IAD                  BDL                                  0      738 319 320                      403.0      
+UA            IAD                  BNA                       Y          0      ERJ CRJ                          812.0      
+UA            IAD                  BOS                                  0      320 752 73G 739 738              543.0      
+UA            IAD                  BUF                       Y          0      DH4 ERJ DH2 E70 CRJ CR7 ER4      107.0      
+UA            IAD                  CHS                       Y          0      CRJ                              232.0      
+UA            IAD                  CLE                                  0      DH4                              373.0      
+UA            IAD                  CLT                       Y          0      CR7 ERJ                          309.0      
+UA            IAD                  CMH                       Y          0      DH4 ERJ CR7 ER4 E70              467.0      
+UA            IAD                  COS                       Y          0      CR7                              2350.0     
+UA            IAD                  CVG                       Y          0      CRJ CR7 ERJ                      623.0      
+UA            IAD                  DEN                                  0      739 752 319 738 320 753          2330.0     
+UA            IAD                  DFW                                  0      320 73G 738                      1757.0     
+UA            IAD                  DTW                       Y          0      CRJ CR7 ERJ ER4 E70              498.0      
+UA            IAD                  EWR                       Y          0      DH4 DH2 ERJ E70                  281.0      
+UA            IAD                  FLL                                  0      752                              251.0      
+UA            IAD                  GRR                       Y          0      ER4 ERJ CR7                      677.0      
+UA            IAD                  GSO                       Y          0      CRJ ERJ                          219.0      
+UA            IAD                  HNL                                  0      764                              7418.0     
+UA            IAD                  IAH                                  0      320 738 763 739 73G              1630.0     
+UA            IAD                  IND                       Y          0      CR7 ERJ E70                      760.0      
+UA            IAD                  JAX                       Y          0      ERJ CR7                          385.0      
+UA            IAD                  JFK                       Y          0      CRJ                              314.0      
+UA            IAD                  LAS                                  0      320 752                          3300.0     
+UA            IAD                  LAX                                  0      753 320 319 752 739 738          3629.0     
+UA            IAD                  LGA                       Y          0      CRJ ERJ E70 CR7                  306.0      
+UA            IAD                  MCI                       Y          0      CR7 ERJ                          1486.0     
+UA            IAD                  MCO                                  0      320 738 739 752                  354.0      
+UA            IAD                  MIA                                  0      319                              264.0      
+UA            IAD                  MSP                       Y          0      CR7                              1300.0     
+UA            IAD                  MSY                                  0      738 739                          1168.0     
+UA            IAD                  OKC                       Y          0      E70 ERJ CR7                      1780.0     
+UA            IAD                  OMA                       Y          0      CR7                              1564.0     
+UA            IAD                  ORD                                  0      319 320 752 753 739 738          883.0      
+UA            IAD                  ORF                       Y          0      CRJ ERJ ER4 CR7 DH4              110.0      
+UA            IAD                  PDX                                  0      752 739 738 73G                  3658.0     
+UA            IAD                  PHL                       Y          0      ER4                              190.0      
+UA            IAD                  PHX                                  0      320                              3078.0     
+UA            IAD                  PIT                       Y          0      E70 ERJ DH4 CR7                  237.0      
+UA            IAD                  PVD                       Y          0      DH4 CR7 DH2 CRJ                  511.0      
+UA            IAD                  PWM                       Y          0      CRJ ER4                          596.0      
+UA            IAD                  RDU                                  0      320 738                          118.0      
+UA            IAD                  RIC                       Y          0      ERJ CR7                          12.0       
+UA            IAD                  ROC                       Y          0      DH2 ERJ CRJ                      18.0       
+UA            IAD                  SAN                                  0      739 738 320 752 319              3548.0     
+UA            IAD                  SAT                       Y          0      CR7 E70                          1919.0     
+UA            IAD                  SAV                       Y          0      CRJ ERJ CR7                      338.0      
+UA            IAD                  SDF                       Y          0      ERJ                              720.0      
+UA            IAD                  SEA                                  0      739 752 320                      3572.0     
+UA            IAD                  SFO                                  0      752 320 753 738 739 319          3880.0     
+UA            IAD                  SMF                                  0      320                              3785.0     
+UA            IAD                  STL                       Y          0      ER4 CR7                          1117.0     
+UA            IAD                  SYR                       Y          0      CRJ DH4 ERJ ER4 DH2              113.0      
+UA            IAD                  TPA                                  0      320 738 739                      468.0      
+UA            IAD                  TUL                       Y          0      ERJ CR7                          1621.0     
+UA            IAD                  TYS                       Y          0      ERJ                              577.0      
+UA            IAH                  ABQ                                  0      320 738 73G                      1055.0     
+UA            IAH                  ATL                       Y          0      CRJ ERJ E70                      1030.0     
+UA            IAH                  AUS                                  0      319 73G 738 739 320              223.0      
+UA            IAH                  BHM                       Y          0      CRJ ERJ                          811.0      
+UA            IAH                  BNA                       Y          0      ERJ                              806.0      
+UA            IAH                  BOS                                  0      739 738 320 752 73G 319          2159.0     
+UA            IAH                  BWI                                  0      73G 739 320 738 319              1699.0     
+UA            IAH                  CHS                       Y          0      ERJ                              1450.0     
+UA            IAH                  CLE                                  0      320 738 73G                      1208.0     
+UA            IAH                  CLT                       Y          0      ERJ E70                          1346.0     
+UA            IAH                  CMH                       Y          0      ERJ E70                          1127.0     
+UA            IAH                  COS                       Y          0      CRJ CR7 ERJ                      855.0      
+UA            IAH                  CVG                       Y          0      ERJ CR7                          973.0      
+UA            IAH                  DAL                       Y          0      ERJ                              143.0      
+UA            IAH                  DCA                                  0      73G 319 738 320                  1669.0     
+UA            IAH                  DEN                                  0      320 752 788 738 739 753 319      846.0      
+UA            IAH                  DFW                       Y          0      ERJ E70 CRJ CR7                  161.0      
+UA            IAH                  DSM                       Y          0      ERJ CRJ                          151.0      
+UA            IAH                  DTW                                  0      319 320 73G                      1067.0     
+UA            IAH                  ELP                       Y          0      ERJ CRJ                          1052.0     
+UA            IAH                  EWR                                  0      739 73G 738 320 752 319          1904.0     
+UA            IAH                  FLL                                  0      739 320 73G 738 752              1489.0     
+UA            IAH                  GRR                       Y          0      ERJ CRJ                          869.0      
+UA            IAH                  HNL                                  0      764                              6185.0     
+UA            IAH                  IAD                                  0      738 763 739 320 319              1630.0     
+UA            IAH                  IND                                  0      319                              821.0      
+UA            IAH                  JAX                       Y          0      ERJ                              1311.0     
+UA            IAH                  LAS                                  0      320 739 73G 738 319 752          1840.0     
+UA            IAH                  LAX                                  0      752 739 738 753 320 319          2170.0     
+UA            IAH                  LGA                                  0      320 738 73G 319                  1929.0     
+UA            IAH                  MCI                       Y          0      ERJ E70 CRJ CR7                  57.0       
+UA            IAH                  MCO                                  0      739 738 320 73G 753              1361.0     
+UA            IAH                  MEM                       Y          0      ERJ ER4 CRJ                      502.0      
+UA            IAH                  MIA                                  0      319 738 73G 320 739              1477.0     
+UA            IAH                  MKE                       Y          0      ERJ CRJ                          659.0      
+UA            IAH                  MSP                       Y          0      ERJ E70 CR7                      185.0      
+UA            IAH                  MSY                                  0      320 73G 738 319                  489.0      
+UA            IAH                  OKC                                  0      319 320 739                      211.0      
+UA            IAH                  OMA                       Y          0      ERJ E70                          50.0       
+UA            IAH                  ONT                       Y          0      CR7                              2093.0     
+UA            IAH                  ORD                                  0      752 739 73G 319 738 320 753      663.0      
+UA            IAH                  ORF                       Y          0      ERJ                              1769.0     
+UA            IAH                  PBI                                  0      320                              1490.0     
+UA            IAH                  PDX                                  0      320 319 739 738                  2351.0     
+UA            IAH                  PHL                                  0      73G 319 739 738 320              1819.0     
+UA            IAH                  PHX                                  0      320 738 739 319 73G              1574.0     
+UA            IAH                  PIT                                  0      319 320 738 73G                  1362.0     
+UA            IAH                  PNS                       Y          0      ERJ                              783.0      
+UA            IAH                  PSP                       Y          0      CR7                              1993.0     
+UA            IAH                  RDU                                  0      73G                              1540.0     
+UA            IAH                  RIC                       Y          0      ERJ                              1659.0     
+UA            IAH                  RSW                                  0      738                              1329.0     
+UA            IAH                  SAN                                  0      320 738 739 319                  2070.0     
+UA            IAH                  SAT                                  0      738 319 73G 739 320              302.0      
+UA            IAH                  SAV                       Y          0      ERJ                              1346.0     
+UA            IAH                  SDF                       Y          0      E70 ERJ CRJ                      881.0      
+UA            IAH                  SEA                                  0      319 320 739 738                  2286.0     
+UA            IAH                  SFO                                  0      319 739 738 320 788 73G 752      2482.0     
+UA            IAH                  SJC                                  0      319 320 739 738                  2446.0     
+UA            IAH                  SLC                       Y          0      ERJ CR7 E70                      1496.0     
+UA            IAH                  SMF                                  0      739 320 738                      2393.0     
+UA            IAH                  SNA                                  0      738 320 319 73G                  2123.0     
+UA            IAH                  STL                       Y          0      ER4 ERJ                          454.0      
+UA            IAH                  TPA                                  0      739 738 320                      1245.0     
+UA            IAH                  TUL                       Y          0      CRJ ERJ CR7                      51.0       
+UA            IAH                  TUS                       Y          0      ERJ CR7                          1484.0     
+UA            IAH                  TYS                       Y          0      ERJ                              1057.0     
+UA            IND                  CLE                       Y          0      E70 DH3 ERJ                      375.0      
+UA            IND                  DEN                       Y          0      E70 ERJ                          1568.0     
+UA            IND                  EWR                       Y          0      ERJ E70                          1029.0     
+UA            IND                  IAD                       Y          0      E70 ERJ CR7                      760.0      
+UA            IND                  IAH                                  0      319                              821.0      
+UA            IND                  ORD                       Y          0      ERJ E70 CR7 CRJ                  135.0      
+UA            IND                  SFO                                  0      319                              3111.0     
+UA            JAX                  EWR                       Y          0      ERJ                              675.0      
+UA            JAX                  IAD                       Y          0      ERJ CR7 E70                      385.0      
+UA            JAX                  IAH                       Y          0      ERJ                              1311.0     
+UA            JAX                  ORD                                  0      73G 320                          553.0      
+UA            JAX                  TPA                       Y          0      SF3                              82.0       
+UA            JFK                  IAD                       Y          0      CRJ                              314.0      
+UA            JFK                  LAX                                  0      757                              3899.0     
+UA            JFK                  SFO                                  0      757                              4137.0     
+UA            KOA                  DEN                                  0      752                              4808.0     
+UA            KOA                  LAX                                  0      753                              3683.0     
+UA            KOA                  SFO                                  0      753 739 738                      3221.0     
+UA            LAS                  CLE                                  0      739 738                          2867.0     
+UA            LAS                  DEN                                  0      320 752 319 738 739              917.0      
+UA            LAS                  EWR                                  0      738 739 753 752 320              3537.0     
+UA            LAS                  FAT                       Y          0      EM2                              408.0      
+UA            LAS                  IAD                                  0      320 752 739                      3300.0     
+UA            LAS                  IAH                                  0      738 319 739 320 73G              1840.0     
+UA            LAS                  LAX                                  0      752 738 319 320 739              296.0      
+UA            LAS                  ORD                                  0      73G 738 739 320 752 319          2339.0     
+UA            LAS                  PSP                       Y          0      EM2                              123.0      
+UA            LAS                  SFO                                  0      739 738 320 752 319 753          642.0      
+UA            LAX                  ABQ                       Y          0      CR7                              1081.0     
+UA            LAX                  AUS                       Y          0      CR7                              1950.0     
+UA            LAX                  BOI                       Y          0      CR7 CRJ                          188.0      
+UA            LAX                  BOS                                  0      752 753 320 739                  4079.0     
+UA            LAX                  BWI                                  0      738 319 320 739                  3692.0     
+UA            LAX                  CLE                                  0      738 320 319 739                  3185.0     
+UA            LAX                  COS                       Y          0      CRJ CR7                          1224.0     
+UA            LAX                  DEN                                  0      752 739 738 320 753 319          1218.0     
+UA            LAX                  DFW                       Y          0      CR7                              1980.0     
+UA            LAX                  EWR                                  0      738 319 752 739 320 753          3864.0     
+UA            LAX                  FAT                       Y          0      EM2 CR7                          119.0      
+UA            LAX                  HNL                                  0      777 738 753 739                  3845.0     
+UA            LAX                  IAD                                  0      753 320 752 739 738              3629.0     
+UA            LAX                  IAH                                  0      739 320 738 319 752 753          2170.0     
+UA            LAX                  JFK                                  0      757                              3899.0     
+UA            LAX                  KOA                                  0      753                              3683.0     
+UA            LAX                  LAS                                  0      739 319 738 320 752              296.0      
+UA            LAX                  LIH                                  0      752                              3972.0     
+UA            LAX                  MCO                                  0      739                              3506.0     
+UA            LAX                  MSP                       Y          0      CR7                              2140.0     
+UA            LAX                  MSY                                  0      320 319 738                      2645.0     
+UA            LAX                  OGG                                  0      753 738                          3706.0     
+UA            LAX                  OKC                       Y          0      CR7                              1899.0     
+UA            LAX                  ORD                                  0      739 738 752 320 319 753          2651.0     
+UA            LAX                  PDX                       Y          0      CR7 CRJ                          355.0      
+UA            LAX                  PHX                       Y          0      CR7 CRJ                          592.0      
+UA            LAX                  PIT                                  0      319 738                          3348.0     
+UA            LAX                  PSP                       Y          0      EM2 CR7 CRJ                      175.0      
+UA            LAX                  RNO                       Y          0      CR7                              121.0      
+UA            LAX                  SAN                       Y          0      EM2 CR7                          113.0      
+UA            LAX                  SAT                       Y          0      CR7                              1881.0     
+UA            LAX                  SEA                                  0      319 738 320 752                  325.0      
+UA            LAX                  SFO                                  0      739 752 753 319 320 738          358.0      
+UA            LAX                  SJC                       Y          0      CR7                              318.0      
+UA            LAX                  SLC                       Y          0      CR7 CRJ                          566.0      
+UA            LAX                  SMF                       Y          0      CR7 CRJ                          285.0      
+UA            LAX                  TUS                       Y          0      CRJ CR7                          696.0      
+UA            LGA                  CLE                       Y          0      ERJ E70                          668.0      
+UA            LGA                  DEN                                  0      752 320 738                      2598.0     
+UA            LGA                  IAD                       Y          0      CRJ ERJ E70 CR7                  306.0      
+UA            LGA                  IAH                                  0      738 320 73G 319                  1929.0     
+UA            LGA                  ORD                                  0      319 320 738 73G 752              1169.0     
+UA            LIH                  DEN                                  0      752                              5069.0     
+UA            LIH                  HNL                       Y          0      AT7                              146.0      
+UA            LIH                  LAX                                  0      752                              3972.0     
+UA            LIH                  SFO                                  0      752                              3506.0     
+UA            MCI                  CLE                       Y          0      ERJ DH4                          1089.0     
+UA            MCI                  DEN                                  0      DH4 73G 738                      853.0      
+UA            MCI                  EWR                       Y          0      ERJ E70                          1746.0     
+UA            MCI                  IAD                       Y          0      ERJ CR7 E70                      1486.0     
+UA            MCI                  IAH                       Y          0      ERJ CRJ E70                      57.0       
+UA            MCI                  ORD                       Y          0      ERJ CR7 E70 CRJ                  574.0      
+UA            MCI                  SFO                       Y          0      CR7                              2399.0     
+UA            MCO                  CLE                                  0      73G 320 738                      49.0       
+UA            MCO                  DEN                                  0      752 738 739                      2130.0     
+UA            MCO                  EWR                                  0      752 738 739 320                  648.0      
+UA            MCO                  FLL                       Y          0      SF3                              114.0      
+UA            MCO                  IAD                                  0      752 320 738                      354.0      
+UA            MCO                  IAH                                  0      738 739 320 752                  1361.0     
+UA            MCO                  LAX                                  0      752                              3506.0     
+UA            MCO                  ORD                                  0      73G 738 320 752 739              593.0      
+UA            MCO                  PNS                       Y          0      SF3                              569.0      
+UA            MCO                  RSW                       Y          0      SF3                              44.0       
+UA            MCO                  SFO                                  0      753 752 738 739                  3785.0     
+UA            MEM                  DEN                       Y          0      CRJ ERJ                          1294.0     
+UA            MEM                  EWR                       Y          0      ERJ                              1383.0     
+UA            MEM                  IAH                       Y          0      ERJ ER4 CRJ                      502.0      
+UA            MEM                  ORD                       Y          0      ER4 ERJ CRJ                      180.0      
+UA            MIA                  DEN                                  0      319                              2249.0     
+UA            MIA                  EWR                                  0      739 738 320 73G                  562.0      
+UA            MIA                  IAD                                  0      319                              264.0      
+UA            MIA                  IAH                                  0      739 319 738 73G                  1477.0     
+UA            MIA                  ORD                       Y          0      CR7                              693.0      
+UA            MKE                  CLE                       Y          0      CR7 ERJ                          498.0      
+UA            MKE                  DEN                       Y          0      CRJ                              1396.0     
+UA            MKE                  EWR                       Y          0      ERJ                              1136.0     
+UA            MKE                  IAH                       Y          0      CRJ ERJ CR7                      659.0      
+UA            MKE                  ORD                       Y          0      CRJ                              1.0        
+UA            MSP                  CLE                       Y          0      ERJ                              921.0      
+UA            MSP                  DEN                                  0      320                              938.0      
+UA            MSP                  EWR                       Y          0      ERJ E70                          1549.0     
+UA            MSP                  IAD                       Y          0      CR7 ERJ                          1300.0     
+UA            MSP                  IAH                       Y          0      CR7 ERJ E70                      185.0      
+UA            MSP                  LAX                       Y          0      CR7                              2140.0     
+UA            MSP                  ORD                                  0      73G 738 319                      429.0      
+UA            MSP                  SFO                                  0      320 739 319                      2417.0     
+UA            MSY                  CLE                       Y          0      ERJ                              754.0      
+UA            MSY                  DEN                                  0      320 738                          1305.0     
+UA            MSY                  EWR                                  0      738 320 319                      1449.0     
+UA            MSY                  IAD                                  0      320 319                          1168.0     
+UA            MSY                  IAH                                  0      319 738 73G 320                  489.0      
+UA            MSY                  LAX                                  0      738 739                          2645.0     
+UA            MSY                  ORD                                  0      320 319                          211.0      
+UA            MSY                  SFO                                  0      320 319 738                      2945.0     
+UA            MYR                  EWR                       Y          0      DH4                              420.0      
+UA            MYR                  ORD                       Y          0      E70                              785.0      
+UA            OGG                  DEN                                  0      752                              4824.0     
+UA            OGG                  HNL                       Y          0      AT7                              155.0      
+UA            OGG                  LAX                                  0      753 738                          3706.0     
+UA            OGG                  ORD                                  0      777                              6223.0     
+UA            OGG                  SFO                                  0      753 738                          3245.0     
+UA            OKC                  DEN                       Y          0      DH4 ERJ CRJ                      622.0      
+UA            OKC                  EWR                       Y          0      ERJ                              2043.0     
+UA            OKC                  IAD                       Y          0      E70 CR7                          1780.0     
+UA            OKC                  IAH                                  0      738 319 320 739                  211.0      
+UA            OKC                  LAX                       Y          0      CR7                              1899.0     
+UA            OKC                  ORD                       Y          0      E70 ERJ ER4 CR7                  839.0      
+UA            OKC                  SFO                       Y          0      CR7                              2208.0     
+UA            OMA                  DEN                                  0      738 73G 319                      741.0      
+UA            OMA                  EWR                       Y          0      ERJ                              1818.0     
+UA            OMA                  IAH                       Y          0      ERJ                              50.0       
+UA            OMA                  ORD                                  0      738 319 73G                      664.0      
+UA            ONT                  DEN                       Y          0      CRJ                              1145.0     
+UA            ONT                  IAH                       Y          0      CR7                              2093.0     
+UA            ONT                  SFO                       Y          0      CRJ                              430.0      
+UA            ORD                  ABQ                       Y          0      CR7 E70                          1620.0     
+UA            ORD                  ALB                                  0      319 73G 738 739                  1157.0     
+UA            ORD                  ANC                                  0      738                              3999.0     
+UA            ORD                  ATL                       Y          0      CR7 E70                          304.0      
+UA            ORD                  AUS                                  0      319 320                          869.0      
+UA            ORD                  BDL                                  0      73G 738 319                      1257.0     
+UA            ORD                  BHM                       Y          0      CRJ ERJ                          101.0      
+UA            ORD                  BNA                       Y          0      ERJ CRJ                          106.0      
+UA            ORD                  BOI                       Y          0      CR7                              2300.0     
+UA            ORD                  BOS                                  0      320 752 739 738 73G 319          1390.0     
+UA            ORD                  BUF                                  0      738 739 320                      752.0      
+UA            ORD                  BWI                                  0      319 320 739 738                  948.0      
+UA            ORD                  CHS                       Y          0      CRJ ERJ CR7                      691.0      
+UA            ORD                  CLE                                  0      73G 738                          503.0      
+UA            ORD                  CLT                                  0      320 319                          603.0      
+UA            ORD                  CMH                                  0      738 319 739                      421.0      
+UA            ORD                  COS                       Y          0      CRJ ERJ CR7                      1419.0     
+UA            ORD                  CVG                       Y          0      CR7 ERJ ER4 CRJ                  273.0      
+UA            ORD                  DCA                                  0      320 319 738 73G 752              919.0      
+UA            ORD                  DEN                                  0      752 738 320 739 73G 753 319      1406.0     
+UA            ORD                  DFW                                  0      73G 738 320                      802.0      
+UA            ORD                  DSM                                  0      319 73G                          477.0      
+UA            ORD                  DTW                                  0      320                              375.0      
+UA            ORD                  EWR                                  0      319 320 73G 763 752 739 738      1145.0     
+UA            ORD                  FLL                                  0      738 752 320 739                  704.0      
+UA            ORD                  GRR                                  0      319 320                          195.0      
+UA            ORD                  GSO                       Y          0      ERJ CR7 CRJ ER4                  686.0      
+UA            ORD                  HNL                                  0      777                              6342.0     
+UA            ORD                  IAD                                  0      777 320 752 739 73G 753 319      883.0      
+UA            ORD                  IAH                                  0      739 738 752 320 73G 319          663.0      
+UA            ORD                  IND                       Y          0      ERJ CRJ CR7 E70                  135.0      
+UA            ORD                  JAX                                  0      73G 320                          553.0      
+UA            ORD                  LAS                                  0      738 752 320 319 73G 739 753      2339.0     
+UA            ORD                  LAX                                  0      738 753 320 739 752 319          2651.0     
+UA            ORD                  LGA                                  0      738 320 319 752 73G              1169.0     
+UA            ORD                  MCI                                  0      73G 738                          574.0      
+UA            ORD                  MCO                                  0      739 752 73G 320 738              593.0      
+UA            ORD                  MEM                       Y          0      ER4 CRJ ERJ                      180.0      
+UA            ORD                  MIA                       Y          0      CR7                              693.0      
+UA            ORD                  MKE                       Y          0      CRJ                              1.0        
+UA            ORD                  MSP                                  0      73G 738 319 320                  429.0      
+UA            ORD                  MSY                                  0      320 319                          211.0      
+UA            ORD                  MYR                       Y          0      E70                              785.0      
+UA            ORD                  OGG                                  0      777                              6223.0     
+UA            ORD                  OKC                       Y          0      E70 ER4 ERJ CR7                  839.0      
+UA            ORD                  OMA                                  0      319 73G 738                      664.0      
+UA            ORD                  ORF                       Y          0      CRJ ER4 ERJ CR7                  1003.0     
+UA            ORD                  PDX                                  0      739 738 320 752 319              2762.0     
+UA            ORD                  PHL                                  0      320 738 739 752 73G              1063.0     
+UA            ORD                  PHX                                  0      752 320 739 738                  2105.0     
+UA            ORD                  PIT                                  0      738 319 320 739                  641.0      
+UA            ORD                  PNS                       Y          0      ERJ                              64.0       
+UA            ORD                  PVD                                  0      320                              1363.0     
+UA            ORD                  PWM                       Y          0      CR7 ERJ                          1432.0     
+UA            ORD                  RDU                                  0      73G 738                          787.0      
+UA            ORD                  RIC                                  0      319                              903.0      
+UA            ORD                  ROC                                  0      738 320 319                      838.0      
+UA            ORD                  RSW                                  0      738 320                          558.0      
+UA            ORD                  SAN                                  0      73G 320 738 739 319              2564.0     
+UA            ORD                  SAT                       Y          0      CR7 E70                          944.0      
+UA            ORD                  SAV                       Y          0      CR7 ERJ CRJ                      591.0      
+UA            ORD                  SDF                       Y          0      ERJ CRJ E70                      184.0      
+UA            ORD                  SEA                                  0      320 752 738 739                  2692.0     
+UA            ORD                  SFO                                  0      752 739 320 738 753 319 777      2923.0     
+UA            ORD                  SLC                       Y          0      CR7 E70                          2002.0     
+UA            ORD                  SMF                                  0      319 739 320                      2836.0     
+UA            ORD                  SNA                                  0      73G 752 319                      2609.0     
+UA            ORD                  SRQ                                  0      738 319 320                      483.0      
+UA            ORD                  STL                       Y          0      CR7 ERJ ER4                      209.0      
+UA            ORD                  SYR                       Y          0      ER4 ERJ CR7 CRJ                  966.0      
+UA            ORD                  TPA                                  0      739 73G 320 738                  484.0      
+UA            ORD                  TUL                       Y          0      ERJ CRJ CR7                      687.0      
+UA            ORD                  TYS                       Y          0      ERJ                              338.0      
+UA            ORF                  EWR                       Y          0      DH3 DH4 DH2                      176.0      
+UA            ORF                  IAD                       Y          0      ER4 CRJ ERJ DH4 CR7              110.0      
+UA            ORF                  IAH                       Y          0      ERJ                              1769.0     
+UA            ORF                  ORD                       Y          0      CR7 ERJ CRJ ER4                  1003.0     
+UA            PBI                  CLE                       Y          0      ERJ                              160.0      
+UA            PBI                  EWR                                  0      73G 739 738 319 320 752          542.0      
+UA            PBI                  IAH                                  0      320                              1490.0     
+UA            PBI                  TPA                       Y          0      SF3                              241.0      
+UA            PDX                  DEN                                  0      739 738 752 320 73G              1458.0     
+UA            PDX                  EWR                                  0      739 319 738                      3866.0     
+UA            PDX                  IAD                                  0      752 320                          3658.0     
+UA            PDX                  IAH                                  0      319 739 320 738                  2351.0     
+UA            PDX                  LAX                       Y          0      CR7 CRJ                          355.0      
+UA            PDX                  ORD                                  0      320 319 752 738 739              2762.0     
+UA            PDX                  SEA                       Y          0      EM2                              22.0       
+UA            PDX                  SFO                                  0      319 739 320                      18.0       
+UA            PHL                  DEN                                  0      738 319 739 752 320              2500.0     
+UA            PHL                  IAD                       Y          0      ER4                              190.0      
+UA            PHL                  IAH                                  0      320 73G 738 739 319              1819.0     
+UA            PHL                  ORD                                  0      320 738 739 752 73G 319          1063.0     
+UA            PHL                  SFO                                  0      739 738 319 752                  4039.0     
+UA            PHX                  CLE                                  0      320 738 319                      2641.0     
+UA            PHX                  DEN                                  0      738 752 739 320                  652.0      
+UA            PHX                  EWR                                  0      319 739 320 738                  3324.0     
+UA            PHX                  IAD                                  0      320 738                          3078.0     
+UA            PHX                  IAH                                  0      738 320 739 319 73G              1574.0     
+UA            PHX                  LAX                       Y          0      CR7 CRJ                          592.0      
+UA            PHX                  ORD                                  0      319 739 738 320 752              2105.0     
+UA            PHX                  SFO                                  0      320                              937.0      
+UA            PIT                  DEN                                  0      738 320 739                      2070.0     
+UA            PIT                  EWR                                  0      DH4                              512.0      
+UA            PIT                  IAD                       Y          0      DH4 ERJ CR7                      237.0      
+UA            PIT                  IAH                                  0      319 320 738 73G                  1362.0     
+UA            PIT                  LAX                                  0      319 738 320                      3348.0     
+UA            PIT                  ORD                                  0      738 320 319 73G                  641.0      
+UA            PIT                  SFO                                  0      320 319 738                      3603.0     
+UA            PNS                  IAH                       Y          0      ERJ                              783.0      
+UA            PNS                  MCO                       Y          0      SF3                              569.0      
+UA            PNS                  ORD                       Y          0      ERJ                              64.0       
+UA            PNS                  TPA                       Y          0      SF3                              451.0      
+UA            PSP                  DEN                                  0      319                              1050.0     
+UA            PSP                  IAH                       Y          0      CR7                              1993.0     
+UA            PSP                  LAS                       Y          0      EM2                              123.0      
+UA            PSP                  LAX                       Y          0      EM2 CR7                          175.0      
+UA            PSP                  SFO                       Y          0      CRJ CR7                          529.0      
+UA            PVD                  EWR                       Y          0      DH3 DH2 ERJ                      230.0      
+UA            PVD                  IAD                       Y          0      DH4 CR7 DH2 CRJ                  511.0      
+UA            PVD                  ORD                                  0      320                              1363.0     
+UA            RDU                  EWR                                  0      DH4                              402.0      
+UA            RDU                  IAD                                  0      320 73G 738                      118.0      
+UA            RDU                  IAH                                  0      73G                              1540.0     
+UA            RDU                  ORD                                  0      738                              787.0      
+UA            RDU                  SFO                                  0      738 739                          3848.0     
+UA            RIC                  CLE                       Y          0      ERJ ER4                          388.0      
+UA            RIC                  EWR                       Y          0      ERJ                              272.0      
+UA            RIC                  IAD                       Y          0      ERJ ER4 CR7                      12.0       
+UA            RIC                  IAH                       Y          0      ERJ                              1659.0     
+UA            RIC                  ORD                                  0      319                              903.0      
+UA            RNO                  DEN                                  0      320                              1290.0     
+UA            RNO                  LAX                       Y          0      CR7                              121.0      
+UA            RNO                  SFO                       Y          0      CR7 CRJ                          227.0      
+UA            ROC                  CLE                       Y          0      DH2 DH3                          344.0      
+UA            ROC                  EWR                       Y          0      DH2 ERJ DH3                      290.0      
+UA            ROC                  IAD                       Y          0      ER4 DH2 CR7 CRJ                  18.0       
+UA            ROC                  ORD                                  0      320 738 319                      838.0      
+UA            RSW                  CLE                                  0      319 738 320                      9.0        
+UA            RSW                  DEN                                  0      738                              2108.0     
+UA            RSW                  EWR                                  0      320 738 739                      694.0      
+UA            RSW                  IAH                                  0      738                              1329.0     
+UA            RSW                  MCO                       Y          0      SF3                              44.0       
+UA            RSW                  ORD                                  0      320                              558.0      
+UA            SAN                  DEN                                  0      738 320 739 752                  1118.0     
+UA            SAN                  EWR                                  0      738 739                          3787.0     
+UA            SAN                  IAD                                  0      739 752 320 738                  3548.0     
+UA            SAN                  IAH                                  0      320 73G 738 739                  2070.0     
+UA            SAN                  LAX                       Y          0      CR7 EM2                          113.0      
+UA            SAN                  ORD                                  0      739 320 738                      2564.0     
+UA            SAN                  SFO                                  0      739 738 320 319                  471.0      
+UA            SAT                  DEN                                  0      738 73G                          564.0      
+UA            SAT                  EWR                                  0      319 739 73G                      2189.0     
+UA            SAT                  IAD                       Y          0      E70 CR7                          1919.0     
+UA            SAT                  IAH                                  0      319 739 738 73G 320              302.0      
+UA            SAT                  LAX                       Y          0      CR7                              1881.0     
+UA            SAT                  ORD                       Y          0      CR7                              944.0      
+UA            SAT                  SFO                       Y          0      CR7                              2202.0     
+UA            SAV                  EWR                       Y          0      ERJ                              626.0      
+UA            SAV                  IAD                       Y          0      CRJ ERJ CR7                      338.0      
+UA            SAV                  IAH                       Y          0      ERJ                              1346.0     
+UA            SAV                  ORD                       Y          0      ERJ CR7 CRJ                      591.0      
+UA            SDF                  CLE                       Y          0      ERJ CRJ                          332.0      
+UA            SDF                  DEN                       Y          0      ERJ                              1633.0     
+UA            SDF                  EWR                       Y          0      ERJ E70                          992.0      
+UA            SDF                  IAD                       Y          0      ERJ                              720.0      
+UA            SDF                  IAH                       Y          0      ERJ E70 CRJ                      881.0      
+UA            SDF                  ORD                       Y          0      ERJ                              184.0      
+UA            SEA                  ANC                                  0      739 738                          1746.0     
+UA            SEA                  DEN                                  0      738 320 739 752 753 319          1410.0     
+UA            SEA                  EWR                                  0      739 319 738 320                  3776.0     
+UA            SEA                  IAD                                  0      752 320 739 738                  3572.0     
+UA            SEA                  IAH                                  0      739 320 738 319 752              2286.0     
+UA            SEA                  LAX                                  0      739 320                          325.0      
+UA            SEA                  ORD                                  0      738 320 739 752 319              2692.0     
+UA            SEA                  PDX                       Y          0      EM2                              22.0       
+UA            SEA                  SFO                                  0      319 739 320 738 752              5.0        
+UA            SFO                  ABQ                       Y          0      CRJ                              1410.0     
+UA            SFO                  ATL                                  0      738                              3405.0     
+UA            SFO                  AUS                                  0      738 320 319                      2268.0     
+UA            SFO                  BOI                       Y          0      CRJ CR7                          518.0      
+UA            SFO                  BOS                                  0      752 753 738 739 319 320          4306.0     
+UA            SFO                  BUR                       Y          0      CR7 CRJ                          361.0      
+UA            SFO                  BWI                                  0      739 320 738                      3940.0     
+UA            SFO                  CLE                                  0      739 738 320                      3443.0     
+UA            SFO                  COS                       Y          0      CRJ CR7                          1542.0     
+UA            SFO                  DCA                                  0      738 73G                          3918.0     
+UA            SFO                  DEN                                  0      752 739 738 320 319              1532.0     
+UA            SFO                  DFW                                  0      319 738 739                      2291.0     
+UA            SFO                  EWR                                  0      320 739 752 319 738 73G          4103.0     
+UA            SFO                  FAT                       Y          0      EM2                              235.0      
+UA            SFO                  FLL                                  0      738 319 739                      3933.0     
+UA            SFO                  HNL                                  0      777 764 738 753 739              3381.0     
+UA            SFO                  IAD                                  0      753 752 738 739 320 319          3880.0     
+UA            SFO                  IAH                                  0      319 739 753 738 320 752 788 73G  2482.0     
+UA            SFO                  IND                                  0      319                              3111.0     
+UA            SFO                  JFK                                  0      757                              4137.0     
+UA            SFO                  KOA                                  0      753 739 738                      3221.0     
+UA            SFO                  LAS                                  0      752 738 739 320 319              642.0      
+UA            SFO                  LAX                                  0      319 320 752 738 753 739          358.0      
+UA            SFO                  LIH                                  0      752                              3506.0     
+UA            SFO                  MCI                       Y          0      CR7                              2399.0     
+UA            SFO                  MCO                                  0      752 738 739 753                  3785.0     
+UA            SFO                  MSP                                  0      320 739 319                      2417.0     
+UA            SFO                  MSY                                  0      320 738                          2945.0     
+UA            SFO                  OGG                                  0      753 738                          3245.0     
+UA            SFO                  OKC                       Y          0      CR7                              2208.0     
+UA            SFO                  ONT                       Y          0      CRJ                              430.0      
+UA            SFO                  ORD                                  0      738 739 752 320 753 319 777 73G  2923.0     
+UA            SFO                  PDX                                  0      319 739 320 752 738              18.0       
+UA            SFO                  PHL                                  0      319 738 739 752                  4039.0     
+UA            SFO                  PHX                                  0      319 738 320                      937.0      
+UA            SFO                  PIT                                  0      319 738                          3603.0     
+UA            SFO                  PSP                       Y          0      CRJ CR7                          529.0      
+UA            SFO                  RDU                                  0      738 739                          3848.0     
+UA            SFO                  RNO                       Y          0      CRJ CR7                          227.0      
+UA            SFO                  SAN                                  0      738 320 319 739 73G              471.0      
+UA            SFO                  SAT                       Y          0      CR7                              2202.0     
+UA            SFO                  SEA                                  0      319 738 739 320 752 753          5.0        
+UA            SFO                  SLC                                  0      738 320 319                      895.0      
+UA            SFO                  SMF                       Y          0      EM2                              69.0       
+UA            SFO                  SNA                                  0      320 319 738 73G                  407.0      
+UA            SFO                  STL                                  0      320 319                          2783.0     
+UA            SFO                  TUS                       Y          0      CRJ CR7                          1041.0     
+UA            SJC                  DEN                                  0      752 319 738 73G                  1496.0     
+UA            SJC                  IAH                                  0      320 319 739 738                  2446.0     
+UA            SJC                  LAX                       Y          0      CR7                              318.0      
+UA            SLC                  DEN                       Y          0      CR7 CRJ ERJ DH4 E70              619.0      
+UA            SLC                  IAH                       Y          0      ERJ CR7 E70                      1496.0     
+UA            SLC                  LAX                       Y          0      CR7 CRJ                          566.0      
+UA            SLC                  ORD                       Y          0      E70 CR7                          2002.0     
+UA            SLC                  SFO                                  0      738 320 319                      895.0      
+UA            SMF                  DEN                                  0      320 739                          1454.0     
+UA            SMF                  IAD                                  0      320                              3785.0     
+UA            SMF                  IAH                                  0      320 739 738                      2393.0     
+UA            SMF                  LAX                       Y          0      CR7 CRJ                          285.0      
+UA            SMF                  ORD                                  0      739 319 320                      2836.0     
+UA            SMF                  SFO                       Y          0      EM2                              69.0       
+UA            SNA                  DEN                                  0      320 738 73G                      1172.0     
+UA            SNA                  EWR                                  0      73G                              3824.0     
+UA            SNA                  IAH                                  0      320 738 73G 752                  2123.0     
+UA            SNA                  ORD                                  0      73G                              2609.0     
+UA            SNA                  SFO                                  0      738 319 320                      407.0      
+UA            SRQ                  ORD                                  0      738 319 320                      483.0      
+UA            STL                  CLE                       Y          0      ER4 ERJ                          724.0      
+UA            STL                  DEN                       Y          0      CR7 ERJ CRJ                      1229.0     
+UA            STL                  EWR                       Y          0      ERJ E70                          1383.0     
+UA            STL                  IAD                       Y          0      ER4 ERJ CR7 E70                  1117.0     
+UA            STL                  IAH                       Y          0      ER4 ERJ                          454.0      
+UA            STL                  ORD                       Y          0      ER4 CR7                          209.0      
+UA            STL                  SFO                                  0      320 319                          2783.0     
+UA            SYR                  CLE                                  0      DH3                              472.0      
+UA            SYR                  EWR                       Y          0      DH2 DH3 ERJ                      160.0      
+UA            SYR                  IAD                       Y          0      ERJ CRJ DH4 ER4 CR7 DH2          113.0      
+UA            SYR                  ORD                       Y          0      ER4 CRJ ERJ CR7                  966.0      
+UA            TPA                  CLE                                  0      73G                              62.0       
+UA            TPA                  DEN                                  0      739 738 320                      2023.0     
+UA            TPA                  EWR                                  0      738 739 73G 752 320              761.0      
+UA            TPA                  FLL                       Y          0      SF3                              236.0      
+UA            TPA                  IAD                                  0      738 320                          468.0      
+UA            TPA                  IAH                                  0      73G 320 739 738                  1245.0     
+UA            TPA                  JAX                       Y          0      SF3                              82.0       
+UA            TPA                  ORD                                  0      739 320 73G                      484.0      
+UA            TPA                  PBI                       Y          0      SF3                              241.0      
+UA            TPA                  PNS                       Y          0      SF3                              451.0      
+UA            TUL                  DEN                       Y          0      CRJ ERJ CR7                      769.0      
+UA            TUL                  EWR                       Y          0      ERJ                              1884.0     
+UA            TUL                  IAD                       Y          0      CR7 ERJ                          1621.0     
+UA            TUL                  IAH                       Y          0      ERJ CRJ CR7                      51.0       
+UA            TUL                  ORD                       Y          0      ERJ CRJ CR7                      687.0      
+UA            TUS                  DEN                       Y          0      ERJ CRJ CR7                      562.0      
+UA            TUS                  IAH                       Y          0      CR7 ERJ                          1484.0     
+UA            TUS                  LAX                       Y          0      CR7 CRJ                          696.0      
+UA            TUS                  SFO                       Y          0      CRJ                              1041.0     
+UA            TYS                  DEN                       Y          0      ERJ                              1811.0     
+UA            TYS                  EWR                       Y          0      ERJ                              856.0      
+UA            TYS                  IAD                       Y          0      ERJ                              577.0      
+UA            TYS                  IAH                       Y          0      ERJ                              1057.0     
+UA            TYS                  ORD                       Y          0      ERJ                              338.0      

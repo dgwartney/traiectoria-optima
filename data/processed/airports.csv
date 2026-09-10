@@ -1,0 +1,178 @@
+name                                                          iso_country  iso_region  iata_code  latitude_deg      longitude_deg      type         
+------------------------------------------------------------  -----------  ----------  ---------  ----------------  -----------------  -------------
+Albany International Airport                                  US           US-NY       ALB        42.748299         -73.801697         large_airport
+
+Albuquerque International Sunport                             US           US-NM       ABQ        35.039976         -106.608925        large_airport
+
+Austin Bergstrom International Airport                        US           US-TX       AUS        30.197535         -97.662015         large_airport
+
+Baltimore/Washington International Thurgood Marshall Airport  US           US-MD       BWI        39.1754           -76.668297         large_airport
+
+Birmingham-Shuttlesworth International Airport                US           US-AL       BHM        33.562877         -86.750712         large_airport
+
+Boise Air Terminal/Gowen Field                                US           US-ID       BOI        43.5644           -116.223           large_airport
+
+Boston Logan International Airport                            US           US-MA       BOS        42.36197          -71.0079           large_airport
+
+Bradley International Airport                                 US           US-CT       BDL        41.938555         -72.688016         large_airport
+
+Buffalo Niagara International Airport                         US           US-NY       BUF        42.940498         -78.732201         large_airport
+
+Charleston International Airport                              US           US-SC       CHS        32.896159         -80.038151         large_airport
+
+Charlotte Douglas International Airport                       US           US-NC       CLT        35.2140007019043  -80.9430999755859  large_airport
+
+Chicago O'Hare International Airport                          US           US-IL       ORD        41.9786           -87.9048           large_airport
+
+Cincinnati Northern Kentucky International Airport            US           US-KY       CVG        39.048801         -84.667801         large_airport
+
+City of Colorado Springs Municipal Airport                    US           US-CO       COS        38.805801         -104.700996        large_airport
+
+Cleveland Hopkins International Airport                       US           US-OH       CLE        41.411701         -81.8498           large_airport
+
+Dallas Fort Worth International Airport                       US           US-TX       DFW        32.896801         -97.038002         large_airport
+
+Dallas Love Field                                             US           US-TX       DAL        32.844776         -96.847653         large_airport
+
+Daniel K. Inouye International Airport                        US           US-HI       HNL        21.318387         -157.92567         large_airport
+
+Denver International Airport                                  US           US-CO       DEN        39.860027         -104.673792        large_airport
+
+Des Moines International Airport                              US           US-IA       DSM        41.534027         -93.656719         large_airport
+
+Detroit Metropolitan Wayne County Airport                     US           US-MI       DTW        42.21377          -83.353786         large_airport
+
+El Paso International Airport                                 US           US-TX       ELP        31.809908         -106.375607        large_airport
+
+Ellison Onizuka Kona International Airport at Keāhole         US           US-HI       KOA        19.738783         -156.045603        large_airport
+
+Eppley Airfield                                               US           US-NE       OMA        41.3032           -95.894096         large_airport
+
+Fort Lauderdale Hollywood International Airport               US           US-FL       FLL        26.072599         -80.152702         large_airport
+
+Frederick Douglass Greater Rochester International Airport    US           US-NY       ROC        43.1189           -77.672401         large_airport
+
+Frederick W. Smith International Airport                      US           US-TN       MEM        35.043845         -89.97634          large_airport
+
+Fresno Yosemite International Airport                         US           US-CA       FAT        36.775767         -119.718018        large_airport
+
+General Mitchell International Airport                        US           US-WI       MKE        42.947201         -87.896599         large_airport
+
+George Bush Intercontinental Airport                          US           US-TX       IAH        29.9844           -95.3414           large_airport
+
+Gerald R. Ford International Airport                          US           US-MI       GRR        42.880798         -85.522797         large_airport
+
+Harry Reid International Airport                              US           US-NV       LAS        36.083361         -115.151817        large_airport
+
+Hartsfield Jackson Atlanta International Airport              US           US-GA       ATL        33.6367           -84.428101         large_airport
+
+Hollywood Burbank/Bob Hope Airport                            US           US-CA       BUR        34.202834         -118.35805         large_airport
+
+Indianapolis International Airport                            US           US-IN       IND        39.7173           -86.294403         large_airport
+
+Jacksonville International Airport                            US           US-FL       JAX        30.492469         -81.687813         large_airport
+
+John F. Kennedy International Airport                         US           US-NY       JFK        40.639447         -73.779317         large_airport
+
+John Glenn Columbus International Airport                     US           US-OH       CMH        39.998001         -82.891899         large_airport
+
+John Wayne Orange County International Airport                US           US-CA       SNA        33.675063         -117.869281        large_airport
+
+Kahului International Airport                                 US           US-HI       OGG        20.896263         -156.431837        large_airport
+
+Kansas City International Airport                             US           US-MO       MCI        39.301699         -94.713893         large_airport
+
+LaGuardia Airport                                             US           US-NY       LGA        40.777199         -73.872597         large_airport
+
+Lihue Airport                                                 US           US-HI       LIH        21.974393         -159.337146        large_airport
+
+Los Angeles International Airport                             US           US-CA       LAX        33.942501         -118.407997        large_airport
+
+Louis Armstrong New Orleans International Airport             US           US-LA       MSY        29.993401         -90.264673         large_airport
+
+Louisville Muhammad Ali International Airport                 US           US-KY       SDF        38.1706           -85.735076         large_airport
+
+McGhee Tyson Airport                                          US           US-TN       TYS        35.811001         -83.994003         large_airport
+
+Miami International Airport                                   US           US-FL       MIA        25.796011         -80.289751         large_airport
+
+Minneapolis–Saint Paul International Airport / Wold–Chamberl  US           US-MN       MSP        44.880081         -93.221741         large_airport
+ain Field                                                                                                                                           
+
+Myrtle Beach International Airport                            US           US-SC       MYR        33.679699         -78.928299         large_airport
+
+Nashville International Airport                               US           US-TN       BNA        36.1245           -86.6782           large_airport
+
+Newark Liberty International Airport                          US           US-NJ       EWR        40.6894           -74.170545         large_airport
+
+Norfolk International Airport                                 US           US-VA       ORF        36.895341         -76.201            large_airport
+
+Norman Y. Mineta San Jose International Airport               US           US-CA       SJC        37.362452         -121.929188        large_airport
+
+OKC Will Rogers World Airport                                 US           US-OK       OKC        35.393388         -97.598248         large_airport
+
+Ontario International Airport                                 US           US-CA       ONT        34.056            -117.600998        large_airport
+
+Orlando International Airport                                 US           US-FL       MCO        28.4293994903564  -81.3089981079102  large_airport
+
+Palm Springs International Airport                            US           US-CA       PSP        33.8297           -116.507004        large_airport
+
+Pensacola International Airport                               US           US-FL       PNS        30.472718         -87.186639         large_airport
+
+Philadelphia International Airport                            US           US-PA       PHL        39.871899         -75.241096         large_airport
+
+Phoenix Sky Harbor International Airport                      US           US-AZ       PHX        33.435302         -112.005905        large_airport
+
+Piedmont Triad International Airport                          US           US-NC       GSO        36.09937          -79.937262         large_airport
+
+Pittsburgh International Airport                              US           US-PA       PIT        40.491501         -80.232903         large_airport
+
+Portland International Airport                                US           US-OR       PDX        45.588699         -122.598           large_airport
+
+Portland International Jetport                                US           US-ME       PWM        43.646198         -70.309303         large_airport
+
+President Donald J. Trump International Airport               US           US-FL       PBI        26.683201         -80.095596         large_airport
+
+Raleigh-Durham International Airport                          US           US-NC       RDU        35.878659         -78.7873           large_airport
+
+Reno Tahoe International Airport                              US           US-NV       RNO        39.4991           -119.767998        large_airport
+
+Rhode Island T. F. Green International Airport                US           US-RI       PVD        41.725038         -71.425668         large_airport
+
+Richmond International Airport                                US           US-VA       RIC        37.505199         -77.319702         large_airport
+
+Ronald Reagan Washington National Airport                     US           US-DC       DCA        38.8521           -77.037697         large_airport
+
+Sacramento International Airport                              US           US-CA       SMF        38.6954           -121.591003        large_airport
+
+Salt Lake City International Airport                          US           US-UT       SLC        40.78886          -111.979866        large_airport
+
+San Antonio International Airport                             US           US-TX       SAT        29.533701         -98.469803         large_airport
+
+San Diego International Airport                               US           US-CA       SAN        32.733601         -117.190002        large_airport
+
+San Francisco International Airport                           US           US-CA       SFO        37.619806         -122.374821        large_airport
+
+Sarasota Bradenton International Airport                      US           US-FL       SRQ        27.394631         -82.554359         large_airport
+
+Savannah Hilton Head International Airport                    US           US-GA       SAV        32.126591         -81.19998          large_airport
+
+Seattle–Tacoma International Airport                          US           US-WA       SEA        47.447943         -122.310276        large_airport
+
+Southwest Florida International Airport                       US           US-FL       RSW        26.534685         -81.752816         large_airport
+
+Spokane International Airport                                 US           US-WA       GEG        47.6199           -117.533997        large_airport
+
+St. Louis Lambert International Airport                       US           US-MO       STL        38.748697         -90.370003         large_airport
+
+Syracuse Hancock International Airport                        US           US-NY       SYR        43.111198425293   -76.1063003540039  large_airport
+
+Tampa International Airport                                   US           US-FL       TPA        27.9755           -82.533203         large_airport
+
+Ted Stevens Anchorage International Airport                   US           US-AK       ANC        61.179004         -149.992561        large_airport
+
+Tucson International Airport                                  US           US-AZ       TUS        32.115004         -110.938053        large_airport
+
+Tulsa International Airport                                   US           US-OK       TUL        36.197084         -95.886225         large_airport
+
+Washington Dulles International Airport                       US           US-VA       IAD        38.9445           -77.455803         large_airport
