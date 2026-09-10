@@ -1,11 +1,12 @@
 """Loads OpenFlights and OurAirports source data into a SQLite database."""
 
+import argparse
 import sqlite3
 import pandas as pd
 from pandas import DataFrame
 import os
 from pathlib import Path
-from typing import Union
+from typing import Optional, Union
 
 
 class FlightDataToDB:
@@ -39,14 +40,18 @@ class FlightDataToDB:
         # Combine and create an absolute path
         return os.path.abspath(os.path.join(self.get_root_path() , dir_path, file))
 
-    def get_open_flights_airports(self) -> DataFrame:
+    def get_open_flights_airports(self, path: Optional[Union[str, Path]] = None) -> DataFrame:
         """Read the OpenFlights airport data file, naming its columns.
+
+        Args:
+            path: Path to `airports.dat`. Defaults to the file in the
+                OpenFlights data directory.
 
         Returns:
             `pandas.DataFrame` of airport records.
         """
         return pd.read_csv(
-            self.get_data_path(self._open_flights_data_dir, "airports.dat"),
+            path or self.get_data_path(self._open_flights_data_dir, "airports.dat"),
             names=[
                 "airport_id", "name", "city", "country", "iata", "icao",
                 "lat", "long", "altitude", "timezone", "dst",
@@ -55,14 +60,18 @@ class FlightDataToDB:
             na_values="\\N"  # OpenFlights uses \N for missing values
         )
 
-    def get_open_flights_routes(self) -> DataFrame:
+    def get_open_flights_routes(self, path: Optional[Union[str, Path]] = None) -> DataFrame:
         """Read the OpenFlights routes data file, naming its columns.
+
+        Args:
+            path: Path to `routes.dat`. Defaults to the file in the
+                OpenFlights data directory.
 
         Returns:
             `pandas.DataFrame` of route records.
         """
         return pd.read_csv(
-            self.get_data_path(self._open_flights_data_dir, "routes.dat"),
+            path or self.get_data_path(self._open_flights_data_dir, "routes.dat"),
             names=[
                 "airline_code", "airline_id", "source_airport_code", "source_airport_id", "destination_airport_code", "destination_airport_id",
                 "codeshare", "stops", "equipment"
@@ -131,30 +140,58 @@ class FlightDataToDB:
 
 
 
-if __name__ == "__main__":
-    cleaner = FlightDataToDB()
+def parse_args() -> argparse.Namespace:
+    """Parse the input and output file paths from the command line.
 
-    SQLITE_DB_PATH = cleaner.get_data_path(os.path.join(cleaner.get_root_path(), "data/processed"), "flight_data.db")
+    Returns:
+        A namespace with `open_flights_airports`, `open_flights_routes`,
+        `our_airports`, `intl_airports` and `database` attributes.
+    """
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "open_flights_airports",
+        help="Path to the OpenFlights airports.dat file.",
+    )
+    parser.add_argument(
+        "open_flights_routes",
+        help="Path to the OpenFlights routes.dat file.",
+    )
+    parser.add_argument(
+        "our_airports",
+        help="Path to the OurAirports airports.csv file.",
+    )
+    parser.add_argument(
+        "intl_airports",
+        help="Path to the international_airports.csv file produced by fetch_airport_coords_api.py.",
+    )
+    parser.add_argument(
+        "database",
+        help="File path of the SQLite database to write, created if it does not exist.",
+    )
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    cleaner = FlightDataToDB()
 
     #
     # Open Flights Data
     #
 
-    df = cleaner.get_open_flights_airports()
-    cleaner.append_to_database(df, SQLITE_DB_PATH, "airports_open_flights")
+    df = cleaner.get_open_flights_airports(args.open_flights_airports)
+    cleaner.append_to_database(df, args.database, "airports_open_flights")
 
-    df = cleaner.get_open_flights_routes()
-    cleaner.append_to_database(df, SQLITE_DB_PATH, "routes_open_flights")
+    df = cleaner.get_open_flights_routes(args.open_flights_routes)
+    cleaner.append_to_database(df, args.database, "routes_open_flights")
 
     #
     # Our Airports Data
     #
 
-    df = cleaner.get_our_airports("airports.csv")
-    cleaner.append_to_database(df, SQLITE_DB_PATH, "airports_our_airports")
+    cleaner.read_csv_write_to_db(args.our_airports, args.database, "airports_our_airports")
 
     #
     # International airports
     #
-    intl_airports_path = os.path.join(cleaner.get_root_path(), "data/processed", "international_airports.csv")
-    cleaner.read_csv_write_to_db(intl_airports_path, SQLITE_DB_PATH, "intl_airports")
+    cleaner.read_csv_write_to_db(args.intl_airports, args.database, "intl_airports")

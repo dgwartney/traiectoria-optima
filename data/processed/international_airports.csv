@@ -27,7 +27,7 @@ Sohag,Sohag International Airport,HMB,26.342515,31.743017,Africa
 Taba,Taba International Airport,TCP,29.594496,34.775752,Africa
 Benghazi,Benina International Airport,BEN,32.096802,20.269501,Africa
 Sabha,Sabha Airport,SEB,26.992452,14.466162,Africa
-Tripoli,Tripoli International Airport,TIP,,,Africa
+Tripoli,Tripoli International Airport,TIP,32.663502,13.159000,Africa
 Tajoura,Mitiga International Airport,MJI,32.89177,13.287878,Africa
 Agadir,Agadir–Al Massira Airport,AGA,30.322478,-9.412003,Africa
 Beni Mellal,Beni Mellal Airport,BEM,32.401895,-6.315905,Africa
@@ -64,7 +64,7 @@ Accra,Accra International Airport,ACC,5.605189800262451,-0.16678600013256073,Afr
 Kumasi,Prempeh I International Airport,KMS,6.71456,-1.59082,Africa
 Takoradi,Takoradi Airport,TKD,4.896059989929199,-1.7747600078582764,Africa
 Sunyani,Sunyani Airport,NYI,7.36183,-2.32876,Africa
-Ho,Ho Airport,HZO,,,Africa
+Ho,Ho Airport,HZO,6.5819,0.52955,Africa
 Wa,Wa Airport,WZA,10.0827,-2.50769,Africa
 Tamale,Tamale Airport,TML,9.553909,-0.86606,Africa
 Conakry,Conakry International Airport,CKY,9.57689,-13.612,Africa
@@ -185,7 +185,7 @@ Exuma,Exuma International Airport,GGT,23.562599,-75.877998,Americas
 Freeport,Grand Bahama International Airport,FPO,26.557996,-78.695583,Americas
 North Eleuthera,North Eleuthera Airport,ELH,25.475823,-76.680784,Americas
 South Eleuthera,Rock Sound International Airport,RSD,24.89165,-76.177602,Americas
-Marsh Harbour,Marsh Harbour International Airport,MHH[1],,,Americas
+Marsh Harbour,Marsh Harbour International Airport,MHH,26.5101,-77.0851,Americas
 Bridgetown,Grantley Adams International Airport,BGI,13.074667,-59.491034,Americas
 Road Town,Terrance B. Lettsome International Airport,EIS,18.445492,-64.541707,Americas
 "Kralendijk, Bonaire",Flamingo International Airport,BON,12.131,-68.268501,Americas
@@ -273,7 +273,7 @@ Ottawa,Ottawa Macdonald–Cartier International Airport,YOW,45.322498,-75.669197
 Québec City,Québec City Jean Lesage International Airport,YQB,46.7911,-71.393303,Americas
 Regina,Regina International Airport,YQR,50.431938,-104.660906,Americas
 Saint John,Saint John Airport,YSJ,45.31610107421875,-65.89029693603516,Americas
-Saskatoon,Saskatoon John G. Diefenbaker International Airport,YXE[2],,,Americas
+Saskatoon,Saskatoon John G. Diefenbaker International Airport,YXE,52.170723,-106.700793,Americas
 St. John's,St. John's International Airport,YYT,47.618599,-52.7519,Americas
 Sydney,JA Douglas McCurdy Sydney Airport,YQY,46.161072,-60.049759,Americas
 Thunder Bay,Thunder Bay International Airport,YQT,48.371899,-89.323898,Americas
@@ -601,7 +601,7 @@ Petropavl,Petropavl Airport,PPK,54.775622,69.187415,Asia
 Semey,Semey Airport,PLX,50.351295,80.234398,Asia
 Şymkent,Şymkent International Airport,CIT,42.365021,69.47564,Asia
 Taraz,Taraz Airport,DMB,42.8536,71.303596,Asia
-Bishkek,Manas International Airport,FRU,,,Asia
+Bishkek,Manas International Airport,FRU,43.061298,74.477600,Asia
 Issyk-Kul,Issyk-Kul International Airport,IKU,42.585584,76.701181,Asia
 Karakol,Karakol International Airport,IKG,42.508099,78.407799,Asia
 Osh,Osh Airport,OSS,40.609001,72.793297,Asia
@@ -825,7 +825,7 @@ Hambantota,Mattala Rajapaksa International Airport,HRI,6.283878,81.124163,Asia
 Jaffna,Jaffna International Airport,JAF,9.79233,80.070099,Asia
 Bandar Seri Begawan,Brunei International Airport,BWN,4.9442,114.928001,Asia
 Phnom Penh,Techo International Airport,KTI,11.359987,104.921272,Asia
-Siem Reap,Siem Reap International Airport,REP,,,Asia
+Siem Reap,Siem Reap International Airport,REP,13.410700,103.813004,Asia
 Sihanoukville,Sihanouk International Airport,KOS,10.570557,103.632067,Asia
 Ambon,Pattimura International Airport,AMQ,-3.71026,128.089005,Asia
 Balikpapan,Sultan Aji Muhammad Sulaiman Sepinggan International Airport,BPN,-1.268342,116.89452,Asia
@@ -919,7 +919,7 @@ Kapan,Syunik Airport,YUK,39.202272,46.455204,Asia
 Yerevan,Zvartnots International Airport,EVN,40.148941,44.397887,Asia
 Baku,Heydar Aliyev International Airport,GYD,40.47278,50.050931,Asia
 Fuzuli,Fuzuli International Airport,FZL,39.594578,47.196128,Asia
-Ganja,Ganja International Airport,KVD,,,Asia
+Ganja,Ganja International Airport,KVD,40.738692,46.320383,Asia
 Lachin,Lachin International Airport,LHL,39.883787,46.363137,Asia
 Lankaran,Lankaran International Airport,LLK,38.757919,48.807042,Asia
 Nakhchivan,Nakhchivan Airport,NAJ,39.188801,45.458401,Asia
@@ -1063,7 +1063,7 @@ Lille,Lille Airport,LIL,50.566564,3.102429,Europe
 Limoges,Limoges – Bellegarde Airport,LIG,45.862801,1.17944,Europe
 Lyon,Lyon–Saint-Exupéry Airport,LYS,45.725996,5.090139,Europe
 Marseille,Marseille Provence Airport,MRS,43.438088,5.2125,Europe
-Mulhouse,EuroAirport Basel Mulhouse Freiburg,BSL/MLH/EAP,,,Europe
+Mulhouse,EuroAirport Basel Mulhouse Freiburg,BSL,47.600680,7.521117,Europe
 Nantes,Nantes Atlantique Airport,NTE,47.153198,-1.61073,Europe
 Nice,Nice Côte d'Azur Airport,NCE,43.658401,7.21587,Europe
 Nîmes,Nîmes–Alès–Camargue–Cévennes Airport,FNI,43.757401,4.41635,Europe
@@ -1128,7 +1128,7 @@ Cologne/Bonn,Cologne/Bonn Airport,CGN,50.865898,7.14274,Europe
 Dortmund,Dortmund Airport,DTM,51.518299,7.61224,Europe
 Düsseldorf,Düsseldorf Airport,DUS,51.289501,6.76678,Europe
 Frankfurt,Frankfurt Airport,FRA,50.026706,8.55835,Europe
-Freiburg im Breisgau,EuroAirport Basel–Mulhouse–Freiburg,BSL/MLH/EAP,,,Europe
+Freiburg im Breisgau,EuroAirport Basel–Mulhouse–Freiburg,MLH,47.600680,7.521117,Europe
 Friedrichshafen,Friedrichshafen Airport,FDH,47.671299,9.51149,Europe
 Hamburg,Hamburg Airport,HAM,53.630402,9.98823,Europe
 Hanover,Hannover Airport,HAJ,52.461102,9.68508,Europe
@@ -1141,7 +1141,7 @@ Stuttgart,Stuttgart Airport,STR,48.689899,9.22196,Europe
 Weeze,Weeze Airport,NRN,51.601362,6.141228,Europe
 Budapest,Budapest Ferenc Liszt International Airport,BUD,47.43018,19.262393,Europe
 Debrecen,Debrecen International Airport,DEB,47.489469,21.616278,Europe
-Győr,Győr-Pér International Airport,QGY,,,Europe
+Győr,Győr-Pér International Airport,QGY,47.628436,17.804718,Europe
 Hévíz,Hévíz-Balaton Airport,SOB,46.686391,17.159084,Europe
 Bydgoszcz,Bydgoszcz Ignacy Jan Paderewski Airport,BZG,53.096802,17.977699,Europe
 Gdańsk,Gdańsk Lech Wałęsa Airport,GDN,54.377602,18.4662,Europe
@@ -1160,7 +1160,7 @@ Košice,Košice International Airport,KSC,48.663101,21.2411,Europe
 Piešťany,Piešťany Airport,PZY,48.62519836425781,17.828399658203125,Europe
 Poprad,Poprad-Tatry Airport,TAT,49.070994,20.241394,Europe
 Žilina,Žilina Airport,ILZ,49.233292,18.613386,Europe
-Basel,EuroAirport Basel Mulhouse Freiburg,BSL/MLH/EAP,,,Europe
+Basel,EuroAirport Basel Mulhouse Freiburg,BSL,47.600680,7.521117,Europe
 Bern,Bern Airport,BRN,46.912736,7.498819,Europe
 Geneva,Geneva Airport,GVA,46.238098,6.10895,Europe
 Lugano,Lugano Airport,LUG,46.004299,8.91058,Europe
@@ -1306,7 +1306,7 @@ Ohrid,Ohrid St. Paul the Apostle Airport,OHD,41.18,20.7423,Europe
 Skopje,Skopje International Airport,SKP,41.958087,21.622581,Europe
 Abakan,Abakan International Airport,ABA,53.740002,91.385002,Europe
 Anadyr,Ugolny Airport,DYR,64.734902,177.740997,Europe
-Anapa,Anapa Airport,AAQ,45.002102,37.347301,Europe
+Anapa,Anapa Airport,AAQ,45.002100,37.347300,Europe
 Arkhangelsk,Talagi Airport,ARH,64.60030364990234,40.71670150756836,Europe
 Astrakhan,Narimanovo Airport,ASF,46.282843,48.010511,Europe
 Barnaul,Barnaul Airport,BAX,53.361285,83.539701,Europe
@@ -1378,7 +1378,7 @@ Kharkiv,Kharkiv International Airport,HRK,49.926943,36.290814,Europe
 Kryvyi Rih,Kryvyi Rih International Airport,KWG,48.04330062866211,33.209999084472656,Europe
 Kyiv,Boryspil International Airport,KBP,50.345001,30.894699,Europe
 Lviv,Lviv Danylo Halytskyi International Airport,LWO,49.8125,23.9561,Europe
-Mykolaiv,Mykolaiv International Airport,NLV,,,Europe
+Mykolaiv,Mykolaiv International Airport,NLV,47.058056,31.920833,Europe
 Odesa,Odesa International Airport,ODS,46.427196,30.672649,Europe
 Poltava,Poltava Airport,PLV,49.5686,34.397202,Europe
 Simferopol,Simferopol International Airport,SIP,45.0522,33.975101,Europe
@@ -1448,6 +1448,7 @@ Newcastle,Newcastle Airport,NTL,-32.796114,151.835025,Oceania
 Perth,Perth Airport,PER,-31.94029998779297,115.96700286865234,Oceania
 Sunshine Coast,Sunshine Coast Airport,MCY,-26.593324,153.08319,Oceania
 Sydney,Sydney Airport,SYD,-33.946098,151.177002,Oceania
+Sydney,Western Sydney Airport,WSI,-33.88806,150.71472,Oceania
 Flying Fish Cove,Christmas Island Airport,XCH,-10.450387,105.6911,Oceania
 Cocos (Keeling) Islands,Cocos (Keeling) Islands Airport,CCK,-12.192218,96.834103,Oceania
 Avarua,Rarotonga Airport,RAR,-21.2027,-159.806,Oceania

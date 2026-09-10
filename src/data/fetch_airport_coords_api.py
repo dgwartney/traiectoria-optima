@@ -13,6 +13,7 @@ extended to collect other data off each airport's page), see
 fetch_airport_coords.py.
 """
 
+import argparse
 import asyncio
 import csv
 import json
@@ -146,9 +147,22 @@ class AirportCoordApiFetcher:
         print(f"missing coords: {missing} of {len(results)}", flush=True)
 
 
-RAW_PATH = "airports_raw.json"
-OUTPUT_PATH = "data/processed/international_airports_api.csv"
+def parse_args() -> argparse.Namespace:
+    """Parse the input and output paths from the command line.
+
+    Returns:
+        A namespace with `raw_path` and `output_path` attributes.
+    """
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "raw_path",
+        help="Path to the airports_raw.json file produced by generate_airports_raw.py.",
+    )
+    parser.add_argument("output_path", help="File path the resulting CSV is written to.")
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
-    AirportCoordApiFetcher(RAW_PATH, OUTPUT_PATH).run()
+    args = parse_args()
+    print(f"{args.raw_path = }, {args.output_path = }")
+    AirportCoordApiFetcher(args.raw_path, args.output_path).run()
