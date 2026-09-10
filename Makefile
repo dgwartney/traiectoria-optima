@@ -20,6 +20,13 @@ SRC_DATA_DIR=$(SRC_DIR)/data
 # Specific python file to process the flight data
 SRC_FLIGHT_DATA_DB=$(SRC_DATA_DIR)/flight_data.py
 
+# SQL script that derives the United Airlines tables from the SQLite database
+# and spools them out as the two processed CSV files
+SRC_SQL_DIR=$(SRC_DIR)/sql
+FLIGHT_DATA_SQL=$(SRC_SQL_DIR)/flight_data.sql
+UA_AIRPORTS_CSV=$(PROCESSED_DATA_DIR)/airports.csv
+UA_ROUTES_CSV=$(PROCESSED_DATA_DIR)/routes.csv
+
 # Raw source data files loaded into the sqlite database by flight_data.py
 OPEN_FLIGHTS_DIR=$(RAW_DATA_DIR)/open_flights
 OUR_AIRPORTS_DIR=$(RAW_DATA_DIR)/our_airports
@@ -53,8 +60,18 @@ PANDOC_FLAGS := \
 	--lua-filter=$(SVG_FILTER) \
 	--include-in-header=$(DOC_HEADER)
 
+# mkdocs' rendered site, removed by `clean`
+SITE_DIR = site
 
-.PHONY: all help notebook flight_data international_airports test lint check docs clean
+# Quality gates below record success as a stamp file here rather than an
+# output artifact, since pytest and ruff don't produce one.
+STAMP_DIR = .make
+
+# Every Python file the test and lint gates should re-run for
+PY_SRC   := $(shell find $(SRC_DIR) -name '*.py' -not -path '*/__pycache__/*')
+PY_TESTS := $(shell find tests -name '*.py' -not -path '*/__pycache__/*')
+
+.PHONY: all help notebook flight_data united_airlines_csv international_airports test lint check docs clean
 
 .DEFAULT_GOAL := help
 
@@ -100,6 +117,7 @@ check-deps:
 
 clean: ## Remove generated data, docs site, and make stamp files
 	$(RM) $(FLIGHT_DATA_DB_PATH) $(AIRPORTS_RAW_JSON) $(INTERNATIONAL_AIRPORTS_CSV)
+	$(RM) $(UA_AIRPORTS_CSV) $(UA_ROUTES_CSV)
 	$(RM) -r $(SITE_DIR) $(STAMP_DIR)
 	$(RM) -r $(BUILD_DIR)
 
@@ -148,6 +166,22 @@ $(FLIGHT_DATA_DB_PATH): $(SRC_FLIGHT_DATA_DB) $(INTERNATIONAL_AIRPORTS_CSV) \
 		$(FLIGHT_DATA_DB_PATH)
 
 flight_data: $(FLIGHT_DATA_DB_PATH) ## Load source data into data/processed/flight_data.db
+
+#
+# Step 4: derive the United Airlines tables and spool them to CSV.
+#
+# One sqlite3 invocation writes both $(UA_AIRPORTS_CSV) and $(UA_ROUTES_CSV),
+# so a stamp file stands in as the target -- the same idiom the test/lint gates
+# below use. (GNU Make 3.81 ships on macOS and has no grouped `&:` targets.)
+#
+# The script's `.output` paths are relative to the working directory, so it has
+# to run from the project root -- which is where make already is.
+#
+$(STAMP_DIR)/united_airlines_csv: $(FLIGHT_DATA_SQL) $(FLIGHT_DATA_DB_PATH) | $(STAMP_DIR)
+	sqlite3 $(FLIGHT_DATA_DB_PATH) < $(FLIGHT_DATA_SQL)
+	touch $@
+
+united_airlines_csv: $(STAMP_DIR)/united_airlines_csv ## Regenerate data/processed/{airports,routes}.csv from the SQLite DB
 
 # --- Quality gates ------------------------------------------------------
 # pytest/ruff don't produce an output file to key off of, so each writes a
