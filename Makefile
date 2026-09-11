@@ -68,7 +68,7 @@ STAMP_DIR = .make
 PY_SRC   := $(shell find $(SRC_DIR) -name '*.py' -not -path '*/__pycache__/*')
 PY_TESTS := $(shell find tests -name '*.py' -not -path '*/__pycache__/*')
 
-.PHONY: all help notebook flight_data united_airlines_csv international_airports test lint check docs clean
+.PHONY: all help notebook flight_data united_airlines_csv international_airports verify_iata_codes test lint check docs clean
 
 .DEFAULT_GOAL := help
 
@@ -119,7 +119,9 @@ clean: ## Remove generated data, build output, and make stamp files
 #
 
 SRC_GENERATE_AIRPORTS_RAW=$(SRC_DATA_DIR)/generate_airports_raw.py
-SRC_FETCH_AIRPORT_COORDS=$(SRC_DATA_DIR)/fetch_airport_coords_api.py
+SRC_INTERNATIONAL_AIRPORTS=$(SRC_DATA_DIR)/international_airports.py
+SRC_VERIFY_IATA_CODES=$(SRC_DATA_DIR)/verify_iata_codes.py
+IATA_CODE_OVERRIDES=data/reference/iata_code_overrides.csv
 AIRPORTS_RAW_JSON=data/raw/wikipedia/airports_raw.json
 INTERNATIONAL_AIRPORTS_CSV=$(PROCESSED_DATA_DIR)/international_airports.csv
 
@@ -127,18 +129,31 @@ INTERNATIONAL_AIRPORTS_CSV=$(PROCESSED_DATA_DIR)/international_airports.csv
 # Step 1: scrape the raw Wikipedia airport list (network + Playwright).
 #
 $(AIRPORTS_RAW_JSON): $(SRC_GENERATE_AIRPORTS_RAW)
-	uv run python $(SRC_GENERATE_AIRPORTS_RAW)
+	uv run python $(SRC_GENERATE_AIRPORTS_RAW) $(AIRPORTS_RAW_JSON)
 
 #
-# Step 2: resolve batch coordinates from the Wikipedia API into the CSV.
+# Step 2: attach coordinates to the scraped airports from the OurAirports
+# data we already vendor, patching the ten codes that do not join through
+# $(IATA_CODE_OVERRIDES). No network access.
 #
 # The prerequisites are order-only (after the `|`) so this step is skipped
-# entirely whenever the CSV already exists -- geocoding hits the network for
-# every airport, so we don't want a newer scrape or script to trigger a
-# re-run. Delete the CSV (or `make clean`) to force a rebuild.
+# entirely whenever the CSV already exists. The step is cheap now, but the CSV
+# is committed output -- a rebuild should be deliberate rather than triggered
+# by a newer scrape or script. Delete the CSV (or `make clean`) to force one.
 #
-$(INTERNATIONAL_AIRPORTS_CSV): | $(AIRPORTS_RAW_JSON) $(SRC_FETCH_AIRPORT_COORDS)
-	uv run python $(SRC_FETCH_AIRPORT_COORDS) $(AIRPORTS_RAW_JSON) $(INTERNATIONAL_AIRPORTS_CSV)
+$(INTERNATIONAL_AIRPORTS_CSV): | $(AIRPORTS_RAW_JSON) $(SRC_INTERNATIONAL_AIRPORTS) $(IATA_CODE_OVERRIDES)
+	uv run python $(SRC_INTERNATIONAL_AIRPORTS) \
+		$(AIRPORTS_RAW_JSON) \
+		$(OUR_AIRPORTS_AIRPORTS) \
+		$(IATA_CODE_OVERRIDES) \
+		$(INTERNATIONAL_AIRPORTS_CSV)
+
+#
+# Audit tool, not a data target: re-checks $(IATA_CODE_OVERRIDES) against
+# IATA's live registry. Run by hand when the table is suspected stale.
+#
+verify_iata_codes: ## Re-check the IATA code overrides against iata.org
+	uv run python $(SRC_VERIFY_IATA_CODES) $(IATA_CODE_OVERRIDES)
 
 #
 # The loader appends to whatever tables already exist, so remove any stale

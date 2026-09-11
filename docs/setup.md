@@ -62,7 +62,7 @@ The idiomatic approach is to prefix commands with `uv run` — no manual
 activation required, and `uv` keeps the environment in sync automatically:
 
 ```bash
-uv run python src/models/flight/main.py
+uv run python src/demos/end_to_end_example.py
 uv run jupyter lab
 ```
 
@@ -125,28 +125,28 @@ tests/
 │   │   └── test_exercise_dijkstra.py
 │   └── graphs/
 │       └── test_adjency_list.py
+├── flight_planner/              # the graph core, pathfinding, distances, CSV loader
+│   ├── test_vertex.py
+│   ├── test_edge.py
+│   ├── test_graph.py
+│   ├── test_point.py
+│   ├── test_airport.py
+│   ├── test_route.py
+│   ├── test_flight_planner.py
+│   ├── test_haversine.py
+│   ├── test_vincenty.py
+│   ├── test_memoized.py
+│   ├── test_dijkstra.py
+│   ├── test_bfs.py
+│   ├── test_astar.py
+│   └── test_loader.py
 └── models/
-    ├── flight/                  # aircraft performance and the gate-to-gate simulator
-    │   ├── test_atmosphere.py
-    │   ├── test_aircraft.py
-    │   ├── test_wind.py
-    │   ├── test_simulator.py
-    │   └── test_payload_range.py
-    └── flight_planner/          # the graph core, pathfinding, distances, CSV loader
-        ├── test_vertex.py
-        ├── test_edge.py
-        ├── test_graph.py
-        ├── test_point.py
-        ├── test_airport.py
-        ├── test_route.py
-        ├── test_flight_planner.py
-        ├── test_haversine.py
-        ├── test_vincenty.py
-        ├── test_memoized.py
-        ├── test_dijkstra.py
-        ├── test_bfs.py
-        ├── test_astar.py
-        └── test_loader.py
+    └── flight/                  # aircraft performance and the gate-to-gate simulator
+        ├── test_atmosphere.py
+        ├── test_aircraft.py
+        ├── test_wind.py
+        ├── test_simulator.py
+        └── test_payload_range.py
 ```
 
 Run the full suite with:
@@ -156,15 +156,23 @@ uv run pytest
 ```
 
 `testpaths` and `pythonpath` are configured in `[tool.pytest.ini_options]` in
-`pyproject.toml` — the latter is needed because the modules under
-`src/models/flight/` and `src/models/flight_planner/` import each other with
-bare (non-package) imports, so those directories are added to `sys.path` for
-test discovery.
+`pyproject.toml`. `pythonpath` is needed because the modules under
+`src/models/flight/`, `src/data/` and `src/exercises/` still import each other
+with bare (non-package) imports, so those directories are added to `sys.path`
+for test discovery.
 
-Because those `sys.path` entries are import roots, no two of them may contain a
-directory of the same name — the first one found wins and shadows the rest. This
-is why `src/exercises/` and `src/models/flight_planner/demos/` carry distinct
-names rather than both being called `examples/`.
+`src/flight_planner/` is **not** among them. It is a real package with an
+`__init__.py`, installed into the environment by `uv sync` (see the
+`[build-system]` and `[tool.hatch.build.targets.wheel]` blocks in
+`pyproject.toml`), so `import flight_planner` resolves from any working
+directory without a `sys.path` entry. That is also why the demo scripts in
+`src/demos/` need no path manipulation to run.
+
+Because the remaining `sys.path` entries are import roots, no two of them may
+contain a directory of the same name — the first one found wins and shadows the
+rest. This once broke test collection, when two roots each held a directory
+called `examples/`; they were renamed to `src/exercises/` and `src/demos/` to
+retire the name.
 
 ## Troubleshooting
 

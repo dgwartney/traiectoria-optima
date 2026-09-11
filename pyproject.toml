@@ -26,6 +26,16 @@ dependencies = [
     "seaborn>=0.13.2",
 ]
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Only flight_planner is a real package; the rest of src/ is scripts, exercises
+# and data-wrangling that pytest reaches through `pythonpath` below.
+[tool.hatch.build.targets.wheel]
+only-include = ["src/flight_planner"]
+sources = ["src"]
+
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
@@ -37,7 +47,6 @@ pythonpath = [
     "src",
     "src/data",
     "src/models/flight",
-    "src/models/flight_planner",
     "src/exercises",
 ]
 

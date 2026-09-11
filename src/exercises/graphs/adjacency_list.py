@@ -3,7 +3,7 @@
 An undirected weighted graph stored as an adjacency list, where each `Vertex`
 holds a mapping of its neighbours to edge weights. Kept as a study exercise
 alongside the textbook it comes from; the project's own graph implementation
-lives in `src/models/flight_planner/`.
+lives in `src/flight_planner/`.
 
 Adapted from Narasimha Karumanchi, *Data Structures And Algorithmic Thinking
 With Python* (CareerMonk Publications, 2014). Provided without warranty of any

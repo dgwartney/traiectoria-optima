@@ -54,13 +54,16 @@ works.
 
 Raw files for both sources live under `data/raw/`. `src/data/flight_data.py`
 (`FlightDataToDB`) loads the OpenFlights airports/routes and OurAirports
-airports data into a SQLite database at `data/processed/flight_data.db`; run
-it directly with:
+airports data into a SQLite database at `data/processed/flight_data.db`. It
+takes every input and output path as an argument, so build it through make,
+which passes them:
 
 ```bash
-uv run python src/data/flight_data.py
+make flight_data
 ```
 
-`src/sql/airports.sql` contains a starter query for filtering to U.S.
-large/medium airports. See [`docs/data.md`](docs/data.md) for the full column
-schemas of the raw OpenFlights files.
+`src/sql/flight_data.sql` derives the United Airlines tables from that database
+and spools them out as `data/processed/{airports,routes}.csv` — `make
+united_airlines_csv`. See [`docs/data.md`](docs/data.md) for the full column
+schemas of the raw OpenFlights files, and for how international airport
+coordinates are resolved.
