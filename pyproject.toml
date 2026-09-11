@@ -44,7 +44,6 @@ pythonpath = [
 [tool.ruff]
 extend-exclude = [
     "notebooks",
-    "src/data/data_format.py",
     "src/exercises/graphs/adjacency_list.py",
 ]
 
