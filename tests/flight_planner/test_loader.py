@@ -20,16 +20,16 @@ def _write(tmp_path, filename, contents):
 
 
 class TestAirportLoader:
-    def test_loads_real_airports_file(self):
-        loader = AirportLoader()
+    def test_loads_real_airports_file(self, airports_csv):
+        loader = AirportLoader(airports_csv)
         airports = loader.load()
 
         assert loader.skipped == []
         assert len(airports) == 88
         assert all(isinstance(airport, Airport) for airport in airports)
 
-    def test_known_airport_has_expected_fields(self):
-        sfo = AirportLoader().load_by_iata()["SFO"]
+    def test_known_airport_has_expected_fields(self, airports_csv):
+        sfo = AirportLoader(airports_csv).load_by_iata()["SFO"]
 
         assert sfo.name == "San Francisco International Airport"
         assert sfo.country == "US"
@@ -78,18 +78,18 @@ class TestAirportLoader:
 
 
 class TestRouteLoader:
-    def test_loads_real_routes_file(self):
-        airports = AirportLoader().load_by_iata()
-        loader = RouteLoader(airports)
+    def test_loads_real_routes_file(self, airports_csv, routes_csv):
+        airports = AirportLoader(airports_csv).load_by_iata()
+        loader = RouteLoader(airports, routes_csv)
         routes = loader.load()
 
         assert loader.skipped == []
         assert len(routes) == 861
         assert all(isinstance(route, Route) for route in routes)
 
-    def test_routes_reuse_the_supplied_airport_instances(self):
-        airports = AirportLoader().load_by_iata()
-        routes = RouteLoader(airports).load()
+    def test_routes_reuse_the_supplied_airport_instances(self, airports_csv, routes_csv):
+        airports = AirportLoader(airports_csv).load_by_iata()
+        routes = RouteLoader(airports, routes_csv).load()
 
         first = routes[0]
         assert first.origin is airports[first.origin.iata_code]
@@ -143,15 +143,15 @@ class TestRouteLoader:
 
 
 class TestLoadFlightPlanner:
-    def test_planner_is_populated_from_the_processed_files(self):
-        planner = load_flight_planner()
+    def test_planner_is_populated_from_the_processed_files(self, airports_csv, routes_csv):
+        planner = load_flight_planner(airports_csv, routes_csv)
 
         assert len(planner.vertices) == 88
         assert len(planner.edges) == 861
         assert planner.find_airport("ord") is not None
 
-    def test_planner_finds_a_route_between_real_airports(self):
-        planner = load_flight_planner()
+    def test_planner_finds_a_route_between_real_airports(self, airports_csv, routes_csv):
+        planner = load_flight_planner(airports_csv, routes_csv)
 
         distance, legs = planner.find_shortest_route("SFO", "BOS")
 
@@ -161,8 +161,8 @@ class TestLoadFlightPlanner:
         assert legs[-1].destination.iata_code == "BOS"
         assert distance == pytest.approx(sum(leg.distance_km for leg in legs))
 
-    def test_planner_finds_a_multi_leg_route(self):
-        planner = load_flight_planner()
+    def test_planner_finds_a_multi_leg_route(self, airports_csv, routes_csv):
+        planner = load_flight_planner(airports_csv, routes_csv)
 
         distance, legs = planner.find_shortest_route("PSP", "SYR")
 

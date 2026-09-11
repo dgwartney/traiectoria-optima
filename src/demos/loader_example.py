@@ -8,11 +8,16 @@ Run from anywhere:
     uv run python src/demos/loader_example.py
 """
 
+from pathlib import Path
 from typing import Sequence
 
 from flight_planner import FlightPlanner, Route
 from flight_planner.loaders import AirportLoader, RouteLoader
 from flight_planner.pathfinding import BFS
+
+# The package takes CSV paths from its caller, so the demo locates the
+# repository's data relative to this file rather than the process's cwd.
+PROCESSED_DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "processed"
 
 
 def print_legs(legs: Sequence[Route]) -> None:
@@ -29,9 +34,9 @@ def print_legs(legs: Sequence[Route]) -> None:
 
 
 if __name__ == "__main__":
-    airport_loader = AirportLoader()
+    airport_loader = AirportLoader(PROCESSED_DATA_DIR / "airports.csv")
     airport_map = airport_loader.load_by_iata()
-    route_loader = RouteLoader(airport_map)
+    route_loader = RouteLoader(airport_map, PROCESSED_DATA_DIR / "routes.csv")
     routes = route_loader.load()
 
     network = FlightPlanner()

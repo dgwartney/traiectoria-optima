@@ -4,9 +4,13 @@ Bridges `data/processed/airports.csv` and `data/processed/routes.csv` to the
 `Airport` / `Route` / `FlightPlanner` domain layer, so a planner can be built
 from the real network instead of hand-written examples.
 
-`AirportLoader` and `RouteLoader` share `CsvRecordLoader`, which owns path
-resolution, reading, column validation, and the row-by-row load loop; each
-subclass only supplies the mapping from one CSV row to one domain object.
+`AirportLoader` and `RouteLoader` share `CsvRecordLoader`, which owns reading,
+column validation, and the row-by-row load loop; each subclass only supplies
+the mapping from one CSV row to one domain object.
+
+Callers always say which file to read. The package deliberately holds no
+knowledge of where the repository keeps its data, so it behaves identically
+whether imported from a source checkout or an installed wheel.
 """
 
 from __future__ import annotations
@@ -27,27 +31,25 @@ PathLike = Union[str, Path]
 class CsvRecordLoader(ABC):
     """Base loader turning rows of a processed CSV file into domain objects.
 
-    Subclasses declare which file they read (`DEFAULT_FILENAME`), which columns
-    they depend on (`REQUIRED_COLUMNS`), and how a single row becomes an
-    object (`_build_record`). Everything else — locating the file, reading it,
-    validating its header, and skipping unusable rows — is handled here.
+    Subclasses declare which columns they depend on (`REQUIRED_COLUMNS`) and
+    how a single row becomes an object (`_build_record`). Everything else —
+    reading the file, validating its header, and skipping unusable rows — is
+    handled here.
 
     Attributes:
         skipped: `(row_index, reason)` pairs for rows the most recent `load()`
             could not build an object from.
     """
 
-    DEFAULT_FILENAME: ClassVar[str] = ""
     REQUIRED_COLUMNS: ClassVar[Tuple[str, ...]] = ()
 
-    def __init__(self, path: Optional[PathLike] = None) -> None:
+    def __init__(self, path: PathLike) -> None:
         """Configure the loader with the CSV file it should read.
 
         Args:
-            path: CSV file to load. Defaults to `DEFAULT_FILENAME` inside the
-                project's processed-data directory.
+            path: CSV file to load.
         """
-        self._path = Path(path) if path is not None else self.default_path()
+        self._path = Path(path)
         self.skipped: List[Tuple[int, str]] = []
 
     @property
@@ -58,26 +60,6 @@ class CsvRecordLoader(ABC):
             Path to the CSV file.
         """
         return self._path
-
-    @classmethod
-    def processed_data_dir(cls) -> Path:
-        """Return the project's processed-data directory.
-
-        Returns:
-            Absolute `Path` to `data/processed`, derived from this file's
-            location (`src/flight_planner/loaders/csv_loader.py`).
-        """
-        return Path(__file__).resolve().parents[3] / "data" / "processed"
-
-    @classmethod
-    def default_path(cls) -> Path:
-        """Return the default CSV file for this loader.
-
-        Returns:
-            Absolute `Path` to `DEFAULT_FILENAME` under the processed-data
-            directory.
-        """
-        return cls.processed_data_dir() / cls.DEFAULT_FILENAME
 
     def read_frame(self) -> pd.DataFrame:
         """Read the CSV file and verify it has the columns this loader needs.
@@ -162,7 +144,6 @@ class AirportLoader(CsvRecordLoader):
     of its fields. `city` is left empty because the file has no city column.
     """
 
-    DEFAULT_FILENAME: ClassVar[str] = "airports.csv"
     REQUIRED_COLUMNS: ClassVar[Tuple[str, ...]] = (
         "name",
         "iso_country",
@@ -232,7 +213,6 @@ class RouteLoader(CsvRecordLoader):
     are synthesized.
     """
 
-    DEFAULT_FILENAME: ClassVar[str] = "routes.csv"
     REQUIRED_COLUMNS: ClassVar[Tuple[str, ...]] = (
         "airline_code",
         "source_airport_code",
@@ -240,13 +220,13 @@ class RouteLoader(CsvRecordLoader):
         "distance_km",
     )
 
-    def __init__(self, airports: Mapping[str, Airport], path: Optional[PathLike] = None) -> None:
+    def __init__(self, airports: Mapping[str, Airport], path: PathLike) -> None:
         """Configure the loader with the airports its routes may connect.
 
         Args:
             airports: Mapping of IATA code to `Airport`, as produced by
                 `AirportLoader.load_by_iata()`.
-            path: CSV file to load. Defaults to the processed `routes.csv`.
+            path: CSV file to load.
         """
         super().__init__(path)
         self._airports = dict(airports)
@@ -295,14 +275,14 @@ class RouteLoader(CsvRecordLoader):
 
 
 def load_flight_planner(
-    airports_path: Optional[PathLike] = None,
-    routes_path: Optional[PathLike] = None,
+    airports_path: PathLike,
+    routes_path: PathLike,
 ) -> FlightPlanner:
     """Build a `FlightPlanner` populated from the processed CSV files.
 
     Args:
-        airports_path: Airports CSV. Defaults to `data/processed/airports.csv`.
-        routes_path: Routes CSV. Defaults to `data/processed/routes.csv`.
+        airports_path: Airports CSV to load.
+        routes_path: Routes CSV to load.
 
     Returns:
         A `FlightPlanner` containing every loaded airport as a vertex and every
