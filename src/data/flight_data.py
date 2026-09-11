@@ -8,14 +8,38 @@ import os
 from pathlib import Path
 from typing import Optional, Union
 
+# Directories the two source datasets are vendored into, relative to the
+# project root. Constructor defaults only -- the Makefile passes every real
+# path as an argument.
+OPEN_FLIGHTS_DATA_DIR = "data/raw/open_flights"
+OUR_AIRPORTS_DATA_DIR = "data/raw/our_airports"
+
+# OurAirports uses "NA" as a real value in two columns -- North America in
+# `continent`, Namibia in `iso_country` -- and "NA" is one of pandas' default
+# NA sentinels. A per-column converter runs before NA detection, so it rescues
+# exactly these columns without disabling missing-value handling everywhere
+# else. Without it, 303 Namibian airports load as NULL.
+OUR_AIRPORTS_STRING_COLUMNS = {"iso_country": str, "continent": str}
+
 
 class FlightDataToDB:
     """Loads selected data files into a SQLite database for easy exploration."""
 
-    def __init__(self):
-        """Configure relative directories for the two main data sources."""
-        self._open_flights_data_dir = "data/raw/open_flights"
-        self._our_airports_data_dir = "data/raw/our_airports"
+    def __init__(
+        self,
+        open_flights_data_dir: Union[str, Path] = OPEN_FLIGHTS_DATA_DIR,
+        our_airports_data_dir: Union[str, Path] = OUR_AIRPORTS_DATA_DIR,
+    ) -> None:
+        """Configure the directories holding the two main data sources.
+
+        Args:
+            open_flights_data_dir: Directory holding the OpenFlights `.dat`
+                files, relative to the project root.
+            our_airports_data_dir: Directory holding the OurAirports CSV files,
+                relative to the project root.
+        """
+        self._open_flights_data_dir = open_flights_data_dir
+        self._our_airports_data_dir = our_airports_data_dir
 
     def get_root_path(self) -> Path:
         """Return the project root path.
@@ -79,18 +103,20 @@ class FlightDataToDB:
             na_values="\\N"  # OpenFlights uses \N for missing values
         )
 
-    def get_our_airports(self, file: str) -> DataFrame:
+    def get_our_airports(self, file: str, path: Optional[Union[str, Path]] = None) -> DataFrame:
         """Read an OurAirports data file.
 
         Args:
             file: File name under the OurAirports data directory.
+            path: Full path to the file. Defaults to `file` resolved against
+                the OurAirports data directory.
 
         Returns:
             `pandas.DataFrame` of the file's contents.
         """
         return pd.read_csv(
-                self.get_data_path(
-                    self._our_airports_data_dir, file)
+            path or self.get_data_path(self._our_airports_data_dir, file),
+            converters=OUR_AIRPORTS_STRING_COLUMNS,
         )
 
     def append_to_database(self, df: DataFrame, database_path: str, table: str) -> None:
@@ -127,15 +153,20 @@ class FlightDataToDB:
         df.to_csv(path, index=False)
 
 
-    def read_csv_write_to_db(self, path: str, db_path: str, table: str) -> None:
+    def read_csv_write_to_db(
+        self, path: str, db_path: str, table: str, converters: Optional[dict] = None
+    ) -> None:
         """Read a CSV file into a dataframe then write to a sqlite database.
 
         Args:
             path: Relative or absolute path to CSV file
             db_path: Path to the sqlite database
             table: Name of the destination table
+            converters: Per-column converters passed to `pandas.read_csv`. Use
+                `OUR_AIRPORTS_STRING_COLUMNS` for OurAirports files, whose "NA"
+                values would otherwise be read as missing.
         """
-        df = pd.read_csv(path)
+        df = pd.read_csv(path, converters=converters or {})
         self.append_to_database(df, db_path, table)
 
 
@@ -162,7 +193,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "intl_airports",
-        help="Path to the international_airports.csv file produced by fetch_airport_coords_api.py.",
+        help="Path to the international_airports.csv file produced by international_airports.py.",
     )
     parser.add_argument(
         "database",
@@ -189,7 +220,12 @@ if __name__ == "__main__":
     # Our Airports Data
     #
 
-    cleaner.read_csv_write_to_db(args.our_airports, args.database, "airports_our_airports")
+    cleaner.read_csv_write_to_db(
+        args.our_airports,
+        args.database,
+        "airports_our_airports",
+        converters=OUR_AIRPORTS_STRING_COLUMNS,
+    )
 
     #
     # International airports

@@ -26,12 +26,19 @@ dependencies = [
     "seaborn>=0.13.2",
 ]
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Only flight_planner is a real package; the rest of src/ is scripts, exercises
+# and data-wrangling that pytest reaches through `pythonpath` below.
+[tool.hatch.build.targets.wheel]
+only-include = ["src/flight_planner"]
+sources = ["src"]
+
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
-    "mkdocs>=1.6",
-    "mkdocs-material>=9.5",
-    "mkdocstrings[python]>=0.26",
 ]
 
 [tool.pytest.ini_options]
@@ -40,15 +47,12 @@ pythonpath = [
     "src",
     "src/data",
     "src/models/flight",
-    "src/models/flight_planner",
-    "src/examples",
+    "src/exercises",
 ]
 
 [tool.ruff]
 extend-exclude = [
     "notebooks",
-    "src/data/data_format.py",
-    "src/examples/graphs/adjacency_list.py",
 ]
 
 [tool.ruff.lint]
@@ -58,9 +62,5 @@ select = ["D"]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-# Tests and one-off data-wrangling scripts aren't part of the documented API.
+# Tests aren't part of the documented API.
 "tests/**" = ["D"]
-"src/data/fetch_airport_coords.py" = ["D"]
-"src/data/generate_airports_raw.py" = ["D"]
-"src/data/fetch_missing_coords.py" = ["D"]
-"src/data/fetch_missing_coords_api.py" = ["D"]

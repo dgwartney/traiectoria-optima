@@ -1,7 +1,3 @@
-SELECT name, iso_country, iso_region, iata_code, latitude_deg, longitude_deg, type
-FROM airports_our_airports
-WHERE (type = "large_airport" or type = "medium_airport" ) and iso_country = "US";
-
 DROP TABLE IF EXISTS us_large_airports;
 
 CREATE TABLE us_large_airports AS 
@@ -34,16 +30,15 @@ DROP TABLE IF EXISTS united_airlines_dist_routes;
 
 CREATE TABLE united_airlines_dist_routes AS
 SELECT airline_code,source_airport_code, destination_airport_code, codeshare,stops,equipment,
-    -- Haversine great-circle distance, R = 6371 km:
-    --   2R * asin(sqrt( sin^2(dlat/2) + cos(lat1)*cos(lat2)*sin^2(dlon/2) ))
-    -- Both deltas are dest - src; using src - src in either term silently
-    -- drops that axis from the result.
-    round(2 * 6371 * asin(
+    -- Haversine great-circle distance
+    -- R = 6371 km:
+    -- 2R * asin(sqrt( sin^2(dlat/2) + cos(lat1)*cos(lat2)*sin^2(dlon/2) ))
+    2 * 6371 * asin(
     sqrt(
       pow(sin(radians(dest.latitude_deg - src.latitude_deg) / 2), 2) +
       cos(radians(src.latitude_deg)) * cos(radians(dest.latitude_deg)) *
       pow(sin(radians(dest.longitude_deg - src.longitude_deg) / 2), 2)
-    ))) AS distance_km
+    )) AS distance_km
 FROM united_airlines_routes AS routes
 INNER JOIN united_airlines_airports AS src
     ON routes.source_airport_code = src.iata_code

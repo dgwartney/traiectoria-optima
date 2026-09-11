@@ -12,7 +12,7 @@
 ## Introduction
 
 The top-level `Makefile` is the single entry point for the common development
-commands (`uv run pytest`, `uv run ruff check`, `uv run mkdocs build`, ...),
+commands (`uv run pytest`, `uv run ruff check`, `pandoc`, ...),
 and it's written so that Make's normal file-based dependency tracking
 applies: a target's action only runs when its target is missing or older
 than its prerequisites.
@@ -44,11 +44,10 @@ Instead of forcing a programmer to manually type out dozens of complicated instr
 | `make test` | Runs `uv run pytest` | Any file under `src/`, `tests/`, or `pyproject.toml` changed since the last **passing** run |
 | `make lint` | Runs `uv run ruff check` | Any file under `src/` or `pyproject.toml` changed since the last passing run |
 | `make check` | `lint` + `test` | (aggregate of the above) |
-| `make docs` | Runs `uv run mkdocs build` → `site/` | Any file under `docs/`, `src/`, or `mkdocs.yml` changed since the last build |
-| `make docs-serve` | Runs `uv run mkdocs serve` (live preview) | Always — it's a long-running server, not a build artifact |
+| `make docs` | Renders every `docs/*.md` to PDF with `pandoc` → `build/pdf/` | The matching `.md`, the LaTeX header, or the SVG filter is newer than the PDF |
 | `make notebook` | Runs `uv run jupyter lab` | Always |
-| `make all` | `check` + `docs` | (aggregate) |
-| `make clean` | Removes `data/processed/flight_data.db`, `site/`, and `.make/` | — |
+| `make all` | `check` | (aggregate) |
+| `make clean` | Removes `data/processed/flight_data.db`, the generated CSVs, `build/`, and `.make/` | — |
 | `make help` | Lists all targets with their one-line descriptions | Always |
 
 Run `make` with no target and it runs `help` (`.DEFAULT_GOAL := help`), so
@@ -71,7 +70,7 @@ in the same style so it shows up automatically — nothing else to wire up.
 Make decides whether to run a target's recipe by comparing the modification
 time of the target file to its prerequisites. That works cleanly for
 `flight_data` and `docs`, which produce a real output file
-(`flight_data.db`, `site/index.html`).
+(`flight_data.db`, `build/pdf/*.pdf`).
 
 `test` and `lint` don't produce a file — `pytest`/`ruff check` just print
 results and exit. To still get "only run if something changed" behavior,
@@ -103,4 +102,4 @@ force everything to rerun regardless of timestamps.
 - If it doesn't (a check, a report, anything that just exits 0/1), use the
   stamp-file pattern above under `$(STAMP_DIR)`.
 - If it's inherently non-idempotent or long-running (a server, a REPL), just
-  mark it `.PHONY` with no target file, like `docs-serve` and `notebook`.
+  mark it `.PHONY` with no target file, like `notebook`.
