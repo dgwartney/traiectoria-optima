@@ -3,7 +3,7 @@
 Generated from docstrings via [mkdocstrings](https://mkdocstrings.github.io/).
 
 !!! note
-    `src/data/data_format.py` and `src/examples/graphs/adjacency_list.py` are
+    `src/data/data_format.py` and `src/exercises/graphs/adjacency_list.py` are
     excluded — both are in-progress modules that currently fail to import.
     Add them here once they're stable.
 

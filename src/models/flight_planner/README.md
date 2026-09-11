@@ -62,7 +62,7 @@ between two `Point`s, used to guide `AStar`'s heuristic. `Edge.weight`
 sums along the way, and is supplied as domain data (real flight distance can
 differ from great-circle distance). If you want edges weighted by something
 other than distance (duration, price, ...), subclass `Edge` — see
-`examples/custom_edge_weight_example.py`.
+`demos/custom_edge_weight_example.py`.
 
 ## Extensibility
 
@@ -74,23 +74,23 @@ other than distance (duration, price, ...), subclass `Edge` — see
   -> float` (see `distance/formula.py` for the interface and a list of
   formulas not yet implemented — Spherical Law of Cosines, Equirectangular,
   Karney's algorithm, UTM projection). See
-  `examples/custom_distance_formula_example.py` for a worked example.
+  `demos/custom_distance_formula_example.py` for a worked example.
 - **New edge-weight semantics**: subclass `Edge[V]`, pass whatever you want
   `weight` to represent to `Edge.__init__`. Every `PathfindingAlgorithm`
   works with it unchanged, since they only ever read `edge.weight`
-  generically. See `examples/custom_edge_weight_example.py`.
+  generically. See `demos/custom_edge_weight_example.py`.
 
-## Examples
+## Demos
 
 Run any of these from this directory (`src/models/flight_planner/`):
 
 | File | Demonstrates |
 |---|---|
-| `python -m examples.dijkstra_example` | Default weighted-shortest-path search |
-| `python -m examples.bfs_example` | Fewest-hops search, contrasted with Dijkstra |
-| `python -m examples.astar_example` | A* guided by `Point.distance_to` as an admissible heuristic |
-| `python -m examples.custom_distance_formula_example` | Adding a new `DistanceFormula` (`Equirectangular`) without touching `Point`/`Haversine`/`Vincenty` |
-| `python -m examples.custom_edge_weight_example` | Adding a new `Edge` subclass weighted by duration instead of distance |
+| `python -m demos.dijkstra_example` | Default weighted-shortest-path search |
+| `python -m demos.bfs_example` | Fewest-hops search, contrasted with Dijkstra |
+| `python -m demos.astar_example` | A* guided by `Point.distance_to` as an admissible heuristic |
+| `python -m demos.custom_distance_formula_example` | Adding a new `DistanceFormula` (`Equirectangular`) without touching `Point`/`Haversine`/`Vincenty` |
+| `python -m demos.custom_edge_weight_example` | Adding a new `Edge` subclass weighted by duration instead of distance |
 
 `main.py` (`python main.py`) is a larger end-to-end demo combining all three
 algorithms and both `DistanceFormula` implementations over a small flight
@@ -99,7 +99,7 @@ network.
 ## Testing
 
 ```
-pytest src/models/flight_planner/tests/
+uv run pytest tests/models/flight_planner/
 ```
 
 One `pytest` test class per production class (`TestVertex`, `TestEdge`,

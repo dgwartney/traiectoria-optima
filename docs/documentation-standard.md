@@ -101,7 +101,7 @@ pages match the rest of `docs/`.
   in the `dev` dependency group in `pyproject.toml`.
 - `mkdocs.yml` at the repo root configures the Material theme, the
   `mkdocstrings` Python handler (pointed at `src`, `src/data`,
-  `src/models/flight`, `src/examples`), and the site nav.
+  `src/models/flight`, `src/exercises`), and the site nav.
 - `docs/index.md` is the site homepage.
 - `docs/reference.md` holds the generated API reference, one `:::` directive
   per documented module:
@@ -115,7 +115,7 @@ pages match the rest of `docs/`.
   ::: flight_data
   ```
 
-  `src/data/data_format.py` and `src/examples/graphs/adjacency_list.py` are
+  `src/data/data_format.py` and `src/exercises/graphs/adjacency_list.py` are
   intentionally left out of the reference — both currently fail to import
   (a syntax error and undefined names, respectively). Add them once fixed.
 

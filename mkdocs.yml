@@ -14,7 +14,7 @@ plugins:
             - src
             - src/data
             - src/models/flight
-            - src/examples
+            - src/exercises
           options:
             docstring_style: google
             show_source: true

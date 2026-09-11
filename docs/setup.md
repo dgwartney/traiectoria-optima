@@ -120,13 +120,33 @@ tests/
 ├── conftest.py                  # forces the non-interactive matplotlib backend
 ├── data/
 │   └── test_flight_data.py      # FlightDataToDB: paths, loaders, SQLite writes
+├── exercises/
+│   ├── algorithms/
+│   │   └── test_exercise_dijkstra.py
+│   └── graphs/
+│       └── test_adjency_list.py
 └── models/
-    └── flight/
-        ├── test_atmosphere.py
-        ├── test_aircraft.py
-        ├── test_wind.py
-        ├── test_simulator.py
-        └── test_payload_range.py
+    ├── flight/                  # aircraft performance and the gate-to-gate simulator
+    │   ├── test_atmosphere.py
+    │   ├── test_aircraft.py
+    │   ├── test_wind.py
+    │   ├── test_simulator.py
+    │   └── test_payload_range.py
+    └── flight_planner/          # the graph core, pathfinding, distances, CSV loader
+        ├── test_vertex.py
+        ├── test_edge.py
+        ├── test_graph.py
+        ├── test_point.py
+        ├── test_airport.py
+        ├── test_route.py
+        ├── test_flight_planner.py
+        ├── test_haversine.py
+        ├── test_vincenty.py
+        ├── test_memoized.py
+        ├── test_dijkstra.py
+        ├── test_bfs.py
+        ├── test_astar.py
+        └── test_loader.py
 ```
 
 Run the full suite with:
@@ -137,9 +157,14 @@ uv run pytest
 
 `testpaths` and `pythonpath` are configured in `[tool.pytest.ini_options]` in
 `pyproject.toml` — the latter is needed because the modules under
-`src/models/flight/` import each other with bare (non-package) imports, so
-`src/data` and `src/models/flight` are added to `sys.path` for test
-discovery.
+`src/models/flight/` and `src/models/flight_planner/` import each other with
+bare (non-package) imports, so those directories are added to `sys.path` for
+test discovery.
+
+Because those `sys.path` entries are import roots, no two of them may contain a
+directory of the same name — the first one found wins and shadows the rest. This
+is why `src/exercises/` and `src/models/flight_planner/demos/` carry distinct
+names rather than both being called `examples/`.
 
 ## Troubleshooting
 

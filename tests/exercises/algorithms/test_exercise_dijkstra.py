@@ -1,6 +1,6 @@
 import unittest
 
-from examples.algorithms.dijkstra.dijkstra import dijkstra
+from exercises.algorithms.dijkstra.dijkstra import dijkstra
 
 
 class TestDijkstraAlgorithm(unittest.TestCase):

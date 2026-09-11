@@ -8,7 +8,7 @@ Dijkstra/BFS/AStar work with it unchanged, since they only ever read
 edge.weight generically.
 
 Run from the flight_planner directory:
-    python -m examples.custom_edge_weight_example
+    python -m demos.custom_edge_weight_example
 """
 
 from edge import Edge

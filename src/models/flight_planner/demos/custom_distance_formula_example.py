@@ -2,7 +2,7 @@
 Haversine, or Vincenty.
 
 Run from the flight_planner directory:
-    python -m examples.custom_distance_formula_example
+    python -m demos.custom_distance_formula_example
 """
 
 from math import radians, cos

@@ -41,14 +41,14 @@ pythonpath = [
     "src/data",
     "src/models/flight",
     "src/models/flight_planner",
-    "src/examples",
+    "src/exercises",
 ]
 
 [tool.ruff]
 extend-exclude = [
     "notebooks",
     "src/data/data_format.py",
-    "src/examples/graphs/adjacency_list.py",
+    "src/exercises/graphs/adjacency_list.py",
 ]
 
 [tool.ruff.lint]

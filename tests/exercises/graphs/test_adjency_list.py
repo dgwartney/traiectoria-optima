@@ -1,4 +1,4 @@
-from examples.graphs.adjacency_list import Vertex
+from exercises.graphs.adjacency_list import Vertex
 
 
 def test_vertex_constructor():

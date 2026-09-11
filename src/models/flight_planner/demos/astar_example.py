@@ -1,7 +1,7 @@
 """Example: A* guided by a great-circle-distance heuristic on Point.
 
 Run from the flight_planner directory:
-    python -m examples.astar_example
+    python -m demos.astar_example
 """
 
 from airport import Airport
