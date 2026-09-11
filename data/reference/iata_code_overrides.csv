@@ -1,0 +1,11 @@
+wiki_iata,ourairports_ident,canonical_iata,iata_registry,reason
+CSL,MMSL,,not-found,IATA lists CSW for Cabo San Lucas; Wikipedia code is stale
+FRU,UAFM,,not-found,IATA lists BSZ for Bishkek/Manas; Wikipedia code is stale
+KVD,UBBG,,not-found,IATA lists GNJ for Ganja; Wikipedia code is stale
+REP,VDSA,,not-found,Old field closed; IATA lists SAI for Siem Reap Angkor
+TIP,LY-0019,,valid,IATA recognises TIP; OurAirports marks the field closed with no IATA
+NLV,UKON,,valid,IATA recognises NLV; OurAirports marks the field closed with no IATA
+MLH,LFSB,,valid,EuroAirport carries BSL/MLH/EAP; OurAirports lists it under BSL
+EAP,LFSB,BSL,valid,EAP is the Basel/Mulhouse metropolitan-area code not an airport code
+HZO,DGAH,,not-found,No IATA code in either source; matched on ICAO
+QGY,LHPR,,not-found,No IATA code in either source; matched on ICAO

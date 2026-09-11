@@ -1,12 +1,13 @@
 """Scrape airport listings from Wikipedia into airports_raw.json.
 
-Regenerates the raw input consumed by fetch_airport_coords.py. Requires
+Regenerates the raw input consumed by international_airports.py. Requires
 `playwright install --with-deps chromium` once per environment. Uses the
 async API so this also works from a notebook
 (e.g. Colab) cell, where the sync API can't run inside the already-active
-event loop: `data = await ExtractInternationalAirportsData(URL, OUTPUT_PATH).scrape()`.
+event loop: `data = await ExtractInternationalAirportsData(URL, path).scrape()`.
 """
 
+import argparse
 import asyncio
 import json
 
@@ -90,8 +91,20 @@ class ExtractInternationalAirportsData:
 
 
 URL = "https://en.wikipedia.org/wiki/List_of_international_airports_by_country"
-OUTPUT_PATH = "airports_raw.json"
+
+
+def parse_args() -> argparse.Namespace:
+    """Parse the output path and source URL from the command line.
+
+    Returns:
+        A namespace with `output_path` and `url` attributes.
+    """
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("output_path", help="File path the scraped JSON is written to.")
+    parser.add_argument("--url", default=URL, help="Wikipedia page to scrape.")
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
-    asyncio.run(ExtractInternationalAirportsData(URL, OUTPUT_PATH).run())
+    args = parse_args()
+    asyncio.run(ExtractInternationalAirportsData(args.url, args.output_path).run())

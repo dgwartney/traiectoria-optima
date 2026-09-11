@@ -85,6 +85,16 @@ The airports dataset contains geographic, navigational, and administrative detai
 
 
 ## Free Airport Coordinates APIs (IATA to Lat/Long)
+
+> **Historical.** The pipeline no longer calls any of these. Coordinates now
+> come from `data/raw/our_airports/airports.csv`, which the project already
+> vendors — see [International Airports Scrape](#4-international-airports-scrape-airports_rawjson)
+> below. AirportsAPI.com turned out to be serving OurAirports data back over the
+> network: 1,477 of 1,483 coordinate pairs were bit-identical, and of the three
+> that differed by more than 0.05°, the API was wrong in all three. Resolving
+> locally is faster, reproducible, needs no rate limiting, and fixes those rows.
+> This survey is kept for reference.
+
 A curated list of free, online APIs to quickly resolve IATA airport codes into latitude and longitude coordinates.
 
 ### 1. AirportsAPI.com (Easiest / No Auth)
@@ -102,7 +112,7 @@ This is the most straightforward option because it requires **no API keys, no si
   "type": "large_airport"
 }
 
-### AirLabs Airport Database API (Best for Production-Ready Free Tier)
+### 2. AirLabs Airport Database API (Best for Production-Ready Free Tier)
 AirLabs offers a robust, developer-friendly API. Their **Free Tier** includes full access to global IATA/ICAO codes alongside coordinates, though it requires a quick sign-up to get an API key.
 
 **Endpoint Example:** [AirLabs Airports Docs](https://airlabs.co)
@@ -112,32 +122,107 @@ AirLabs offers a robust, developer-friendly API. Their **Free Tier** includes fu
 *   `lat`
 *   `lng`
 
-## 3. API Ninjas - Airports API (Great for General Projects)
+### 3. API Ninjas - Airports API (Great for General Projects)
 API Ninjas provides a comprehensive airport lookup tool. Their free tier covers thousands of requests per month with a standard free account API key.
 
 **Documentation:** [API Ninjas Airports](https://api-ninjas.com) *(Requires `X-Api-Key` header)*
 
-## Alternative: Downloadable Datasets
+### Alternative: Downloadable Datasets
 If you don't want to make live API calls over the internet and prefer a local database,
 you can download **[The Global Airport Database](https://partow.net)** for free.
 It maps IATA codes to Lat/Long positions in a simple token-delimited text format.
 
-## 3. International Airports Scrape (`airports_raw.json`)
+## 4. International Airports Scrape (`airports_raw.json`)
 
 `src/data/generate_airports_raw.py` regenerates `airports_raw.json`, the raw
-input consumed by `fetch_airport_coords.py` to
-build `data/processed/international_airports.csv`. It uses Playwright to load
+input consumed by `src/data/international_airports.py`, which joins it against
+the vendored OurAirports data to build
+`data/processed/international_airports.csv`. It uses Playwright to load
 [List of international airports by
 country](https://en.wikipedia.org/wiki/List_of_international_airports_by_country)
 and extract `{region, country, location, airport, href}` for every airport
 link on the page.
+
+### Coordinates and IATA code overrides
+
+`src/data/international_airports.py` attaches coordinates to each scraped
+airport by joining on the IATA code against
+`data/raw/our_airports/airports.csv`. It makes no network requests.
+
+```bash
+make international_airports
+```
+
+Ten of the 1,492 scraped codes do not join, because Wikipedia and OurAirports
+disagree about the code or because neither source assigns one. Each was checked
+against IATA's official registry at
+<https://www.iata.org/en/publications/directories/code-search/>, which resolves
+every case: four Wikipedia codes are stale, two are valid codes OurAirports has
+retired alongside a closed field, two describe an airport carrying three codes
+(one of them a metropolitan-area code rather than an airport code), and two are
+codes no registry recognises.
+
+| Wiki code | Airport | IATA registry | OurAirports | What happened |
+|---|---|---|---|---|
+| `CSL` | Cabo San Lucas Intl | not found; `CSW` = Cabo San Lucas Internacional | `MMSL`, IATA `CSW` | Wikipedia code is stale |
+| `FRU` | Manas Intl, Bishkek | not found; `BSZ` = Bishkek, Manas Intl | `UAFM`, IATA `BSZ` | Wikipedia code is stale |
+| `KVD` | Ganja Intl | not found; `GNJ` = Ganja Airport | `UBBG`, IATA `GNJ` | Wikipedia code is stale |
+| `REP` | Siem Reap Intl | not found; `SAI` = Siem Reap Angkor | `VDSA`, IATA `SAI` | Airport replaced; old field closed |
+| `TIP` | Tripoli Intl | **valid** — Tripoli Intl. | `LY-0019`, closed, no IATA | OurAirports retired the code |
+| `NLV` | Mykolaiv Intl | **valid** — Mykolaiv Intl. | `UKON`, closed, no IATA | OurAirports retired the code |
+| `MLH` | EuroAirport Basel–Mulhouse–Freiburg | **valid** — EuroAirport French | `LFSB`, IATA `BSL` | One airport, three codes |
+| `EAP` | EuroAirport Basel–Mulhouse–Freiburg | **valid** — Basel/Mulhouse Metropolitan Area | none | Metro code, not an airport code |
+| `HZO` | Ho Airport | not found | `DGAH`, no IATA | Neither source has a code |
+| `QGY` | Győr-Pér Intl | not found | `LHPR`, no IATA | Neither source has a code |
+
+The mapping lives in `data/reference/iata_code_overrides.csv`, keyed on the
+scraped code and pointing at an OurAirports `ident` — `ident` rather than IATA
+code, because that is the stable identifier and the IATA code is exactly what is
+in dispute. With the overrides applied, all 1,492 airports resolve.
+
+A stale override is a hard error, not a silent skip: the script exits non-zero
+if an `ident` is unknown or if an override's code no longer appears in the
+scrape.
+
+Because the `iata_registry` column asserts something about a live external
+source, it has a shelf life. Re-check it:
+
+```bash
+make verify_iata_codes
+```
+
+That drives the IATA search page with Playwright, one lookup per override, and
+exits non-zero if any verdict has changed.
+
+#### The `canonical_iata` column
+
+The override table's `canonical_iata` column rewrites the code that appears in
+the output. It is populated for exactly one row:
+
+| Scraped | Emitted | Why |
+|---|---|---|
+| `EAP` | `BSL` | `EAP` is a metropolitan-area code and identifies no airport; `BSL` is the code OurAirports and IATA both use for the field itself. |
+
+Wikipedia lists EuroAirport three times — Basel/`EAP`, Mulhouse/`BSL`,
+Freiburg/`MLH` — and the Basel row's `EAP` is the only scraped code that names
+no airport. That substitution used to be a hand-edit applied to the generated
+CSV after each build, which meant a rebuild silently discarded it. Declaring it
+here makes it reproducible: regenerating now yields the committed `iata` column
+byte for byte.
+
+The column is deliberately empty for every other row. The four stale codes
+(`CSL`, `FRU`, `KVD`, `REP`) are **not** rewritten — the overrides fix their
+coordinates, while the `iata` column continues to report what the source
+actually said. Rewriting those too would change the column's meaning from "what
+Wikipedia says" to "what IATA says", which is a larger decision than this table
+should make on its own.
 
 ### Requirements — local (`uv`) environment
 
 ```bash
 uv sync                                    # installs the playwright package
 uv run playwright install --with-deps chromium
-uv run python src/data/generate_airports_raw.py
+uv run python src/data/generate_airports_raw.py data/raw/wikipedia/airports_raw.json
 ```
 
 ### Requirements — Google Colab
@@ -165,8 +250,9 @@ awaited directly from a cell:
    cannot be called from a running event loop`. Import the module and await
    the coroutine directly instead of running the script's `__main__` block:
    ```python
-   from generate_airports_raw import ExtractInternationalAirportsData, URL, OUTPUT_PATH
+   from generate_airports_raw import ExtractInternationalAirportsData, URL
 
+   OUTPUT_PATH = "airports_raw.json"   # or a Drive path
    extractor = ExtractInternationalAirportsData(URL, OUTPUT_PATH)
    data = await extractor.scrape()
    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:

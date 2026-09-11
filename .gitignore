@@ -166,9 +166,6 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
-/site
-
 # make dependency-tracking stamp files
 /.make
 
