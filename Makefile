@@ -60,9 +60,6 @@ PANDOC_FLAGS := \
 	--lua-filter=$(SVG_FILTER) \
 	--include-in-header=$(DOC_HEADER)
 
-# mkdocs' rendered site, removed by `clean`
-SITE_DIR = site
-
 # Quality gates below record success as a stamp file here rather than an
 # output artifact, since pytest and ruff don't produce one.
 STAMP_DIR = .make
@@ -96,14 +93,6 @@ $(SVG_DIR)/%.svg: $(DOCS_MERMAID)/%.mmd | $(SVG_DIR)
 $(PNG_DIR)/%.png: $(SVG_DIR)/%.svg | $(PNG_DIR)
 	rsvg-convert -f png $< -o $@
 
-# reference.md uses mkdocstrings' "::: identifier" autodoc syntax, which
-# collides with pandoc's fenced_divs extension (each "::: name" implicitly
-# closes the previous one, warning about unclosed divs). Disable that
-# extension here since mkdocstrings-only content isn't renderable by pandoc
-# anyway.
-$(PDF_DIR)/reference.pdf: $(DOCS_DIR)/reference.md $(SVG_FILTER) $(DOC_HEADER) | $(PNGS) $(PDF_DIR)
-	pandoc $< -o $@ --from=markdown-fenced_divs $(PANDOC_FLAGS)
-
 $(PDF_DIR)/%.pdf: $(DOCS_DIR)/%.md $(SVG_FILTER) $(DOC_HEADER) | $(PNGS) $(PDF_DIR)
 	pandoc $< -o $@ $(PANDOC_FLAGS)
 
@@ -115,10 +104,10 @@ check-deps:
 	  command -v $$cmd >/dev/null 2>&1 && echo "✓ $$cmd" || echo "✗ $$cmd MISSING"; \
 	done
 
-clean: ## Remove generated data, docs site, and make stamp files
+clean: ## Remove generated data, build output, and make stamp files
 	$(RM) $(FLIGHT_DATA_DB_PATH) $(AIRPORTS_RAW_JSON) $(INTERNATIONAL_AIRPORTS_CSV)
 	$(RM) $(UA_AIRPORTS_CSV) $(UA_ROUTES_CSV)
-	$(RM) -r $(SITE_DIR) $(STAMP_DIR)
+	$(RM) -r $(STAMP_DIR)
 	$(RM) -r $(BUILD_DIR)
 
 .PHONY: notebook flight_data docs check-deps clean
