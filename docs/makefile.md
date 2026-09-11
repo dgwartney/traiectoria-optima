@@ -45,7 +45,7 @@ Instead of forcing a programmer to manually type out dozens of complicated instr
 | `make lint` | Runs `uv run ruff check` | Any file under `src/` or `pyproject.toml` changed since the last passing run |
 | `make check` | `lint` + `test` | (aggregate of the above) |
 | `make docs` | Renders every `docs/*.md` to PDF with `pandoc` → `build/pdf/` | The matching `.md`, the LaTeX header, or the SVG filter is newer than the PDF |
-| `make notebook` | Runs `uv run jupyter lab` | Always |
+| `make notebook` | Syncs the `notebooks` dependency group, then runs `uv run jupyter lab` | Always |
 | `make all` | `check` | (aggregate) |
 | `make clean` | Removes `data/processed/flight_data.db`, the generated CSVs, `build/`, and `.make/` | — |
 | `make help` | Lists all targets with their one-line descriptions | Always |

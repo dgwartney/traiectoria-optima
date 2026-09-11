@@ -41,7 +41,7 @@ uv --version
 ## 2. Clone the repository
 
 ```bash
-git clone https://github.com/<your-org>/traiectoria-optima.git
+git clone https://github.com/dgwartney/traiectoria-optima.git
 cd traiectoria-optima
 ```
 
@@ -52,9 +52,26 @@ uv sync
 ```
 
 This creates a `.venv` in the project root, installs the pinned Python
-version, and installs every dependency exactly as recorded in `uv.lock`.
-Re-run `uv sync` any time you pull changes that touch `pyproject.toml` or
-`uv.lock`.
+version, and installs the runtime dependency plus the `dev` group exactly as
+recorded in `uv.lock`. Re-run `uv sync` any time you pull changes that touch
+`pyproject.toml` or `uv.lock`.
+
+Dependencies are split three ways, so that installing the `flight_planner`
+package never drags in the whole working environment:
+
+| Where | Contains | Installed by |
+| --- | --- | --- |
+| `[project.dependencies]` | `pandas` — the only third-party import in the package | always; the only entry published in the wheel |
+| `dev` group | pytest, ruff, matplotlib, numpy, scipy, playwright | `uv sync` (default) |
+| `notebooks` group | JupyterLab, ipykernel, folium, pyproj, ipyleaflet | `uv sync --group notebooks` |
+
+Only the first is published in the wheel metadata, which is what lets the
+package install into an existing environment without upgrading it. To get
+everything at once:
+
+```bash
+uv sync --all-groups
+```
 
 ## 4. Run things in the environment
 
@@ -83,7 +100,14 @@ Deactivate with `deactivate`.
 
 ## 5. Jupyter notebooks
 
-Launch JupyterLab through `uv` so the kernel resolves to the project
+JupyterLab lives in the `notebooks` dependency group, so install that group
+before the first launch — a plain `uv sync` does not provide it:
+
+```bash
+uv sync --group notebooks
+```
+
+Then launch JupyterLab through `uv` so the kernel resolves to the project
 environment:
 
 ```bash
@@ -98,19 +122,80 @@ packages, select the kernel that points at `.venv` (registered by the
 uv run python -m ipykernel install --user --name traiectoria-optima
 ```
 
-## 6. Managing dependencies
+## 6. Google Colab
+
+The package installs straight from the public repository, so a Colab notebook
+needs no checkout of its own and no credentials. The clone is still required:
+the CSV files are data, not package contents, and the loaders take their paths
+from the caller.
+
+Setup cell:
+
+```python
+!rm -rf /content/traiectoria-optima
+!git clone --depth 1 https://github.com/dgwartney/traiectoria-optima.git /content/traiectoria-optima
+!pip install -q /content/traiectoria-optima
+```
+
+Then the package is importable in the same session:
+
+```python
+from pathlib import Path
+from flight_planner import Dijkstra
+from flight_planner.loaders import load_flight_planner
+
+DATA = Path('/content/traiectoria-optima/data/processed')
+planner = load_flight_planner(DATA / 'airports.csv', DATA / 'routes.csv')
+
+distance, legs = planner.find_shortest_route('SFO', 'BOS', Dijkstra())
+```
+
+Three details make the difference between this working and not:
+
+- **Do not use `pip install -e`.** An editable install works through a `.pth`
+  file, and `.pth` files are executed only when the interpreter starts. The
+  install reports success, then `import flight_planner` raises
+  `ModuleNotFoundError` until the runtime is restarted. A plain install lands
+  in `site-packages`, which is already on `sys.path`, and is importable
+  immediately. Use `-e` only if you intend to edit the clone, and then restart
+  the runtime (Runtime → Restart session) after every install.
+- **`git clone` is not idempotent.** Re-running the cell without the `rm -rf`
+  fails with `destination path ... already exists`, and because a `!` cell does
+  not stop on error the install then runs against the stale tree. A
+  `ModuleNotFoundError` in the import cell is usually this: check the setup
+  cell's output for `fatal:`.
+- **Nothing is upgraded.** The floors in `[project.dependencies]` are the
+  oldest versions the test suite passes on, not the newest available, so the
+  install leaves Colab's preinstalled pandas, numpy and matplotlib untouched
+  and no runtime restart is needed.
+
+As a fallback that skips installation altogether — the package imports only
+pandas, which Colab already provides:
+
+```python
+import sys
+sys.path.insert(0, '/content/traiectoria-optima/src')
+```
+
+## 7. Managing dependencies
 
 ```bash
-uv add <package>            # add a runtime dependency
-uv add --dev <package>      # add a development-only dependency
-uv remove <package>         # drop a dependency
-uv lock --upgrade           # refresh the lock file to newest allowed versions
+uv add <package>                     # add a runtime dependency
+uv add --dev <package>               # add to the dev group
+uv add --group notebooks <package>   # add to the notebooks group
+uv remove <package>                  # drop a dependency
+uv lock --upgrade                    # refresh the lock to newest allowed versions
 ```
 
 `uv add`/`uv remove` update both `pyproject.toml` and `uv.lock`; commit both
 files together.
 
-## 7. Running tests
+Add to `[project.dependencies]` only what the `flight_planner` package itself
+imports — everything published there becomes a requirement for anyone
+installing the wheel. Tooling, notebook and analysis packages belong in a
+group.
+
+## 8. Running tests
 
 Tests are written with `pytest` (a dev dependency) and live under `tests/`,
 mirroring the layout of `src/`:

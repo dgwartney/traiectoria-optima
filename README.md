@@ -39,6 +39,25 @@ uv sync
 uv run pytest
 ```
 
+`uv sync` installs the runtime dependency and the `dev` group. JupyterLab and
+the mapping stack are in the `notebooks` group, so running the notebooks needs
+`uv sync --group notebooks` (or `--all-groups`).
+
+## Using the package elsewhere
+
+`flight_planner` is an installable package whose only third-party dependency
+is `pandas`, so it can be used outside this checkout — from Google Colab, for
+example — without pulling in the development environment:
+
+```bash
+pip install git+https://github.com/dgwartney/traiectoria-optima.git
+```
+
+The processed CSV files are data rather than package contents, and the loaders
+take their paths from the caller, so a clone is still needed to supply them.
+See [Google Colab](docs/setup.md#6-google-colab) for the two-cell recipe and
+the pitfalls that are easy to hit there.
+
 ## Makefile
 
 Common `uv run` commands are wrapped in the top-level `Makefile`. Run

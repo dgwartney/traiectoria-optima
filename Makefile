@@ -82,6 +82,7 @@ help: ## Show this list of targets
 # Start a jupyter lab session from the install virtual
 # environment setup by `uv`
 notebook: ## Start a Jupyter Lab session
+	uv sync --group notebooks
 	uv run jupyter lab
 
 # Build all project docs (project_plan.md, report.md, ...) to PDF
