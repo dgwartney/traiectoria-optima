@@ -1,0 +1,156 @@
+{
+  "experiment": "sfo-bos-dijkstra",
+  "recorded": "2026-09-11T17:03:30+00:00",
+  "snapshot": {
+    "id": "2026-09-11-bb90a8",
+    "reference": "../../data/snapshots/2026-09-11-bb90a8",
+    "criteria": {},
+    "source_commit": "610936de75b2d3c45e0e84daea687b32daf35aa3"
+  },
+  "parameters": {
+    "origin": "SFO",
+    "destination": "BOS",
+    "airline": "UA",
+    "airport_type": "large",
+    "country": "US",
+    "comparison_pairs": [
+      [
+        "SFO",
+        "BOS"
+      ],
+      [
+        "BOI",
+        "CHS"
+      ],
+      [
+        "ANC",
+        "BOS"
+      ],
+      [
+        "HNL",
+        "BDL"
+      ],
+      [
+        "PWM",
+        "SAN"
+      ]
+    ]
+  },
+  "results": {
+    "pair": "SFO-BOS",
+    "whole_network_km": 4341.022084519025,
+    "whole_network_legs": 1,
+    "narrowed_km": 4341.022084519025,
+    "narrowed_legs": 1,
+    "narrowed_flights": [
+      "UA1876"
+    ],
+    "comparison": [
+      {
+        "pair": "SFO-BOS",
+        "whole_km": 4341.022084519025,
+        "whole_legs": 1,
+        "narrowed_km": 4341.022084519025,
+        "narrowed_legs": 1,
+        "extra_km": 0.0
+      },
+      {
+        "pair": "BOI-CHS",
+        "whole_km": 3376.0031346163455,
+        "whole_legs": 3,
+        "narrowed_km": 3531.417244023759,
+        "narrowed_legs": 2,
+        "extra_km": 155.4
+      },
+      {
+        "pair": "ANC-BOS",
+        "whole_km": 5846.057734342032,
+        "whole_legs": 2,
+        "narrowed_km": 5959.054282644924,
+        "narrowed_legs": 2,
+        "extra_km": 113.0
+      },
+      {
+        "pair": "HNL-BDL",
+        "whole_km": 8071.513690777907,
+        "whole_legs": 3,
+        "narrowed_km": 8076.038073220641,
+        "narrowed_legs": 2,
+        "extra_km": 4.5
+      },
+      {
+        "pair": "PWM-SAN",
+        "whole_km": 4367.952266559132,
+        "whole_legs": 2,
+        "narrowed_km": null,
+        "narrowed_legs": 0,
+        "extra_km": null
+      }
+    ]
+  },
+  "catalog": {
+    "chain": [
+      {
+        "operation": "airline",
+        "arguments": [
+          "UA"
+        ],
+        "endpoints": null,
+        "routes": [
+          66332,
+          2170
+        ],
+        "airports": [
+          3387,
+          427
+        ],
+        "dangling": 0
+      },
+      {
+        "operation": "airport_type",
+        "arguments": [
+          "large_airport"
+        ],
+        "endpoints": "both",
+        "routes": [
+          2170,
+          1661
+        ],
+        "airports": [
+          427,
+          256
+        ],
+        "dangling": 0
+      },
+      {
+        "operation": "country",
+        "arguments": [
+          "US"
+        ],
+        "endpoints": "both",
+        "routes": [
+          1661,
+          861
+        ],
+        "airports": [
+          256,
+          88
+        ],
+        "dangling": 0
+      }
+    ],
+    "routes": [
+      66332,
+      2170,
+      1661,
+      861
+    ],
+    "airports": [
+      3387,
+      427,
+      256,
+      88
+    ],
+    "dangling": 0
+  }
+}

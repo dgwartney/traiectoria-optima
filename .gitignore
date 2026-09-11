@@ -1,5 +1,12 @@
 # Ignore SQLite files
 *.db
+
+# Editor swap and backup files
+*.swp
+*.swo
+*~
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

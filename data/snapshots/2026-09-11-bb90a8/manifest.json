@@ -1,0 +1,19 @@
+{
+  "snapshot_id": "2026-09-11-bb90a8",
+  "created": "2026-09-11T17:02:13+00:00",
+  "source_commit": "610936de75b2d3c45e0e84daea687b32daf35aa3",
+  "generator": "scripts/new_snapshot.py",
+  "criteria": {},
+  "files": {
+    "airports.csv": {
+      "sha256": "8ca2f3e2563dc57a44ead95b7d3633406629ffff3af76f1f0366eb1ad357b022",
+      "bytes": 552442,
+      "rows": 3387
+    },
+    "routes.csv": {
+      "sha256": "3450e7a4596dc1ad3ce5cc8adccbf9c4ae7469e38995d63592790fc2d16bd379",
+      "bytes": 2991700,
+      "rows": 66332
+    }
+  }
+}

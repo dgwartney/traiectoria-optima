@@ -1,0 +1,23 @@
+{
+  "snapshot_id": "2026-09-11-1528c4",
+  "created": "2026-09-11T15:47:59+00:00",
+  "source_commit": "bede391c409a657e1d24c30b296b29daec61f6db",
+  "generator": "src/data/flight_network.py",
+  "criteria": {
+    "airline": "UA",
+    "airport_type": "large_airport",
+    "country": "US"
+  },
+  "files": {
+    "airports.csv": {
+      "sha256": "3482bdbda1b85811bde51f467cf91a2777e0d85813003edda91ac8d86940c91a",
+      "bytes": 15718,
+      "rows": 88
+    },
+    "routes.csv": {
+      "sha256": "688a14292c92ed16321db1779a307b6229f90f719e067be40125cca7fc51822d",
+      "bytes": 43570,
+      "rows": 861
+    }
+  }
+}

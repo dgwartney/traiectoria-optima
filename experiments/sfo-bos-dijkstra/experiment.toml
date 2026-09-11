@@ -1,0 +1,30 @@
+# sfo-bos-dijkstra
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "sfo-bos-dijkstra"
+description = "Does narrowing the network to one airline change the shortest SFO-BOS route?"
+notebooks = ["explore.ipynb"]
+snapshot = "../../data/snapshots/2026-09-11-bb90a8"  # 2026-09-11-bb90a8
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+origin = "SFO"
+destination = "BOS"
+
+# The narrowing under test, as arguments to the catalog.
+airline = "UA"
+airport_type = "large"
+country = "US"
+
+# Further pairs to compare, chosen to span the outcomes: unchanged, longer,
+# fewer legs, and unreachable.
+comparison_pairs = [
+    ["SFO", "BOS"],
+    ["BOI", "CHS"],
+    ["ANC", "BOS"],
+    ["HNL", "BDL"],
+    ["PWM", "SAN"],
+]
