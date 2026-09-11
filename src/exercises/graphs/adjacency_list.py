@@ -1,23 +1,36 @@
-# Copyright (c) Dec 22, 2014 CareerMonk Publications and others.
-# E-Mail           		: info@careermonk.com
-# Creation Date    		: 2014-01-10 06:15:46
-# Last modification		: 2008-10-31
-#               by		: Narasimha Karumanchi
-# Book Title			: Data Structures And Algorithmic Thinking With Python
-# Warranty         		: This software is provided "as is" without any
-# 				   warranty; without even the implied warranty of
-# 				    merchantability or fitness for a particular purpose.
+"""Adjacency-list graph exercise.
 
-import math
+An undirected weighted graph stored as an adjacency list, where each `Vertex`
+holds a mapping of its neighbours to edge weights. Kept as a study exercise
+alongside the textbook it comes from; the project's own graph implementation
+lives in `src/models/flight_planner/`.
+
+Adapted from Narasimha Karumanchi, *Data Structures And Algorithmic Thinking
+With Python* (CareerMonk Publications, 2014). Provided without warranty of any
+kind, express or implied.
+"""
+
+from __future__ import annotations
+
 import collections.abc
+import math
+from typing import Any, Hashable
+
 
 class Vertex:
-    """
-    Represents a vertex in the graph
-    """
-    def __init__(self, vertex_id: int, label: str ="") -> None:
-        self._id: int = vertex_id
-        self._adjacent: dict[int, float] = {}
+    """A graph node and the weighted edges leaving it."""
+
+    def __init__(self, vertex_id: Hashable, label: str = "") -> None:
+        """Create an isolated vertex with no adjacent neighbours.
+
+        Args:
+            vertex_id: Value identifying this vertex within its graph. Any
+                hashable key works — `Graph` uses the value passed to
+                `add_vertex`, which need not be an integer.
+            label: Human-readable name for the vertex.
+        """
+        self._id: Hashable = vertex_id
+        self._adjacent: dict[Vertex, float] = {}
         self._label: str = label
 
         # Set distance to infinity for all nodes
@@ -29,79 +42,189 @@ class Vertex:
         # Predecessor
         self._previous: Vertex | None = None
 
-    def add_adjacent(self, adjacent_vertex: int, weight: float=0):
-        """
-        Add an adjacent vertex to this vertex
+    def add_adjacent(self, adjacent_vertex: Vertex, weight: float = 0) -> None:
+        """Record an edge from this vertex to a neighbour.
+
+        Args:
+            adjacent_vertex: Vertex at the far end of the edge.
+            weight: Cost of traversing the edge. Re-adding an existing
+                neighbour overwrites its weight.
         """
         self._adjacent[adjacent_vertex] = weight
 
-    def get_adjacent(self):
-        """
-        Returns the adjacent vertices for this vertex
+    def get_adjacent(self) -> collections.abc.KeysView[Vertex]:
+        """Return the neighbours reachable from this vertex.
+
+        Returns:
+            View of the adjacent vertices.
         """
         return self._adjacent.keys()
 
     @property
-    def id(self):
+    def id(self) -> Hashable:
+        """Return the value identifying this vertex.
+
+        Returns:
+            The identity key supplied at construction.
+        """
         return self._id
 
     @id.setter
-    def id(self, vertex_id: int):
+    def id(self, vertex_id: Hashable) -> None:
+        """Set the value identifying this vertex.
+
+        Args:
+            vertex_id: New identity key. The owning `Graph` indexes vertices
+                by their original key and is not updated by this setter.
+        """
         self._id = vertex_id
 
-    def get_weight(self, adjacent_vertext: int) -> float:
-        return self._adjacent[adjacent_vertext]
+    def get_weight(self, adjacent_vertex: Vertex) -> float:
+        """Return the weight of the edge to a neighbour.
+
+        Args:
+            adjacent_vertex: Vertex at the far end of the edge.
+
+        Returns:
+            The edge weight.
+
+        Raises:
+            KeyError: If `adjacent_vertex` is not a neighbour of this vertex.
+        """
+        return self._adjacent[adjacent_vertex]
 
     @property
-    def distance(self):
+    def distance(self) -> float:
+        """Return the working distance used by shortest-path traversals.
+
+        Returns:
+            Distance from whichever vertex a traversal started at, or
+            `math.inf` if it has not been reached.
+        """
         return self._distance
 
     @distance.setter
-    def distance(self, distance: float):
+    def distance(self, distance: float) -> None:
+        """Set the working distance for this vertex.
+
+        Args:
+            distance: Distance from the traversal's start vertex.
+        """
         self._distance = distance
+
     @property
-    def previous(self):
+    def previous(self) -> Vertex | None:
+        """Return the predecessor recorded by a traversal.
+
+        Returns:
+            The vertex this one was reached from, or `None` if unset.
+        """
         return self._previous
 
     @previous.setter
-    def previous(self, previous):
+    def previous(self, previous: Vertex | None) -> None:
+        """Set the predecessor for path reconstruction.
+
+        Args:
+            previous: Vertex this one was reached from.
+        """
         self._previous = previous
 
     @property
-    def visited(self):
+    def visited(self) -> bool:
+        """Report whether a traversal has already processed this vertex.
+
+        Returns:
+            `True` once a traversal has marked it visited.
+        """
         return self._visited
 
     @visited.setter
-    def visited(self, visited: bool):
+    def visited(self, visited: bool) -> None:
+        """Mark this vertex visited or unvisited.
+
+        Args:
+            visited: Whether the vertex has been processed.
+        """
         self._visited = visited
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Return the vertex's id alongside its neighbours' ids.
+
+        Returns:
+            String of the form `a adjacent: ['b', 'c']`.
+        """
         return str(self.id) + ' adjacent: ' + str([x.id for x in self._adjacent])
 
+
 class Graph:
-    def __init__(self):
-        self._vertices = {}
-        self._numVertices:int = 0
+    """An undirected weighted graph held as a mapping of key to `Vertex`."""
+
+    def __init__(self) -> None:
+        """Create an empty graph."""
+        self._vertices: dict[Hashable, Vertex] = {}
 
     def __iter__(self) -> collections.abc.Iterator[Vertex]:
+        """Iterate over the graph's vertices.
+
+        Returns:
+            Iterator over `Vertex` objects, in insertion order.
+        """
         return iter(self._vertices.values())
 
-    def add_vertex(self, node) -> Vertex:
+    def add_vertex(self, node: Hashable) -> Vertex:
+        """Add a vertex to the graph under the given key.
+
+        Args:
+            node: Key identifying the vertex. Reusing an existing key replaces
+                that vertex, discarding its edges.
+
+        Returns:
+            The newly created `Vertex`.
+        """
         vertex = Vertex(node)
         self._vertices[node] = vertex
-        self._numVertices += 1
         return vertex
 
-    def __setitem__(self, node, _value) -> None:
+    def __setitem__(self, node: Hashable, _value: Any) -> None:
+        """Add a vertex via subscript assignment, ignoring the value.
+
+        Args:
+            node: Key identifying the vertex to add.
+            _value: Ignored; only the key is used.
+        """
         self.add_vertex(node)
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """Return the number of vertices in the graph.
+
+        Returns:
+            Count of vertices.
+        """
         return len(self._vertices)
 
-    def __getitem__(self, node) -> Vertex | None:
+    def __getitem__(self, node: Hashable) -> Vertex | None:
+        """Look up a vertex by key.
+
+        Args:
+            node: Key identifying the vertex.
+
+        Returns:
+            The matching `Vertex`, or `None` if the key is unknown.
+        """
         return self._vertices.get(node)
 
-    def add_edge(self, frm, to, cost=0):
+    def add_edge(self, frm: Hashable, to: Hashable, cost: float = 0) -> None:
+        """Connect two vertices, adding either if it is not already present.
+
+        The edge is undirected: it is recorded in both directions. For a
+        directed graph, omit the second `add_adjacent` call.
+
+        Args:
+            frm: Key of the vertex at one end.
+            to: Key of the vertex at the other end.
+            cost: Weight of the edge.
+        """
         if frm not in self._vertices:
             self.add_vertex(frm)
         if to not in self._vertices:
@@ -111,21 +234,29 @@ class Graph:
         # For directed graph do not add this
         self._vertices[to].add_adjacent(self._vertices[frm], cost)
 
-    def get_vertices(self):
+    def get_vertices(self) -> collections.abc.KeysView[Hashable]:
+        """Return the keys of every vertex in the graph.
+
+        Returns:
+            View of the vertex keys.
+        """
         return self._vertices.keys()
 
-    def setPrevious(self, current):
-        self.previous = current
+    def get_edges(self) -> list[tuple[Hashable, Hashable, float]]:
+        """List every edge as a triple of endpoint ids and weight.
 
-    def getPrevious(self, current):
-        return self.previous
+        Because the graph is undirected, each edge appears twice — once in
+        each direction.
 
-    def getEdges(self):
+        Returns:
+            List of `(from_id, to_id, weight)` triples.
+        """
         edges = []
         for v in self:
             for w in v.get_adjacent():
                 edges.append((v.id, w.id, v.get_weight(w)))
         return edges
+
 
 if __name__ == '__main__':
 
@@ -143,4 +274,4 @@ if __name__ == '__main__':
     G.add_edge('d', 'e', 4)
 
     print('Graph data:')
-    print(G.getEdges())
+    print(G.get_edges())
