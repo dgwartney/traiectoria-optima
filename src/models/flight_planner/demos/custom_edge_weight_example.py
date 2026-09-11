@@ -7,9 +7,20 @@ Here, weight represents flight duration in hours instead of distance —
 Dijkstra/BFS/AStar work with it unchanged, since they only ever read
 edge.weight generically.
 
-Run from the flight_planner directory:
+Run from the repository root:
+    uv run python src/models/flight_planner/demos/custom_edge_weight_example.py
+
+Or as a module, from src/models/flight_planner/:
     python -m demos.custom_edge_weight_example
 """
+
+# Runnable from anywhere: the sibling modules (airport, route, ...) live one
+# directory up and are imported by bare name, so that directory has to be on
+# sys.path. Python only adds this script's own directory automatically.
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from edge import Edge
 from airport import Airport
@@ -21,15 +32,33 @@ class TimedRoute(Edge[Airport]):
     """A flight route weighted by duration (hours) instead of distance."""
 
     def __init__(self, origin: Airport, destination: Airport, duration_hours: float, flight_number: str = "") -> None:
+        """Create a flight leg weighted by duration rather than distance.
+
+        Args:
+            origin: Departure airport.
+            destination: Arrival airport.
+            duration_hours: Flight duration, used as the edge weight.
+            flight_number: Flight number for this leg.
+        """
         super().__init__(source=origin, target=destination, weight=duration_hours)
         self._flight_number = flight_number
 
     @property
     def duration_hours(self) -> float:
+        """Return the flight duration in hours.
+
+        Returns:
+            The edge weight, named for this subclass's semantics.
+        """
         return self.weight
 
     @property
     def flight_number(self) -> str:
+        """Return the flight number for this leg.
+
+        Returns:
+            Flight number, or `""` if none was supplied.
+        """
         return self._flight_number
 
 

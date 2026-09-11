@@ -27,6 +27,19 @@ class Vincenty(DistanceFormula):
     """
 
     def calculate(self, a: "Point", b: "Point") -> float:
+        """Compute the geodesic distance between two points.
+
+        Args:
+            a: First point.
+            b: Second point.
+
+        Returns:
+            Distance in kilometers on the WGS-84 ellipsoid.
+
+        Raises:
+            ValueError: If the iteration does not converge, which happens for
+                near-antipodal points.
+        """
         if a.latitude == b.latitude and a.longitude == b.longitude:
             return 0.0
 

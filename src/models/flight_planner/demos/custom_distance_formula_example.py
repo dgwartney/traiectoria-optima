@@ -1,9 +1,22 @@
-"""Example: plugging in a brand-new DistanceFormula without touching Point,
-Haversine, or Vincenty.
+"""Example: plugging in a brand-new DistanceFormula.
 
-Run from the flight_planner directory:
+Adds an `Equirectangular` formula without touching `Point`, `Haversine`, or
+`Vincenty`.
+
+Run from the repository root:
+    uv run python src/models/flight_planner/demos/custom_distance_formula_example.py
+
+Or as a module, from src/models/flight_planner/:
     python -m demos.custom_distance_formula_example
 """
+
+# Runnable from anywhere: the sibling modules (airport, route, ...) live one
+# directory up and are imported by bare name, so that directory has to be on
+# sys.path. Python only adds this script's own directory automatically.
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from math import radians, cos
 
@@ -23,6 +36,15 @@ class Equirectangular(DistanceFormula):
     """
 
     def calculate(self, a: Airport, b: Airport) -> float:
+        """Compute the flat-plane approximate distance between two points.
+
+        Args:
+            a: First point.
+            b: Second point.
+
+        Returns:
+            Distance in kilometers. Accurate only over short distances.
+        """
         lat1, lon1 = radians(a.latitude), radians(a.longitude)
         lat2, lon2 = radians(b.latitude), radians(b.longitude)
         x = (lon2 - lon1) * cos((lat1 + lat2) / 2)

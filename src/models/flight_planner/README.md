@@ -82,7 +82,13 @@ other than distance (duration, price, ...), subclass `Edge` — see
 
 ## Demos
 
-Run any of these from this directory (`src/models/flight_planner/`):
+Each demo runs from the repository root:
+
+```bash
+uv run python src/models/flight_planner/demos/dijkstra_example.py
+```
+
+or as a module from this directory (`src/models/flight_planner/`):
 
 | File | Demonstrates |
 |---|---|
@@ -92,9 +98,10 @@ Run any of these from this directory (`src/models/flight_planner/`):
 | `python -m demos.custom_distance_formula_example` | Adding a new `DistanceFormula` (`Equirectangular`) without touching `Point`/`Haversine`/`Vincenty` |
 | `python -m demos.custom_edge_weight_example` | Adding a new `Edge` subclass weighted by duration instead of distance |
 
-`main.py` (`python main.py`) is a larger end-to-end demo combining all three
-algorithms and both `DistanceFormula` implementations over a small flight
-network.
+`main.py` is a larger end-to-end demo combining all three algorithms and both
+`DistanceFormula` implementations over a small flight network. It runs from
+either location (`uv run python src/models/flight_planner/main.py`), as does
+`loader.py`, which builds a planner from the processed CSV files.
 
 ## Testing
 

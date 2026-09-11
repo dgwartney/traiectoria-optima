@@ -22,6 +22,15 @@ class Haversine(DistanceFormula):
     """
 
     def calculate(self, a: "Point", b: "Point") -> float:
+        """Compute the great-circle distance between two points.
+
+        Args:
+            a: First point.
+            b: Second point.
+
+        Returns:
+            Distance in kilometers, assuming a spherical Earth.
+        """
         lat1, lon1 = radians(a.latitude), radians(a.longitude)
         lat2, lon2 = radians(b.latitude), radians(b.longitude)
         dlat = lat2 - lat1

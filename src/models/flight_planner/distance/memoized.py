@@ -20,10 +20,25 @@ class Memoized(DistanceFormula):
     """
 
     def __init__(self, formula: DistanceFormula) -> None:
+        """Wrap a formula with a coordinate-keyed cache.
+
+        Args:
+            formula: Formula to delegate to on a cache miss. Must be a pure
+                function of the two points' coordinates.
+        """
         self._formula = formula
         self._cache: Dict[Tuple[float, float, float, float], float] = {}
 
     def calculate(self, a: "Point", b: "Point") -> float:
+        """Return the cached distance between two points, computing it if new.
+
+        Args:
+            a: First point.
+            b: Second point.
+
+        Returns:
+            Distance in kilometers, as produced by the wrapped formula.
+        """
         key = (a.latitude, a.longitude, b.latitude, b.longitude)
         if key not in self._cache:
             self._cache[key] = self._formula.calculate(a, b)

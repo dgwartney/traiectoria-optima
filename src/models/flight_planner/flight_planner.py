@@ -1,5 +1,4 @@
-"""
-Flight Network Graph Module.
+"""Flight network graph module.
 
 Provides FlightPlanner, a specialized flight network graph built on the
 Graph/Vertex/Edge abstractions that finds routes between airports using a
@@ -19,6 +18,7 @@ class FlightPlanner(Graph[Airport, Route]):
     """Specialized flight network graph providing pathfinding between airports."""
 
     def __init__(self) -> None:
+        """Create an empty flight network with no airports or routes."""
         super().__init__()
         self._iata_lookup: Dict[str, Airport] = {}
 
@@ -28,6 +28,12 @@ class FlightPlanner(Graph[Airport, Route]):
         return dict(self._iata_lookup)
 
     def add_vertex(self, vertex: Airport) -> None:
+        """Add an airport to the network and index it by IATA code.
+
+        Args:
+            vertex: Airport to add. A later airport reusing an existing code
+                replaces that code's entry in the lookup.
+        """
         super().add_vertex(vertex)
         self._iata_lookup[vertex.iata_code] = vertex
 
@@ -54,10 +60,10 @@ class FlightPlanner(Graph[Airport, Route]):
         destination: Union[Airport, str],
         algorithm: Optional[PathfindingAlgorithm[Airport, Route]] = None,
     ) -> Tuple[float, List[Route]]:
-        """
-        Computes a route between two airports using the given pathfinding
-        Strategy (defaults to Dijkstra's algorithm for backward-compatible
-        weighted-shortest-distance behavior).
+        """Compute a route between two airports.
+
+        Uses the given pathfinding Strategy, defaulting to Dijkstra's algorithm
+        for weighted-shortest-distance behavior.
 
         Args:
             origin: Starting Airport instance or 3-letter IATA code.

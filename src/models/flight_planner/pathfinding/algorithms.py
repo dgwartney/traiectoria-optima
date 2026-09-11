@@ -26,19 +26,39 @@ class PathfindingAlgorithm(ABC, Generic[V, E]):
 
     @abstractmethod
     def find_path(self, graph: "Graph[V, E]", start: V, goal: V) -> Tuple[float, List[E]]:
-        """
-        Returns (total_cost, ordered_edges_forming_the_path).
-        Returns (float('inf'), []) if goal is unreachable from start.
-        Returns (0.0, []) if start == goal.
+        """Find a path from `start` to `goal`.
+
+        Args:
+            graph: Graph to search, used only through `get_outgoing_edges`.
+            start: Vertex to search from.
+            goal: Vertex to search for.
+
+        Returns:
+            Tuple of `(total_cost, ordered_edges_forming_the_path)`.
+            `(float("inf"), [])` if `goal` is unreachable from `start`, and
+            `(0.0, [])` if `start == goal`.
         """
         raise NotImplementedError
 
 
 class Dijkstra(PathfindingAlgorithm[V, E]):
-    """Weighted shortest-path search using edge.weight (priority-queue based).
-    Requires non-negative edge weights."""
+    """Weighted shortest-path search using edge.weight.
+
+    Priority-queue based. Requires non-negative edge weights.
+    """
 
     def find_path(self, graph: "Graph[V, E]", start: V, goal: V) -> Tuple[float, List[E]]:
+        """Find the lowest-total-weight path from `start` to `goal`.
+
+        Args:
+            graph: Graph to search.
+            start: Vertex to search from.
+            goal: Vertex to search for.
+
+        Returns:
+            Tuple of `(total_weight, ordered_edges)`, `(float("inf"), [])` if
+            `goal` is unreachable, or `(0.0, [])` if `start == goal`.
+        """
         if start == goal:
             return 0.0, []
 
@@ -80,6 +100,19 @@ class BFS(PathfindingAlgorithm[V, E]):
     """
 
     def find_path(self, graph: "Graph[V, E]", start: V, goal: V) -> Tuple[float, List[E]]:
+        """Find the path with the fewest edges from `start` to `goal`.
+
+        Args:
+            graph: Graph to search.
+            start: Vertex to search from.
+            goal: Vertex to search for.
+
+        Returns:
+            Tuple of `(hop_count, ordered_edges)` — the first element is a
+            count of edges, not a distance, since `edge.weight` is ignored.
+            `(float("inf"), [])` if `goal` is unreachable, or `(0.0, [])` if
+            `start == goal`.
+        """
         if start == goal:
             return 0.0, []
 
@@ -115,9 +148,28 @@ class AStar(PathfindingAlgorithm[V, E]):
     """
 
     def __init__(self, heuristic: Callable[[V, V], float]) -> None:
+        """Configure the search with the heuristic that guides it.
+
+        Args:
+            heuristic: Callable estimating the remaining cost from a vertex to
+                the goal. Must be admissible — never overestimating the true
+                remaining cost — for the returned path to be optimal.
+        """
         self._heuristic = heuristic
 
     def find_path(self, graph: "Graph[V, E]", start: V, goal: V) -> Tuple[float, List[E]]:
+        """Find the lowest-total-weight path, guided by the heuristic.
+
+        Args:
+            graph: Graph to search.
+            start: Vertex to search from.
+            goal: Vertex to search for.
+
+        Returns:
+            Tuple of `(total_weight, ordered_edges)`, `(float("inf"), [])` if
+            `goal` is unreachable, or `(0.0, [])` if `start == goal`. The path
+            is optimal only if the configured heuristic is admissible.
+        """
         if start == goal:
             return 0.0, []
 

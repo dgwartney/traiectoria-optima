@@ -44,7 +44,6 @@ pythonpath = [
 [tool.ruff]
 extend-exclude = [
     "notebooks",
-    "src/exercises/graphs/adjacency_list.py",
 ]
 
 [tool.ruff.lint]
@@ -54,9 +53,5 @@ select = ["D"]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-# Tests and one-off data-wrangling scripts aren't part of the documented API.
+# Tests aren't part of the documented API.
 "tests/**" = ["D"]
-"src/data/fetch_airport_coords.py" = ["D"]
-"src/data/generate_airports_raw.py" = ["D"]
-"src/data/fetch_missing_coords.py" = ["D"]
-"src/data/fetch_missing_coords_api.py" = ["D"]

@@ -37,6 +37,11 @@ if __name__ == "__main__":
     print(f"Total Flight Routes: {len(planner.edges)}")
 
     def print_legs(legs):
+        """Print each leg of an itinerary.
+
+        Args:
+            legs: Routes making up the itinerary, in order.
+        """
         for leg in legs:
             print(f"  • {leg.flight_number} ({leg.airline}): {leg.origin.iata_code} -> {leg.destination.iata_code} ({leg.distance_km:.1f} km)")
 

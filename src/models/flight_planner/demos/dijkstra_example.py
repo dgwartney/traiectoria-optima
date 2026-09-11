@@ -1,8 +1,19 @@
 """Example: default weighted-shortest-path search using Dijkstra.
 
-Run from the flight_planner directory:
+Run from the repository root:
+    uv run python src/models/flight_planner/demos/dijkstra_example.py
+
+Or as a module, from src/models/flight_planner/:
     python -m demos.dijkstra_example
 """
+
+# Runnable from anywhere: the sibling modules (airport, route, ...) live one
+# directory up and are imported by bare name, so that directory has to be on
+# sys.path. Python only adds this script's own directory automatically.
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from airport import Airport
 from route import Route
