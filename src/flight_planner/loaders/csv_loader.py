@@ -43,6 +43,31 @@ class CsvRecordLoader(ABC):
 
     REQUIRED_COLUMNS: ClassVar[Tuple[str, ...]] = ()
 
+    #: Columns read verbatim rather than through pandas' missing-value
+    #: handling. pandas treats the literal string `NA` as null, which would
+    #: silently blank the continent of every North American airport and the
+    #: country of every Namibian one. Listing a column that the file does not
+    #: contain is harmless -- pandas ignores converters for absent columns.
+    TEXT_COLUMNS: ClassVar[Tuple[str, ...]] = (
+        "name",
+        "iata_code",
+        "icao_code",
+        "iso_country",
+        "iso_region",
+        "continent",
+        "municipality",
+        "type",
+        "scheduled_service",
+        "is_international",
+        "wikipedia_link",
+        "flight_number",
+        "airline_code",
+        "source_airport_code",
+        "destination_airport_code",
+        "codeshare",
+        "equipment",
+    )
+
     def __init__(self, path: PathLike) -> None:
         """Configure the loader with the CSV file it should read.
 
@@ -70,7 +95,10 @@ class CsvRecordLoader(ABC):
         Raises:
             ValueError: If any of `REQUIRED_COLUMNS` is absent from the file.
         """
-        frame = pd.read_csv(self._path)
+        frame = pd.read_csv(
+            self._path,
+            converters={column: str for column in self.TEXT_COLUMNS},
+        )
         missing = [column for column in self.REQUIRED_COLUMNS if column not in frame.columns]
         if missing:
             raise ValueError(
@@ -123,6 +151,40 @@ class CsvRecordLoader(ABC):
             return ""
         return str(value).strip()
 
+    @classmethod
+    def _optional_text(cls, row: Any, column: str) -> str:
+        """Read a column that may not exist in this file.
+
+        Columns are added to the processed CSVs over time, and snapshots are
+        immutable — so a snapshot frozen before a column existed must still
+        load. Absent columns read as missing rather than raising.
+
+        Args:
+            row: One row of the data frame.
+            column: Column name to read.
+
+        Returns:
+            Stripped string, or `""` when the column or the value is missing.
+        """
+        return cls._text(getattr(row, column, None))
+
+    @staticmethod
+    def _optional_number(row: Any, column: str) -> Optional[float]:
+        """Read a numeric column that may not exist in this file.
+
+        Args:
+            row: One row of the data frame.
+            column: Column name to read.
+
+        Returns:
+            The value as a float, or `None` when the column or the value is
+            missing. `None` rather than `0.0`, which is a meaningful value.
+        """
+        value = getattr(row, column, None)
+        if value is None or pd.isna(value):
+            return None
+        return float(value)
+
     @abstractmethod
     def _build_record(self, row: Any, position: int) -> Optional[Any]:
         """Convert a single CSV row into a domain object.
@@ -139,9 +201,9 @@ class CsvRecordLoader(ABC):
 class AirportLoader(CsvRecordLoader):
     """Loads `airports.csv` into `Airport` instances.
 
-    The `iso_region` and `type` columns are intentionally dropped: `Airport`
-    models graph identity and geography only, and neither column maps onto one
-    of its fields. `city` is left empty because the file has no city column.
+    Every column the file carries maps onto an `Airport` field. Columns added
+    to the processed CSVs after a snapshot was frozen are read as missing
+    rather than raising, so older snapshots keep loading.
     """
 
     REQUIRED_COLUMNS: ClassVar[Tuple[str, ...]] = (
@@ -175,9 +237,22 @@ class AirportLoader(CsvRecordLoader):
         return Airport(
             iata_code=iata_code,
             name=self._text(row.name),
+            city=self._optional_text(row, "municipality"),
             country=self._text(row.iso_country),
             latitude=float(row.latitude_deg),
             longitude=float(row.longitude_deg),
+            region=self._optional_text(row, "iso_region"),
+            continent=self._optional_text(row, "continent"),
+            elevation_ft=self._optional_number(row, "elevation_ft"),
+            type=self._optional_text(row, "type"),
+            icao_code=self._optional_text(row, "icao_code"),
+            has_scheduled_service=(
+                self._optional_text(row, "scheduled_service").lower() == "yes"
+            ),
+            is_international=(
+                self._optional_text(row, "is_international").lower() == "yes"
+            ),
+            wikipedia_link=self._optional_text(row, "wikipedia_link"),
         )
 
     def load(self) -> List[Airport]:
@@ -263,6 +338,7 @@ class RouteLoader(CsvRecordLoader):
             destination=destination,
             distance_km=float(distance_km),
             airline=self._text(row.airline_code),
+            flight_number=self._optional_text(row, "flight_number"),
         )
 
     def load(self) -> List[Route]:

@@ -330,22 +330,22 @@ print("Karney:", karney_geodesic(lat1, lon1, lat2, lon2), "km")
 ## Diagrams
 
 The following SVG diagrams illustrate the geometric concepts behind each method.
-They are located in the `diagrams/` subfolder alongside this file.
+They are located in the `images/` subfolder alongside this file.
 
-- `diagrams/great_circle.svg` — illustrates the great-circle arc used by the
+- `images/great_circle.svg` — illustrates the great-circle arc used by the
   Haversine formula and the Spherical Law of Cosines, on a spherical Earth model.
-- `diagrams/ellipsoid_geodesic.svg` — illustrates the geodesic path used by
+- `images/ellipsoid_geodesic.svg` — illustrates the geodesic path used by
   Vincenty's formula and Karney's algorithm, on an oblate ellipsoid Earth model.
-- `diagrams/equirectangular.svg` — illustrates the flat-plane approximation used
+- `images/equirectangular.svg` — illustrates the flat-plane approximation used
   by the Equirectangular method, showing the x/y projection and correction factor.
-- `diagrams/utm_projection.svg` — illustrates the projected coordinate approach
+- `images/utm_projection.svg` — illustrates the projected coordinate approach
   (UTM), showing zone boundaries and where distortion increases.
 
 To embed these in a rendered markdown report, reference them like so:
 
 ```markdown
-![Great Circle Diagram](diagrams/great_circle.svg)
-![Ellipsoid Geodesic Diagram](diagrams/ellipsoid_geodesic.svg)
-![Equirectangular Diagram](diagrams/equirectangular.svg)
-![UTM Projection Diagram](diagrams/utm_projection.svg)
+![Great Circle Diagram](images/great_circle.svg)
+![Ellipsoid Geodesic Diagram](images/ellipsoid_geodesic.svg)
+![Equirectangular Diagram](images/equirectangular.svg)
+![UTM Projection Diagram](images/utm_projection.svg)
 ```

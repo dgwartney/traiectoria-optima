@@ -20,12 +20,32 @@ SRC_DATA_DIR=$(SRC_DIR)/data
 # Specific python file to process the flight data
 SRC_FLIGHT_DATA_DB=$(SRC_DATA_DIR)/flight_data.py
 
+# Builds the processed network (airports + routes) from the raw sources
+SRC_FLIGHT_NETWORK=$(SRC_DATA_DIR)/flight_network.py
+
+# Where immutable, checksummed slices of the processed network are frozen
+SNAPSHOT_DIR=data/snapshots
+
+# Where experiments live: a directory each, pinning a snapshot.
+EXPERIMENT_DIR=experiments
+
+# Creates and slices snapshots, and scaffolds experiments. These know the
+# repository's layout, which is why they are scripts rather than package code.
+SCRIPTS_DIR=scripts
+SRC_NEW_SNAPSHOT=$(SCRIPTS_DIR)/new_snapshot.py
+SRC_NEW_EXPERIMENT=$(SCRIPTS_DIR)/new_experiment.py
+
+# The narrowing that reproduces the dataset published before the pipeline went
+# global: United, US large airports, both endpoints. Kept as a snapshot rather
+# than as the pipeline's output.
+LEGACY_SNAPSHOT_FILTERS=--airline UA --airport-type large_airport --country US
+
 # SQL script that derives the United Airlines tables from the SQLite database
 # and spools them out as the two processed CSV files
 SRC_SQL_DIR=$(SRC_DIR)/sql
 FLIGHT_DATA_SQL=$(SRC_SQL_DIR)/flight_data.sql
-UA_AIRPORTS_CSV=$(PROCESSED_DATA_DIR)/airports.csv
-UA_ROUTES_CSV=$(PROCESSED_DATA_DIR)/routes.csv
+AIRPORTS_CSV=$(PROCESSED_DATA_DIR)/airports.csv
+ROUTES_CSV=$(PROCESSED_DATA_DIR)/routes.csv
 
 # Raw source data files loaded into the sqlite database by flight_data.py
 OPEN_FLIGHTS_DIR=$(RAW_DATA_DIR)/open_flights
@@ -68,7 +88,7 @@ STAMP_DIR = .make
 PY_SRC   := $(shell find $(SRC_DIR) -name '*.py' -not -path '*/__pycache__/*')
 PY_TESTS := $(shell find tests -name '*.py' -not -path '*/__pycache__/*')
 
-.PHONY: all help notebook flight_data united_airlines_csv international_airports verify_iata_codes test lint check docs clean
+.PHONY: all help notebook flight_data flight_network snapshot legacy_snapshot experiment united_airlines_tables international_airports verify_iata_codes test lint check docs clean
 
 .DEFAULT_GOAL := help
 
@@ -107,7 +127,7 @@ check-deps:
 
 clean: ## Remove generated data, build output, and make stamp files
 	$(RM) $(FLIGHT_DATA_DB_PATH) $(AIRPORTS_RAW_JSON) $(INTERNATIONAL_AIRPORTS_CSV)
-	$(RM) $(UA_AIRPORTS_CSV) $(UA_ROUTES_CSV)
+	$(RM) $(AIRPORTS_CSV) $(ROUTES_CSV)
 	$(RM) -r $(STAMP_DIR)
 	$(RM) -r $(BUILD_DIR)
 
@@ -173,20 +193,76 @@ $(FLIGHT_DATA_DB_PATH): $(SRC_FLIGHT_DATA_DB) $(INTERNATIONAL_AIRPORTS_CSV) \
 flight_data: $(FLIGHT_DATA_DB_PATH) ## Load source data into data/processed/flight_data.db
 
 #
-# Step 4: derive the United Airlines tables and spool them to CSV.
+# Step 4: derive the processed network from the raw sources.
 #
-# One sqlite3 invocation writes both $(UA_AIRPORTS_CSV) and $(UA_ROUTES_CSV),
-# so a stamp file stands in as the target -- the same idiom the test/lint gates
+# One invocation writes both $(AIRPORTS_CSV) and $(ROUTES_CSV), so a
+# stamp file stands in as the target -- the same idiom the test/lint gates
 # below use. (GNU Make 3.81 ships on macOS and has no grouped `&:` targets.)
 #
-# The script's `.output` paths are relative to the working directory, so it has
-# to run from the project root -- which is where make already is.
+# Note this no longer depends on $(FLIGHT_DATA_DB_PATH): the network is built
+# straight from the raw files with pandas, so a clone without the sqlite3
+# binary can still produce the dataset.
 #
-$(STAMP_DIR)/united_airlines_csv: $(FLIGHT_DATA_SQL) $(FLIGHT_DATA_DB_PATH) | $(STAMP_DIR)
-	sqlite3 $(FLIGHT_DATA_DB_PATH) < $(FLIGHT_DATA_SQL)
+$(STAMP_DIR)/flight_network: $(SRC_FLIGHT_NETWORK) $(OUR_AIRPORTS_AIRPORTS) \
+		$(OPEN_FLIGHTS_ROUTES) $(INTERNATIONAL_AIRPORTS_CSV) | $(STAMP_DIR)
+	uv run python $(SRC_FLIGHT_NETWORK) \
+		$(OUR_AIRPORTS_AIRPORTS) \
+		$(OPEN_FLIGHTS_ROUTES) \
+		$(AIRPORTS_CSV) \
+		$(ROUTES_CSV) \
+		--international $(INTERNATIONAL_AIRPORTS_CSV) \
+		--database $(FLIGHT_DATA_DB_PATH)
 	touch $@
 
-united_airlines_csv: $(STAMP_DIR)/united_airlines_csv ## Regenerate data/processed/{airports,routes}.csv from the SQLite DB
+flight_network: $(STAMP_DIR)/flight_network ## Rebuild data/processed/{airports,routes}.csv and the DB tables
+
+#
+# Freeze the processed network, whole or sliced. Experiments pin a snapshot
+# rather than the processed files, which keep moving as the pipeline changes.
+#
+# Narrowing goes through the same `Catalog` an experiment uses, so a
+# snapshot's criteria mean what they mean in a notebook, and the manifest
+# records the chain step by step. Pass narrowings through SNAPSHOT_FILTERS:
+#
+#   make snapshot
+#   make snapshot SNAPSHOT_FILTERS="--airline UA --airport-type large"
+#
+# Identical data always lands on the same id, so re-freezing is a no-op
+# rather than a duplicate.
+#
+snapshot: $(AIRPORTS_CSV) ## Freeze data/processed as an immutable snapshot (SNAPSHOT_FILTERS=...)
+	uv run python $(SRC_NEW_SNAPSHOT) \
+		--airports-csv $(AIRPORTS_CSV) \
+		--routes-csv $(ROUTES_CSV) \
+		--root $(SNAPSHOT_DIR) \
+		$(SNAPSHOT_FILTERS)
+
+legacy_snapshot: ## Freeze the United/US-large slice as an immutable snapshot
+	$(MAKE) snapshot SNAPSHOT_FILTERS="$(LEGACY_SNAPSHOT_FILTERS)"
+
+#
+# Scaffold an experiment: a directory pinning a snapshot, plus a starter
+# notebook that runs end to end as written. Defaults to the most recently
+# frozen snapshot; name another with SNAPSHOT=<id>.
+#
+#   make experiment SLUG=astar-heuristics
+#   make experiment SLUG=astar-heuristics SNAPSHOT=2026-09-11-1528c4
+#
+experiment: ## Scaffold an experiment (SLUG=required, SNAPSHOT=optional)
+	@test -n "$(SLUG)" || { echo "usage: make experiment SLUG=<name> [SNAPSHOT=<id>]" >&2; exit 1; }
+	uv run python $(SRC_NEW_EXPERIMENT) $(SLUG) \
+		--root $(EXPERIMENT_DIR) \
+		--snapshot-root $(SNAPSHOT_DIR) \
+		$(if $(SNAPSHOT),--snapshot $(SNAPSHOT),) \
+		$(if $(DESCRIPTION),--description "$(DESCRIPTION)",)
+
+#
+# The exploratory SQL derivation. Not part of the CSV build -- it creates the
+# United subset tables inside the database for ad-hoc querying, and is the one
+# target that still needs the sqlite3 CLI.
+#
+united_airlines_tables: $(FLIGHT_DATA_SQL) $(FLIGHT_DATA_DB_PATH) ## Derive the United subset tables in the SQLite DB for exploration
+	sqlite3 $(FLIGHT_DATA_DB_PATH) < $(FLIGHT_DATA_SQL)
 
 # --- Quality gates ------------------------------------------------------
 # pytest/ruff don't produce an output file to key off of, so each writes a

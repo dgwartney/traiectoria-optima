@@ -140,15 +140,36 @@ Setup cell:
 Then the package is importable in the same session:
 
 ```python
-from pathlib import Path
 from flight_planner import Dijkstra
-from flight_planner.loaders import load_flight_planner
+from flight_planner.experiments import Snapshot
 
-DATA = Path('/content/traiectoria-optima/data/processed')
-planner = load_flight_planner(DATA / 'airports.csv', DATA / 'routes.csv')
+REPO = '/content/traiectoria-optima'
+snapshot = Snapshot.open(f'{REPO}/data/snapshots/2026-09-11-bb90a8')
+planner = snapshot.load_planner()      # every checksum verified here
 
 distance, legs = planner.find_shortest_route('SFO', 'BOS', Dijkstra())
 ```
+
+**Read a snapshot, not `data/processed/`.** The processed CSVs are build
+output — `make flight_network` rewrites them — so a notebook that reads them
+can produce a different answer on a later run with nothing to say the data
+moved. A snapshot is frozen and checksummed: opening one proves you are reading
+the bytes you think you are. See [Experiments](experiments.md).
+
+Better still, if the work is a question worth recording, put it in an
+experiment, which pins its own snapshot and records results next to the data's
+identity:
+
+```python
+from flight_planner.experiments import Experiment
+
+experiment = Experiment.open(f'{REPO}/experiments/sfo-bos-dijkstra')
+planner = experiment.snapshot.load_planner()
+experiment.record({'shortest_km': 4341.0, 'legs': 1})
+```
+
+To version a notebook written in Colab, commit from the clone — an experiment
+directory is a normal part of the repository.
 
 Three details make the difference between this working and not:
 
@@ -202,9 +223,11 @@ mirroring the layout of `src/`:
 
 ```
 tests/
-├── conftest.py                  # forces the non-interactive matplotlib backend
+├── conftest.py                  # matplotlib backend, data-path and snapshot fixtures
 ├── data/
-│   └── test_flight_data.py      # FlightDataToDB: paths, loaders, SQLite writes
+│   ├── test_flight_data.py      # FlightDataToDB: paths, loaders, SQLite writes
+│   ├── test_flight_network.py   # the pandas transform: numbering, resolution, output
+│   └── test_international_airports.py
 ├── exercises/
 │   ├── algorithms/
 │   │   └── test_exercise_dijkstra.py
@@ -224,7 +247,16 @@ tests/
 │   ├── test_dijkstra.py
 │   ├── test_bfs.py
 │   ├── test_astar.py
-│   └── test_loader.py
+│   ├── test_loader.py
+│   └── experiments/             # Snapshot, Catalog, Experiment
+│       ├── test_snapshot.py
+│       ├── test_catalog.py
+│       └── test_experiment.py
+├── scripts/                     # the snapshot and experiment generators
+│   ├── test_new_snapshot.py
+│   └── test_new_experiment.py
+├── experiments/
+│   └── test_committed.py        # the committed snapshots and experiments still work
 └── models/
     └── flight/                  # aircraft performance and the gate-to-gate simulator
         ├── test_atmosphere.py

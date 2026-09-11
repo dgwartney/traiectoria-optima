@@ -17,8 +17,10 @@ OurAirports `ident`. See `docs/data.md` for the table and the reasoning.
 import argparse
 import csv
 import json
+import re
 import sys
 from pathlib import Path
+from typing import Optional
 
 import pandas as pd
 
@@ -50,8 +52,38 @@ class InternationalAirportsBuilder:
         self.overrides_path = overrides_path
         self.output_path = output_path
 
-    @staticmethod
-    def normalise(codes: pd.Series) -> pd.Series:
+    #: Wikipedia citation markers, as they appear inside a scraped table cell.
+    #: A cited IATA cell renders as `<sup class="reference">[1]</sup>`, and the
+    #: scraper captures the cell's text -- so `MHH` arrives as `MHH[1]` and
+    #: matches nothing in OurAirports.
+    FOOTNOTE_MARKER = re.compile(r"\[\d+\]")
+
+    #: Separator Wikipedia uses when one field carries several codes.
+    #: EuroAirport Basel-Mulhouse-Freiburg reads `BSL/MLH/EAP`; OurAirports
+    #: lists the field under the first of them, which
+    #: `data/reference/iata_code_overrides.csv` already records.
+    CODE_SEPARATOR = "/"
+
+    @classmethod
+    def normalise_code(cls, code: Optional[str]) -> str:
+        """Normalize one IATA code for matching.
+
+        Args:
+            code: Raw code, possibly `None` and possibly carrying Wikipedia
+                citation markers.
+
+        Returns:
+            The first code in the field, without citation markers, stripped
+            and upper-cased, or `""` when missing.
+        """
+        if code is None:
+            return ""
+        cleaned = cls.FOOTNOTE_MARKER.sub("", str(code))
+        first = cleaned.split(cls.CODE_SEPARATOR)[0]
+        return first.strip().upper()
+
+    @classmethod
+    def normalise(cls, codes: pd.Series) -> pd.Series:
         """Upper-case and strip a column of IATA codes.
 
         Uses `fillna` rather than `astype(str)` deliberately: Nadi International
@@ -63,10 +95,17 @@ class InternationalAirportsBuilder:
             codes: Column of IATA codes, possibly containing missing values.
 
         Returns:
-            The column with missing values as empty strings, stripped and
-            upper-cased.
+            The column with missing values as empty strings, citation markers
+            removed, reduced to the first code, stripped and upper-cased.
         """
-        return codes.fillna("").str.strip().str.upper()
+        return (
+            codes.fillna("")
+            .str.replace(cls.FOOTNOTE_MARKER, "", regex=True)
+            .str.split(cls.CODE_SEPARATOR)
+            .str[0]
+            .str.strip()
+            .str.upper()
+        )
 
     def load_airports(self) -> pd.DataFrame:
         """Read the OurAirports data, indexed for both lookup paths.
@@ -130,7 +169,7 @@ class InternationalAirportsBuilder:
 
         rows, unresolved = [], []
         for entry in results:
-            code = (entry.get("iata") or "").strip().upper()
+            code = self.normalise_code(entry.get("iata"))
             if code in overrides:
                 source = by_ident.loc[overrides[code]]
             elif code in by_code.index:
@@ -173,7 +212,7 @@ class InternationalAirportsBuilder:
             joined = ", ".join(f"{c} -> {i}" for c, i in sorted(missing.items()))
             sys.exit(f"override names unknown OurAirports ident: {joined}")
 
-        scraped = {(r.get("iata") or "").strip().upper() for r in results}
+        scraped = {self.normalise_code(r.get("iata")) for r in results}
         unused = sorted(set(overrides) - scraped)
         if unused:
             sys.exit(f"override code no longer present in the scrape: {', '.join(unused)}")
@@ -200,7 +239,7 @@ class InternationalAirportsBuilder:
                   f"({len(unresolved)} of {total}):\n")
             rows = sorted(
                 (
-                    (r.get("iata") or "(none)").strip().upper() or "(none)",
+                    self.normalise_code(r.get("iata")) or "(none)",
                     r["region"],
                     r["location"],
                     r["airport"],
@@ -235,7 +274,7 @@ class InternationalAirportsBuilder:
             writer.writerows(rows)
 
         overrides, _ = self.load_overrides()
-        scraped = [(r.get("iata") or "").strip().upper() for r in results]
+        scraped = [self.normalise_code(r.get("iata")) for r in results]
         self.report(unresolved, len(results), sum(c in overrides for c in scraped))
 
 

@@ -1,6 +1,15 @@
-# OpenFlights Data Schemas
+# Data
 
-This document details the data schemas for the OpenFlights route and airport datasets, including column positions, field names, data types, nullability rules, and descriptive notes.
+This document covers the data this project reads and the data it produces.
+
+Sections 1 and 2 detail the **raw** OpenFlights schemas — column positions,
+field names, data types, nullability rules. Sections 3 and 4 cover sourcing
+airport coordinates and the Wikipedia international-airports scrape. Section 5
+documents the **processed** dataset the pipeline builds from all of it, which is
+what the `flight_planner` package actually loads.
+
+For the immutable snapshots taken of the processed dataset, and the experiments
+pinned to them, see [Experiments](experiments.md).
 
 ---
 
@@ -84,7 +93,7 @@ The airports dataset contains geographic, navigational, and administrative detai
 
 
 
-## Free Airport Coordinates APIs (IATA to Lat/Long)
+## 3. Free Airport Coordinates APIs (IATA to Lat/Long)
 
 > **Historical.** The pipeline no longer calls any of these. Coordinates now
 > come from `data/raw/our_airports/airports.csv`, which the project already
@@ -261,3 +270,128 @@ awaited directly from a cell:
    ```
 
 
+
+
+---
+
+## 5. The processed dataset
+
+`make flight_network` turns the raw sources into two files that the
+`flight_planner` loaders read directly:
+
+```
+data/processed/airports.csv     3,387 rows
+data/processed/routes.csv      66,332 rows
+```
+
+These are **build output**. They are rewritten whenever the pipeline runs, so
+nothing that needs a stable answer should read them directly — freeze a
+[snapshot](experiments.md) instead.
+
+### What the transform does
+
+| Step | Behaviour |
+|---|---|
+| Load | OpenFlights `routes.dat` + OurAirports `airports.csv`, via pandas |
+| Number | `flight_number` = `{airline}{n:04d}`, ordered by `(source, destination)` |
+| Resolve | Keep routes whose endpoints both have an IATA code and coordinates; **report the rest** |
+| Enrich | Carry the descriptive airport columns through, and mark international airports |
+| Distance | `distance_km` via `flight_planner.geo.Haversine` |
+| Write | Both CSVs **and** the `airports` / `routes` tables in `flight_data.db` |
+
+Two things about this are worth understanding.
+
+**The transform is pandas, not SQL.** It used to be `src/sql/flight_data.sql`,
+which hand-rolled a haversine in SQL trig while `flight_planner.geo.Haversine`
+was a tested implementation of the same formula. That duplication had already
+produced a bug (`ba6aca5`). The SQL also needed an unmanaged `sqlite3` binary
+and could not be unit tested. The pandas version reuses the tested distance
+formula and has tests of its own.
+
+**SQLite is preserved, not removed.** The same DataFrames are written to CSV and
+to the database, so the two cannot drift — they are the same objects serialized
+twice. `src/sql/flight_data.sql` survives as an *analysis* asset: it derives the
+United subset tables for ad-hoc SQL querying (`make united_airlines_tables`),
+and is the only target that still needs the `sqlite3` CLI. A clone without that
+binary can still build the dataset and run every test.
+
+### `airports.csv`
+
+Only airports that at least one surviving route touches: 3,387 of the 9,053
+that OurAirports gives a usable IATA code and coordinates (out of 85,884 rows
+in total, most of which are airfields with no commercial service).
+
+| Column | Source | Coverage | Notes |
+|---|---|---|---|
+| `iata_code` | `iata_code` | 100% | Graph identity key; upper-cased |
+| `icao_code` | `icao_code` | 96.6% | For cross-referencing other datasets |
+| `name` | `name` | 100% | |
+| `municipality` | `municipality` | 98.6% | Loaded as `Airport.city` |
+| `iso_country` | `iso_country` | 100% | Loaded as `Airport.country`; 230 values |
+| `iso_region` | `iso_region` | 100% | Loaded as `Airport.region`; 1,439 values |
+| `continent` | `continent` | 100% | 6 values |
+| `latitude_deg`, `longitude_deg` | same | 100% | Decimal degrees |
+| `elevation_ft` | `elevation_ft` | 98.2% | `None` when unknown — sea level is a real elevation |
+| `type` | `type` | 100% | 5 values; see below |
+| `scheduled_service` | `scheduled_service` | 100% | Loaded as `Airport.has_scheduled_service` |
+| `is_international` | Wikipedia scrape | 100% | See §4; 1,329 airports listed |
+| `wikipedia_link` | `wikipedia_link` | 99.8% | Citations in reports; map popups |
+
+`keywords` (40.1%) and `home_link` (35.7%) are deliberately excluded as too
+sparse to rely on.
+
+`type` takes **five** values, not three: `medium_airport` (1,736),
+`large_airport` (1,066), `small_airport` (518), `heliport` (34) and
+`seaplane_base` (33).
+
+`is_international` is independent of `type` — 116 large airports are absent
+from Wikipedia's list and 364 medium ones appear on it — so the two are
+different questions, not two spellings of one.
+
+### `routes.csv`
+
+| Column | Notes |
+|---|---|
+| `flight_number` | Assigned by the pipeline; see below |
+| `airline_code` | 564 distinct carriers |
+| `source_airport_code`, `destination_airport_code` | IATA; directed |
+| `codeshare`, `stops`, `equipment` | Carried through from OpenFlights |
+| `distance_km` | Great-circle, via the tested `Haversine` |
+
+Edges are **directed** and appear exactly as OpenFlights lists them. Both
+directions are already present for bidirectional city pairs, so nothing
+synthesizes reverse edges.
+
+### Flight numbers are assigned, not real
+
+`UA1876` is not a published United flight. The pipeline assigns
+`{airline}{n:04d}` so every route has a stable unique handle — necessary
+because the endpoint pair does not identify a route: SFO to BOS is flown by
+`B60346`, `UA1876` and `VX0047` over the identical 4,341.022 km.
+
+`(airline, source, destination)` is unique across all 67,663 raw routes, so the
+assignment is collision-free. The busiest carrier has 2,484 raw routes, so four
+digits has headroom.
+
+Numbers are assigned to the **raw** route set, before resolution. That leaves
+gaps — United is numbered `UA0001`–`UA2180` but ships 2,170 rows — and the gaps
+are the price of stability: numbering after resolution would renumber every
+downstream route the moment an entry was added to
+`data/reference/iata_code_overrides.csv`.
+
+### What gets dropped
+
+1,331 of 67,663 raw routes (2.0%) reference an airport with no usable IATA code
+or coordinates — typically airports that have closed or been renamed (TXL, SXF,
+TSE). They are reported as `(row, reason)` pairs rather than dropped silently,
+mirroring `CsvRecordLoader.skipped`. Known substitutions live in
+`data/reference/iata_code_overrides.csv`.
+
+### A pandas trap worth knowing
+
+pandas reads the literal string `NA` as a null value. In this dataset `NA` is
+North America (39,715 airports) and Namibia (303), so a naive `read_csv` blanks
+both columns. Every text column is therefore read through an explicit
+`str` converter. Note that `NAN` — Nadi, Fiji — is *not* in pandas'
+`STR_NA_VALUES` and was never at risk; the affected columns are exactly
+`continent` and `iso_country`.

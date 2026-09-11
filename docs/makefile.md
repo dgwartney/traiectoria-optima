@@ -38,17 +38,55 @@ Instead of forcing a programmer to manually type out dozens of complicated instr
 
 ## Targets
 
+### Building the data
+
 | Target | What it does | Rebuilds when... |
 |---|---|---|
-| `make flight_data` | Loads OpenFlights/OurAirports data into `data/processed/flight_data.db` | `src/data/flight_data.py` is newer than the DB file |
-| `make test` | Runs `uv run pytest` | Any file under `src/`, `tests/`, or `pyproject.toml` changed since the last **passing** run |
+| `make flight_data` | Loads the raw OpenFlights/OurAirports files into `data/processed/flight_data.db` | `src/data/flight_data.py` is newer than the DB file |
+| `make international_airports` | Scrapes Wikipedia's list of international airports to `data/processed/international_airports.csv` | The scraper or the raw JSON changed |
+| `make flight_network` | Builds `data/processed/{airports,routes}.csv` **and** the `airports`/`routes` DB tables, with pandas | The builder or any raw input changed |
+| `make verify_iata_codes` | Re-checks `data/reference/iata_code_overrides.csv` against iata.org | Always (makes network requests) |
+| `make united_airlines_tables` | Derives the United subset tables inside the DB for ad-hoc SQL | The SQL file or the DB changed |
+
+`flight_network` is the one that matters day to day. It needs only pandas — a
+clone without the `sqlite3` binary can still build the dataset and run every
+test. `united_airlines_tables` is the sole target that still requires that
+binary, and it is optional exploration rather than part of the build.
+
+### Freezing data and creating experiments
+
+| Target | What it does |
+|---|---|
+| `make snapshot` | Freezes `data/processed` as an immutable, checksummed snapshot under `data/snapshots/` |
+| `make snapshot SNAPSHOT_FILTERS="..."` | Freezes a narrowed slice; filters are the catalog's own |
+| `make legacy_snapshot` | Shorthand for the United / large / US slice |
+| `make experiment SLUG=<name>` | Scaffolds an experiment directory with a runnable starter notebook |
+
+```bash
+make snapshot SNAPSHOT_FILTERS="--airline UA --airport-type large --country US"
+make experiment SLUG=astar-heuristics SNAPSHOT=2026-09-11-bb90a8
+```
+
+Identical data always lands on the same snapshot id, so re-freezing a slice is
+a no-op rather than a duplicate. See [Experiments](experiments.md) for what
+these produce and how to use it.
+
+### Quality gates and everything else
+
+| Target | What it does | Rebuilds when... |
+|---|---|---|
+| `make test` | Runs `uv run pytest` | Any file under `src/`, `tests/`, `scripts/`, or `pyproject.toml` changed since the last **passing** run |
 | `make lint` | Runs `uv run ruff check` | Any file under `src/` or `pyproject.toml` changed since the last passing run |
 | `make check` | `lint` + `test` | (aggregate of the above) |
 | `make docs` | Renders every `docs/*.md` to PDF with `pandoc` → `build/pdf/` | The matching `.md`, the LaTeX header, or the SVG filter is newer than the PDF |
 | `make notebook` | Syncs the `notebooks` dependency group, then runs `uv run jupyter lab` | Always |
 | `make all` | `check` | (aggregate) |
-| `make clean` | Removes `data/processed/flight_data.db`, the generated CSVs, `build/`, and `.make/` | — |
+| `make clean` | Removes the generated CSVs, `data/processed/flight_data.db`, `build/`, and `.make/` | — |
 | `make help` | Lists all targets with their one-line descriptions | Always |
+
+`make clean` does **not** remove `data/snapshots/` or `experiments/`. Those are
+committed artifacts, not build output — that distinction is the whole point of
+a snapshot.
 
 Run `make` with no target and it runs `help` (`.DEFAULT_GOAL := help`), so
 `make` on its own is a safe way to see what's available.

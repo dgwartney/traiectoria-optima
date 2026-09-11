@@ -168,3 +168,174 @@ class TestLoadFlightPlanner:
 
         assert len(legs) > 1
         assert distance == pytest.approx(sum(leg.distance_km for leg in legs))
+
+
+EXTENDED_AIRPORT_HEADER = (
+    "name,iso_country,iso_region,continent,municipality,iata_code,icao_code,"
+    "latitude_deg,longitude_deg,elevation_ft,scheduled_service,type,wikipedia_link\n"
+)
+INTERNATIONAL_AIRPORT_HEADER = (
+    "name,iso_country,iata_code,latitude_deg,longitude_deg,is_international\n"
+)
+EXTENDED_ROUTE_HEADER = (
+    "flight_number,airline_code,source_airport_code,destination_airport_code,"
+    "codeshare,stops,equipment,distance_km\n"
+)
+
+
+class TestAirportLoaderDescriptiveFields:
+    def test_region_and_type_come_from_todays_columns(self, tmp_path):
+        # airports.csv already carries iso_region and type; the loader used to
+        # drop both for want of a field to put them in.
+        path = _write(
+            tmp_path,
+            "airports.csv",
+            AIRPORT_HEADER
+            + '"Test Field",US,US-CA,SFO,37.6,-122.4,large_airport\n',
+        )
+
+        airport = AirportLoader(path).load()[0]
+
+        assert airport.region == "US-CA"
+        assert airport.type == "large_airport"
+
+    def test_absent_columns_fall_back_to_defaults(self, tmp_path):
+        path = _write(
+            tmp_path,
+            "airports.csv",
+            AIRPORT_HEADER
+            + '"Test Field",US,US-CA,SFO,37.6,-122.4,large_airport\n',
+        )
+
+        airport = AirportLoader(path).load()[0]
+
+        assert airport.city == ""
+        assert airport.continent == ""
+        assert airport.icao_code == ""
+        assert airport.wikipedia_link == ""
+        assert airport.elevation_ft is None
+        assert airport.has_scheduled_service is False
+
+    def test_extended_columns_are_read(self, tmp_path):
+        path = _write(
+            tmp_path,
+            "airports.csv",
+            EXTENDED_AIRPORT_HEADER
+            + '"San Francisco International Airport",US,US-CA,NA,'
+            '"San Francisco",SFO,KSFO,37.619806,-122.374821,13,yes,large_airport,'
+            "https://en.wikipedia.org/wiki/San_Francisco_International_Airport\n",
+        )
+
+        airport = AirportLoader(path).load()[0]
+
+        assert airport.city == "San Francisco"
+        assert airport.continent == "NA"
+        assert airport.icao_code == "KSFO"
+        assert airport.elevation_ft == 13.0
+        assert airport.has_scheduled_service is True
+        assert airport.wikipedia_link.endswith("San_Francisco_International_Airport")
+
+    def test_scheduled_service_no_reads_as_false(self, tmp_path):
+        path = _write(
+            tmp_path,
+            "airports.csv",
+            EXTENDED_AIRPORT_HEADER
+            + '"Quiet Field",US,US-CA,NA,"Nowhere",XXX,KXXX,37.6,-122.4,13,no,small_airport,\n',
+        )
+
+        assert AirportLoader(path).load()[0].has_scheduled_service is False
+
+    def test_missing_elevation_stays_none(self, tmp_path):
+        path = _write(
+            tmp_path,
+            "airports.csv",
+            EXTENDED_AIRPORT_HEADER
+            + '"No Elevation",US,US-CA,NA,"Nowhere",XXX,KXXX,37.6,-122.4,,yes,small_airport,\n',
+        )
+
+        assert AirportLoader(path).load()[0].elevation_ft is None
+
+
+class TestRouteLoaderFlightNumber:
+    def test_flight_number_is_read_when_present(self, tmp_path):
+        airports = {
+            "SFO": Airport("SFO", latitude=37.6, longitude=-122.4),
+            "BOS": Airport("BOS", latitude=42.4, longitude=-71.0),
+        }
+        path = _write(
+            tmp_path,
+            "routes.csv",
+            EXTENDED_ROUTE_HEADER + "UA1876,UA,SFO,BOS,,0,320,4341.0\n",
+        )
+
+        assert RouteLoader(airports, path).load()[0].flight_number == "UA1876"
+
+    def test_flight_number_defaults_to_empty_when_absent(self, tmp_path):
+        airports = {
+            "SFO": Airport("SFO", latitude=37.6, longitude=-122.4),
+            "BOS": Airport("BOS", latitude=42.4, longitude=-71.0),
+        }
+        path = _write(
+            tmp_path,
+            "routes.csv",
+            ROUTE_HEADER + "UA,SFO,BOS,,0,320,4341.0\n",
+        )
+
+        assert RouteLoader(airports, path).load()[0].flight_number == ""
+
+
+class TestNaLikeCodesSurviveParsing:
+    """`NA` is a real code, not a missing value.
+
+    pandas treats the literal string `NA` as null by default, which would
+    blank the continent of 39,715 North American airports and the country of
+    303 Namibian ones.
+    """
+
+    def test_north_america_continent_is_not_parsed_as_missing(self, tmp_path):
+        path = _write(
+            tmp_path,
+            "airports.csv",
+            EXTENDED_AIRPORT_HEADER
+            + '"Logan",US,US-MA,NA,"Boston",BOS,KBOS,42.36,-71.0,20,yes,large_airport,\n',
+        )
+
+        assert AirportLoader(path).load()[0].continent == "NA"
+
+    def test_namibia_country_is_not_parsed_as_missing(self, tmp_path):
+        path = _write(
+            tmp_path,
+            "airports.csv",
+            EXTENDED_AIRPORT_HEADER
+            + '"Hosea Kutako",NA,NA-KH,AF,"Windhoek",WDH,FYWH,-22.48,17.47,5640,yes,large_airport,\n',
+        )
+
+        airport = AirportLoader(path).load()[0]
+        assert airport.country == "NA"
+        assert airport.region == "NA-KH"
+
+
+class TestInternationalFlag:
+    def test_is_international_is_read_when_present(self, tmp_path):
+        path = _write(
+            tmp_path,
+            "airports.csv",
+            INTERNATIONAL_AIRPORT_HEADER
+            + '"Logan",US,BOS,42.36,-71.0,yes\n'
+            + '"Nowhere",US,XXX,37.6,-122.4,no\n',
+        )
+
+        airports = AirportLoader(path).load_by_iata()
+
+        assert airports["BOS"].is_international is True
+        assert airports["XXX"].is_international is False
+
+    def test_absent_column_defaults_to_false(self, tmp_path):
+        # Snapshots frozen before the column existed must still load.
+        path = _write(
+            tmp_path,
+            "airports.csv",
+            AIRPORT_HEADER + '"Logan",US,US-MA,BOS,42.36,-71.0,large_airport\n',
+        )
+
+        assert AirportLoader(path).load()[0].is_international is False

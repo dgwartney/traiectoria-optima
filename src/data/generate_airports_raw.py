@@ -43,7 +43,14 @@ class ExtractInternationalAirportsData:
                   country,
                   location: cells[0].textContent.trim(),
                   airport: airportLink.textContent.trim(),
-                  iata: cells.length > 2 ? cells[2].textContent.trim() : null,
+                  // Drop citation superscripts before reading the text:
+                  // a cited cell renders as `MHH<sup class="reference">[1]</sup>`,
+                  // and textContent would capture the marker as part of the code.
+                  iata: cells.length > 2 ? (() => {
+                    const cell = cells[2].cloneNode(true);
+                    cell.querySelectorAll('sup.reference').forEach(s => s.remove());
+                    return cell.textContent.trim();
+                  })() : null,
                   href: airportLink.getAttribute('href')
                 });
               });

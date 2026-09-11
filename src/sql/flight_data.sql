@@ -1,70 +1,48 @@
+--
+-- Exploratory derivation of the United Airlines subset.
+--
+-- This no longer builds data/processed/*.csv. `src/data/flight_network.py`
+-- does that with pandas, reusing the tested `flight_planner.geo.Haversine`
+-- rather than a second copy of the formula. What remains here is the subset
+-- derivation, kept as tables for ad-hoc SQL exploration.
+--
+-- It now reads the processed `airports` and `routes` tables rather than the
+-- raw ones, so `distance_km` arrives precomputed and the enriched airport
+-- columns are available. Run with:
+--
+--     make united_airlines_tables
+--
+
 DROP TABLE IF EXISTS us_large_airports;
 
-CREATE TABLE us_large_airports AS 
-SELECT name, iso_country, iso_region, iata_code, latitude_deg, longitude_deg, type
-FROM airports_our_airports
-WHERE type = "large_airport" and iso_country = "US";
-
-
+CREATE TABLE us_large_airports AS
+SELECT *
+FROM airports
+WHERE type = 'large_airport' AND iso_country = 'US';
 
 DROP TABLE IF EXISTS united_airlines_routes;
 
+-- Historical note: this filter used to read
+--     source_airport_code IN (...) OR destination_airport_code IN (...)
+-- against the raw tables, but the distance join below INNER JOINed *both*
+-- endpoints against a US-large-only airports table -- silently tightening the
+-- OR into an AND. The stated OR admitted 1,996 routes; the join yielded 861.
+-- The AND is written explicitly here, because 861 is what was published.
 CREATE TABLE united_airlines_routes AS
-SELECT airline_code,source_airport_code, destination_airport_code, codeshare,stops,equipment
-FROM routes_open_flights
+SELECT *
+FROM routes
 WHERE airline_code = 'UA'
-AND ( source_airport_code IN (SELECT iata_code FROM us_large_airports) OR
-destination_airport_code IN (SELECT iata_code FROM us_large_airports));
+  AND source_airport_code IN (SELECT iata_code FROM us_large_airports)
+  AND destination_airport_code IN (SELECT iata_code FROM us_large_airports);
 
 DROP TABLE IF EXISTS united_airlines_airports;
 
 CREATE TABLE united_airlines_airports AS
-SELECT name, iso_country, iso_region, iata_code, latitude_deg, longitude_deg, type
+SELECT *
 FROM us_large_airports
-WHERE
-    iata_code IN (SELECT DISTINCT source_airport_code FROM united_airlines_routes) OR
-    iata_code IN (SELECT DISTINCT destination_airport_code FROM united_airlines_routes)
-GROUP BY name, iso_country, iso_region, iata_code, latitude_deg, longitude_deg, type;
+WHERE iata_code IN (SELECT source_airport_code FROM united_airlines_routes)
+   OR iata_code IN (SELECT destination_airport_code FROM united_airlines_routes);
 
-DROP TABLE IF EXISTS united_airlines_dist_routes;
-
-CREATE TABLE united_airlines_dist_routes AS
-SELECT airline_code,source_airport_code, destination_airport_code, codeshare,stops,equipment,
-    -- Haversine great-circle distance
-    -- R = 6371 km:
-    -- 2R * asin(sqrt( sin^2(dlat/2) + cos(lat1)*cos(lat2)*sin^2(dlon/2) ))
-    2 * 6371 * asin(
-    sqrt(
-      pow(sin(radians(dest.latitude_deg - src.latitude_deg) / 2), 2) +
-      cos(radians(src.latitude_deg)) * cos(radians(dest.latitude_deg)) *
-      pow(sin(radians(dest.longitude_deg - src.longitude_deg) / 2), 2)
-    )) AS distance_km
-FROM united_airlines_routes AS routes
-INNER JOIN united_airlines_airports AS src
-    ON routes.source_airport_code = src.iata_code
-INNER JOIN united_airlines_airports AS dest
-    ON routes.destination_airport_code = dest.iata_code;
-
--- Start spooling to a file
-.output data/processed/airports.csv
-
--- Optional: format nicely (table, csv, line, etc.)
-.headers on
-.mode csv
-
--- Run queries (output goes into the file)
-SELECT name, iso_country, iso_region, iata_code, latitude_deg, longitude_deg, type
-FROM united_airlines_airports;
--- Stop spooling and return output to the console/terminal
-.output stdout
-
-.output data/processed/routes.csv
-
-.headers on
-
-.mode csv
-
-SELECT airline_code,source_airport_code, destination_airport_code, codeshare,stops,equipment, distance_km
-FROM united_airlines_dist_routes;
-
-.output stdout
+SELECT
+    (SELECT COUNT(*) FROM united_airlines_airports) AS airports,
+    (SELECT COUNT(*) FROM united_airlines_routes)   AS routes;

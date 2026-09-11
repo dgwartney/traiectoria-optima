@@ -27,7 +27,7 @@ Sohag,Sohag International Airport,HMB,26.342515,31.743017,Africa
 Taba,Taba International Airport,TCP,29.594496,34.775752,Africa
 Benghazi,Benina International Airport,BEN,32.096802,20.269501,Africa
 Sabha,Sabha Airport,SEB,26.992452,14.466162,Africa
-Tripoli,Tripoli International Airport,TIP,32.663502,13.159000,Africa
+Tripoli,Tripoli International Airport,TIP,32.663502,13.159,Africa
 Tajoura,Mitiga International Airport,MJI,32.89177,13.287878,Africa
 Agadir,Agadir–Al Massira Airport,AGA,30.322478,-9.412003,Africa
 Beni Mellal,Beni Mellal Airport,BEM,32.401895,-6.315905,Africa
@@ -60,11 +60,11 @@ Sal Island,Amílcar Cabral International Airport,SID,16.7414,-22.9494,Africa
 "Praia, Santiago Island",Nelson Mandela International Airport,RAI,14.941126,-23.484728,Africa
 São Vicente,Cesária Évora Airport,VXE,16.833363,-25.055308,Africa
 Banjul,Banjul International Airport,BJL,13.338,-16.652201,Africa
-Accra,Accra International Airport,ACC,5.605189800262451,-0.16678600013256073,Africa
+Accra,Accra International Airport,ACC,5.605189800262451,-0.1667860001325607,Africa
 Kumasi,Prempeh I International Airport,KMS,6.71456,-1.59082,Africa
 Takoradi,Takoradi Airport,TKD,4.896059989929199,-1.7747600078582764,Africa
 Sunyani,Sunyani Airport,NYI,7.36183,-2.32876,Africa
-Ho,Ho Airport,HZO,6.5819,0.52955,Africa
+Ho,Ho Airport,HZO,6.579691,0.532547,Africa
 Wa,Wa Airport,WZA,10.0827,-2.50769,Africa
 Tamale,Tamale Airport,TML,9.553909,-0.86606,Africa
 Conakry,Conakry International Airport,CKY,9.57689,-13.612,Africa
@@ -148,7 +148,7 @@ Inhambane,Inhambane Airport,INH,-23.8764,35.408501,Africa
 Nampula,Nampula Airport,APL,-15.1056,39.281799,Africa
 Pemba,Pemba Airport,POL,-12.993302,40.524867,Africa
 Tete,Chingozi Airport,TET,-16.104799,33.640202,Africa
-Vilankulo,Vilankulo Airport,VNX,-22.018400192260742,35.31330108642578,Africa
+Vilankulo,Vilankulo Airport,VNX,-22.018400192260746,35.31330108642578,Africa
 Saint-Denis,Roland Garros Airport,RUN,-20.890087,55.518894,Africa
 Kigali,Kigali International Airport,KGL,-1.96863,30.1395,Africa
 Victoria,Seychelles International Airport,SEZ,-4.67434,55.521801,Africa
@@ -185,7 +185,7 @@ Exuma,Exuma International Airport,GGT,23.562599,-75.877998,Americas
 Freeport,Grand Bahama International Airport,FPO,26.557996,-78.695583,Americas
 North Eleuthera,North Eleuthera Airport,ELH,25.475823,-76.680784,Americas
 South Eleuthera,Rock Sound International Airport,RSD,24.89165,-76.177602,Americas
-Marsh Harbour,Marsh Harbour International Airport,MHH,26.5101,-77.0851,Americas
+Marsh Harbour,Marsh Harbour International Airport,MHH,26.510711,-77.084262,Americas
 Bridgetown,Grantley Adams International Airport,BGI,13.074667,-59.491034,Americas
 Road Town,Terrance B. Lettsome International Airport,EIS,18.445492,-64.541707,Americas
 "Kralendijk, Bonaire",Flamingo International Airport,BON,12.131,-68.268501,Americas
@@ -194,7 +194,7 @@ Road Town,Terrance B. Lettsome International Airport,EIS,18.445492,-64.541707,Am
 Cayman Brac,Charles Kirkconnell International Airport,CYB,19.687,-79.882797,Americas
 Georgetown,Owen Roberts International Airport,GCM,19.292801,-81.357697,Americas
 Camagüey,Ignacio Agramonte International Airport,CMW,21.419909,-77.848039,Americas
-Cayo Coco,Jardines del Rey Airport,CCC,22.461000442499998,-78.32839965820001,Americas
+Cayo Coco,Jardines del Rey Airport,CCC,22.4610004425,-78.32839965820001,Americas
 Cayo Largo del Sur,Vilo Acuña Airport,CYO,21.6165008545,-81.5459976196,Americas
 Cienfuegos,Jaime González Airport,CFG,22.149999618530273,-80.41419982910156,Americas
 Havana,José Martí International Airport,HAV,22.989200592041016,-82.40910339355469,Americas
@@ -302,7 +302,7 @@ Huatulco,Bahías de Huatulco International Airport,HUX,15.775437,-96.260456,Amer
 Ixtapa,Ixtapa-Zihuatanejo International Airport,ZIH,17.601771,-101.460629,Americas
 León,León/Bajío International Airport,BJX,20.992695,-101.480284,Americas
 Loreto,Loreto International Airport,LTO,25.989549,-111.348408,Americas
-Los Cabos,Cabo San Lucas International Airport,CSL,35.3263,-120.7431,Americas
+Los Cabos,Cabo San Lucas International Airport,CSL,22.949072,-109.939479,Americas
 Manzanillo,Playa de Oro International Airport,ZLO,19.1448,-104.558998,Americas
 Mazatlán,Mazatlán International Airport,MZT,23.162823,-106.264517,Americas
 Mérida,Mérida International Airport,MID,20.930485,-89.645462,Americas
@@ -517,7 +517,7 @@ Porto Alegre,Salgado Filho Porto Alegre International Airport,POA,-29.993984,-51
 Porto Velho,Governador Jorge Teixeira de Oliveira International Airport,PVH,-8.708491,-63.902338,Americas
 Recife,Guararapes International Airport,REC,-8.12747,-34.922961,Americas
 Rio Branco,Rio Branco International Airport,RBR,-9.869031,-67.893984,Americas
-Rio de Janeiro,Rio de Janeiro/Galeão International Airport,GIG,50.645,-114.203,Americas
+Rio de Janeiro,Rio de Janeiro/Galeão International Airport,GIG,-22.809999,-43.250557,Americas
 Salvador,Deputado Luís Eduardo Magalhães International Airport,SSA,-12.908611,-38.322498,Americas
 São Luís,Marechal Cunha Machado International Airport,SLZ,-2.586386,-44.235008,Americas
 São Paulo,São Paulo–Congonhas Airport,CGH,-23.627657,-46.654601,Americas
@@ -565,7 +565,7 @@ Cuenca,Mariscal Lamar International Airport,CUE,-2.88947,-78.984398,Americas
 Esmeraldas,Carlos Concha Torres International Airport,ESM,0.978519,-79.626602,Americas
 Guayaquil,José Joaquín de Olmedo International Airport,GYE,-2.15742,-79.883598,Americas
 Machala,Santa Rosa International Airport,ETR,-3.441986,-79.996957,Americas
-Manta,Eloy Alfaro International Airport,MEC,-0.9460780024528503,-80.67880249023438,Americas
+Manta,Eloy Alfaro International Airport,MEC,-0.9460780024528505,-80.67880249023438,Americas
 Quito,Mariscal Sucre International Airport,UIO,-0.125399,-78.354306,Americas
 Tulcán,Teniente Coronel Luis a Mantilla International Airport,TUA,0.809506,-77.708099,Americas
 Mount Pleasant,RAF Mount Pleasant,MPN,-51.822642,-58.445777,Americas
@@ -601,7 +601,7 @@ Petropavl,Petropavl Airport,PPK,54.775622,69.187415,Asia
 Semey,Semey Airport,PLX,50.351295,80.234398,Asia
 Şymkent,Şymkent International Airport,CIT,42.365021,69.47564,Asia
 Taraz,Taraz Airport,DMB,42.8536,71.303596,Asia
-Bishkek,Manas International Airport,FRU,43.061298,74.477600,Asia
+Bishkek,Manas International Airport,FRU,43.061298,74.4776,Asia
 Issyk-Kul,Issyk-Kul International Airport,IKU,42.585584,76.701181,Asia
 Karakol,Karakol International Airport,IKG,42.508099,78.407799,Asia
 Osh,Osh Airport,OSS,40.609001,72.793297,Asia
@@ -735,7 +735,7 @@ Taipa,Macau International Airport,MFM,22.149599,113.592003,Asia
 Ulaanbaatar,Chinggis Khaan International Airport,UBN,47.646916,106.819833,Asia
 Pyongyang,Pyongyang International Airport,FNJ,39.224098,125.669998,Asia
 Busan,Gimhae International Airport,PUS,35.179501,128.938004,Asia
-Cheongju,Cheongju International Airport,CJJ,43.3652992249,-92.133102417,Asia
+Cheongju,Cheongju International Airport,CJJ,36.71556,127.500289,Asia
 Daegu,Daegu International Airport,TAE,35.894394,128.656989,Asia
 Jeju,Jeju International Airport,CJU,33.512058,126.492548,Asia
 Muan,Muan International Airport,MWX,34.991406,126.382814,Asia
@@ -825,7 +825,7 @@ Hambantota,Mattala Rajapaksa International Airport,HRI,6.283878,81.124163,Asia
 Jaffna,Jaffna International Airport,JAF,9.79233,80.070099,Asia
 Bandar Seri Begawan,Brunei International Airport,BWN,4.9442,114.928001,Asia
 Phnom Penh,Techo International Airport,KTI,11.359987,104.921272,Asia
-Siem Reap,Siem Reap International Airport,REP,13.410700,103.813004,Asia
+Siem Reap,Siem Reap International Airport,REP,13.36974,104.223831,Asia
 Sihanoukville,Sihanouk International Airport,KOS,10.570557,103.632067,Asia
 Ambon,Pattimura International Airport,AMQ,-3.71026,128.089005,Asia
 Balikpapan,Sultan Aji Muhammad Sulaiman Sepinggan International Airport,BPN,-1.268342,116.89452,Asia
@@ -856,7 +856,7 @@ Yogyakarta,Yogyakarta International Airport,YIA,-7.905338,110.057264,Asia
 Bokeo (Tonpheung district),Bokeo International Airport,BOR,20.323986,100.165392,Asia
 Luang Prabang,Luang Prabang International Airport,LPQ,19.904273,102.167191,Asia
 Pakse,Pakse International Airport,PKZ,15.133973,105.779871,Asia
-Savannakhet,Savannakhet Airport,ZVK,16.55660057067871,104.76000213623047,Asia
+Savannakhet,Savannakhet Airport,ZVK,16.55660057067871,104.76000213623048,Asia
 Vientiane,Wattay International Airport,VTE,17.985052,102.566692,Asia
 Alor Setar,Sultan Abdul Halim Airport,AOR,6.189670085906982,100.39800262451172,Asia
 Ipoh,Sultan Azlan Shah Airport,IPH,4.56733,101.091643,Asia
@@ -865,12 +865,12 @@ Kota Bharu,Sultan Ismail Petra Airport,KBR,6.1668500900268555,102.29299926757812
 Kota Kinabalu,Kota Kinabalu International Airport,BKI,5.932743,116.049324,Asia
 Kuala Lumpur,Kuala Lumpur International Airport,KUL,2.74558,101.709999,Asia
 Kuala Terengganu,Sultan Mahmud Airport,TGG,5.3826398849487305,103.10299682617188,Asia
-Kuantan,Sultan Haji Ahmad Shah Airport,KUA,3.7753899097442627,103.20899963378906,Asia
+Kuantan,Sultan Haji Ahmad Shah Airport,KUA,3.7753899097442623,103.20899963378906,Asia
 Kuching,Kuching International Airport,KCH,1.487364,110.352859,Asia
 Labuan,Labuan International Airport,LBU,5.301667,115.248333,Asia
 Langkawi,Langkawi International Airport,LGK,6.32973,99.728699,Asia
 Penang,Penang International Airport,PEN,5.296303,100.276185,Asia
-Mandalay,Mandalay International Airport,MDL,21.702199935913086,95.97789764404297,Asia
+Mandalay,Mandalay International Airport,MDL,21.70219993591309,95.97789764404295,Asia
 Nay Pyi Taw,Naypyidaw International Airport,NYT,19.623501,96.200996,Asia
 Yangon,Yangon International Airport,RGN,16.907300949099998,96.1332015991,Asia
 Daraga,Bicol International Airport,DRP,13.111915,123.676829,Asia
@@ -942,7 +942,7 @@ Asaluyeh,Persian Gulf Airport,PGU,27.379601,52.737701,Asia
 Bandar Abbas,Bandar Abbas International Airport,BND,27.2183,56.3778,Asia
 Birjand,Birjand International Airport,XBJ,32.896525,59.281258,Asia
 Bushehr,Bushehr Airport,BUZ,28.9447994232,50.8345985413,Asia
-Gorgan,Gorgan International Airport,GBT,36.909400939899996,54.4012985229,Asia
+Gorgan,Gorgan International Airport,GBT,36.9094009399,54.4012985229,Asia
 Hamadan,Hamadan International Airport,HDM,34.866416,48.56069,Asia
 Ilam,Ilam Airport,IIL,33.58660125732422,46.40480041503906,Asia
 Isfahan,Isfahan International Airport,IFN,32.755142,51.883877,Asia
@@ -1018,7 +1018,7 @@ Istanbul,Istanbul Airport,IST,41.274874,28.732136,Asia
 Kayseri,Erkilet Airport,ASR,38.770401,35.495399,Asia
 Konya,Konya Airport,KYA,37.979,32.561901,Asia
 Kütahya,Zafer Airport,KZR,39.111107,30.130405,Asia
-Malatya,Erhaç Airport,MLX,38.435298919699996,38.0909996033,Asia
+Malatya,Erhaç Airport,MLX,38.4352989197,38.0909996033,Asia
 Nevşehir,Kapadokya Airport,NAV,38.7719,34.5345,Asia
 Samsun,Samsun-Çarşamba Airport,SZF,41.253988,36.567546,Asia
 Trabzon,Trabzon Airport,TZX,40.995098,39.7897,Asia
@@ -1063,7 +1063,7 @@ Lille,Lille Airport,LIL,50.566564,3.102429,Europe
 Limoges,Limoges – Bellegarde Airport,LIG,45.862801,1.17944,Europe
 Lyon,Lyon–Saint-Exupéry Airport,LYS,45.725996,5.090139,Europe
 Marseille,Marseille Provence Airport,MRS,43.438088,5.2125,Europe
-Mulhouse,EuroAirport Basel Mulhouse Freiburg,BSL,47.600680,7.521117,Europe
+Mulhouse,EuroAirport Basel Mulhouse Freiburg,BSL,47.60068,7.521117,Europe
 Nantes,Nantes Atlantique Airport,NTE,47.153198,-1.61073,Europe
 Nice,Nice Côte d'Azur Airport,NCE,43.658401,7.21587,Europe
 Nîmes,Nîmes–Alès–Camargue–Cévennes Airport,FNI,43.757401,4.41635,Europe
@@ -1092,7 +1092,7 @@ Liverpool,Liverpool John Lennon Airport,LPL,53.334863,-2.849637,Europe
 London,Gatwick Airport,LGW,51.148744,-0.185739,Europe
 Manchester,Manchester Airport,MAN,53.349375,-2.279521,Europe
 Middlesbrough,Teesside International Airport,MME,54.509201,-1.42941,Europe
-Newcastle upon Tyne,Newcastle International Airport,NCL,36.92509841918945,-76.30439758300781,Europe
+Newcastle upon Tyne,Newcastle International Airport,NCL,55.037958,-1.689577,Europe
 Newquay,Newquay Airport,NQY,50.440601,-4.99541,Europe
 Norwich,Norwich Airport,NWI,52.6758,1.28278,Europe
 Nottingham,East Midlands Airport,EMA,52.8311,-1.32806,Europe
@@ -1128,7 +1128,7 @@ Cologne/Bonn,Cologne/Bonn Airport,CGN,50.865898,7.14274,Europe
 Dortmund,Dortmund Airport,DTM,51.518299,7.61224,Europe
 Düsseldorf,Düsseldorf Airport,DUS,51.289501,6.76678,Europe
 Frankfurt,Frankfurt Airport,FRA,50.026706,8.55835,Europe
-Freiburg im Breisgau,EuroAirport Basel–Mulhouse–Freiburg,MLH,47.600680,7.521117,Europe
+Freiburg im Breisgau,EuroAirport Basel–Mulhouse–Freiburg,BSL,47.60068,7.521117,Europe
 Friedrichshafen,Friedrichshafen Airport,FDH,47.671299,9.51149,Europe
 Hamburg,Hamburg Airport,HAM,53.630402,9.98823,Europe
 Hanover,Hannover Airport,HAJ,52.461102,9.68508,Europe
@@ -1160,7 +1160,7 @@ Košice,Košice International Airport,KSC,48.663101,21.2411,Europe
 Piešťany,Piešťany Airport,PZY,48.62519836425781,17.828399658203125,Europe
 Poprad,Poprad-Tatry Airport,TAT,49.070994,20.241394,Europe
 Žilina,Žilina Airport,ILZ,49.233292,18.613386,Europe
-Basel,EuroAirport Basel Mulhouse Freiburg,BSL,47.600680,7.521117,Europe
+Basel,EuroAirport Basel Mulhouse Freiburg,BSL,47.60068,7.521117,Europe
 Bern,Bern Airport,BRN,46.912736,7.498819,Europe
 Geneva,Geneva Airport,GVA,46.238098,6.10895,Europe
 Lugano,Lugano Airport,LUG,46.004299,8.91058,Europe
@@ -1273,7 +1273,7 @@ Zaragoza,Zaragoza Airport,ZAZ,41.666199,-1.04155,Europe
 Kukes,Kukës International Airport Zayed,KFZ,42.035802,20.415955,Europe
 Tirana,Tirana International Airport Nënë Tereza,TIA,41.4147,19.7206,Europe
 Grodno,Hrodna Airport,GNA,53.602001,24.053801,Europe
-Gomel,Gomel Airport,GME,52.527000427246094,31.016700744628906,Europe
+Gomel,Gomel Airport,GME,52.527000427246094,31.016700744628903,Europe
 Minsk,Minsk International Airport,MSQ,53.888071,28.039964,Europe
 Banja Luka,Banja Luka International Airport,BNX,44.941399,17.297501,Europe
 Mostar,Mostar International Airport,OMO,43.282489,17.846101,Europe
@@ -1306,7 +1306,7 @@ Ohrid,Ohrid St. Paul the Apostle Airport,OHD,41.18,20.7423,Europe
 Skopje,Skopje International Airport,SKP,41.958087,21.622581,Europe
 Abakan,Abakan International Airport,ABA,53.740002,91.385002,Europe
 Anadyr,Ugolny Airport,DYR,64.734902,177.740997,Europe
-Anapa,Anapa Airport,AAQ,45.002100,37.347300,Europe
+Anapa,Anapa Airport,AAQ,45.002102,37.347301,Europe
 Arkhangelsk,Talagi Airport,ARH,64.60030364990234,40.71670150756836,Europe
 Astrakhan,Narimanovo Airport,ASF,46.282843,48.010511,Europe
 Barnaul,Barnaul Airport,BAX,53.361285,83.539701,Europe
@@ -1316,7 +1316,7 @@ Bratsk,Bratsk Airport,BTK,56.3696,101.701822,Europe
 Bryansk,Bryansk International Airport,BZK,53.214403,34.175965,Europe
 Cheboksary,Cheboksary International Airport,CSY,56.090302,47.347301,Europe
 Chelyabinsk,Chelyabinsk Airport,CEK,55.303141,61.504927,Europe
-Cherepovets,Cherepovets Airport,CEE,59.273601532,38.015800476100004,Europe
+Cherepovets,Cherepovets Airport,CEE,59.273601532,38.0158004761,Europe
 Chita,Chita-Kadala International Airport,HTA,52.024841,113.305839,Europe
 Elista,Elista Airport,ESL,46.373901,44.330898,Europe
 Grozny,Grozny Airport,GRV,43.388106,45.699772,Europe
@@ -1378,7 +1378,7 @@ Kharkiv,Kharkiv International Airport,HRK,49.926943,36.290814,Europe
 Kryvyi Rih,Kryvyi Rih International Airport,KWG,48.04330062866211,33.209999084472656,Europe
 Kyiv,Boryspil International Airport,KBP,50.345001,30.894699,Europe
 Lviv,Lviv Danylo Halytskyi International Airport,LWO,49.8125,23.9561,Europe
-Mykolaiv,Mykolaiv International Airport,NLV,47.058056,31.920833,Europe
+Mykolaiv,Mykolaiv International Airport,NLV,47.057899,31.9198,Europe
 Odesa,Odesa International Airport,ODS,46.427196,30.672649,Europe
 Poltava,Poltava Airport,PLV,49.5686,34.397202,Europe
 Simferopol,Simferopol International Airport,SIP,45.0522,33.975101,Europe
@@ -1448,7 +1448,7 @@ Newcastle,Newcastle Airport,NTL,-32.796114,151.835025,Oceania
 Perth,Perth Airport,PER,-31.94029998779297,115.96700286865234,Oceania
 Sunshine Coast,Sunshine Coast Airport,MCY,-26.593324,153.08319,Oceania
 Sydney,Sydney Airport,SYD,-33.946098,151.177002,Oceania
-Sydney,Western Sydney Airport,WSI,-33.88806,150.71472,Oceania
+Sydney,Western Sydney Airport,WSI,-33.883461,150.712981,Oceania
 Flying Fish Cove,Christmas Island Airport,XCH,-10.450387,105.6911,Oceania
 Cocos (Keeling) Islands,Cocos (Keeling) Islands Airport,CCK,-12.192218,96.834103,Oceania
 Avarua,Rarotonga Airport,RAR,-21.2027,-159.806,Oceania
@@ -1481,7 +1481,7 @@ Tinian,Tinian International Airport,TIQ,14.999207,145.619355,Oceania
 Koror,Roman Tmetuchl International Airport,ROR,7.366965,134.544085,Oceania
 Daru,Daru Airport,DAU,-9.08676,143.207993,Oceania
 Mount Hagen,Mount Hagen Airport,HGU,-5.828212,144.299412,Oceania
-Port Moresby,Jacksons International Airport,POM,-9.443380355834961,147.22000122070312,Oceania
+Port Moresby,Jacksons International Airport,POM,-9.44338035583496,147.22000122070312,Oceania
 Apia,Faleolo International Airport,APW,-13.83,-172.007996,Oceania
 Honiara,Honiara International Airport,HIR,-9.428,160.054993,Oceania
 Nukuʻalofa,Fuaʻamotu International Airport,TBU,-21.241438,-175.149164,Oceania

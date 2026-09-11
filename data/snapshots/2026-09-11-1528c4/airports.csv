@@ -1,0 +1,89 @@
+name,iso_country,iso_region,continent,municipality,iata_code,icao_code,latitude_deg,longitude_deg,elevation_ft,scheduled_service,type,wikipedia_link
+Albany International Airport,US,US-NY,NA,Albany,ALB,KALB,42.748299,-73.801697,285.0,yes,large_airport,https://en.wikipedia.org/wiki/Albany_International_Airport
+Albuquerque International Sunport,US,US-NM,NA,Albuquerque,ABQ,KABQ,35.039976,-106.608925,5355.0,yes,large_airport,https://en.wikipedia.org/wiki/Albuquerque_International_Sunport
+Austin Bergstrom International Airport,US,US-TX,NA,Austin,AUS,KAUS,30.197535,-97.662015,542.0,yes,large_airport,https://en.wikipedia.org/wiki/Austin-Bergstrom_International_Airport
+Baltimore/Washington International Thurgood Marshall Airport,US,US-MD,NA,Baltimore,BWI,KBWI,39.1754,-76.668297,146.0,yes,large_airport,https://en.wikipedia.org/wiki/Baltimore/Washington_International_Airport
+Birmingham-Shuttlesworth International Airport,US,US-AL,NA,Birmingham,BHM,KBHM,33.562877,-86.750712,650.0,yes,large_airport,https://en.wikipedia.org/wiki/Birmingham_International_Airport_(US)
+Boise Air Terminal/Gowen Field,US,US-ID,NA,Boise,BOI,KBOI,43.5644,-116.223,2871.0,yes,large_airport,https://en.wikipedia.org/wiki/Boise_Airport
+Boston Logan International Airport,US,US-MA,NA,Boston,BOS,KBOS,42.36197,-71.0079,20.0,yes,large_airport,https://en.wikipedia.org/wiki/Logan_International_Airport
+Bradley International Airport,US,US-CT,NA,Hartford,BDL,KBDL,41.938555,-72.688016,173.0,yes,large_airport,https://en.wikipedia.org/wiki/Bradley_International_Airport
+Buffalo Niagara International Airport,US,US-NY,NA,Buffalo,BUF,KBUF,42.940498,-78.732201,728.0,yes,large_airport,https://en.wikipedia.org/wiki/Buffalo_Niagara_International_Airport
+Charleston International Airport,US,US-SC,NA,Charleston,CHS,KCHS,32.896159,-80.038151,46.0,yes,large_airport,https://en.wikipedia.org/wiki/Charleston_International_Airport
+Charlotte Douglas International Airport,US,US-NC,NA,Charlotte,CLT,KCLT,35.2140007019043,-80.94309997558594,748.0,yes,large_airport,https://en.wikipedia.org/wiki/Charlotte/Douglas_International_Airport
+Chicago O'Hare International Airport,US,US-IL,NA,Chicago,ORD,KORD,41.9786,-87.9048,680.0,yes,large_airport,https://en.wikipedia.org/wiki/O'Hare_International_Airport
+Cincinnati Northern Kentucky International Airport,US,US-KY,NA,Cincinnati / Covington,CVG,KCVG,39.048801,-84.667801,896.0,yes,large_airport,https://en.wikipedia.org/wiki/Cincinnati/Northern_Kentucky_International_Airport
+City of Colorado Springs Municipal Airport,US,US-CO,NA,Colorado Springs,COS,KCOS,38.805801,-104.700996,6187.0,yes,large_airport,https://en.wikipedia.org/wiki/Colorado_Springs_Airport
+Cleveland Hopkins International Airport,US,US-OH,NA,Cleveland,CLE,KCLE,41.411701,-81.8498,791.0,yes,large_airport,https://en.wikipedia.org/wiki/Cleveland_Hopkins_International_Airport
+Dallas Fort Worth International Airport,US,US-TX,NA,Dallas-Fort Worth,DFW,KDFW,32.896801,-97.038002,607.0,yes,large_airport,https://en.wikipedia.org/wiki/Dallas/Fort_Worth_International_Airport
+Dallas Love Field,US,US-TX,NA,Dallas,DAL,KDAL,32.844776,-96.847653,487.0,yes,large_airport,https://en.wikipedia.org/wiki/Dallas_Love_Field
+Daniel K. Inouye International Airport,US,US-HI,OC,"Honolulu, Oahu",HNL,PHNL,21.318387,-157.92567,13.0,yes,large_airport,https://en.wikipedia.org/wiki/Daniel_K._Inouye_International_Airport
+Denver International Airport,US,US-CO,NA,Denver,DEN,KDEN,39.860027,-104.673792,5431.0,yes,large_airport,https://en.wikipedia.org/wiki/Denver_International_Airport
+Des Moines International Airport,US,US-IA,NA,Des Moines,DSM,KDSM,41.534027,-93.656719,958.0,yes,large_airport,https://en.wikipedia.org/wiki/Des_Moines_International_Airport
+Detroit Metropolitan Wayne County Airport,US,US-MI,NA,Detroit,DTW,KDTW,42.21377,-83.353786,645.0,yes,large_airport,https://en.wikipedia.org/wiki/Detroit_Metropolitan_Airport
+El Paso International Airport,US,US-TX,NA,El Paso,ELP,KELP,31.809908,-106.375607,3959.0,yes,large_airport,https://en.wikipedia.org/wiki/El_Paso_International_Airport
+Ellison Onizuka Kona International Airport at Keāhole,US,US-HI,OC,Kailua-Kona,KOA,PHKO,19.738783,-156.045603,47.0,yes,large_airport,https://en.wikipedia.org/wiki/Kona_International_Airport
+Eppley Airfield,US,US-NE,NA,Omaha,OMA,KOMA,41.3032,-95.894096,984.0,yes,large_airport,https://en.wikipedia.org/wiki/Eppley_Airfield
+Fort Lauderdale Hollywood International Airport,US,US-FL,NA,Fort Lauderdale,FLL,KFLL,26.072599,-80.152702,9.0,yes,large_airport,https://en.wikipedia.org/wiki/Fort_Lauderdale–Hollywood_International_Airport
+Frederick Douglass Greater Rochester International Airport,US,US-NY,NA,Rochester,ROC,KROC,43.1189,-77.672401,559.0,yes,large_airport,https://en.wikipedia.org/wiki/Greater_Rochester_International_Airport
+Frederick W. Smith International Airport,US,US-TN,NA,Memphis,MEM,KMEM,35.043845,-89.97634,341.0,yes,large_airport,https://en.wikipedia.org/wiki/Memphis_International_Airport
+Fresno Yosemite International Airport,US,US-CA,NA,Fresno,FAT,KFAT,36.775767,-119.718018,336.0,yes,large_airport,https://en.wikipedia.org/wiki/Fresno_Yosemite_International_Airport
+General Mitchell International Airport,US,US-WI,NA,Milwaukee,MKE,KMKE,42.947201,-87.896599,723.0,yes,large_airport,https://en.wikipedia.org/wiki/General_Mitchell_International_Airport
+George Bush Intercontinental Airport,US,US-TX,NA,Houston,IAH,KIAH,29.9844,-95.3414,97.0,yes,large_airport,https://en.wikipedia.org/wiki/George_Bush_Intercontinental_Airport
+Gerald R. Ford International Airport,US,US-MI,NA,Grand Rapids,GRR,KGRR,42.880798,-85.522797,794.0,yes,large_airport,https://en.wikipedia.org/wiki/Gerald_R._Ford_International_Airport
+Harry Reid International Airport,US,US-NV,NA,Las Vegas,LAS,KLAS,36.083361,-115.151817,2181.0,yes,large_airport,https://en.wikipedia.org/wiki/Harry_Reid_International_Airport
+Hartsfield Jackson Atlanta International Airport,US,US-GA,NA,Atlanta,ATL,KATL,33.6367,-84.428101,1026.0,yes,large_airport,https://en.wikipedia.org/wiki/Hartsfield–Jackson_Atlanta_International_Airport
+Hollywood Burbank/Bob Hope Airport,US,US-CA,NA,Burbank,BUR,KBUR,34.202834,-118.35805,778.0,yes,large_airport,https://en.wikipedia.org/wiki/Hollywood_Burbank_Airport
+Indianapolis International Airport,US,US-IN,NA,Indianapolis,IND,KIND,39.7173,-86.294403,797.0,yes,large_airport,https://en.wikipedia.org/wiki/Indianapolis_International_Airport
+Jacksonville International Airport,US,US-FL,NA,Jacksonville,JAX,KJAX,30.492469,-81.687813,30.0,yes,large_airport,https://en.wikipedia.org/wiki/Jacksonville_International_Airport
+John F. Kennedy International Airport,US,US-NY,NA,New York,JFK,KJFK,40.639447,-73.779317,13.0,yes,large_airport,https://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport
+John Glenn Columbus International Airport,US,US-OH,NA,Columbus,CMH,KCMH,39.998001,-82.891899,815.0,yes,large_airport,https://en.wikipedia.org/wiki/John_Glenn_Columbus_International_Airport
+John Wayne Orange County International Airport,US,US-CA,NA,Santa Ana,SNA,KSNA,33.675063,-117.869281,56.0,yes,large_airport,https://en.wikipedia.org/wiki/John_Wayne_Airport
+Kahului International Airport,US,US-HI,OC,Kahului,OGG,PHOG,20.896263,-156.431837,54.0,yes,large_airport,https://en.wikipedia.org/wiki/Kahului_Airport
+Kansas City International Airport,US,US-MO,NA,Kansas City,MCI,KMCI,39.301699,-94.713893,1026.0,yes,large_airport,https://en.wikipedia.org/wiki/Kansas_City_International_Airport
+LaGuardia Airport,US,US-NY,NA,New York,LGA,KLGA,40.777199,-73.872597,21.0,yes,large_airport,https://en.wikipedia.org/wiki/LaGuardia_Airport
+Lihue Airport,US,US-HI,OC,"Lihue, Kauai",LIH,PHLI,21.974393,-159.337146,153.0,yes,large_airport,https://en.wikipedia.org/wiki/Lihu'e_Airport
+Los Angeles International Airport,US,US-CA,NA,Los Angeles,LAX,KLAX,33.942501,-118.407997,125.0,yes,large_airport,https://en.wikipedia.org/wiki/Los_Angeles_International_Airport
+Louis Armstrong New Orleans International Airport,US,US-LA,NA,New Orleans,MSY,KMSY,29.993401,-90.264673,4.0,yes,large_airport,https://en.wikipedia.org/wiki/Louis_Armstrong_New_Orleans_International_Airport
+Louisville Muhammad Ali International Airport,US,US-KY,NA,Louisville,SDF,KSDF,38.1706,-85.735076,501.0,yes,large_airport,https://en.wikipedia.org/wiki/Louisville_International_Airport
+McGhee Tyson Airport,US,US-TN,NA,Knoxville/Maryville,TYS,KTYS,35.811001,-83.994003,981.0,yes,large_airport,https://en.wikipedia.org/wiki/McGhee_Tyson_Airport
+Miami International Airport,US,US-FL,NA,Miami,MIA,KMIA,25.796011,-80.289751,8.0,yes,large_airport,https://en.wikipedia.org/wiki/Miami_International_Airport
+Minneapolis–Saint Paul International Airport / Wold–Chamberlain Field,US,US-MN,NA,Minneapolis,MSP,KMSP,44.880081,-93.221741,841.0,yes,large_airport,https://en.wikipedia.org/wiki/Minneapolis–Saint_Paul_International_Airport
+Myrtle Beach International Airport,US,US-SC,NA,Myrtle Beach,MYR,KMYR,33.679699,-78.928299,25.0,yes,large_airport,https://en.wikipedia.org/wiki/Myrtle_Beach_International_Airport
+Nashville International Airport,US,US-TN,NA,Nashville,BNA,KBNA,36.1245,-86.6782,599.0,yes,large_airport,https://en.wikipedia.org/wiki/Nashville_International_Airport
+Newark Liberty International Airport,US,US-NJ,NA,Newark,EWR,KEWR,40.6894,-74.170545,18.0,yes,large_airport,https://en.wikipedia.org/wiki/Newark_Liberty_International_Airport
+Norfolk International Airport,US,US-VA,NA,Norfolk,ORF,KORF,36.895341,-76.201,26.0,yes,large_airport,https://en.wikipedia.org/wiki/Norfolk_International_Airport
+Norman Y. Mineta San Jose International Airport,US,US-CA,NA,San Jose,SJC,KSJC,37.362452,-121.929188,62.0,yes,large_airport,https://en.wikipedia.org/wiki/San_Jose_International_Airport
+OKC Will Rogers World Airport,US,US-OK,NA,Oklahoma City,OKC,KOKC,35.393388,-97.598248,1295.0,yes,large_airport,https://en.wikipedia.org/wiki/Will_Rogers_World_Airport
+Ontario International Airport,US,US-CA,NA,Ontario,ONT,KONT,34.056,-117.600998,944.0,yes,large_airport,https://en.wikipedia.org/wiki/LA/Ontario_International_Airport
+Orlando International Airport,US,US-FL,NA,Orlando,MCO,KMCO,28.429399490356445,-81.30899810791016,96.0,yes,large_airport,https://en.wikipedia.org/wiki/Orlando_International_Airport
+Palm Springs International Airport,US,US-CA,NA,Palm Springs,PSP,KPSP,33.8297,-116.507004,477.0,yes,large_airport,https://en.wikipedia.org/wiki/Palm_Springs_International_Airport
+Pensacola International Airport,US,US-FL,NA,Pensacola,PNS,KPNS,30.472718,-87.186639,121.0,yes,large_airport,https://en.wikipedia.org/wiki/Pensacola_Regional_Airport
+Philadelphia International Airport,US,US-PA,NA,Philadelphia,PHL,KPHL,39.871899,-75.241096,36.0,yes,large_airport,https://en.wikipedia.org/wiki/Philadelphia_International_Airport
+Phoenix Sky Harbor International Airport,US,US-AZ,NA,Phoenix,PHX,KPHX,33.435302,-112.005905,1135.0,yes,large_airport,https://en.wikipedia.org/wiki/Phoenix_Sky_Harbor_International_Airport
+Piedmont Triad International Airport,US,US-NC,NA,Greensboro,GSO,KGSO,36.09937,-79.937262,925.0,yes,large_airport,https://en.wikipedia.org/wiki/Piedmont_Triad_International_Airport
+Pittsburgh International Airport,US,US-PA,NA,Pittsburgh,PIT,KPIT,40.491501,-80.232903,1203.0,yes,large_airport,https://en.wikipedia.org/wiki/Pittsburgh_International_Airport
+Portland International Airport,US,US-OR,NA,Portland,PDX,KPDX,45.588699,-122.598,31.0,yes,large_airport,https://en.wikipedia.org/wiki/Portland_International_Airport
+Portland International Jetport,US,US-ME,NA,Portland,PWM,KPWM,43.646198,-70.309303,76.0,yes,large_airport,https://en.wikipedia.org/wiki/Portland_International_Jetport
+President Donald J. Trump International Airport,US,US-FL,NA,West Palm Beach,PBI,KDJT,26.683201,-80.095596,19.0,yes,large_airport,https://en.wikipedia.org/wiki/Palm_Beach_International_Airport
+Raleigh-Durham International Airport,US,US-NC,NA,Raleigh/Durham,RDU,KRDU,35.878659,-78.7873,435.0,yes,large_airport,https://en.wikipedia.org/wiki/Raleigh-Durham_International_Airport
+Reno Tahoe International Airport,US,US-NV,NA,Reno,RNO,KRNO,39.4991,-119.767998,4415.0,yes,large_airport,https://en.wikipedia.org/wiki/Reno-Tahoe_International_Airport
+Rhode Island T. F. Green International Airport,US,US-RI,NA,Providence/Warwick,PVD,KPVD,41.725038,-71.425668,55.0,yes,large_airport,https://en.wikipedia.org/wiki/T._F._Green_Airport
+Richmond International Airport,US,US-VA,NA,Richmond,RIC,KRIC,37.505199,-77.319702,167.0,yes,large_airport,https://en.wikipedia.org/wiki/Richmond_International_Airport
+Ronald Reagan Washington National Airport,US,US-DC,NA,Washington,DCA,KDCA,38.8521,-77.037697,15.0,yes,large_airport,https://en.wikipedia.org/wiki/Ronald_Reagan_Washington_National_Airport
+Sacramento International Airport,US,US-CA,NA,Sacramento,SMF,KSMF,38.6954,-121.591003,27.0,yes,large_airport,https://en.wikipedia.org/wiki/Sacramento_International_Airport
+Salt Lake City International Airport,US,US-UT,NA,Salt Lake City,SLC,KSLC,40.78886,-111.979866,4227.0,yes,large_airport,https://en.wikipedia.org/wiki/Salt_Lake_City_International_Airport
+San Antonio International Airport,US,US-TX,NA,San Antonio,SAT,KSAT,29.533701,-98.469803,809.0,yes,large_airport,https://en.wikipedia.org/wiki/San_Antonio_International_Airport
+San Diego International Airport,US,US-CA,NA,San Diego,SAN,KSAN,32.733601,-117.190002,17.0,yes,large_airport,https://en.wikipedia.org/wiki/San_Diego_International_Airport
+San Francisco International Airport,US,US-CA,NA,San Francisco,SFO,KSFO,37.619806,-122.374821,13.0,yes,large_airport,https://en.wikipedia.org/wiki/San_Francisco_International_Airport
+Sarasota Bradenton International Airport,US,US-FL,NA,Sarasota/Bradenton,SRQ,KSRQ,27.394631,-82.554359,30.0,yes,large_airport,https://en.wikipedia.org/wiki/Sarasota-Bradenton_International_Airport
+Savannah Hilton Head International Airport,US,US-GA,NA,Savannah,SAV,KSAV,32.126591,-81.19998,50.0,yes,large_airport,https://en.wikipedia.org/wiki/Savannah/Hilton_Head_International_Airport
+Seattle–Tacoma International Airport,US,US-WA,NA,Seattle,SEA,KSEA,47.447943,-122.310276,433.0,yes,large_airport,https://en.wikipedia.org/wiki/Seattle%E2%80%93Tacoma_International_Airport
+Southwest Florida International Airport,US,US-FL,NA,Fort Myers,RSW,KRSW,26.534685,-81.752816,30.0,yes,large_airport,https://en.wikipedia.org/wiki/Southwest_Florida_International_Airport
+Spokane International Airport,US,US-WA,NA,Spokane,GEG,KGEG,47.6199,-117.533997,2376.0,yes,large_airport,https://en.wikipedia.org/wiki/Spokane_International_Airport
+St. Louis Lambert International Airport,US,US-MO,NA,St Louis,STL,KSTL,38.748697,-90.370003,618.0,yes,large_airport,https://en.wikipedia.org/wiki/St._Louis_Lambert_International_Airport
+Syracuse Hancock International Airport,US,US-NY,NA,Syracuse,SYR,KSYR,43.11119842529297,-76.1063003540039,421.0,yes,large_airport,https://en.wikipedia.org/wiki/Syracuse_Hancock_International_Airport
+Tampa International Airport,US,US-FL,NA,Tampa,TPA,KTPA,27.9755,-82.533203,26.0,yes,large_airport,https://en.wikipedia.org/wiki/Tampa_International_Airport
+Ted Stevens Anchorage International Airport,US,US-AK,NA,Anchorage,ANC,PANC,61.179004,-149.992561,152.0,yes,large_airport,https://en.wikipedia.org/wiki/Ted_Stevens_Anchorage_International_Airport
+Tucson International Airport,US,US-AZ,NA,Tucson,TUS,KTUS,32.115004,-110.938053,2643.0,yes,large_airport,https://en.wikipedia.org/wiki/Tucson_International_Airport
+Tulsa International Airport,US,US-OK,NA,Tulsa,TUL,KTUL,36.197084,-95.886225,677.0,yes,large_airport,https://en.wikipedia.org/wiki/Tulsa_International_Airport
+Washington Dulles International Airport,US,US-VA,NA,Dulles,IAD,KIAD,38.9445,-77.455803,312.0,yes,large_airport,https://en.wikipedia.org/wiki/Washington_Dulles_International_Airport

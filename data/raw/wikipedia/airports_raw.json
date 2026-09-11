@@ -8518,7 +8518,7 @@
       "country": "France",
       "location": "Mulhouse",
       "airport": "EuroAirport Basel Mulhouse Freiburg",
-      "iata": "BSL",
+      "iata": "BSL/MLH/EAP",
       "href": "https://en.wikipedia.org/wiki/EuroAirport_Basel_Mulhouse_Freiburg"
     },
     {
@@ -9038,7 +9038,7 @@
       "country": "Germany",
       "location": "Freiburg im Breisgau",
       "airport": "EuroAirport Basel–Mulhouse–Freiburg",
-      "iata": "MLH",
+      "iata": "BSL/MLH/EAP",
       "href": "https://en.wikipedia.org/wiki/EuroAirport_Basel–Mulhouse–Freiburg"
     },
     {
@@ -9294,7 +9294,7 @@
       "country": "Switzerland",
       "location": "Basel",
       "airport": "EuroAirport Basel Mulhouse Freiburg",
-      "iata": "EAP",
+      "iata": "BSL/MLH/EAP",
       "href": "https://en.wikipedia.org/wiki/EuroAirport_Basel_Mulhouse_Freiburg"
     },
     {
