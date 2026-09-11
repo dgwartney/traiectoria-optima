@@ -2,21 +2,15 @@
 name = "traiectoria-optima"
 version = "0.1.0"
 requires-python = ">=3.12"
+# The runtime contract of the `flight_planner` wheel. The package imports
+# pandas and nothing else, so this stays deliberately small: everything a
+# consumer needs, nothing the repository merely uses. Floors are the oldest
+# versions the test suite is known to pass on, not the newest available, so
+# the package installs into an existing environment (Colab, a shared cluster)
+# without forcing upgrades. Everything else lives in `[dependency-groups]`,
+# which is not published in the wheel metadata.
 dependencies = [
-    "folium>=0.20.0",
-    "ipykernel>=7.3.0",
-    "ipyleaflet>=0.20.0",
-    "jupyterlab>=4.6.3",
-    "jupyterlab-git>=0.54.1",
-    "matplotlib>=3.11.1",
-    "numpy>=2.5.2",
-    "pandas>=3.0.5",
-    "pandas-stubs~=3.0.5",
-    "playwright>=1.48.0",
-    "pyproj>=3.7.2",
-    "pytest-playwright>=0.9.0",
-    "ruff>=0.16.3",
-    "scipy>=1.18.0",
+    "pandas>=2.2,<4",
 ]
 
 [build-system]
@@ -29,9 +23,28 @@ build-backend = "hatchling.build"
 only-include = ["src/flight_planner"]
 sources = ["src"]
 
+# Not shipped in the wheel. `uv sync` installs `dev` by default; the notebook
+# stack needs `uv sync --group notebooks`.
 [dependency-groups]
+# Running the tests, the demos, and the non-package code under src/.
 dev = [
+    "matplotlib>=3.8",
+    "numpy>=1.26,<3",
+    "pandas-stubs",
+    "playwright>=1.48.0",
     "pytest>=9.1.1",
+    "pytest-playwright>=0.9.0",
+    "ruff>=0.16.3",
+    "scipy>=1.11",
+]
+# Running the notebooks under notebooks/.
+notebooks = [
+    "folium>=0.20.0",
+    "ipykernel>=7.3.0",
+    "ipyleaflet>=0.20.0",
+    "jupyterlab>=4.6.3",
+    "jupyterlab-git>=0.54.1",
+    "pyproj>=3.7.2",
 ]
 
 [tool.pytest.ini_options]

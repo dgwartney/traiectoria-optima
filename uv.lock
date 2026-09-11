@@ -2477,47 +2477,51 @@ name = "traiectoria-optima"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "pandas" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "matplotlib" },
+    { name = "numpy" },
+    { name = "pandas-stubs" },
+    { name = "playwright" },
+    { name = "pytest" },
+    { name = "pytest-playwright" },
+    { name = "ruff" },
+    { name = "scipy" },
+]
+notebooks = [
     { name = "folium" },
     { name = "ipykernel" },
     { name = "ipyleaflet" },
     { name = "jupyterlab" },
     { name = "jupyterlab-git" },
-    { name = "matplotlib" },
-    { name = "numpy" },
-    { name = "pandas" },
-    { name = "pandas-stubs" },
-    { name = "playwright" },
     { name = "pyproj" },
-    { name = "pytest-playwright" },
-    { name = "ruff" },
-    { name = "scipy" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
 ]
 
 [package.metadata]
-requires-dist = [
+requires-dist = [{ name = "pandas", specifier = ">=2.2,<4" }]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "matplotlib", specifier = ">=3.8" },
+    { name = "numpy", specifier = ">=1.26,<3" },
+    { name = "pandas-stubs" },
+    { name = "playwright", specifier = ">=1.48.0" },
+    { name = "pytest", specifier = ">=9.1.1" },
+    { name = "pytest-playwright", specifier = ">=0.9.0" },
+    { name = "ruff", specifier = ">=0.16.3" },
+    { name = "scipy", specifier = ">=1.11" },
+]
+notebooks = [
     { name = "folium", specifier = ">=0.20.0" },
     { name = "ipykernel", specifier = ">=7.3.0" },
     { name = "ipyleaflet", specifier = ">=0.20.0" },
     { name = "jupyterlab", specifier = ">=4.6.3" },
     { name = "jupyterlab-git", specifier = ">=0.54.1" },
-    { name = "matplotlib", specifier = ">=3.11.1" },
-    { name = "numpy", specifier = ">=2.5.2" },
-    { name = "pandas", specifier = ">=3.0.5" },
-    { name = "pandas-stubs", specifier = "~=3.0.5" },
-    { name = "playwright", specifier = ">=1.48.0" },
     { name = "pyproj", specifier = ">=3.7.2" },
-    { name = "pytest-playwright", specifier = ">=0.9.0" },
-    { name = "ruff", specifier = ">=0.16.3" },
-    { name = "scipy", specifier = ">=1.18.0" },
 ]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=9.1.1" }]
 
 [[package]]
 name = "traitlets"
