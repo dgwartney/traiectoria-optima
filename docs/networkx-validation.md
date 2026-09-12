@@ -4,9 +4,12 @@
 three pathfinding strategies. That is the point of the project — the
 algorithms are the deliverable, not a means to an end. But hand-written
 Dijkstra, BFS and A\* need an answer to "how do we know these are right?", and
-today the answer is 382 tests, most of them against four-vertex graphs built
-by hand, plus three committed experiments that pin real numbers
-([`tests/experiments/test_committed.py`](../tests/experiments/test_committed.py)).
+today the answer is 680 tests, plus five committed experiments that pin real
+numbers ([`tests/experiments/test_committed.py`](../tests/experiments/test_committed.py)
+and [`test_validation_experiments.py`](../tests/experiments/test_validation_experiments.py)).
+Of those, 256 are the validation package this document produced; the other 424
+are mostly against four-vertex graphs built by hand, which is the gap the
+oracle closes.
 
 [NetworkX](https://networkx.org) is the obvious external oracle: a
 BSD-licensed, pure-Python graph library with no required runtime dependencies,
