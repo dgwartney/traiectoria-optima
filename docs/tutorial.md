@@ -9,6 +9,10 @@ is the other order — do it first, understand it second. Every command below is
 one you run, and every block of output is real, so you can check yours against
 it as you go.
 
+Works on your own machine or in **Google Colab**. The tutorial is written for a
+local checkout, with an **In Colab** box at each step that needs one — start at
+[Step 1](#in-colab-instead) if that is where you are.
+
 **What you will build.** Your own copy of an experiment called
 `shortest-vs-fewest`, asking:
 
@@ -82,12 +86,45 @@ you are done you can merge it, keep it, or delete it with
 `git checkout main && git branch -D tutorial/<your-name>` — nothing on `main`
 will have moved.
 
-> **Working in Google Colab instead?** The loop is the same, but the setup and
-> the paths differ — clone into `/content`, `pip install` rather than `uv sync`.
-> [Setup §6](setup.md#6-google-colab) has the install cell, and
-> [Experiments §8](experiments.md#8-running-in-colab) shows an experiment opened
-> from a Colab clone. Steps 3 and 4 below use `make`, which needs a clone; the
-> exploring, asking and recording work anywhere.
+### In Colab instead
+
+Every step below works in Colab, and the answers come out the same. That was
+checked rather than assumed: the snapshot and the experiment were rebuilt from a
+fresh clone with the package `pip`-installed and neither `uv` nor `make`
+available, and they produced the same snapshot id and a byte-identical
+`results.json`. What differs is the plumbing — no `uv`, no `make`, and a working
+directory that is not the experiment's. Wherever that matters there is an **In
+Colab** box like this one.
+
+Start with one cell in place of the three commands above ([Setup
+§6](setup.md#6-google-colab) explains each line, and why `pip install -e` is the
+wrong choice here):
+
+```python
+!rm -rf /content/traiectoria-optima
+!git clone --depth 1 https://github.com/dgwartney/traiectoria-optima.git /content/traiectoria-optima
+!pip install -q /content/traiectoria-optima
+```
+
+Then the same check:
+
+```python
+from flight_planner.experiments import Snapshot
+print('ok')
+```
+
+Two consequences to carry through the rest of the tutorial:
+
+- **`uv run python …` becomes `!python …`**, run from the clone. The scripts
+  behind the `make` targets import only pandas, the installed package and the
+  standard library, so a plain interpreter runs them.
+- **Your working directory is not the experiment directory.** Colab starts you
+  in `/content`, not in `experiments/<slug>/`, so anywhere this tutorial says
+  `Path.cwd()` you pass the experiment's path instead.
+
+Branching still applies — `!git -C /content/traiectoria-optima checkout -b
+tutorial/<your-name>` — though a Colab clone is disposable anyway. Step 7 covers
+getting the work back out.
 
 ---
 
@@ -117,6 +154,12 @@ fast enough that you will not notice, and it means the numbers below came from
 data that is provably unchanged. 66,332 routes between 3,387 airports,
 worldwide: more than this experiment needs, and a smaller scope is easier to
 reason about.
+
+> **In Colab** — there is no REPL to start; each `>>>` block below is a cell,
+> without the prompts. The one edit is the path: nothing resolves against a
+> repository root, so open the snapshot from the clone —
+> `Snapshot.open('/content/traiectoria-optima/data/snapshots/2026-09-11-bb90a8')`.
+> The counts are the same.
 
 ```pycon
 >>> us = catalog.airport_type('large').country('US')
@@ -235,6 +278,11 @@ notebook reading `data/processed/` directly would silently start answering a
 different question. A snapshot is how you opt out of that — see
 [Experiments §1](experiments.md#1-the-problem-this-solves).
 
+> **In Colab** — skip the rebuild entirely. `make` runs through `uv`, which a
+> Colab runtime does not have, and the rebuild was only ever a check: the
+> processed files arrive with the clone, as the section above explains. Go
+> straight to freezing.
+
 Now freeze the slice:
 
 ```console
@@ -245,6 +293,22 @@ processed: 66332 routes / 3387 airports
 snapshot: data/snapshots/2026-09-12-3e4f9d
   7005 routes / 94 airports
 ```
+
+> **In Colab** — `make snapshot` is a thin wrapper around a script, so call the
+> script. Move into the clone once, and everything after this is a relative
+> path like the tutorial's:
+>
+> ```python
+> %cd /content/traiectoria-optima
+> !python scripts/new_snapshot.py \
+>     --airports-csv data/processed/airports.csv \
+>     --routes-csv data/processed/routes.csv \
+>     --root data/snapshots \
+>     --airport-type large --country US
+> ```
+>
+> That prints the report above, line for line — including the `3e4f9d` suffix,
+> from a clone that never ran the pipeline.
 
 Read that output before scrolling past — it is the only time you are shown it.
 The indented lines are your two filters applied one at a time. **They should
@@ -317,6 +381,18 @@ experiment: experiments/shortest-vs-fewest-dg
 `shortest-vs-fewest-dg` is the example used from here on — substitute your own,
 as with the snapshot id.
 
+> **In Colab** — same script treatment as the snapshot:
+>
+> ```python
+> !python scripts/new_experiment.py shortest-vs-fewest-dg \
+>     --root experiments --snapshot-root data/snapshots \
+>     --snapshot 2026-09-12-3e4f9d \
+>     --description "What does it cost to skip a stop?"
+> ```
+>
+> Edit `experiment.toml` from the Files pane on the left — it is a file on the
+> runtime's disk like any other.
+
 Note the snapshot path it recorded: `../../data/snapshots/…`, relative to the
 config file rather than to wherever you happen to be standing. That is what
 lets the clone live anywhere — including a Colab session — and still find its
@@ -358,13 +434,31 @@ only real difference is how each one finds itself on disk.
 | Finds itself with | `Path.cwd()` | `Path(__file__).resolve().parent` |
 | Good for | exploring, seeing each result as you go | a settled question, CI, many runs |
 | Before committing | clear the outputs | nothing to do |
+| In Colab | works, with one change — see below | the simpler of the two |
 
 **Follow 5a or 5b, not both.** Steps 6 and 7 then apply to whichever you chose,
 and say what to do in each.
 
+> **In Colab** — either route works, and **5b is the easier one**: a script is
+> just a file you write into the experiment directory and run, with nothing to
+> open. 5a needs one adjustment, described at the top of that section.
+
 ---
 
 ### Step 5a — The notebook
+
+> **In Colab** — you already have a notebook: the one you are typing in. It is
+> not the scaffolded `explore.ipynb`, and it does not live in the experiment
+> directory, so the one line that changes is the first:
+>
+> ```python
+> experiment = Experiment.open('/content/traiectoria-optima/experiments/shortest-vs-fewest-dg')
+> ```
+>
+> `Path.cwd()` would be `/content`, which holds no `experiment.toml`, and
+> `Experiment.open` raises rather than guessing. Every other cell in this
+> section is unchanged. To version what you wrote, see Step 7 — or take 5b,
+> where the file is already in the right place.
 
 Install the notebook dependencies and start JupyterLab:
 
@@ -528,6 +622,21 @@ wrong and the experiment is looked for in the wrong place; the demo
 like.
 
 You can delete `explore.ipynb` if you are not going to use it.
+
+> **In Colab** — put the script on disk from a cell by prefixing it with
+> `%%writefile`, which has to be the cell's first line, followed by the whole
+> script above:
+>
+> ```python
+> %%writefile experiments/shortest-vs-fewest-dg/run.py
+> """What does it cost to skip a stop? Dijkstra against BFS on three US pairs."""
+> ...
+> ```
+>
+> Then run it with `!python experiments/shortest-vs-fewest-dg/run.py`. Because
+> the script locates itself from `__file__`, it does not care that Colab left
+> you in `/content` — which is the same reason it works here and on a laptop
+> without changing a line.
 
 Run it from anywhere:
 
@@ -722,6 +831,31 @@ git commit -m "Ask what a stop costs, and find out BFS overstates it"
 One commit holds the question, the parameters, the method, the answer, and the
 identity of the data. A reviewer can read all five.
 
+> **In Colab** — this is the step that actually differs, because **the runtime
+> is disposable.** When the session ends, the clone and everything you wrote
+> into it are gone. Get the work out before that happens.
+>
+> If you took 5a, your code is in the Colab notebook rather than in the
+> experiment directory. Clear its outputs (**Edit → Clear all outputs**), then
+> **File → Download → .ipynb**, and put the file in
+> `experiments/shortest-vs-fewest-dg/` — either by dragging it into the Files
+> pane, or in the local clone you commit from.
+>
+> The runtime has no git identity, so set one before committing:
+>
+> ```python
+> !git config --global user.email "you@example.com"
+> !git config --global user.name "Your Name"
+> !git -C /content/traiectoria-optima add experiments/shortest-vs-fewest-dg
+> !git -C /content/traiectoria-optima commit -m "Ask what a stop costs"
+> ```
+>
+> Pushing needs credentials the runtime does not have. Either push over HTTPS
+> with a personal access token, or — simpler, and with nothing secret typed into
+> a cell — download `experiments/shortest-vs-fewest-dg/` from the Files pane and
+> commit it from a clone on your own machine. The directory is self-contained:
+> config, code and `results.json`, with the snapshot named by id inside it.
+
 ### Change one thing
 
 Add a pair to `experiment.toml`:
@@ -774,7 +908,7 @@ The reference covers each of these:
 | Dangling edges, and graphs with vertices you did not ask for | [Experiments §5](experiments.md#dangling-edges) |
 | Building a small graph by hand from real flights | [Experiments §5](experiments.md#materializing-turning-a-catalog-into-a-graph) |
 | Narrowing at freeze time vs in the notebook | [Experiments §6](experiments.md#6-experiment-the-directory-and-its-record) |
-| Running all of this in Colab | [Setup §6](setup.md#6-google-colab) |
+| Why `pip install -e` breaks in Colab, and installing without pip at all | [Setup §6](setup.md#6-google-colab) |
 | Dijkstra, BFS and A\* in the abstract | [Graph Algorithm Notes](graph-algorithms-notes.md) |
 
 ## Appendix: the whole thing as a script
@@ -787,6 +921,11 @@ names it in `notebooks`, and run it:
 ```bash
 uv run python experiments/shortest-vs-fewest-dg/run.py
 ```
+
+In Colab, write it with `%%writefile` and run it with `!python` — the file below
+needs no edit for that. It was run both ways: under `uv` in this clone, and in a
+`pip`-installed clone with neither `uv` nor `make`, from a working directory
+that was not the experiment's. The two `results` blocks are byte-identical.
 
 ```python
 """What does it cost to skip a stop? Dijkstra against BFS on three US pairs."""

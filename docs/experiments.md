@@ -1564,8 +1564,10 @@ image cannot be diffed, and a number can.
 
 ## 8. Running in Colab
 
-See [Setup §6](setup.md#6-google-colab) for the install cell. Once the package
-is installed and the repository cloned, an experiment is three lines:
+See [Setup §6](setup.md#6-google-colab) for the install cell, and the
+[Tutorial](tutorial.md#in-colab-instead) to walk the whole loop — freeze,
+scaffold, run, record — inside a Colab session. Once the package is installed
+and the repository cloned, an experiment is three lines:
 
 ```python
 from flight_planner.experiments import Experiment
