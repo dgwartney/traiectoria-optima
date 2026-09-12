@@ -1,0 +1,11 @@
+# Diagrams generated from mermaid/*.mmd. Regenerate with `make diagrams`.
+#
+# The .svg beside each of these IS committed: it is what the markdown
+# references, so the documents render in a fresh clone, in a plain markdown
+# viewer, and on GitHub -- none of which run a build.
+#
+# The .png is only needed by the PDF build, which regenerates it under build/.
+# Listed explicitly rather than by glob, so adding a hand-authored PNG here
+# does not get ignored by accident.
+flight-planner-class-diagram.png
+flight-planner-network.png

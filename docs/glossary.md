@@ -29,7 +29,15 @@
 
 ## I
 
-* **IATA**
+* **IATA**: International Air Transport Association. An **IATA code** is the
+  three-letter identifier it assigns to an airport (`SFO`, `BOS`, `LHR`) — the
+  one printed on boarding passes and baggage tags. This project uses it as an
+  airport's identity; see [Flight Planner
+  §3](flight_planner.md#airport-a-vertex-that-is-also-a-point).
+* **ICAO**: International Civil Aviation Organization. An **ICAO code** is a
+  four-letter airport identifier (`KSFO`, `KBOS`, `EGLL`), used mainly in flight
+  operations and air-traffic control. Carried in this project's dataset for
+  cross-referencing, but not used as identity.
 
 ## J
 

@@ -1,0 +1,72 @@
+classDiagram
+    direction TB
+
+    class Vertex {
+        +Any key
+        +#95;#95;eq#95;#95;(other) bool
+        +#95;#95;hash#95;#95;() int
+    }
+
+    class Edge~V~ {
+        +V source
+        +V target
+        +float weight
+    }
+
+    class Graph~V, E~ {
+        +List~V~ vertices
+        +List~E~ edges
+        +add_vertex(V vertex)
+        +add_edge(E edge)
+        +get_outgoing_edges(V vertex) List~E~
+        +shortest_path(V start, V goal, PathfindingAlgorithm algorithm)
+    }
+
+    class Point {
+        +float latitude
+        +float longitude
+        +distance_to(Point other, DistanceFormula formula) float
+    }
+
+    class Airport {
+        +str iata_code
+        +str name
+        +str city
+        +str country
+        +str type
+    }
+
+    class Route {
+        +Airport origin
+        +Airport destination
+        +float distance_km
+        +str airline
+        +str flight_number
+    }
+
+    class FlightPlanner {
+        +Dict~str, Airport~ iata_lookup
+        +find_airport(str iata_code) Airport
+        +find_shortest_route(origin, destination, algorithm)
+    }
+
+    class PathfindingAlgorithm {
+        <<abstract>>
+        +find_path(graph, start, goal)
+    }
+
+    class DistanceFormula {
+        <<abstract>>
+        +calculate(Point a, Point b) float
+    }
+
+    Vertex <|-- Airport
+    Point <|-- Airport
+    Edge <|-- Route
+    Graph <|-- FlightPlanner
+
+    Graph ..> PathfindingAlgorithm : delegates to
+    Point ..> DistanceFormula : delegates to
+    Graph o-- Vertex
+    Graph o-- Edge
+    Edge --> Vertex : source, target
