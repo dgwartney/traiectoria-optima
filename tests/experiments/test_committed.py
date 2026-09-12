@@ -327,3 +327,53 @@ class TestTheSearchCostExperiment:
             row = recorded[spec["label"]]
             assert len(narrowed.airports) == row["vertices"]
             assert len(narrowed.routes) == row["edges"]
+
+
+class TestWhatTheSearchCostExperimentMeasuredAboutScaling:
+    """The empirical side of the complexity write-up.
+
+    These read the recorded file rather than re-timing anything, so they are
+    assertions about what was published, not a benchmark that can flake on a
+    loaded machine.
+    """
+
+    def test_every_size_reports_a_build_time(self, search_cost):
+        for row in search_cost.results()["results"]["runtime_series"]:
+            assert row["build_ms"] > 0, row["label"]
+
+    def test_graph_construction_is_linear_in_the_graph_size(self, search_cost):
+        # The one O(V + E) claim in this project that is directly testable:
+        # building an adjacency list cannot stop early the way a search can.
+        build = search_cost.results()["results"]["scaling"]["build"]
+        assert 0.85 < build["exponent"] < 1.15, build
+        assert build["r_squared"] > 0.99, build
+
+    def test_every_search_is_sublinear_because_it_stops_at_the_goal(
+        self, search_cost
+    ):
+        # A goal-directed search never does the work its worst-case bound
+        # describes, so the measured exponents come in well under
+        # construction's. If one ever matched it, the search would have stopped
+        # being goal-directed.
+        scaling = search_cost.results()["results"]["scaling"]
+        for name in ("BFS", "Dijkstra", "A*"):
+            assert scaling[name]["exponent"] < scaling["build"]["exponent"], name
+            assert scaling[name]["exponent"] < 0.8, name
+
+    def test_astar_is_the_least_sensitive_to_graph_size(self, search_cost):
+        # A* expands a handful of nodes whether the graph has 2,000 edges or
+        # 66,000, so its exponent is the closest to zero of the three.
+        scaling = search_cost.results()["results"]["scaling"]
+        assert scaling["A*"]["exponent"] < scaling["Dijkstra"]["exponent"]
+        assert scaling["A*"]["exponent"] < scaling["BFS"]["exponent"]
+
+    def test_it_records_the_machine_that_produced_the_timings(self, search_cost):
+        # Absolute milliseconds are only interpretable if the run says what it
+        # ran on -- and in Colab that becomes a configuration someone else can
+        # select and reproduce.
+        machine = search_cost.results()["results"]["environment"]
+        assert machine["cpu"]
+        assert machine["cores"] >= 1
+        assert machine["platform"]
+        assert machine["python"]
+        assert isinstance(machine["colab"], bool)
