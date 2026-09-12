@@ -1,0 +1,98 @@
+{
+  "experiment": "route-map",
+  "recorded": "2026-09-12T23:40:50+00:00",
+  "snapshot": {
+    "id": "2026-09-11-bb90a8",
+    "reference": "../../data/snapshots/2026-09-11-bb90a8",
+    "criteria": {},
+    "source_commit": "610936de75b2d3c45e0e84daea687b32daf35aa3"
+  },
+  "parameters": {
+    "pairs": [
+      [
+        "HNL",
+        "BDL"
+      ],
+      [
+        "ANC",
+        "PVD"
+      ],
+      [
+        "SYD",
+        "JFK"
+      ]
+    ],
+    "context_pair": [
+      "HNL",
+      "BDL"
+    ],
+    "figures": {
+      "report_dir": "../../docs/images",
+      "slides_dir": "../../slides/images"
+    }
+  },
+  "results": {
+    "comparison": {
+      "HNL-BDL": {
+        "Dijkstra": {
+          "km": 8071.5,
+          "legs": 3,
+          "route": "HNL-SLC-DTW-BDL"
+        },
+        "BFS": {
+          "km": 8616.2,
+          "legs": 2,
+          "route": "HNL-ATL-BDL"
+        },
+        "km_penalty": 544.7,
+        "legs_saved": 1
+      },
+      "ANC-PVD": {
+        "Dijkstra": {
+          "km": 5876.9,
+          "legs": 3,
+          "route": "ANC-MSP-DTW-PVD"
+        },
+        "BFS": {
+          "km": 7497.2,
+          "legs": 2,
+          "route": "ANC-LAS-PVD"
+        },
+        "km_penalty": 1620.3,
+        "legs_saved": 1
+      },
+      "SYD-JFK": {
+        "Dijkstra": {
+          "km": 16035.3,
+          "legs": 2,
+          "route": "SYD-LAX-JFK"
+        },
+        "BFS": {
+          "km": 23092.6,
+          "legs": 2,
+          "route": "SYD-AUH-JFK"
+        },
+        "km_penalty": 7057.3,
+        "legs_saved": 0
+      }
+    },
+    "network": {
+      "route_rows": 66332,
+      "distinct_pairs": 18814
+    },
+    "figures": [
+      "route-map-hnl-bdl.png",
+      "route-map-syd-jfk.png"
+    ]
+  },
+  "catalog": {
+    "chain": [],
+    "routes": [
+      66332
+    ],
+    "airports": [
+      3387
+    ],
+    "dangling": 0
+  }
+}

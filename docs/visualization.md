@@ -17,7 +17,15 @@ markdown cells on.
 
 This document proposes a helper module that makes that picture a one-liner in every
 experiment, lays out the design choices behind it, and compares Folium against the
-alternatives. **Nothing here is implemented yet** — it is a design document.
+alternatives.
+
+> **Status: implemented.** `flight_planner.viz` now exists, built to
+> [section 9](#9-recommendation), and `experiments/route-map/` demonstrates it
+> against the world snapshot. [Section 12](#12-what-implementing-it-changed) records
+> what building it taught that designing it had not — including two bugs this
+> document's own prototype had. The design sections below are unchanged except
+> where that section says otherwise, so they still read as the argument that was
+> made before any of it was written.
 
 It is also meant to be the *only* thing an implementer needs. Every number and
 screenshot in it came from a working prototype run against committed snapshots —
@@ -41,6 +49,7 @@ already lost half of itself.
 - [9. Recommendation](#9-recommendation)
 - [10. What the rest of the repository has already decided](#10-what-the-rest-of-the-repository-has-already-decided)
 - [11. Open questions](#11-open-questions)
+- [12. What implementing it changed](#12-what-implementing-it-changed)
 - [Appendix A — how these were run](#appendix-a--how-these-were-run)
 - [Appendix B — the prototype](#appendix-b--the-prototype)
 
@@ -1266,6 +1275,97 @@ import it. But it does mean the numbers are re-derivable rather than
 re-runnable, and the obvious home when the helper is built is a `tests/` or
 `scripts/` sibling that exercises the real classes instead — at which point these
 scripts are throwaway and the question answers itself.
+
+---
+
+## 12. What implementing it changed
+
+`flight_planner.viz` was built to [section 9](#9-recommendation) and
+`experiments/route-map/` demonstrates it. Almost all of the design survived
+contact: the `MapLayer` structure, the batched `NetworkLayer`, the palette, the
+tile default and the `RouteMap.compare` one-liner all went in as written.
+
+Four things did not, and all four were found by running the thing rather than
+reading it.
+
+### The PNG export cannot use Playwright's sync API
+
+[Section 7](#7-getting-a-map-into-the-pdf-and-onto-a-slide) specifies a Playwright
+screenshot called from the notebook, and the prototype's `shot.py` proved the
+approach — from a *script*. From a notebook it fails outright:
+
+```
+Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+Please use the Async API instead.
+```
+
+A Jupyter kernel *is* an asyncio loop, so the sync API refuses to start inside one.
+This was invisible to the prototype because the prototype never ran in a kernel —
+the one place the design says the export belongs.
+
+`MapExporter.png` therefore runs the browser in a **subprocess**: a fresh
+interpreter has no loop of its own, and the same code then works from a notebook, a
+script, a test and pytest alike. The alternative — an async API and an `await` in
+the notebook — would have made the export the only cell in the repository that
+cannot be copied into a plain script.
+
+### Unwrapping has to be continuous across legs, not within them
+
+[Section 6](#whatever-you-unwrap-you-have-to-frame) got the antimeridian half right.
+`Geodesic` unwraps within one leg, starting from that leg's own origin — which is
+correct for a single leg and wrong for a path made of several. `SYD-LAX-JFK` is the
+case: the first leg unwraps to end at 241.6°, and the second then starts again at
+its raw −118.4°, a 360° jump between two legs that are each individually right.
+Leaflet draws the jump, and the map frames itself across 404° of longitude — more
+than a whole globe, zoomed out past the route.
+
+`PathLayer._join` shifts each leg into the copy of the world the previous one
+finished in. The frame for `SYD-JFK` goes from 404° wide to 135°.
+
+The prototype could not have found this: its `.path()` was only ever exercised on
+US routes, where every leg unwraps to itself.
+
+### One global marker offset is not enough either
+
+[Section 6](#whatever-you-unwrap-you-have-to-frame)'s second rule — move markers
+into the lines' frame — was implemented first as a single `±360` offset applied to
+every marker. That works for a single dateline leg and breaks on `SYD-LAX-JFK`,
+where SYD belongs at 151° and JFK belongs at 286°: one offset cannot be right for
+both.
+
+`RouteMap._nearest_copy` instead moves each marker to whichever copy of the world
+is closest to the middle of the drawn lines, which reduces to "leave it alone" when
+nothing was unwrapped.
+
+### `Palette` needs to not raise
+
+[Section 4.1](#41-the-class-structure) argues that `Palette.series` should raise on
+an unknown name, and it does. But `PathLayer` takes its colour from its *layer
+name*, and a layer legitimately named `"Great circle"` or `"SYD-JFK"` is not an
+algorithm — so the layer falls back to the scenery colour rather than propagating
+the `KeyError`. `Palette.series` still raises for callers asking for a series
+colour directly, which is where a typo in an algorithm name actually matters.
+
+### What the experiment measured
+
+`experiments/route-map/` confirms the numbers this document predicted and adds one:
+
+| Measurement | Value |
+|---|---|
+| Route rows → distinct airport pairs | 66,332 → 18,814 (3.5 rows per pair) |
+| Map with the context layer | 4.83 MB |
+| The same map, answer only | 0.02 MB |
+| Ratio | **305×** |
+
+That 305× is the number that justifies `show=False` more sharply than anything in
+[section 5](#5-what-the-prototype-measured): the context is not a component of the
+file, it is the file.
+
+Its three pairs also make a point the design did not anticipate. `SYD-JFK` is
+answered by Dijkstra in two legs via Los Angeles and by BFS in two legs via **Abu
+Dhabi** — the same hop count, 7,057 km apart, leaving Sydney in opposite
+directions. No column in a results table explains that. The map does, and it is the
+clearest argument in the repository for why this layer exists.
 
 ---
 
