@@ -1,0 +1,22 @@
+# shortest-vs-fewest
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "shortest-vs-fewest"
+description = "What does it cost to skip a stop? Dijkstra against BFS on three US pairs."
+notebooks = ["explore.ipynb"]
+snapshot = "../../data/snapshots/2026-09-12-3e4f9d"  # 2026-09-12-3e4f9d
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+
+# Pairs to compare, chosen to span the outcomes: one where the two algorithms
+# agree, one where trading a stop costs real distance, and one where it costs
+# almost nothing -- but only if you look past what BFS hands back.
+pairs = [
+    ["SFO", "BOS"],
+    ["BOI", "CHS"],
+    ["HNL", "BDL"],
+]

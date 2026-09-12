@@ -4,6 +4,9 @@ Documentation site for the Traiectoria Optima project.
 
 ## Start here
 
+- [Tutorial](tutorial.md) — build one experiment end to end, in half an hour:
+  freeze a slice of the data, ask a question of it, and record the answer next
+  to the data that produced it. Start here if you would rather learn by doing.
 - [Setup](setup.md) — installing `uv`, getting the dev environment running,
   running the notebooks, and using the package from
   [Google Colab](setup.md#6-google-colab).

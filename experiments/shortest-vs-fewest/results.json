@@ -1,0 +1,78 @@
+{
+  "experiment": "shortest-vs-fewest",
+  "recorded": "2026-09-12T01:39:01+00:00",
+  "snapshot": {
+    "id": "2026-09-12-3e4f9d",
+    "reference": "../../data/snapshots/2026-09-12-3e4f9d",
+    "criteria": {
+      "airport_type": "large_airport",
+      "country": "US"
+    },
+    "source_commit": "4087d45828c2c2e1dde8f59befadde844703b0df"
+  },
+  "parameters": {
+    "pairs": [
+      [
+        "SFO",
+        "BOS"
+      ],
+      [
+        "BOI",
+        "CHS"
+      ],
+      [
+        "HNL",
+        "BDL"
+      ]
+    ]
+  },
+  "results": {
+    "pairs": [
+      {
+        "pair": "SFO-BOS",
+        "dijkstra_km": 4341.022084519025,
+        "dijkstra_legs": 1,
+        "dijkstra_route": "SFO->BOS",
+        "bfs_legs": 1,
+        "bfs_km": 4341.022084519025,
+        "bfs_route": "SFO->BOS"
+      },
+      {
+        "pair": "BOI-CHS",
+        "dijkstra_km": 3376.0031346163455,
+        "dijkstra_legs": 3,
+        "dijkstra_route": "BOI->DEN->BNA->CHS",
+        "bfs_legs": 2,
+        "bfs_km": 3531.417244023759,
+        "bfs_route": "BOI->ORD->CHS",
+        "best_at_bfs_legs_km": 3531.417244023759,
+        "best_at_bfs_legs_via": "ORD",
+        "bfs_overshoot_km": 0.0,
+        "cost_of_one_fewer_leg_km": 155.414
+      },
+      {
+        "pair": "HNL-BDL",
+        "dijkstra_km": 8071.513690777907,
+        "dijkstra_legs": 3,
+        "dijkstra_route": "HNL->SLC->DTW->BDL",
+        "bfs_legs": 2,
+        "bfs_km": 8616.156395196675,
+        "bfs_route": "HNL->ATL->BDL",
+        "best_at_bfs_legs_km": 8076.038073220641,
+        "best_at_bfs_legs_via": "ORD",
+        "bfs_overshoot_km": 540.118,
+        "cost_of_one_fewer_leg_km": 4.524
+      }
+    ]
+  },
+  "catalog": {
+    "chain": [],
+    "routes": [
+      7005
+    ],
+    "airports": [
+      94
+    ],
+    "dangling": 0
+  }
+}
