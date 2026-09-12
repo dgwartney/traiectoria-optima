@@ -10,7 +10,7 @@ import json
 
 import pytest
 
-from flight_planner import BFS, Dijkstra
+from flight_planner import AStar, BFS, Dijkstra
 from flight_planner.experiments import Experiment, Snapshot
 
 FULL_SNAPSHOT_ID = "2026-09-11-bb90a8"
@@ -232,3 +232,98 @@ class TestTheTutorialExperiment:
             assert sum(
                 leg.distance_km for leg in hop_legs
             ) - best_km == pytest.approx(row["bfs_overshoot_km"], abs=1e-3)
+
+
+# The benchmark behind the BFS/Dijkstra/A* comparison table and the
+# runtime-vs-input-size plot. It runs on the full world network rather than a
+# narrowing, because the catalogue asks the comparison to run on long-haul
+# queries and those only exist if the graph has long hauls in it.
+SEARCH_COST_SLUG = "search-cost"
+
+
+@pytest.fixture(scope="module")
+def search_cost(repo_root):
+    return Experiment.open(repo_root / "experiments" / SEARCH_COST_SLUG)
+
+
+class TestTheSearchCostExperiment:
+    def test_it_opens_and_pins_its_data(self, search_cost):
+        assert search_cost.slug == SEARCH_COST_SLUG
+        assert search_cost.snapshot.snapshot_id == FULL_SNAPSHOT_ID
+
+    def test_the_snapshot_path_is_relative(self, search_cost):
+        assert search_cost.snapshot_reference.startswith("../../")
+
+    def test_its_notebook_carries_no_stored_output(self, search_cost):
+        for path in notebooks_only(search_cost):
+            for cell in json.loads(path.read_text())["cells"]:
+                assert not cell.get("outputs")
+
+    def test_it_has_been_run(self, search_cost):
+        recorded = search_cost.results()
+        assert recorded is not None
+        assert recorded["snapshot"]["id"] == FULL_SNAPSHOT_ID
+
+    def test_every_query_pair_survives_every_narrowing(self, search_cost):
+        # If a pair vanished partway down the size series, the runtime curve
+        # would be comparing different questions at different sizes.
+        parameters = search_cost.parameters
+        base = search_cost.catalog()
+
+        for spec in parameters["sizes"]:
+            narrowed = base
+            if "airline" in spec:
+                narrowed = narrowed.airline(*spec["airline"])
+            if "country" in spec:
+                narrowed = narrowed.country(*spec["country"])
+            if "airport_type" in spec:
+                narrowed = narrowed.airport_type(*spec["airport_type"])
+
+            codes = set(narrowed.iata_codes)
+            for origin, destination in parameters["pairs"]:
+                assert origin in codes, f"{origin} missing from {spec['label']}"
+                assert destination in codes, f"{destination} missing from {spec['label']}"
+
+    def test_the_recorded_expansion_counts_are_still_what_the_search_costs(
+        self, search_cost
+    ):
+        recorded = search_cost.results()["results"]["comparison"]
+        planner = search_cost.catalog().planner()
+        heuristic = AStar(lambda origin, goal: origin.distance_to(goal))
+
+        for row in recorded:
+            origin, destination = row["pair"].split("-")
+            for name, algorithm in (
+                ("BFS", BFS()),
+                ("Dijkstra", Dijkstra()),
+                ("A*", heuristic),
+            ):
+                result = planner.search_route(origin, destination, algorithm)
+                assert result.nodes_expanded == row["expanded"][name], (
+                    f"{row['pair']} {name}"
+                )
+
+    def test_astar_still_matches_dijkstra_on_every_recorded_query(self, search_cost):
+        # The project's central claim, re-checked against real data rather
+        # than a hand-built test graph.
+        for row in search_cost.results()["results"]["comparison"]:
+            assert row["cost"]["Dijkstra"] == pytest.approx(row["cost"]["A*"])
+            assert row["expanded"]["A*"] < row["expanded"]["Dijkstra"]
+
+    def test_the_recorded_sizes_are_still_the_sizes(self, search_cost):
+        recorded = {row["label"]: row for row in
+                    search_cost.results()["results"]["runtime_series"]}
+        base = search_cost.catalog()
+
+        for spec in search_cost.parameters["sizes"]:
+            narrowed = base
+            if "airline" in spec:
+                narrowed = narrowed.airline(*spec["airline"])
+            if "country" in spec:
+                narrowed = narrowed.country(*spec["country"])
+            if "airport_type" in spec:
+                narrowed = narrowed.airport_type(*spec["airport_type"])
+
+            row = recorded[spec["label"]]
+            assert len(narrowed.airports) == row["vertices"]
+            assert len(narrowed.routes) == row["edges"]
