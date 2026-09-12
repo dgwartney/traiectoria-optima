@@ -130,6 +130,12 @@ getting the work back out.
 
 ## Step 2 — Look at the data before freezing any of it
 
+> **In Colab** — there is no REPL to start; each `>>>` block below is a cell,
+> without the prompts. The one edit is the path: nothing resolves against a
+> repository root, so open the snapshot from the clone —
+> `Snapshot.open('/content/traiectoria-optima/data/snapshots/2026-09-11-bb90a8')`.
+> The counts are the same.
+
 Start a Python session:
 
 ```console
@@ -154,12 +160,6 @@ fast enough that you will not notice, and it means the numbers below came from
 data that is provably unchanged. 66,332 routes between 3,387 airports,
 worldwide: more than this experiment needs, and a smaller scope is easier to
 reason about.
-
-> **In Colab** — there is no REPL to start; each `>>>` block below is a cell,
-> without the prompts. The one edit is the path: nothing resolves against a
-> repository root, so open the snapshot from the clone —
-> `Snapshot.open('/content/traiectoria-optima/data/snapshots/2026-09-11-bb90a8')`.
-> The counts are the same.
 
 ```pycon
 >>> us = catalog.airport_type('large').country('US')
@@ -318,19 +318,36 @@ do, you froze the scope you meant to.
 The last two lines name what was written. `2026-09-12-3e4f9d` is the snapshot's
 **id**, and it is also the directory's name.
 
-### Your id will not match mine
+### Reading the id
 
-An id is `<date>-<content hash>`. You are freezing on a different day, so the
-date differs and you get a directory of your own — but **the hash on the end
-should be `3e4f9d`**, because that part is computed from the rows themselves.
-Same data, same hash, always.
+An id is `<date>-<content hash>`. The two halves answer different questions, and
+only the second one is about your data.
 
-So you will now have two snapshots side by side holding identical rows, mine
-and yours. That is expected, and harmless: equal suffixes mean equal data.
+**The hash should be `3e4f9d`.** It is computed from the rows themselves, so the
+same slice of the same processed data produces it on any machine, on any day.
+That is the line to check. If your suffix differs, your processed data is not
+what this tutorial was written against — nothing is broken, but your numbers
+will diverge from the ones printed below.
 
-If your suffix differs, your processed data is not the same as the data this
-tutorial was written against. Nothing is broken; your numbers will simply differ
-from the ones printed below.
+**The date is just today's.** Which means what you see next depends on when you
+are reading this:
+
+- **On a later day**, you get a directory of your own — `2026-11-04-3e4f9d`, say
+  — sitting beside the committed `2026-09-12-3e4f9d`. Two directories, identical
+  rows. That is expected and harmless: equal suffixes mean equal data.
+- **On 2026-09-12 itself**, the id you compute *is* the committed one, so the
+  freeze lands in the directory that is already there. The CSVs and every
+  checksum are rewritten with the same bytes; only the manifest's `created` and
+  `source_commit` change. `git status` says so:
+
+  ```console
+  $ git status --short data/snapshots/
+   M data/snapshots/2026-09-12-3e4f9d/manifest.json
+  ```
+
+  Nothing is wrong — you re-derived the data and got the data. Commit it or
+  `git checkout` it, whichever you prefer; the rest of the tutorial is the same
+  either way.
 
 From here on, substitute your own id wherever you see `2026-09-12-3e4f9d`.
 
@@ -467,20 +484,58 @@ uv sync --group notebooks     # first time only
 uv run jupyter lab
 ```
 
-Open `experiments/shortest-vs-fewest-dg/explore.ipynb`. The scaffolder's cells
-already do the setup, and they stay as they are.
+Open `experiments/shortest-vs-fewest-dg/explore.ipynb`. The scaffolder wrote a
+notebook that runs end to end as it stands — but it was written for the starter
+`origin`/`destination` parameters you replaced in Step 4, so **do not run it
+top to bottom yet.** Three cells need editing first, and the last of them would
+raise `KeyError: 'origin'` if you ran it as it is. Work down the notebook in
+order; each cell below depends on the ones above it.
 
-The first one opens the experiment. A notebook's working directory is the
-directory it sits in, and it sits inside the experiment — so `Path.cwd()` is all
-it needs:
+**The import cell**, the first one after the install check, opens the
+experiment. A notebook's working directory is the directory it sits in, and it
+sits inside the experiment — so `Path.cwd()` is all it needs. The scaffolder
+wrote this:
 
 ```python
+from pathlib import Path
+
+from flight_planner.experiments import Experiment
+
+# The notebook lives in the experiment directory, so the experiment is
+# right here. Nothing resolves against a repository root.
 experiment = Experiment.open(Path.cwd())
-pairs = [tuple(pair) for pair in experiment.parameters['pairs']]
+experiment, experiment.parameters
 ```
 
-The next opens the snapshot, which re-hashes every file against the manifest —
-so this cell is also the integrity check:
+Two edits. Add the two algorithms to the imports — the scaffolder does not know
+you are going to compare them — and put the pairs in hand for everything below.
+Here is the whole cell afterwards:
+
+```python
+from pathlib import Path
+
+from flight_planner import BFS, Dijkstra
+from flight_planner.experiments import Experiment
+
+experiment = Experiment.open(Path.cwd())
+pairs = [tuple(pair) for pair in experiment.parameters['pairs']]
+pairs
+```
+
+**The cell under "The data"** opens the snapshot, which re-hashes every file
+against the manifest — so this cell is also the integrity check. The scaffolder
+ends it by displaying the catalog:
+
+```python
+snapshot = experiment.snapshot
+print(snapshot.snapshot_id, snapshot.criteria)
+
+catalog = experiment.catalog()
+catalog
+```
+
+Replace that bare `catalog` with a planner and a count. The planner is what the
+next cell needs, and it has to be built somewhere:
 
 ```python
 snapshot = experiment.snapshot
@@ -490,6 +545,8 @@ catalog = experiment.catalog()
 planner = catalog.planner()
 print(f'{len(catalog.routes):,} routes / {len(catalog.airports):,} airports')
 ```
+
+Run those two cells:
 
 ```
 2026-09-12-3e4f9d {'airport_type': 'large_airport', 'country': 'US'}
@@ -502,7 +559,12 @@ this repository does it the other way round, and
 [Experiments §6](experiments.md#6-experiment-the-directory-and-its-record)
 explains when to choose which.)
 
-Now **replace the cell under "The question"** with the comparison.
+The markdown cell between them suggests narrowing the catalog further. Leave it
+alone — the narrowing is already in the snapshot — or delete it.
+
+Now **replace the cell under "The question"**, the third and last one that needs
+changing, with the comparison. This is the cell that still refers to
+`parameters['origin']`, so it is the one that would have raised.
 `find_shortest_route` takes the algorithm as its third argument — `Dijkstra`
 minimises kilometres, `BFS` minimises legs:
 
@@ -687,12 +749,15 @@ is *a* two-leg route, not necessarily the shortest two-leg route.
 The catalog can answer what BFS cannot.
 
 > **5a — notebook:** add this as a new cell.
-> **5b — script:** put `best_two_leg` beside the other helpers at module level
-> (it takes `catalog` as an argument there, since it is outside `main()`), and
-> the loop at the end of `main()`.
+> **5b — script:** put `best_two_leg` beside `kilometres` and `route_via` at
+> module level, and the loop at the end of `main()`.
+
+`best_two_leg` takes the catalog as an argument rather than reaching for one
+defined elsewhere, so the same code works in a notebook cell and at a script's
+module level with nothing changed:
 
 ```python
-def best_two_leg(origin, destination):
+def best_two_leg(catalog, origin, destination):
     """Shortest two-leg route between a pair, by distance."""
     candidates = [
         (first.distance_km + second.distance_km, first.destination.iata_code)
@@ -705,7 +770,7 @@ def best_two_leg(origin, destination):
 
 for origin, destination in [('BOI', 'CHS'), ('HNL', 'BDL')]:
     _, hop_legs = planner.find_shortest_route(origin, destination, BFS())
-    best_km, hub = best_two_leg(origin, destination)
+    best_km, hub = best_two_leg(catalog, origin, destination)
 
     print(f'{origin} -> {destination}')
     print(f'  BFS returned    : {kilometres(hop_legs):9,.0f} km  via {route_via(origin, hop_legs)}')
@@ -754,8 +819,8 @@ it came from.
 > **5a — notebook:** this is the last cell, already there as
 > `experiment.record(...)` — replace its contents.
 > **5b — script:** this goes at the end of `main()`, before `return 0`. The
-> [appendix](#appendix-the-whole-thing-as-a-script) has the finished file if you
-> would rather copy it whole.
+> [appendix](#appendix-a-condensed-one-file-version) is a tidied-up rewrite of
+> the same experiment, if you would rather read it whole than assembled.
 
 
 
@@ -776,7 +841,7 @@ for origin, destination in pairs:
     }
 
     if len(hop_legs) == 2:
-        best_km, hub = best_two_leg(origin, destination)
+        best_km, hub = best_two_leg(catalog, origin, destination)
         row['best_at_bfs_legs_km'] = best_km
         row['best_at_bfs_legs_via'] = hub
         row['bfs_overshoot_km'] = round(row['bfs_km'] - best_km, 3)
@@ -869,7 +934,7 @@ pairs = [
 ]
 ```
 
-Re-run the notebook, then:
+Re-run it — the notebook or the script, whichever you built — then:
 
 ```bash
 git diff experiments/shortest-vs-fewest-dg/results.json
@@ -911,12 +976,20 @@ The reference covers each of these:
 | Why `pip install -e` breaks in Colab, and installing without pip at all | [Setup §6](setup.md#6-google-colab) |
 | Dijkstra, BFS and A\* in the abstract | [Graph Algorithm Notes](graph-algorithms-notes.md) |
 
-## Appendix: the whole thing as a script
+## Appendix: a condensed one-file version
 
-The same experiment as a single file, for anyone who took the script route
-in Step 5 — or who would rather read it in one piece than as cells. Save it
-as `experiments/shortest-vs-fewest-dg/run.py`, make sure `experiment.toml`
-names it in `notebooks`, and run it:
+The same experiment, same data, same recorded numbers — written as one file
+someone might keep, rather than as the thing you assembled step by step.
+
+**It is not a transcript of Steps 5b through 7.** The script you built prints
+its working as it goes: the snapshot id, the route counts, two lines per pair,
+then the anomaly comparison. This one drops all of that in favour of a single
+line per pair, because by now the finding is known and the artifact worth
+keeping is `results.json`. The `results` block the two write is identical —
+that is the part that matters, and the point of the contrast.
+
+Save it as `experiments/shortest-vs-fewest-dg/run.py`, make sure
+`experiment.toml` names it in `notebooks`, and run it:
 
 ```bash
 uv run python experiments/shortest-vs-fewest-dg/run.py
