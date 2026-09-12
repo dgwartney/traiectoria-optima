@@ -29,6 +29,10 @@ sources = ["src"]
 # Running the tests, the demos, and the non-package code under src/.
 dev = [
     "matplotlib>=3.8",
+    # Independent oracle for the pathfinding results. Validation only -- never
+    # a substitute for the algorithms, which are the deliverable. BSD-3, and
+    # no required runtime dependencies of its own.
+    "networkx>=3.4",
     "numpy>=1.26,<3",
     "pandas-stubs",
     "playwright>=1.48.0",
