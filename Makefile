@@ -58,20 +58,30 @@ OUR_AIRPORTS_AIRPORTS=$(OUR_AIRPORTS_DIR)/airports.csv
 # Definitions for the markdown to PDF generation with mermaid or .svg files
 DOCS_DIR       = docs
 DOCS_TEMPLATES = $(DOCS_DIR)/templates
-DOCS_MERMAID   = $(DOCS_DIR)/mermaid
+DOCS_IMAGES    = $(DOCS_DIR)/images
+MERMAID_DIR    = mermaid
 DOC_HEADER     = $(DOCS_TEMPLATES)/doc-header.tex
 SVG_FILTER     = $(DOCS_DIR)/svg-to-png.lua
 
 BUILD_DIR = build
 PDF_DIR   = $(BUILD_DIR)/pdf
-SVG_DIR   = $(BUILD_DIR)/svg
 PNG_DIR   = $(BUILD_DIR)/png
 
+# Width of generated diagram PNGs, in pixels. Large enough to stay sharp when
+# scaled to the 6.5in text column.
+DIAGRAM_WIDTH = 1600
+
 MD_SRCS  := $(wildcard $(DOCS_DIR)/*.md)
-MMD_SRCS := $(wildcard $(DOCS_MERMAID)/*.mmd)
+MMD_SRCS := $(wildcard $(MERMAID_DIR)/*.mmd)
 PDFS     := $(MD_SRCS:$(DOCS_DIR)/%.md=$(PDF_DIR)/%.pdf)
-SVGS     := $(MMD_SRCS:$(DOCS_MERMAID)/%.mmd=$(SVG_DIR)/%.svg)
-PNGS     := $(MMD_SRCS:$(DOCS_MERMAID)/%.mmd=$(PNG_DIR)/%.png)
+
+# Two outputs per mermaid source, with different lifetimes:
+#   .svg -> docs/images/, COMMITTED. What the markdown references, so the docs
+#           render in a fresh clone and on GitHub, neither of which builds.
+#   .png -> build/, generated. Only the PDF needs it; svg-to-png.lua rewrites
+#           every .svg reference to the matching build/png file.
+DIAGRAM_SVGS := $(MMD_SRCS:$(MERMAID_DIR)/%.mmd=$(DOCS_IMAGES)/%.svg)
+PNGS         := $(MMD_SRCS:$(MERMAID_DIR)/%.mmd=$(PNG_DIR)/%.png)
 
 # Arguments we require for pandoc
 PANDOC_FLAGS := \
@@ -88,7 +98,7 @@ STAMP_DIR = .make
 PY_SRC   := $(shell find $(SRC_DIR) -name '*.py' -not -path '*/__pycache__/*')
 PY_TESTS := $(shell find tests -name '*.py' -not -path '*/__pycache__/*')
 
-.PHONY: all help notebook flight_data flight_network snapshot legacy_snapshot experiment united_airlines_tables international_airports verify_iata_codes test lint check docs clean
+.PHONY: all help notebook flight_data flight_network snapshot legacy_snapshot experiment united_airlines_tables international_airports verify_iata_codes test lint check docs diagrams clean
 
 .DEFAULT_GOAL := help
 
@@ -108,16 +118,23 @@ notebook: ## Start a Jupyter Lab session
 # Build all project docs (project_plan.md, report.md, ...) to PDF
 docs: $(PDFS)
 
-$(SVG_DIR)/%.svg: $(DOCS_MERMAID)/%.mmd | $(SVG_DIR)
+# Regenerate every diagram from its mermaid source.
+diagrams: $(DIAGRAM_SVGS) $(PNGS) ## Rebuild diagrams from mermaid/*.mmd
+
+# Rendered straight from .mmd by mmdc. Do not route this through
+# rsvg-convert: it silently drops all text from a mermaid SVG.
+$(DOCS_IMAGES)/%.svg: $(MERMAID_DIR)/%.mmd
 	mmdc -i $< -o $@
 
-$(PNG_DIR)/%.png: $(SVG_DIR)/%.svg | $(PNG_DIR)
-	rsvg-convert -f png $< -o $@
+$(PNG_DIR)/%.png: $(MERMAID_DIR)/%.mmd | $(PNG_DIR)
+	mmdc -i $< -o $@ -w $(DIAGRAM_WIDTH)
 
-$(PDF_DIR)/%.pdf: $(DOCS_DIR)/%.md $(SVG_FILTER) $(DOC_HEADER) | $(PNGS) $(PDF_DIR)
+# $(PNGS) is a real prerequisite, not order-only, so editing a diagram
+# rebuilds the PDFs that embed it.
+$(PDF_DIR)/%.pdf: $(DOCS_DIR)/%.md $(SVG_FILTER) $(DOC_HEADER) $(PNGS) | $(PDF_DIR)
 	pandoc $< -o $@ $(PANDOC_FLAGS)
 
-$(PDF_DIR) $(SVG_DIR) $(PNG_DIR):
+$(PDF_DIR) $(PNG_DIR):
 	mkdir -p $@
 
 check-deps:
@@ -131,7 +148,7 @@ clean: ## Remove generated data, build output, and make stamp files
 	$(RM) -r $(STAMP_DIR)
 	$(RM) -r $(BUILD_DIR)
 
-.PHONY: notebook flight_data docs check-deps clean
+.PHONY: notebook flight_data docs diagrams check-deps clean
 
 #
 # --- Data pipeline ----------------------------------------------------
@@ -241,19 +258,28 @@ legacy_snapshot: ## Freeze the United/US-large slice as an immutable snapshot
 	$(MAKE) snapshot SNAPSHOT_FILTERS="$(LEGACY_SNAPSHOT_FILTERS)"
 
 #
-# Scaffold an experiment: a directory pinning a snapshot, plus a starter
-# notebook that runs end to end as written. Defaults to the most recently
-# frozen snapshot; name another with SNAPSHOT=<id>.
+# Scaffold an experiment: a directory pinning a snapshot, plus starter code
+# that runs end to end as written. Defaults to the most recently frozen
+# snapshot; name another with SNAPSHOT=<id>.
+#
+# CODE= names the file holding the experiment's code. A name ending in .py
+# gets a starter script, anything else a starter notebook.
 #
 #   make experiment SLUG=astar-heuristics
 #   make experiment SLUG=astar-heuristics SNAPSHOT=2026-09-11-1528c4
+#   make experiment SLUG=astar-heuristics CODE=run.py
 #
-experiment: ## Scaffold an experiment (SLUG=required, SNAPSHOT=optional)
-	@test -n "$(SLUG)" || { echo "usage: make experiment SLUG=<name> [SNAPSHOT=<id>]" >&2; exit 1; }
+# FORCE=1 regenerates experiment.toml for an experiment that already exists.
+# It never touches code files: those are the experimenter's work.
+#
+experiment: ## Scaffold an experiment (SLUG=required, SNAPSHOT/CODE/FORCE=optional)
+	@test -n "$(SLUG)" || { echo "usage: make experiment SLUG=<name> [SNAPSHOT=<id>] [CODE=<file>] [FORCE=1]" >&2; exit 1; }
 	uv run python $(SRC_NEW_EXPERIMENT) $(SLUG) \
 		--root $(EXPERIMENT_DIR) \
 		--snapshot-root $(SNAPSHOT_DIR) \
 		$(if $(SNAPSHOT),--snapshot $(SNAPSHOT),) \
+		$(if $(CODE),--notebook $(CODE),) \
+		$(if $(FORCE),--force,) \
 		$(if $(DESCRIPTION),--description "$(DESCRIPTION)",)
 
 #

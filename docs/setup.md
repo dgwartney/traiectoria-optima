@@ -134,7 +134,7 @@ Setup cell:
 ```python
 !rm -rf /content/traiectoria-optima
 !git clone --depth 1 https://github.com/dgwartney/traiectoria-optima.git /content/traiectoria-optima
-!pip install -q /content/traiectoria-optima
+!pip3 install -q /content/traiectoria-optima
 ```
 
 Then the package is importable in the same session:
@@ -171,9 +171,16 @@ experiment.record({'shortest_km': 4341.0, 'legs': 1})
 To version a notebook written in Colab, commit from the clone — an experiment
 directory is a normal part of the repository.
 
-Three details make the difference between this working and not:
+Four details make the difference between this working and not:
 
-- **Do not use `pip install -e`.** An editable install works through a `.pth`
+- **`!pip3` in a shell cell, `%pip` inside a notebook that installs for
+  itself.** `!pip3 install` runs the shell's pip, which is what the setup cell
+  above does. `%pip install` is IPython's magic: it installs into the kernel
+  actually running the notebook, which is the safer form when the notebook is
+  bootstrapping its own dependencies — and it is what the scaffolded experiment
+  notebooks use. There is no `%pip3`; the magic picks the interpreter for you.
+
+- **Do not use `pip3 install -e`.** An editable install works through a `.pth`
   file, and `.pth` files are executed only when the interpreter starts. The
   install reports success, then `import flight_planner` raises
   `ModuleNotFoundError` until the runtime is restarted. A plain install lands

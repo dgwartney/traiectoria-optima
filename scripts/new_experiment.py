@@ -30,6 +30,7 @@ from flight_planner.experiments import Snapshot  # noqa: E402
 DEFAULT_SNAPSHOT_ROOT = REPO_ROOT / "data" / "snapshots"
 DEFAULT_EXPERIMENT_ROOT = REPO_ROOT / "experiments"
 DEFAULT_NOTEBOOK = "explore.ipynb"
+DEFAULT_SCRIPT = "run.py"
 
 
 def latest_snapshot(root: Path) -> Path:
@@ -254,6 +255,108 @@ def notebook_json(slug: str, description: str) -> str:
     return json.dumps(payload, indent=1) + "\n"
 
 
+def script_text(slug: str, description: str) -> str:
+    """Render a starter script that runs end to end as written.
+
+    Mirrors `notebook_json` step for step -- open the experiment, verify the
+    data, ask it something, record the answer -- so switching between the two
+    is a change of file type rather than of shape.
+
+    The one real difference is how the file locates its own experiment. A
+    notebook's working directory is the directory it sits in, so it can use
+    `Path.cwd()`. A script's is wherever the caller happened to be standing,
+    so it must resolve `__file__`.
+
+    Args:
+        slug: The experiment's short name.
+        description: What the experiment is trying to find out.
+
+    Returns:
+        The `.py` file's contents.
+    """
+    summary = description or "Describe what this experiment is trying to find out."
+    return f'''"""{slug}
+
+{summary}
+
+The data is pinned by `experiment.toml` and verified on load: if a byte of the
+snapshot changes, this script raises instead of quietly producing a different
+answer.
+
+Run it from anywhere:
+    uv run python {DEFAULT_EXPERIMENT_ROOT.name}/{slug}/{DEFAULT_SCRIPT}
+"""
+
+from pathlib import Path
+
+from flight_planner.experiments import Experiment
+
+
+def main() -> int:
+    """Run the experiment and record what it found.
+
+    Returns:
+        Process exit status.
+    """
+    # A script must locate itself: Path.cwd() is wherever you ran it from,
+    # which is not necessarily the experiment. Nothing resolves against a
+    # repository root.
+    experiment = Experiment.open(Path(__file__).resolve().parent)
+    print(experiment.slug, experiment.parameters)
+
+    # Opening the snapshot re-hashes every file against the manifest.
+    snapshot = experiment.snapshot
+    print(snapshot.snapshot_id, snapshot.criteria)
+
+    catalog = experiment.catalog()
+
+    # Narrow the catalog if the experiment works on part of the network.
+    # Every narrowing records what it cost, and the chain goes into the
+    # results:
+    #     catalog = catalog.airline('UA').airport_type('large')
+    planner = catalog.planner()
+
+    origin = experiment.parameters['origin']
+    destination = experiment.parameters['destination']
+    distance_km, legs = planner.find_shortest_route(origin, destination)
+
+    print(f'{{distance_km:,.1f}} km in {{len(legs)}} leg(s)')
+    for leg in legs:
+        print(f'  {{leg.flight_number}}  {{leg.origin.city}} -> {{leg.destination.city}}')
+
+    # Recorded next to the data that produced it.
+    experiment.record(
+        {{
+            'shortest_km': distance_km,
+            'legs': len(legs),
+            'flights': [leg.flight_number for leg in legs],
+        }},
+        catalog=catalog,
+    )
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
+'''
+
+
+def starter_text(filename: str, slug: str, description: str) -> str:
+    """Render the starter file named by `notebooks`, picked by extension.
+
+    Args:
+        filename: Name of the file to write.
+        slug: The experiment's short name.
+        description: What the experiment is trying to find out.
+
+    Returns:
+        Contents for a `.py` script or, for anything else, a notebook.
+    """
+    if filename.endswith(".py"):
+        return script_text(slug, description)
+    return notebook_json(slug, description)
+
+
 def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     """Parse the slug and options from the command line.
 
@@ -270,7 +373,15 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         help="Snapshot id or path to pin. Defaults to the most recent snapshot.",
     )
     parser.add_argument("--description", default="", help="What the experiment asks.")
-    parser.add_argument("--notebook", default=DEFAULT_NOTEBOOK, help="Notebook filename.")
+    parser.add_argument(
+        "--notebook",
+        default=DEFAULT_NOTEBOOK,
+        help=(
+            f"Filename for the experiment's code. A name ending in .py gets a "
+            f"starter script, anything else a starter notebook "
+            f"(default: {DEFAULT_NOTEBOOK}; try {DEFAULT_SCRIPT})."
+        ),
+    )
     parser.add_argument("--root", type=Path, default=DEFAULT_EXPERIMENT_ROOT)
     parser.add_argument("--snapshot-root", type=Path, default=DEFAULT_SNAPSHOT_ROOT)
     parser.add_argument(
@@ -312,15 +423,17 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         )
     )
 
-    # A notebook is the experimenter's work and is never overwritten, not
+    # The code is the experimenter's work and is never overwritten, not
     # even by --force: that flag is about the generated config.
-    notebook_path = directory / args.notebook
-    if not notebook_path.exists():
-        notebook_path.write_text(notebook_json(args.slug, args.description))
+    starter_path = directory / args.notebook
+    if not starter_path.exists():
+        starter_path.write_text(
+            starter_text(args.notebook, args.slug, args.description)
+        )
 
     print(f"experiment: {directory}")
     print(f"  snapshot: {relative} ({snapshot.snapshot_id})")
-    print(f"  notebook: {notebook_path.name}")
+    print(f"      code: {starter_path.name}")
     return 0
 
 

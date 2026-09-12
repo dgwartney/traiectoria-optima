@@ -1,3 +1,4 @@
+import ast
 import json
 
 import pytest
@@ -69,6 +70,51 @@ class TestScaffolding:
         directory = tmp_path / "experiments" / "sfo-bos"
         assert (directory / "analysis.ipynb").is_file()
         assert Experiment.open(directory).notebooks == ("analysis.ipynb",)
+
+
+class TestScaffoldingAScript:
+    """A name ending in .py gets a script rather than a notebook."""
+
+    def test_writes_the_config_and_the_script(self, args, tmp_path):
+        new_experiment.main(["sfo-bos", "--notebook", "run.py"] + args)
+
+        directory = tmp_path / "experiments" / "sfo-bos"
+        assert (directory / "experiment.toml").is_file()
+        assert (directory / "run.py").is_file()
+        assert not (directory / "explore.ipynb").exists()
+
+    def test_the_config_names_the_script(self, args, tmp_path):
+        new_experiment.main(["sfo-bos", "--notebook", "run.py"] + args)
+
+        directory = tmp_path / "experiments" / "sfo-bos"
+        assert Experiment.open(directory).notebooks == ("run.py",)
+
+    def test_the_script_is_valid_python(self, args, tmp_path):
+        new_experiment.main(["sfo-bos", "--notebook", "run.py"] + args)
+
+        source = (tmp_path / "experiments" / "sfo-bos" / "run.py").read_text()
+        ast.parse(source)
+
+    def test_the_script_locates_itself_rather_than_the_cwd(self, args, tmp_path):
+        # The difference that matters between the two starters: a notebook can
+        # use Path.cwd(), a script cannot.
+        new_experiment.main(["sfo-bos", "--notebook", "run.py"] + args)
+
+        source = (tmp_path / "experiments" / "sfo-bos" / "run.py").read_text()
+        assert "Experiment.open(Path(__file__).resolve().parent)" in source
+        assert "Experiment.open(Path.cwd())" not in source
+
+    def test_it_records_what_it_finds(self, args, tmp_path):
+        new_experiment.main(["sfo-bos", "--notebook", "run.py"] + args)
+
+        source = (tmp_path / "experiments" / "sfo-bos" / "run.py").read_text()
+        assert "experiment.record(" in source
+
+    def test_a_notebook_name_still_gets_a_notebook(self, args, tmp_path):
+        new_experiment.main(["sfo-bos"] + args)
+
+        source = (tmp_path / "experiments" / "sfo-bos" / "explore.ipynb").read_text()
+        assert json.loads(source)["nbformat"] == 4
 
 
 class TestChoosingTheSnapshot:

@@ -15,6 +15,10 @@ same answer or you find out exactly why not.
 This document explains how that works, the three building blocks it is made of,
 and how to set up and run an experiment of your own.
 
+**If you would rather learn it by doing it, start with the
+[Tutorial](tutorial.md)** — it builds one experiment end to end in half an hour,
+and this document is what you read afterwards for the parts it skipped.
+
 The short version:
 
 ```python
@@ -29,13 +33,14 @@ distance_km, legs = planner.find_shortest_route('SFO', 'BOS')
 experiment.record({'shortest_km': distance_km}, catalog=catalog)
 ```
 
-Three of the [demos](demos.md) cover the same ground end to end, against this
+Four of the [demos](demos.md) cover the same ground end to end, against this
 repository's own snapshots:
 
 ```bash
-uv run python src/demos/snapshot_example.py     # frozen data, and the checksum guarantee
-uv run python src/demos/catalog_example.py      # lookup, narrowing, endpoint modes
-uv run python src/demos/experiment_example.py   # reading, running and recording one
+uv run python src/demos/snapshot_example.py          # frozen data, and the checksum guarantee
+uv run python src/demos/catalog_example.py           # lookup, narrowing, endpoint modes
+uv run python src/demos/experiment_example.py        # reading, running and recording one
+uv run python src/demos/script_experiment_example.py # an experiment that is a script, not a notebook
 ```
 
 Every command in this document that starts with `uv run` assumes a clone with
@@ -74,7 +79,7 @@ altered without the change being caught.
 |---|---|---|
 | `Catalog` | A working set of airports and routes | Explore: look things up, try a smaller slice, see how much of it is left (§3) |
 | `Snapshot` | Frozen CSV files plus a manifest of SHA-256 checksums | Freeze the slice you settled on, so it cannot change (§4) |
-| `Experiment` | A directory binding notebooks to one snapshot, and its results | Ask a question of that frozen data, and record the answer (§6) |
+| `Experiment` | A directory binding code to one snapshot, and its results | Ask a question of that frozen data, and record the answer (§6) |
 
 They are listed in the order you meet them. A catalog is where you work out
 what you want; a snapshot makes that choice permanent; an experiment is the
@@ -88,7 +93,7 @@ would any other library. How you install it depends on where you are working:
 |---|---|---|---|
 | A clone of this repository | `uv sync` — once, and again after pulling | `uv run python …` | [Setup §3](setup.md#3-create-the-environment-and-install-dependencies) |
 | …and for notebooks in that clone | `uv sync --group notebooks` | `uv run jupyter lab` | [Setup §5](setup.md#5-jupyter-notebooks) |
-| Google Colab, or any environment that is not this clone | `pip install /content/traiectoria-optima` after cloning | plain `python`, or the notebook itself | [Setup §6](setup.md#6-google-colab) |
+| Google Colab, or any environment that is not this clone | `pip3 install /content/traiectoria-optima` after cloning | plain `python`, or the notebook itself | [Setup §6](setup.md#6-google-colab) |
 
 **In the repository, use `uv`, not `pip`.** `uv sync` reads `pyproject.toml`,
 builds a private environment in `.venv/`, and installs this project into it
@@ -99,7 +104,7 @@ imports resolve without you activating anything —
 [Setup §4](setup.md#4-run-things-in-the-environment). If you do not have `uv`
 yet, [Setup §1](setup.md#1-install-uv) installs it.
 
-`pip install` appears in this document only in the Colab section (§8), where
+`pip3 install` appears in this document only in the Colab section (§8), where
 there is no clone to sync and no `uv`; the install cell is in
 [Setup §6](setup.md#6-google-colab).
 
@@ -395,8 +400,11 @@ make flight_network
 ```
 
 This rebuilds `data/processed/airports.csv` and `routes.csv` from the raw
-sources. If nothing has changed since the last run it does nothing and returns
-immediately, so it is safe to run every time.
+sources. On a fresh clone it always runs, because the stamp file recording
+"already built" lives under `.make/` and is not committed. After that it does
+nothing unless an input changed, so it is safe to run every time. The rebuild
+is deterministic — the same raw files produce the same bytes — so running it
+does not move a snapshot you already froze.
 
 **Step 2 — freeze it.**
 
@@ -444,9 +452,11 @@ meant to. The last two lines are the result: `data/snapshots/2026-09-11-35038d`
 is the folder just written, and `2026-09-11-35038d` is the snapshot's **id** —
 the name you will refer to it by from now on.
 
-If a snapshot of exactly this data already existed, you get that same id back
-and no new folder. That is intended, not a failure: identical data always lands
-on the same id.
+If you froze exactly this data earlier the same day, you get that same id back
+and no new folder — identical data always lands on the same name. The date is
+part of the id, though, so freezing the same rows *tomorrow* writes a new
+directory whose hash suffix matches today's. Same suffix means same data; keep
+whichever you prefer and delete the other.
 
 **If you lose the id**, nothing is broken — it is the folder's name. List the
 folders, or ask a snapshot for its own id:
@@ -615,10 +625,12 @@ snapshot.path('routes.csv') # only files the manifest vouches for
 
 Two design points worth knowing:
 
-- **The id is `<date>-<content hash>`.** Identical data always lands on the same
-  directory name, so re-freezing the same slice is a no-op rather than a
-  duplicate. Different data always lands on a different name, so a changed
-  dataset cannot silently occupy an old id.
+- **The id is `<date>-<content hash>`.** The suffix is computed from the rows
+  themselves, so identical data always produces the same suffix and re-freezing
+  the same slice on the same day is a no-op. Different data always produces a
+  different suffix, so a changed dataset cannot silently occupy an old id — and
+  two snapshots sharing a suffix are byte-identical however far apart they were
+  frozen.
 - **Verification can be skipped** with `Snapshot.open(directory, verify=False)`,
   which exists because hashing a large snapshot on every open costs real time.
   Skipping it means nothing detects a changed file, so it should be a deliberate
@@ -882,7 +894,7 @@ directory in this repository**, holding three kinds of file:
 ```
 experiments/sfo-bos-dijkstra/
     experiment.toml     what it runs against, and with
-    explore.ipynb       the notebook(s) -- the question, as code
+    explore.ipynb       the notebook(s) or script(s) -- the question, as code
     results.json        what came out
 ```
 
@@ -1212,6 +1224,82 @@ answer.
 they make diffs unreadable, and `results.json` is the recorded answer. A test
 enforces this.
 
+### It does not have to be a notebook
+
+`notebooks` in `experiment.toml` is a list of filenames. Nothing checks the
+extension, and nothing requires the files to exist when the experiment is
+opened — so a plain Python script works just as well. The scaffolder will write
+one for you:
+
+```bash
+make experiment SLUG=script-experiment CODE=run.py
+```
+
+What it produces is the shape below — the same steps as the starter notebook,
+in a file that locates itself:
+
+```toml
+slug = "script-experiment"
+notebooks = ["run.py"]
+snapshot = "../../data/snapshots/2026-09-12-3e4f9d"
+```
+
+```python
+"""An experiment as a plain script."""
+from pathlib import Path
+
+from flight_planner import Dijkstra
+from flight_planner.experiments import Experiment
+
+
+def main() -> int:
+    # A script knows where it lives; it must not rely on the caller's cwd.
+    experiment = Experiment.open(Path(__file__).resolve().parent)
+    planner = experiment.catalog().planner()
+
+    rows = []
+    for origin, destination in experiment.parameters["pairs"]:
+        km, legs = planner.find_shortest_route(origin, destination, Dijkstra())
+        rows.append({"pair": f"{origin}-{destination}", "km": km, "legs": len(legs)})
+
+    experiment.record({"pairs": rows}, catalog=experiment.catalog())
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+```
+
+That runs from anywhere — `uv run python experiments/<slug>/run.py` — and
+produces exactly the same `results.json`, with the same verified checksums and
+the same recorded narrowing chain. Everything else in this section applies
+unchanged; only the file type differs.
+
+One thing does change. A notebook can call `Experiment.open(Path.cwd())`,
+because a notebook's working directory is the directory it sits in. **A script
+cannot** — its working directory is wherever the caller happened to be. Use
+`Path(__file__).resolve().parent` instead, as above, or the experiment will be
+looked for in the wrong place.
+
+Two smaller differences:
+
+- `make experiment` always scaffolds a notebook. Choosing a script means writing
+  it yourself and naming it in `notebooks`.
+- The stripped-outputs rule is about notebooks specifically. A script has no
+  stored output to strip, and the test skips anything that is not an `.ipynb`.
+
+Use a notebook when the work is exploratory and the narrative matters — which is
+what most experiments here are. Use a script when the question is settled and you
+want it runnable in one command, in CI, or across many parameter sets. The
+`notebooks` list can hold both.
+
+A runnable version of all of this, including what the `Path.cwd()` mistake looks
+like when it fails:
+
+```bash
+uv run python src/demos/script_experiment_example.py
+```
+
 ## 7. Creating snapshots and experiments
 
 Two commands, and between them they produce everything the previous sections
@@ -1232,11 +1320,12 @@ back untouched, so a snapshot's bytes are the processed file's bytes for the
 rows that survived. No re-formatted floats, no `1.0` becoming `1`, no drift
 between what the pipeline produced and what you froze.
 
-**Re-freezing identical data is free.** The id is `<date>-<content hash>`, so
-the same rows always land on the same directory name. Run `make snapshot` twice
-with the same filters and the second run writes nothing new — it reports the
-id that already exists. You cannot accidentally accumulate near-duplicate
-copies of the same slice.
+**Re-freezing identical data is free, within the day.** The id is
+`<date>-<content hash>`, so running `make snapshot` twice with the same filters
+writes nothing the second time — it reports the id that already exists. Across
+days the hash still matches but the date does not, so you get a second
+directory holding identical rows. That is harmless and easy to spot: equal
+suffixes mean equal data, so delete whichever copy nothing pins.
 
 **The filters are the catalog's.** `--airline UA` is `catalog.airline('UA')`,
 with the same normalization and the same endpoint rules, which is why §3's
@@ -1483,8 +1572,10 @@ image cannot be diffed, and a number can.
 
 ## 8. Running in Colab
 
-See [Setup §6](setup.md#6-google-colab) for the install cell. Once the package
-is installed and the repository cloned, an experiment is three lines:
+See [Setup §6](setup.md#6-google-colab) for the install cell, and the
+[Tutorial](tutorial.md#in-colab-instead) to walk the whole loop — freeze,
+scaffold, run, record — inside a Colab session. Once the package is installed
+and the repository cloned, an experiment is three lines:
 
 ```python
 from flight_planner.experiments import Experiment

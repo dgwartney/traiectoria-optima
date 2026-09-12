@@ -1,0 +1,17 @@
+# Snapshot data is content-addressed. The manifest records a SHA-256 over the
+# bytes on disk -- src/data/flight_network.py writes them with write_bytes,
+# and Snapshot.verify re-hashes the files it finds -- so any newline
+# conversion on checkout breaks every checksum and the snapshot refuses to
+# open.
+#
+# Git for Windows defaults to core.autocrlf=true, which does exactly that:
+# cloning with it set rewrites airports.csv as CRLF, and Snapshot.open then
+# raises SnapshotIntegrityError before the data is ever read. Pin these to LF
+# whatever the local git config says.
+#
+# The same rule covers every data file, not only snapshots. Four of them were
+# committed with CRLF -- international_airports.csv, routes.dat,
+# airport-comments.csv, us-airports.csv -- and are normalised here, so that
+# nothing in data/ depends on the platform it was written on.
+*.csv text eol=lf
+*.dat text eol=lf
