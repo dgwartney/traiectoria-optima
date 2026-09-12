@@ -36,8 +36,17 @@ Documentation site for the Traiectoria Optima project.
 - [Distance Formulas](distance_formulas.md) — haversine, Vincenty, and the
   trade-offs between them.
 - [Graph Algorithm Notes](graph-algorithms-notes.md) — Dijkstra, BFS and A\*.
-- [Validating against NetworkX](networkx-validation.md) — six ways to check
+- [Validating against NetworkX](networkx-validation.md) — seven ways to check
   the hand-written algorithms against an independent implementation, from a
-  twenty-line adapter to a second engine behind the Strategy interface, and
+  single oracle class to a second engine behind the Strategy interface, and
   the A\* heuristic-consistency gap that randomized testing surfaced.
+- [Validation against NetworkX: results](results-networkx-parity.md) — what
+  `experiments/networkx-parity` found: 200 long-haul queries over the world
+  network, three algorithms, zero disagreements, and why NetworkX's timings
+  are not a fair race. Written for the final report.
+- [A\* and heuristic consistency: results](results-astar-consistency.md) —
+  what `experiments/astar-consistency` found: A\* is optimal only for
+  *consistent* heuristics, the four-vertex graph that shows it, and the
+  658,470 checks proving it cannot bite this project. Written for the final
+  report.
 - [Glossary](glossary.md) — aviation and graph terms used throughout.

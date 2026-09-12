@@ -1302,7 +1302,7 @@ uv run python src/demos/script_experiment_example.py
 
 ### Experiments in this repository
 
-Three are committed, and they are worth reading in this order — each one adds
+Five are committed, and they are worth reading in this order — each one adds
 something the previous did not need.
 
 | Slug | Question it asks | Snapshot | What it adds |
@@ -1310,6 +1310,15 @@ something the previous did not need.
 | [`sfo-bos-dijkstra`](../experiments/sfo-bos-dijkstra) | Does narrowing the network to one airline change the shortest SFO–BOS route? | `2026-09-11-bb90a8` — 3,387 airports / 66,332 routes, no criteria | The baseline shape. Pins the whole world and narrows **inside the notebook**, so the narrowing is part of the question. |
 | [`shortest-vs-fewest`](../experiments/shortest-vs-fewest) | What does it cost to skip a stop? Dijkstra against BFS on three US pairs. | `2026-09-12-3e4f9d` — 94 airports / 7,005 routes, US large airports | The opposite choice: narrowed at **freeze** time, so the notebook narrows nothing. The [Tutorial](tutorial.md) builds this one end to end. |
 | [`search-cost`](../experiments/search-cost) | How much cheaper is informed search? BFS, Dijkstra and A\* on the world network. | `2026-09-11-bb90a8` — the whole world | Measures **time**, so it records the machine alongside the numbers, fits a growth exponent per series, and ships its own `plots.py` writing figures the deck and the report consume. |
+| [`networkx-parity`](../experiments/networkx-parity) | Do our algorithms agree with NetworkX on the world network? | `2026-09-11-bb90a8` — the whole world | Takes the **engine as a parameter**, not the data: NetworkX is wrapped behind `PathfindingAlgorithm` (`src/validation/engines.py`) so the same `find_shortest_route` call runs either implementation. Records an *oracle version* alongside the result, and exits non-zero on a disagreement. |
+| [`astar-consistency`](../experiments/astar-consistency) | Is A\* optimal for an admissible heuristic, or only a consistent one? | `2026-09-12-3e4f9d` — US large airports | Two halves. The first runs on **random graphs**, because the real data cannot produce the case; the second uses the snapshot to ask whether the defect is reachable here, which is what earns the pin rather than making it a unit test. The pattern to copy when a finding needs data the snapshot cannot supply. |
+
+Two of the five compare our results against something outside the project, and
+each ships a prose write-up destined for the final report —
+[results-networkx-parity.md](results-networkx-parity.md) and
+[results-astar-consistency.md](results-astar-consistency.md). That is the
+pattern for an experiment whose output is an argument rather than a number:
+`results.json` is what the code produced, and the markdown is what it means.
 
 `search-cost` is the one to copy if your experiment measures *time*. The other
 two record answers, which reproduce anywhere; a timing only means something

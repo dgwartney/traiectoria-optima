@@ -50,10 +50,25 @@ as. The commands are in [Appendix A](#appendix-a--how-these-were-run).
 > [§1, What the refactor changed](#what-the-refactor-changed) and
 > [Appendix A](#appendix-a--how-these-were-run).
 >
-> This document itself sits on `worktree-NetworkX`, which branches from
-> `fd475e1` — so the files it names under `pathfinding/` are not in *this*
-> branch's tree. They appear once this branch is rebased onto
-> `feature/search-instrumentation`, which is where it should land.
+> This document was drafted on `worktree-NetworkX` off `fd475e1` and has since
+> been rebased onto `feature/search-instrumentation`, so the files it names
+> under `pathfinding/` are present.
+
+> **Status: Options B, C and E are built.** They are no longer proposals. The
+> code lives in [`src/validation/`](../src/validation) — five classes,
+> 256 unit tests — and the two experiments are recorded:
+>
+> | Option | Where it landed | Write-up |
+> |---|---|---|
+> | **C** — NetworkX behind the Strategy | `src/validation/engines.py` | used by both experiments below |
+> | **B** — a parity experiment | [`experiments/networkx-parity`](../experiments/networkx-parity) | [results-networkx-parity.md](results-networkx-parity.md) |
+> | **E** — randomized differential testing | [`experiments/astar-consistency`](../experiments/astar-consistency) | [results-astar-consistency.md](results-astar-consistency.md) |
+>
+> Options A, D, F and G remain proposals. Read the sections below for the
+> reasoning and the design alternatives; read the two write-ups for what the
+> built versions actually found. Where a figure differs, the experiment's
+> `results.json` is authoritative — it was produced by committed code, and
+> `tests/experiments/test_validation_experiments.py` re-derives it.
 
 ---
 
@@ -530,6 +545,11 @@ Asserting on equal total cost is the durable contract.
 
 ### Option B — A parity *experiment*, recorded like any other result
 
+> **Built.** [`experiments/networkx-parity`](../experiments/networkx-parity),
+> written up in [results-networkx-parity.md](results-networkx-parity.md). The
+> recorded payload below is close to what shipped; the built version also
+> records the `DiGraph` collapse figure and an oracle version.
+
 **What it is.** `experiments/networkx-parity/`, scaffolded with
 `make experiment SLUG=networkx-parity`, pinned to a committed snapshot. Its
 code sweeps pairs and calls `experiment.record()`:
@@ -611,6 +631,12 @@ only option on this list that produces something the final report can cite.
 ---
 
 ### Option C — NetworkX behind the `PathfindingAlgorithm` interface
+
+> **Built**, as three engines rather than one:
+> `NetworkXDijkstra`, `NetworkXBFS` and `NetworkXAStar` in
+> [`src/validation/engines.py`](../src/validation/engines.py), over a generic
+> `NetworkXMirror` so they are testable on a four-vertex fixture. The sketch
+> below is superseded by that code.
 
 **What it is.** An adapter implementing the existing Strategy, so the engine
 becomes a *parameter* of an experiment exactly as `Dijkstra()` vs `BFS()`
@@ -774,6 +800,14 @@ option that most strengthens the docs.
 ---
 
 ### Option E — Randomized differential testing
+
+> **Built.** [`experiments/astar-consistency`](../experiments/astar-consistency),
+> written up in [results-astar-consistency.md](results-astar-consistency.md).
+> `RandomGraphPair` and `InconsistentHeuristic` are in
+> [`src/validation/random_graphs.py`](../src/validation/random_graphs.py) and
+> the patch is `ReopeningAStar`. Final counts: **27 suboptimal / 25
+> self-contradictory of 10,866 queries**, 0 after the patch, +0.52%
+> expansions.
 
 **What it is.** Random small graphs, both engines on every pair, assert equal
 costs. No project data involved — this reaches the cases flight data never
