@@ -1,5 +1,7 @@
 import ast
+import importlib
 import inspect
+import pkgutil
 
 from flight_planner.core import Vertex
 from flight_planner.core import Edge
@@ -37,6 +39,27 @@ class TestDijkstra:
         assert Dijkstra().find_path(graph, a, d) == (float("inf"), [])
 
 
+def _pathfinding_module_names():
+    """Every module inside flight_planner.pathfinding, by dotted name."""
+    import flight_planner.pathfinding as package
+
+    return [
+        f"{package.__name__}.{info.name}"
+        for info in pkgutil.iter_modules(package.__path__)
+    ]
+
+
+def _imported_names(module_name):
+    """The set of names a module imports, from its own source."""
+    module = importlib.import_module(module_name)
+    tree = ast.parse(inspect.getsource(module))
+    imported = set()
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Import, ast.ImportFrom)):
+            imported.update(alias.name for alias in node.names)
+    return imported
+
+
 class _CountingGraph(Graph):
     """A graph that records how often each vertex's edges are requested.
 
@@ -56,19 +79,15 @@ class _CountingGraph(Graph):
 class TestRunsOnOurOwnHeap:
     """T3/T6: Dijkstra must consume the from-scratch heap, not `heapq`."""
 
-    def test_module_imports_minheap_and_not_heapq(self):
-        import flight_planner.pathfinding.algorithms as module
+    def test_no_pathfinding_module_imports_heapq(self):
+        # Walks the whole subpackage rather than naming one module, so a
+        # future algorithm cannot quietly reintroduce heapq in a file this
+        # test never heard of.
+        for name in _pathfinding_module_names():
+            assert "heapq" not in _imported_names(name), f"{name} imports heapq"
 
-        tree = ast.parse(inspect.getsource(module))
-        imported = set()
-        for node in ast.walk(tree):
-            if isinstance(node, ast.Import):
-                imported.update(alias.name for alias in node.names)
-            elif isinstance(node, ast.ImportFrom):
-                imported.update(alias.name for alias in node.names)
-
-        assert "heapq" not in imported
-        assert "MinHeap" in imported
+    def test_dijkstra_runs_on_our_own_heap(self):
+        assert "MinHeap" in _imported_names("flight_planner.pathfinding.dijkstra")
 
 
 class TestExpansionDiscipline:
