@@ -18,6 +18,15 @@ distance_km, legs = planner.find_shortest_route('SFO', 'BOS')
 experiment.record({'shortest_km': distance_km}, catalog=catalog)
 ```
 
+Three of the [demos](demos.md) cover the same ground end to end, against this
+repository's own snapshots:
+
+```bash
+uv run python src/demos/snapshot_example.py     # frozen data, and the checksum guarantee
+uv run python src/demos/catalog_example.py      # lookup, narrowing, endpoint modes
+uv run python src/demos/experiment_example.py   # reading, running and recording one
+```
+
 ## 1. The problem this solves
 
 `data/processed/airports.csv` and `data/processed/routes.csv` are *build
