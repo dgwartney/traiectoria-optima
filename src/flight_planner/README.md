@@ -20,6 +20,8 @@ flights/      Airport, Route, FlightPlanner  domain layer composing all of the a
 loaders/      CsvRecordLoader family         the CSV -> domain boundary
   |
 experiments/  Snapshot, Catalog, Experiment  reproducibility: pinned data and results
+  |
+viz/          RouteMap, MapLayer family      drawing what an experiment found
 ```
 
 - **`Vertex`** / **`Edge`** / **`Graph[V, E]`** (`core/`) — a minimal generic weighted, directed graph. `Graph` knows
@@ -44,6 +46,25 @@ experiments/  Snapshot, Catalog, Experiment  reproducibility: pinned data and re
   directory to one snapshot and records what the run produced. Like every
   other layer, these take directories from their caller and hold no knowledge
   of where a repository keeps its data.
+- **`RouteMap`** / **`MapLayer`** family (`viz/`) — drawing an answer instead
+  of printing it. `MapLayer` is the interface (`layer.py`) with `AirportLayer`,
+  `NetworkLayer` and `PathLayer` beside it, one per file, the same arrangement
+  `geo/` and `pathfinding/` use. `Geodesic` does great-circle interpolation
+  with antimeridian unwrapping, `Palette` keys colours to what a layer means,
+  and `MapExporter` writes HTML and PNG.
+
+  **This is the one layer that reaches outside the package's declared
+  dependencies**, and it is worth saying why rather than leaving it to be
+  discovered. It needs `folium` and `pyproj`, which are *not* `flight_planner`
+  dependencies and appear nowhere in `pyproject.toml` — they live in the
+  `notebooks` dependency group, because the wheel's contract is pandas and
+  nothing else while mapping is a notebook concern. So `viz` imports folium
+  lazily: `import flight_planner` stays pandas-only, `from flight_planner.viz
+  import RouteMap` works without folium installed, and what fails is building
+  a map — with a message naming both packages and the command that installs
+  them. The cost of that choice is a module which can raise
+  `ModuleNotFoundError` on an install that satisfies its own metadata.
+  `docs/visualization.md` section 3 argues it against the alternatives.
 
 ## Why composition over inheritance
 

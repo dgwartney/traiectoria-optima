@@ -12,6 +12,13 @@ without the ones above it:
 - `flight_planner.flights` — `Airport`, `Route`, `FlightPlanner`: the domain
   layer composing all of the above.
 - `flight_planner.loaders` — building a planner from the processed CSV files.
+- `flight_planner.viz` — `RouteMap` and its layers: drawing what an experiment
+  found. **The only layer that reaches outside the package's declared
+  dependencies**, and deliberately not imported here: it needs `folium` and
+  `pyproj`, which are notebook concerns in the `notebooks` dependency group
+  rather than wheel dependencies. `import flight_planner` stays pandas-only,
+  and `from flight_planner.viz import RouteMap` succeeds even without folium —
+  what fails is building a map, with a message saying how to fix it.
 
 The names below are re-exported here for convenience, so the common case reads
 `from flight_planner import FlightPlanner, Dijkstra`. Runnable examples live in
