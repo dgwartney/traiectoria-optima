@@ -36,4 +36,8 @@ Documentation site for the Traiectoria Optima project.
 - [Distance Formulas](distance_formulas.md) — haversine, Vincenty, and the
   trade-offs between them.
 - [Graph Algorithm Notes](graph-algorithms-notes.md) — Dijkstra, BFS and A\*.
+- [Validating against NetworkX](networkx-validation.md) — six ways to check
+  the hand-written algorithms against an independent implementation, from a
+  twenty-line adapter to a second engine behind the Strategy interface, and
+  the A\* heuristic-consistency gap that randomized testing surfaced.
 - [Glossary](glossary.md) — aviation and graph terms used throughout.
