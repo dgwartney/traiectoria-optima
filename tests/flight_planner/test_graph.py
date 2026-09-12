@@ -1,7 +1,7 @@
 from flight_planner.core import Vertex
 from flight_planner.core import Edge
 from flight_planner.core import Graph
-from flight_planner.pathfinding import PathfindingAlgorithm
+from flight_planner.pathfinding import PathfindingAlgorithm, SearchResult
 
 
 class _StubAlgorithm(PathfindingAlgorithm):
@@ -11,7 +11,7 @@ class _StubAlgorithm(PathfindingAlgorithm):
         self.result = result
         self.calls = []
 
-    def find_path(self, graph, start, goal):
+    def search(self, graph, start, goal, observer=None):
         self.calls.append((graph, start, goal))
         return self.result
 
@@ -48,10 +48,10 @@ class TestGraph:
     def test_shortest_path_delegates_to_algorithm(self):
         graph = Graph()
         a, b = Vertex("A"), Vertex("B")
-        expected = (5.0, [Edge(a, b, weight=5.0)])
-        algorithm = _StubAlgorithm(expected)
+        edges = [Edge(a, b, weight=5.0)]
+        algorithm = _StubAlgorithm(SearchResult(5.0, edges))
 
         result = graph.shortest_path(a, b, algorithm)
 
-        assert result == expected
+        assert result == (5.0, edges)
         assert algorithm.calls == [(graph, a, b)]

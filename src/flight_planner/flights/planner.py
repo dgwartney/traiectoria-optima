@@ -11,7 +11,12 @@ from typing import Dict, List, Optional, Tuple, Union
 from ..core.graph import Graph
 from .airport import Airport
 from .route import Route
-from ..pathfinding import PathfindingAlgorithm, Dijkstra
+from ..pathfinding import (
+    Dijkstra,
+    PathfindingAlgorithm,
+    SearchObserver,
+    SearchResult,
+)
 
 
 class FlightPlanner(Graph[Airport, Route]):
@@ -76,11 +81,40 @@ class FlightPlanner(Graph[Airport, Route]):
             Returns (float('inf'), []) if no route is found.
             Returns (0.0, []) if origin == destination.
         """
+        result = self.search_route(origin, destination, algorithm)
+        return result.cost, result.path
+
+    def search_route(
+        self,
+        origin: Union[Airport, str],
+        destination: Union[Airport, str],
+        algorithm: Optional[PathfindingAlgorithm[Airport, Route]] = None,
+        observer: Optional[SearchObserver] = None,
+    ) -> SearchResult[Route]:
+        """Compute a route, keeping what the search itself cost.
+
+        The same query as `find_shortest_route`, reporting the search's own
+        counters — nodes expanded, nodes queued, peak frontier — alongside the
+        itinerary.
+
+        Args:
+            origin: Starting Airport instance or 3-letter IATA code.
+            destination: Target Airport instance or 3-letter IATA code.
+            algorithm: PathfindingAlgorithm strategy (Dijkstra/BFS/AStar/custom).
+                Defaults to Dijkstra() if omitted.
+            observer: Optional `SearchObserver` notified as the search runs.
+
+        Returns:
+            A `SearchResult` over `Route` legs. An origin equal to the
+            destination reports zero cost and zero counters, since no search
+            runs; an unreachable destination reports an infinite cost but the
+            real counters.
+        """
         start_airport = self._resolve_airport(origin)
         end_airport = self._resolve_airport(destination)
 
         if start_airport == end_airport:
-            return 0.0, []
+            return SearchResult(0.0, [])
 
         chosen_algorithm = algorithm if algorithm is not None else Dijkstra()
-        return self.shortest_path(start_airport, end_airport, chosen_algorithm)
+        return self.search(start_airport, end_airport, chosen_algorithm, observer)
