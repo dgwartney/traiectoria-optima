@@ -1,13 +1,13 @@
 """Weighted graph abstraction built on Vertex and Edge."""
 
 from __future__ import annotations
-from typing import Generic, TypeVar, Dict, List, Tuple, TYPE_CHECKING
+from typing import Generic, Optional, TypeVar, Dict, List, Tuple, TYPE_CHECKING
 
 from .vertex import Vertex
 from .edge import Edge
 
 if TYPE_CHECKING:
-    from ..pathfinding import PathfindingAlgorithm
+    from ..pathfinding import PathfindingAlgorithm, SearchObserver, SearchResult
 
 V = TypeVar("V", bound=Vertex)
 E = TypeVar("E", bound=Edge)
@@ -84,7 +84,7 @@ class Graph(Generic[V, E]):
         """Find a path between two vertices using the supplied algorithm.
 
         Delegates to a pathfinding Strategy; `Graph` has no knowledge of
-        algorithm internals (see `pathfinding/algorithms.py`).
+        algorithm internals (see `pathfinding/`).
 
         Args:
             start: Vertex to search from.
@@ -96,3 +96,26 @@ class Graph(Generic[V, E]):
             algorithm's own `find_path` contract.
         """
         return algorithm.find_path(self, start, goal)
+
+    def search(
+        self,
+        start: V,
+        goal: V,
+        algorithm: "PathfindingAlgorithm[V, E]",
+        observer: "Optional[SearchObserver]" = None,
+    ) -> "SearchResult[E]":
+        """Search for a path, keeping what the search itself cost.
+
+        The same delegation as `shortest_path`, reporting the algorithm's own
+        counters alongside the route.
+
+        Args:
+            start: Vertex to search from.
+            goal: Vertex to search for.
+            algorithm: Strategy instance that performs the search.
+            observer: Optional `SearchObserver` notified as the search runs.
+
+        Returns:
+            The algorithm's `SearchResult`.
+        """
+        return algorithm.search(self, start, goal, observer)
