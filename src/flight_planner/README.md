@@ -14,6 +14,7 @@ core/         Vertex, Edge, Graph[V, E]      generic weighted-graph core
 geo/          Point, DistanceFormula         geography, independent of graphs
   |
 pathfinding/  PathfindingAlgorithm family    Strategy, generic over any Graph[V, E]
+              SearchResult, observers        what a search cost, not just what it found
   |
 flights/      Airport, Route, FlightPlanner  domain layer composing all of the above
   |
@@ -76,10 +77,15 @@ other than distance (duration, price, ...), subclass `Edge` — see the
 
 ## Extensibility
 
-- **New pathfinding algorithm**: implement `PathfindingAlgorithm.find_path(self,
-  graph, start, goal) -> Tuple[float, List[E]]` in a new class in
-  `pathfinding/algorithms.py` (or your own module). It automatically works
-  with `Graph.shortest_path` and `FlightPlanner.find_shortest_route`.
+- **New pathfinding algorithm**: implement `PathfindingAlgorithm.search(self,
+  graph, start, goal, observer=None) -> SearchResult[E]` in a new module in
+  `pathfinding/` (one algorithm per module, beside `dijkstra.py`, `bfs.py` and
+  `astar.py`). `find_path` is inherited — it reads `cost` and `path` off your
+  result — so the class works with `Graph.shortest_path`,
+  `FlightPlanner.find_shortest_route`, and their `search` counterparts straight
+  away. Populate `nodes_expanded` / `nodes_pushed` / `peak_frontier` and call
+  the observer's `on_expand` / `on_push` so the benchmark can see your
+  algorithm the way it sees the others.
 - **New distance formula**: implement `DistanceFormula.calculate(self, a, b)
   -> float` (see `geo/formula.py` for the interface and a list of
   formulas not yet implemented — Spherical Law of Cosines, Equirectangular,
@@ -117,10 +123,17 @@ uv run pytest tests/flight_planner/
 One `pytest` test class per production class (`TestVertex`, `TestEdge`,
 `TestPoint`, `TestAirport`, `TestRoute`, `TestGraph`, `TestMinHeap`,
 `TestHaversine`, `TestVincenty`, `TestMemoized`, `TestDijkstra`, `TestBFS`,
-`TestAStar`, `TestFlightPlanner`, `TestAirportLoader`, `TestRouteLoader`),
+`TestAStar`, `TestFlightPlanner`, `TestAirportLoader`, `TestRouteLoader`,
+`TestSearchResult`, `TestSearchObserver`, `TestExpansionTrace`),
 covering equality/identity semantics, the Strategy-delegation contracts
 (`Graph.shortest_path`, `Point.distance_to`), and each algorithm's
 path/cost/unreachable/same-start-goal behavior.
+
+The instrumentation carries its own checks: each algorithm's self-reported
+`nodes_expanded` is verified against an independent count taken through
+`get_outgoing_edges`, and the project's central claim — A* reaching the same
+answer as Dijkstra on fewer expansions — is an executable test rather than a
+sentence in the report.
 
 `tests/flight_planner/experiments/` is organized by behavior instead
 (`TestIntegrity`, `TestNarrowing`, `TestResolvingTheSnapshot`,
