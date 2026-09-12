@@ -1,0 +1,49 @@
+# networkx-parity
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "networkx-parity"
+description = "Do flight_planner's algorithms agree with NetworkX on the world network?"
+notebooks = ["run.py"]
+snapshot = "../../data/snapshots/2026-09-11-bb90a8"  # 2026-09-11-bb90a8
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+
+# The whole world, not the US slice. The catalogue asks for long-haul
+# queries, and only the world graph has long hauls in it -- narrowing first
+# would make "agrees with NetworkX" a claim about a graph nobody flies.
+# No narrowing at all, so `catalog.summary()` records an empty chain.
+
+# Sampled rather than exhaustive. All-pairs over 3,387 airports is 11.5
+# million queries; a representative sample answers the same question in
+# seconds. Drawn from the largest strongly connected component so every pair
+# is reachable by construction and the sweep measures search rather than the
+# cost of discovering "no route" -- that case is covered separately below.
+sample_pairs = 200
+sample_seed = 20260913
+
+# Named long-haul pairs, so the report has a table a reader can check by hand
+# against a map rather than only an aggregate. These are search-cost's five,
+# so the two experiments can be read side by side.
+pairs = [
+    ["SFO", "BOS"],
+    ["LAX", "JFK"],
+    ["SEA", "MIA"],
+    ["HNL", "BOS"],
+    ["ANC", "MIA"],
+]
+
+# Timing is noisy at millisecond scale, so each measurement is the median of
+# this many runs after a discarded warm-up. Lower than search-cost's 15
+# because this experiment times four engines rather than three and runs them
+# over 200 pairs rather than 5.
+repeats = 5
+
+# Floating-point comparison tolerance, relative. Both libraries sum the same
+# float64 kilometres in a different order, so exact equality is the wrong
+# test; 1e-9 is roughly six orders of magnitude tighter than any distance
+# this data can resolve.
+tolerance = 1e-9

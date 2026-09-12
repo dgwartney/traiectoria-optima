@@ -1,0 +1,41 @@
+# astar-consistency
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "astar-consistency"
+description = "Is A* optimal for an admissible heuristic, or only a consistent one?"
+notebooks = ["run.py"]
+snapshot = "../../data/snapshots/2026-09-12-3e4f9d"  # 2026-09-12-3e4f9d
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+
+# This experiment has two halves, and only the second reads the snapshot.
+#
+# The first half runs on random graphs, because flight data cannot produce
+# the case in question: the great-circle heuristic is consistent, so a defect
+# that only appears under an *inconsistent* heuristic is unreachable from any
+# amount of real data. Random graphs reach it in a second.
+#
+# The second half then asks whether the defect matters here, which is a
+# question only the real data can answer -- and answering it is what earns
+# this experiment its snapshot pin. A sweep with no data would be a unit test.
+seeds = 50
+max_order = 25
+density = 3
+
+# The fractions in InconsistentHeuristic are seeded with `graph_seed ^
+# heuristic_seed_mask`, kept distinct from the graph's own seed so the
+# estimates do not correlate with the structure they are estimating over.
+heuristic_seed_mask = 165  # 0xA5
+
+# Relative tolerance when comparing a cost against the oracle's.
+tolerance = 1e-9
+
+# Consistency is checked over every (edge, goal) pair in the snapshot, which
+# is 94 goals x 7,005 routes. A violation of more than this many kilometres
+# counts; below it is float noise in the haversine sum rather than a real
+# triangle-inequality breach.
+consistency_epsilon_km = 1e-9

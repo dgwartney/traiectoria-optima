@@ -24,12 +24,15 @@ What lives here, and why each piece is a class:
 - `RandomGraphPair`, `InconsistentHeuristic` — randomized differential
   testing: one graph built for both libraries, and a heuristic that is
   admissible by construction and deliberately not consistent.
+- `environment`, `median_ms` — a timing is only meaningful beside the machine
+  it was taken on, so a comparison experiment records both.
 
 See [`docs/networkx-validation.md`](../../docs/networkx-validation.md) for the
 options this implements and the measurements behind them.
 """
 
 from .engines import NetworkXAStar, NetworkXBFS, NetworkXDijkstra
+from .measurement import environment, median_ms
 from .oracle import NetworkXMirror, NetworkXView
 from .random_graphs import InconsistentHeuristic, RandomGraphPair
 from .reopening import ReopeningAStar
@@ -43,4 +46,6 @@ __all__ = [
     "NetworkXView",
     "RandomGraphPair",
     "ReopeningAStar",
+    "environment",
+    "median_ms",
 ]
