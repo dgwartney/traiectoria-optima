@@ -1300,6 +1300,23 @@ like when it fails:
 uv run python src/demos/script_experiment_example.py
 ```
 
+### Experiments in this repository
+
+Three are committed, and they are worth reading in this order — each one adds
+something the previous did not need.
+
+| Slug | Question it asks | Snapshot | What it adds |
+|---|---|---|---|
+| [`sfo-bos-dijkstra`](../experiments/sfo-bos-dijkstra) | Does narrowing the network to one airline change the shortest SFO–BOS route? | `2026-09-11-bb90a8` — 3,387 airports / 66,332 routes, no criteria | The baseline shape. Pins the whole world and narrows **inside the notebook**, so the narrowing is part of the question. |
+| [`shortest-vs-fewest`](../experiments/shortest-vs-fewest) | What does it cost to skip a stop? Dijkstra against BFS on three US pairs. | `2026-09-12-3e4f9d` — 94 airports / 7,005 routes, US large airports | The opposite choice: narrowed at **freeze** time, so the notebook narrows nothing. The [Tutorial](tutorial.md) builds this one end to end. |
+| [`search-cost`](../experiments/search-cost) | How much cheaper is informed search? BFS, Dijkstra and A\* on the world network. | `2026-09-11-bb90a8` — the whole world | Measures **time**, so it records the machine alongside the numbers, fits a growth exponent per series, and ships its own `plots.py` writing figures the deck and the report consume. |
+
+`search-cost` is the one to copy if your experiment measures *time*. The other
+two record answers, which reproduce anywhere; a timing only means something
+alongside the CPU it ran on, so that experiment records `environment` — CPU
+model, core count, platform, Python version, and whether it was a Colab
+runtime. Growth exponents and node counts are portable; milliseconds are not.
+
 ## 7. Creating snapshots and experiments
 
 Two commands, and between them they produce everything the previous sections
@@ -1551,6 +1568,26 @@ split as §2:
 
 `notebooks/` in this repository has worked examples of both the chart and the
 map cases.
+
+**When the figure is a deliverable, give it a module.**
+[`experiments/search-cost/plots.py`](../experiments/search-cost/plots.py) is the
+pattern: chart code in a module beside the notebook, imported by it, and covered
+by its own test (`tests/experiments/test_search_cost_plots.py`). Three reasons it
+beats drawing inline, all of which came up building it:
+
+- **The same chart is needed on two surfaces.** The reveal.js deck is dark, the
+  pandoc report is light. One function with a `mode="dark"|"light"` argument
+  renders both from one definition, instead of two copies that drift.
+- **It writes where the consumer already looks** — `slides/images/runtime.png`
+  and `docs/images/runtime-light.png`, not the experiment directory, because
+  that is where the deck and the report reference them from.
+- **Chart code is testable; a notebook cell is not.** The test drives both
+  functions on the recorded results in both modes, which catches a chart that
+  stopped rendering without anyone opening a PNG.
+
+Keep the module out of `flight_planner` itself. The wheel depends on `pandas`
+alone, and `matplotlib` is a `dev`-group dependency — plotting is something this
+repository does, not something the package offers.
 
 **One wrinkle: committed notebooks carry no stored outputs**, so a chart drawn
 inline vanishes from the committed file. It re-draws when someone runs the
