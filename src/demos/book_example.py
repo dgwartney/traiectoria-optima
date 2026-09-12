@@ -1,7 +1,12 @@
-"""Example: default weighted-shortest-path search using Dijkstra.
+"""Example: a textbook flight network, run through all three algorithms.
+
+The seven-airport graph is transcribed by hand from the flight-network example
+in Goodrich, Tamassia and Goldwasser, *Data Structures and Algorithms in
+Python* (Wiley), distances and all, so the paths this prints can be checked
+against the worked example in the book.
 
 Run from anywhere:
-    uv run python src/demos/dijkstra_example.py
+    uv run python src/demos/book_example.py
 """
 
 

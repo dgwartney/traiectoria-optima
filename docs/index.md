@@ -10,9 +10,15 @@ Documentation site for the Traiectoria Optima project.
 - [Experiments](experiments.md) — the model this project uses to keep results
   reproducible: immutable snapshots, the `Catalog` narrowing vocabulary, and
   experiment directories that record what produced each number.
+- [Demos](demos.md) — the runnable example scripts in `src/demos/`, what each
+  one shows, and the conventions they follow.
 
 ## Reference
 
+- [Package design](../src/flight_planner/README.md) — how `flight_planner` is
+  layered, why it composes rather than inherits, and where to hook in a new
+  algorithm, distance formula or edge weight. It ships inside the wheel, so it
+  describes the installed package rather than this repository.
 - [Data](data.md) — the raw OpenFlights and OurAirports schemas, the Wikipedia
   international-airports scrape, and the processed dataset the pipeline builds.
 - [Makefile](makefile.md) — every target (`make test`, `make flight_network`,
