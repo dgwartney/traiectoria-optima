@@ -11,7 +11,7 @@ arithmetic rather than pointers: the children of `j` live at `2j + 1` and
 its children, which puts the minimum at index 0 and makes `peek` a single
 array read.
 
-`Dijkstra` and `AStar` (`flight_planner.pathfinding.algorithms`) consume this
+`Dijkstra` and `AStar` (`flight_planner.pathfinding`) consume this
 class. Each entry carries an insertion sequence number alongside its priority,
 so equal priorities come out in the order they went in and the stored items
 are never compared against each other. Owning that tie-break here is what
