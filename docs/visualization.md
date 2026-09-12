@@ -1240,6 +1240,33 @@ not been tried, and the fallback is a whole second backend.
 eyeballed for appearance. If a reviewer disagrees, the number is one keyword
 argument and the file grows 2.2× (17.92 MB against 38.82 MB on the world snapshot).
 
+**Should this document's internal links be pandoc-compatible instead of
+GitHub-compatible?** They cannot be both. The two renderers slugify headings
+differently: pandoc strips a leading section number (`## 3. Where the module
+should live` becomes `#where-the-module-should-live`) and collapses the double
+hyphen an em dash leaves behind, while GitHub keeps the number and the double
+hyphen. The 49 internal links here are written for GitHub, which is the surface
+these docs are actually read on — the Makefile commits diagram SVGs for the same
+reason, "so the docs render in a fresh clone and on GitHub, neither of which
+builds a PDF". The cost is about ten `LaTeX Warning: Hyper reference ... undefined`
+lines in `make docs`, where those links render as plain text. Nothing fails.
+Satisfying both means renaming every linked heading to drop its number and its em
+dash, which is a larger edit than the problem deserves until someone is actually
+reading the PDF and clicking. The other docs sidestep it by having two internal
+links each rather than forty-nine.
+
+**Where should the prototype live so it stays runnable?**
+[Appendix B](#appendix-b--the-prototype) preserves the source as prose, which is
+enough to re-derive but not enough to re-run: `bench.py`, `bench_world.py`,
+`tiles.py`, `tiles_dark.py`, `dateline_check.py` and `shot.py` — the scripts behind
+every number in [appendix A](#appendix-a--how-these-were-run) — are not in the
+repository at all. That is deliberate for now, since committing a prototype
+alongside a document that says "nothing here is implemented yet" invites someone to
+import it. But it does mean the numbers are re-derivable rather than
+re-runnable, and the obvious home when the helper is built is a `tests/` or
+`scripts/` sibling that exercises the real classes instead — at which point these
+scripts are throwaway and the question answers itself.
+
 ---
 
 ## Appendix A — how these were run
