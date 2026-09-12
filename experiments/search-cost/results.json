@@ -1,0 +1,366 @@
+{
+  "experiment": "search-cost",
+  "recorded": "2026-09-12T22:31:16+00:00",
+  "snapshot": {
+    "id": "2026-09-11-bb90a8",
+    "reference": "../../data/snapshots/2026-09-11-bb90a8",
+    "criteria": {},
+    "source_commit": "610936de75b2d3c45e0e84daea687b32daf35aa3"
+  },
+  "parameters": {
+    "pairs": [
+      [
+        "SFO",
+        "BOS"
+      ],
+      [
+        "LAX",
+        "JFK"
+      ],
+      [
+        "SEA",
+        "MIA"
+      ],
+      [
+        "HNL",
+        "BOS"
+      ],
+      [
+        "ANC",
+        "MIA"
+      ]
+    ],
+    "repeats": 15,
+    "sizes": [
+      {
+        "label": "airline DL",
+        "airline": [
+          "DL"
+        ]
+      },
+      {
+        "label": "airline UA",
+        "airline": [
+          "UA"
+        ]
+      },
+      {
+        "label": "US large",
+        "country": [
+          "US"
+        ],
+        "airport_type": [
+          "large_airport"
+        ]
+      },
+      {
+        "label": "US large+medium",
+        "country": [
+          "US"
+        ],
+        "airport_type": [
+          "large_airport",
+          "medium_airport"
+        ]
+      },
+      {
+        "label": "US all",
+        "country": [
+          "US"
+        ]
+      },
+      {
+        "label": "large",
+        "airport_type": [
+          "large_airport"
+        ]
+      },
+      {
+        "label": "large+medium",
+        "airport_type": [
+          "large_airport",
+          "medium_airport"
+        ]
+      },
+      {
+        "label": "world"
+      }
+    ]
+  },
+  "results": {
+    "comparison": [
+      {
+        "pair": "SFO-BOS",
+        "expanded": {
+          "BFS": 10,
+          "Dijkstra": 746,
+          "A*": 1
+        },
+        "pushed": {
+          "BFS": 476,
+          "Dijkstra": 1264,
+          "A*": 105
+        },
+        "peak": {
+          "BFS": 466,
+          "Dijkstra": 418,
+          "A*": 104
+        },
+        "cost": {
+          "BFS": 1.0,
+          "Dijkstra": 4341.022084519025,
+          "A*": 4341.022084519025
+        },
+        "legs": {
+          "BFS": 1,
+          "Dijkstra": 1,
+          "A*": 1
+        }
+      },
+      {
+        "pair": "LAX-JFK",
+        "expanded": {
+          "BFS": 62,
+          "Dijkstra": 590,
+          "A*": 1
+        },
+        "pushed": {
+          "BFS": 1279,
+          "Dijkstra": 1034,
+          "A*": 150
+        },
+        "peak": {
+          "BFS": 1217,
+          "Dijkstra": 353,
+          "A*": 149
+        },
+        "cost": {
+          "BFS": 1.0,
+          "Dijkstra": 3974.1642519132665,
+          "A*": 3974.1642519132665
+        },
+        "legs": {
+          "BFS": 1,
+          "Dijkstra": 1,
+          "A*": 1
+        }
+      },
+      {
+        "pair": "SEA-MIA",
+        "expanded": {
+          "BFS": 52,
+          "Dijkstra": 784,
+          "A*": 1
+        },
+        "pushed": {
+          "BFS": 1001,
+          "Dijkstra": 1363,
+          "A*": 91
+        },
+        "peak": {
+          "BFS": 952,
+          "Dijkstra": 467,
+          "A*": 90
+        },
+        "cost": {
+          "BFS": 1.0,
+          "Dijkstra": 4379.35828963113,
+          "A*": 4379.35828963113
+        },
+        "legs": {
+          "BFS": 1,
+          "Dijkstra": 1,
+          "A*": 1
+        }
+      },
+      {
+        "pair": "HNL-BOS",
+        "expanded": {
+          "BFS": 132,
+          "Dijkstra": 1056,
+          "A*": 3
+        },
+        "pushed": {
+          "BFS": 1377,
+          "Dijkstra": 1985,
+          "A*": 123
+        },
+        "peak": {
+          "BFS": 1246,
+          "Dijkstra": 682,
+          "A*": 120
+        },
+        "cost": {
+          "BFS": 2.0,
+          "Dijkstra": 8192.79410953863,
+          "A*": 8192.79410953863
+        },
+        "legs": {
+          "BFS": 2,
+          "Dijkstra": 2,
+          "A*": 2
+        }
+      },
+      {
+        "pair": "ANC-MIA",
+        "expanded": {
+          "BFS": 174,
+          "Dijkstra": 778,
+          "A*": 6
+        },
+        "pushed": {
+          "BFS": 911,
+          "Dijkstra": 1371,
+          "A*": 167
+        },
+        "peak": {
+          "BFS": 738,
+          "Dijkstra": 526,
+          "A*": 161
+        },
+        "cost": {
+          "BFS": 2.0,
+          "Dijkstra": 6459.621513088026,
+          "A*": 6459.621513088026
+        },
+        "legs": {
+          "BFS": 2,
+          "Dijkstra": 2,
+          "A*": 2
+        }
+      }
+    ],
+    "runtime_series": [
+      {
+        "label": "airline DL",
+        "vertices": 352,
+        "edges": 1977,
+        "size": 2329,
+        "median_ms": {
+          "BFS": 0.3250000299885869,
+          "Dijkstra": 1.5867090551182628,
+          "A*": 0.2019999665208161
+        }
+      },
+      {
+        "label": "airline UA",
+        "vertices": 427,
+        "edges": 2170,
+        "size": 2597,
+        "median_ms": {
+          "BFS": 0.35741698229685426,
+          "Dijkstra": 1.8142919871024787,
+          "A*": 0.20020798547193408
+        }
+      },
+      {
+        "label": "US large",
+        "vertices": 94,
+        "edges": 7005,
+        "size": 7099,
+        "median_ms": {
+          "BFS": 0.4302909947000444,
+          "Dijkstra": 1.9440000178292394,
+          "A*": 0.16354199033230543
+        }
+      },
+      {
+        "label": "US large+medium",
+        "vertices": 467,
+        "edges": 10243,
+        "size": 10710,
+        "median_ms": {
+          "BFS": 0.7297910051420331,
+          "Dijkstra": 4.516041022725403,
+          "A*": 0.24750002194195986
+        }
+      },
+      {
+        "label": "US all",
+        "vertices": 613,
+        "edges": 10702,
+        "size": 11315,
+        "median_ms": {
+          "BFS": 0.7346670026890934,
+          "Dijkstra": 5.244667001534253,
+          "A*": 0.23562501883134246
+        }
+      },
+      {
+        "label": "large",
+        "vertices": 1062,
+        "edges": 50474,
+        "size": 51536,
+        "median_ms": {
+          "BFS": 1.2033339589834213,
+          "Dijkstra": 3.3127919887192547,
+          "A*": 0.22375001572072506
+        }
+      },
+      {
+        "label": "large+medium",
+        "vertices": 2792,
+        "edges": 63969,
+        "size": 66761,
+        "median_ms": {
+          "BFS": 1.6802080208435655,
+          "Dijkstra": 7.095167005900294,
+          "A*": 0.3221250372007489
+        }
+      },
+      {
+        "label": "world",
+        "vertices": 3387,
+        "edges": 66332,
+        "size": 69719,
+        "median_ms": {
+          "BFS": 1.788834051694721,
+          "Dijkstra": 8.438249991741031,
+          "A*": 0.3191660507582128
+        }
+      }
+    ],
+    "agreement": [
+      {
+        "pair": "SFO-BOS",
+        "dijkstra_km": 4341.022084519025,
+        "astar_km": 4341.022084519025,
+        "expansion_ratio": 746.0
+      },
+      {
+        "pair": "LAX-JFK",
+        "dijkstra_km": 3974.1642519132665,
+        "astar_km": 3974.1642519132665,
+        "expansion_ratio": 590.0
+      },
+      {
+        "pair": "SEA-MIA",
+        "dijkstra_km": 4379.35828963113,
+        "astar_km": 4379.35828963113,
+        "expansion_ratio": 784.0
+      },
+      {
+        "pair": "HNL-BOS",
+        "dijkstra_km": 8192.79410953863,
+        "astar_km": 8192.79410953863,
+        "expansion_ratio": 352.0
+      },
+      {
+        "pair": "ANC-MIA",
+        "dijkstra_km": 6459.621513088026,
+        "astar_km": 6459.621513088026,
+        "expansion_ratio": 129.66666666666666
+      }
+    ]
+  },
+  "catalog": {
+    "chain": [],
+    "routes": [
+      66332
+    ],
+    "airports": [
+      3387
+    ],
+    "dangling": 0
+  }
+}

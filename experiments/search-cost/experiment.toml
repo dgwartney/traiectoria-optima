@@ -1,0 +1,66 @@
+# search-cost
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "search-cost"
+description = "How much cheaper is informed search? BFS, Dijkstra and A* on the world network."
+notebooks = ["explore.ipynb"]
+snapshot = "../../data/snapshots/2026-09-11-bb90a8"  # 2026-09-11-bb90a8
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+
+# Long-haul pairs, which is what the project catalogue asks the comparison to
+# run on. Every airport here survives all eight narrowings below -- otherwise
+# the runtime series would be comparing different questions at different
+# sizes, and its curve would mean nothing.
+pairs = [
+    ["SFO", "BOS"],
+    ["LAX", "JFK"],
+    ["SEA", "MIA"],
+    ["HNL", "BOS"],
+    ["ANC", "MIA"],
+]
+
+# Timing is noisy at millisecond scale, so each measurement is the median of
+# this many runs after a discarded warm-up.
+repeats = 15
+
+# The size series for the runtime-vs-input-size plot, as narrowings of the
+# world snapshot. Ordered by V+E, which is the term in O((V+E) log V) and the
+# only sensible x-axis here: airports and routes do not move together, so
+# ordering by airport count alone produces a curve that crosses itself.
+[[parameters.sizes]]
+label = "airline DL"
+airline = ["DL"]
+
+[[parameters.sizes]]
+label = "airline UA"
+airline = ["UA"]
+
+[[parameters.sizes]]
+label = "US large"
+country = ["US"]
+airport_type = ["large_airport"]
+
+[[parameters.sizes]]
+label = "US large+medium"
+country = ["US"]
+airport_type = ["large_airport", "medium_airport"]
+
+[[parameters.sizes]]
+label = "US all"
+country = ["US"]
+
+[[parameters.sizes]]
+label = "large"
+airport_type = ["large_airport"]
+
+[[parameters.sizes]]
+label = "large+medium"
+airport_type = ["large_airport", "medium_airport"]
+
+[[parameters.sizes]]
+label = "world"
