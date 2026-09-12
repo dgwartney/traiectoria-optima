@@ -20,6 +20,10 @@
 \definecolor{docdarkgray}{HTML}{4A5568}
 
 %% Page geometry
+%% Without this, LaTeX's article defaults give a 345pt (4.77in) column on
+%% 8.5in paper -- 3.73in of combined side margin, with the text occupying
+%% only 56% of the page width. 1in margins widen the column to 6.5in.
+\usepackage[margin=1in]{geometry}
 \setlength{\headheight}{14pt}
 
 %% Header and footer

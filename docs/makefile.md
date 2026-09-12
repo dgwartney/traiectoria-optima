@@ -8,6 +8,7 @@
 4. [Why some targets use stamp files](#why-some-targets-use-stamp-files)
 5. [Keeping Help Accurate](#keeping-make-help-accurate)
 6. [Adding a new target](#adding-a-new-target)
+7. [Known issues](#known-issues)
 
 ## Introduction
 
@@ -60,12 +61,21 @@ binary, and it is optional exploration rather than part of the build.
 | `make snapshot` | Freezes `data/processed` as an immutable, checksummed snapshot under `data/snapshots/` |
 | `make snapshot SNAPSHOT_FILTERS="..."` | Freezes a narrowed slice; filters are the catalog's own |
 | `make legacy_snapshot` | Shorthand for the United / large / US slice |
-| `make experiment SLUG=<name>` | Scaffolds an experiment directory with a runnable starter notebook |
+| `make experiment SLUG=<name>` | Scaffolds an experiment directory with runnable starter code |
+| `make experiment SLUG=<name> CODE=run.py` | The same, as a script rather than a notebook |
 
 ```bash
 make snapshot SNAPSHOT_FILTERS="--airline UA --airport-type large --country US"
 make experiment SLUG=astar-heuristics SNAPSHOT=2026-09-11-bb90a8
+make experiment SLUG=astar-heuristics CODE=run.py
 ```
+
+`CODE=` names the file holding the experiment's code, and its extension picks
+the starter: a name ending in `.py` gets a script that locates itself with
+`__file__`, anything else gets a notebook that uses `Path.cwd()`. Both open the
+experiment, verify the snapshot, ask it something and record the answer.
+`FORCE=1` regenerates `experiment.toml` for an experiment that already exists;
+it never touches code files.
 
 Identical data always lands on the same snapshot id, so re-freezing a slice is
 a no-op rather than a duplicate. See [Experiments](experiments.md) for what
@@ -78,7 +88,8 @@ these produce and how to use it.
 | `make test` | Runs `uv run pytest` | Any file under `src/`, `tests/`, `scripts/`, or `pyproject.toml` changed since the last **passing** run |
 | `make lint` | Runs `uv run ruff check` | Any file under `src/` or `pyproject.toml` changed since the last passing run |
 | `make check` | `lint` + `test` | (aggregate of the above) |
-| `make docs` | Renders every `docs/*.md` to PDF with `pandoc` → `build/pdf/` | The matching `.md`, the LaTeX header, or the SVG filter is newer than the PDF |
+| `make docs` | Renders every `docs/*.md` to PDF with `pandoc` → `build/pdf/` | The matching `.md`, the LaTeX header, the SVG filter, or any generated diagram is newer than the PDF |
+| `make diagrams` | Renders `mermaid/*.mmd` to a committed `docs/images/*.svg` and a generated `build/png/*.png` | The `.mmd` is newer than its output |
 | `make notebook` | Syncs the `notebooks` dependency group, then runs `uv run jupyter lab` | Always |
 | `make all` | `check` | (aggregate) |
 | `make clean` | Removes the generated CSVs, `data/processed/flight_data.db`, `build/`, and `.make/` | — |
@@ -141,3 +152,62 @@ force everything to rerun regardless of timestamps.
   stamp-file pattern above under `$(STAMP_DIR)`.
 - If it's inherently non-idempotent or long-running (a server, a REPL), just
   mark it `.PHONY` with no target file, like `notebook`.
+
+## Known issues
+
+### TODO: `make docs` drops hand-authored `.svg` diagrams
+
+**Status:** open, narrowed. **Affects:** `distance_formulas.md`.
+
+`docs/svg-to-png.lua` rewrites the source of every `.svg` image to
+`build/png/<name>.png`:
+
+```lua
+function Image(el)
+  local name = el.src:match("([^/]+)%.svg$")
+  if name then
+    el.src = root .. "/build/png/" .. name .. ".png"
+  end
+  return el
+end
+```
+
+Only diagrams with a mermaid source get a matching PNG. `$(PNGS)` is built
+from `mermaid/*.mmd`, so a `.svg` that was drawn by hand has nothing to
+generate its PNG, and the rewritten path points at a file that does not exist.
+
+Pandoc treats a missing image as a warning rather than an error, so the build
+still exits 0 and the PDF is simply missing its figures. To confirm:
+
+```bash
+make build/pdf/distance_formulas.pdf
+pdfimages -list build/pdf/distance_formulas.pdf
+# header row only -- zero images, despite the four figures the markdown references
+```
+
+The four affected files — `great_circle.svg`, `ellipsoid_geodesic.svg`,
+`equirectangular.svg` and `utm_projection.svg` — have no `.mmd` source.
+
+Two ways out:
+
+1. **Give the filter a fallback.** When `build/png/<name>.png` does not exist,
+   resolve to the committed `docs/images/<name>.png` instead. All four already
+   have one committed beside the `.svg`.
+2. **Add a rule that converts a committed `.svg` to `build/png/`.** Note that
+   `rsvg-convert` is the obvious tool and is already checked by `make
+   check-deps`, but it drops all text from a *mermaid* SVG; it is fine for
+   these hand-drawn ones.
+
+Whichever is chosen, a missing figure should fail the build rather than pass
+quietly.
+
+### Fixed: mermaid diagrams were never generated
+
+Previously `$(DOCS_MERMAID)` pointed at `docs/mermaid/`, which holds only a
+`.gitkeep`, while the actual sources live in `mermaid/` at the repository
+root. `$(PNGS)` expanded to nothing and `build/png/` was never created, so
+every diagram was dropped from every PDF.
+
+`MERMAID_DIR` now points at `mermaid/`, and `.mmd` renders straight to `.png`
+via `mmdc`. The intermediate `.svg` step was removed because `rsvg-convert`
+silently drops all text from a mermaid SVG. See [`make diagrams`](#targets).

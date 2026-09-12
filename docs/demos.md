@@ -32,6 +32,7 @@ uv run python src/demos/dijkstra_example.py
 | `snapshot_example.py` | Opening a frozen snapshot, and the checksum guarantee it carries |
 | `catalog_example.py` | Narrowing a snapshot to a scope, and what each narrowing cost |
 | `experiment_example.py` | Reading, running and recording an experiment against pinned data |
+| `script_experiment_example.py` | An experiment written as a `.py` script rather than a notebook, and why it must locate itself |
 
 ## 1. Hand-built networks
 
@@ -100,6 +101,17 @@ the last left off.
   exactly as that experiment's parameters declare, compares the fewest-hops
   and shortest-distance itineraries, and records the result — so the write
   path is demonstrated without overwriting a committed run.
+
+- **`script_experiment_example.py`** — the same machinery with no notebook in
+  sight. `notebooks` in `experiment.toml` is a list of filenames and nothing
+  checks the extension, so this builds a throwaway experiment whose code is a
+  `run.py` sitting beside the config, then runs that script *as its own
+  process from an unrelated working directory* — proof that
+  `Experiment.open(Path(__file__).resolve().parent)` finds the experiment when
+  the cwd cannot. It finishes by running the same script with `Path.cwd()`
+  substituted in, so the resulting `FileNotFoundError` is shown rather than
+  described. See [Experiments
+  §6](experiments.md#it-does-not-have-to-be-a-notebook).
 
 ## Conventions
 
