@@ -1,7 +1,7 @@
 {
   "snapshot_id": "2026-09-12-3e4f9d",
-  "created": "2026-09-12T02:04:27+00:00",
-  "source_commit": "4087d45828c2c2e1dde8f59befadde844703b0df",
+  "created": "2026-09-12T17:29:09+00:00",
+  "source_commit": "f831c7ddb713812432cef45659f259345ffddef5",
   "generator": "scripts/new_snapshot.py",
   "criteria": {
     "airport_type": "large_airport",
