@@ -21,7 +21,15 @@ The names below are re-exported here for convenience, so the common case reads
 from .core import Edge, Graph, Vertex
 from .flights import Airport, FlightPlanner, Route
 from .geo import DistanceFormula, Haversine, Memoized, Point, Vincenty
-from .pathfinding import AStar, BFS, Dijkstra, PathfindingAlgorithm
+from .pathfinding import (
+    AStar,
+    BFS,
+    Dijkstra,
+    ExpansionTrace,
+    PathfindingAlgorithm,
+    SearchObserver,
+    SearchResult,
+)
 
 __all__ = [
     "AStar",
@@ -30,6 +38,7 @@ __all__ = [
     "DistanceFormula",
     "Dijkstra",
     "Edge",
+    "ExpansionTrace",
     "FlightPlanner",
     "Graph",
     "Haversine",
@@ -37,6 +46,8 @@ __all__ = [
     "PathfindingAlgorithm",
     "Point",
     "Route",
+    "SearchObserver",
+    "SearchResult",
     "Vertex",
     "Vincenty",
 ]

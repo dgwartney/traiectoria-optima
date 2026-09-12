@@ -33,6 +33,7 @@ uv run python src/demos/dijkstra_example.py
 | `catalog_example.py` | Narrowing a snapshot to a scope, and what each narrowing cost |
 | `experiment_example.py` | Reading, running and recording an experiment against pinned data |
 | `script_experiment_example.py` | An experiment written as a `.py` script rather than a notebook, and why it must locate itself |
+| `search_instrumentation_example.py` | What a search cost — `SearchResult` counters, `ExpansionTrace`, and writing your own `SearchObserver` |
 
 ## 1. Hand-built networks
 
@@ -66,6 +67,16 @@ or any existing algorithm.
 - **`custom_edge_weight_example.py`** — subclasses `Edge` so that `weight`
   means flight duration rather than distance. Every `PathfindingAlgorithm`
   works with it unchanged, because they only ever read `edge.weight`.
+- **`search_instrumentation_example.py`** — subclasses `SearchObserver` to
+  narrate a search as it runs. It also shows the two built-in ways to see what
+  a search cost: the `SearchResult` counters every algorithm returns, and
+  `ExpansionTrace`, which records the order vertices were reached in.
+
+  Its eight-airport network is a corridor from SFO east to BOS plus a spur
+  running the wrong way, out over the Pacific. That geometry is the whole
+  point: the spur is *near the start* and *far from the goal*, so Dijkstra
+  expands OGG and HNL while A\* never looks at them — the same effect that
+  takes A\* from 92 expansions to 1 on the real SFO→BOS query.
 
 ## 3. Real data
 

@@ -422,10 +422,12 @@ working either way, because they only ever read `weight`:
 "Shortest" now means fastest, and Dijkstra was not changed, rebuilt, or
 configured. `src/demos/custom_edge_weight_example.py` is the runnable version.
 
-**A different search algorithm.** Write a `find_path` method on a class based
-on `PathfindingAlgorithm`. It works with `Graph.shortest_path` and
-`FlightPlanner.find_shortest_route` straight away, because both take the
-algorithm as an argument.
+**A different search algorithm.** Write a `search` method on a class based on
+`PathfindingAlgorithm`, returning a `SearchResult`. It works with
+`Graph.shortest_path` and `FlightPlanner.find_shortest_route` straight away,
+because both take the algorithm as an argument — and `find_path` comes for
+free, inherited from the base class, which just reads `cost` and `path` off
+what you return.
 
 **A different distance formula.** Write a `calculate` method on a class based
 on `DistanceFormula`, and pass it wherever `Haversine` would go.
