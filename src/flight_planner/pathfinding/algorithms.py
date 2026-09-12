@@ -8,9 +8,9 @@ specific domain (e.g. Airport/Route) — they work on any Graph[V, E].
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections import deque
-from typing import Callable, Dict, Generic, List, Tuple, TypeVar, TYPE_CHECKING
-import heapq
+from typing import Callable, Dict, Generic, List, Set, Tuple, TypeVar, TYPE_CHECKING
 
+from ..adt.min_heap import MinHeap
 from ..core.vertex import Vertex
 from ..core.edge import Edge
 
@@ -62,18 +62,25 @@ class Dijkstra(PathfindingAlgorithm[V, E]):
         if start == goal:
             return 0.0, []
 
-        counter = 0
-        pq: List[Tuple[float, int, V]] = [(0.0, counter, start)]
+        pq: MinHeap[V] = MinHeap()
+        pq.push(start, 0.0)
         distances: Dict[V, float] = {start: 0.0}
         predecessors: Dict[V, E] = {}
+        settled: Set[V] = set()
 
         while pq:
-            current_dist, _, current = heapq.heappop(pq)
+            current = pq.pop()
 
             if current == goal:
                 break
-            if current_dist > distances.get(current, float("inf")):
+            # Relaxing a vertex queues it again rather than repositioning the
+            # entry already there, so the queue accumulates superseded copies.
+            # `settled` discards them: the first pop of a vertex carries its
+            # final distance, and every later one is stale by construction.
+            if current in settled:
                 continue
+            settled.add(current)
+            current_dist = distances[current]
 
             for edge in graph.get_outgoing_edges(current):
                 neighbor = edge.target
@@ -82,8 +89,7 @@ class Dijkstra(PathfindingAlgorithm[V, E]):
                 if distance_to_neighbor < distances.get(neighbor, float("inf")):
                     distances[neighbor] = distance_to_neighbor
                     predecessors[neighbor] = edge
-                    counter += 1
-                    heapq.heappush(pq, (distance_to_neighbor, counter, neighbor))
+                    pq.push(neighbor, distance_to_neighbor)
 
         if goal not in predecessors:
             return float("inf"), []
@@ -173,14 +179,14 @@ class AStar(PathfindingAlgorithm[V, E]):
         if start == goal:
             return 0.0, []
 
-        counter = 0
-        open_set: List[Tuple[float, int, V]] = [(self._heuristic(start, goal), counter, start)]
+        open_set: MinHeap[V] = MinHeap()
+        open_set.push(start, self._heuristic(start, goal))
         g_score: Dict[V, float] = {start: 0.0}
         predecessors: Dict[V, E] = {}
-        visited = set()
+        visited: Set[V] = set()
 
         while open_set:
-            _, _, current = heapq.heappop(open_set)
+            current = open_set.pop()
 
             if current == goal:
                 break
@@ -195,9 +201,8 @@ class AStar(PathfindingAlgorithm[V, E]):
                 if tentative_g < g_score.get(neighbor, float("inf")):
                     g_score[neighbor] = tentative_g
                     predecessors[neighbor] = edge
-                    counter += 1
                     f_score = tentative_g + self._heuristic(neighbor, goal)
-                    heapq.heappush(open_set, (f_score, counter, neighbor))
+                    open_set.push(neighbor, f_score)
 
         if goal not in predecessors:
             return float("inf"), []
