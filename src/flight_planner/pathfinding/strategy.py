@@ -86,11 +86,40 @@ class PathfindingAlgorithm(ABC, Generic[V, E]):
 
 
 def _reconstruct_path(predecessors: Dict[V, E], goal: V) -> List[E]:
+    """Walk the predecessor chain back from the goal and return it forwards.
+
+    Args:
+        predecessors: For each reached vertex, the edge it was reached by.
+        goal: Vertex to walk back from.
+
+    Returns:
+        The edges from the start to `goal`, in travel order. Empty if `goal`
+        was never reached.
+
+    Raises:
+        ValueError: If the predecessor chain revisits a vertex. All three
+            algorithms build an acyclic chain when their preconditions hold,
+            so this cannot happen on this project's data -- every edge weight
+            is a haversine distance and therefore non-negative. It is checked
+            because the failure mode without the check is an infinite loop
+            rather than an error: a graph with a negative cycle
+            (`A->B` 5, `B->C` 1, `C->B` -3, `C->D` 1) makes a naive walk spin
+            forever, and a search that hangs is far harder to diagnose than
+            one that raises.
+    """
     path: List[E] = []
+    seen = {goal}
     current = goal
     while current in predecessors:
         edge = predecessors[current]
         path.append(edge)
         current = edge.source
+        if current in seen:
+            raise ValueError(
+                f"predecessor chain revisits {current!r}: the graph has a "
+                "negative cycle, which violates the non-negative edge weight "
+                "precondition of Dijkstra and A*"
+            )
+        seen.add(current)
     path.reverse()
     return path
