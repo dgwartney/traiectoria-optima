@@ -29,6 +29,15 @@ pairs = [
     ["SYD", "JFK"],
 ]
 
+# PAIR-COUNTING CONVENTION: this experiment counts UNDIRECTED pairs.
+#
+# `distinct_pairs` in results.json is 18,814 -- the number of arcs to draw,
+# where one arc serves both directions, since a line from A to B is the same
+# line as B to A. `experiments/graph-stats` counts DIRECTED pairs over the same
+# network and reports 36,717. Reconciled: 2 x 18,814 - 36,717 = 911 pairs are
+# served in one direction only. Pinned by
+# tests/experiments/test_graph_stats.py.
+
 # The pair drawn with the whole network underneath it, to show what the
 # context layer costs and why it ships switched off.
 context_pair = ["HNL", "BDL"]

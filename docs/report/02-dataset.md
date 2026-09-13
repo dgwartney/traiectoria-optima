@@ -174,6 +174,19 @@ same pair.** That figure is why the graph is a multigraph rather than a simple
 one, and it is independently confirmed by the NetworkX mirror in §5, which
 records the same 29,615 as the routes a collapsing graph type would discard.
 
+**Directed or undirected, and why both appear.** The 36,717 above counts
+*ordered* pairs, so ATL→ORD and ORD→ATL are two. Collapsing direction as well
+leaves **18,814** city pairs — which is the figure `experiments/route-map`
+reports, because it is deciding how many arcs to draw and one arc serves both
+directions. The two experiments are counting different things rather than
+disagreeing, and each now states which in its own configuration.
+
+Reconciling them yields a fact neither reports on its own: since every
+undirected pair is served in one or two directions,
+2 × 18,814 − 36,717 = **911 pairs fly in one direction only**. The other 17,903
+are served both ways. That 911 is small — 4.8% of city pairs — and it is the
+quantitative form of the in/out-degree symmetry noted below.
+
 A complete directed graph on 3,387 airports would have 11,468,382 ordered pairs.
 The network uses **0.32%** of them. That sparsity is the argument for the
 adjacency-list representation in §3: an adjacency matrix would need all 11.5

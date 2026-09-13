@@ -34,6 +34,18 @@ top_hubs = 10
 # the two hides the count that Chapter 5's disconnected-graph case is about.
 degree_bins = [0, 1, 2, 4, 8, 16, 32, 64, 128, 256]
 
+# PAIR-COUNTING CONVENTION: this experiment counts DIRECTED pairs.
+#
+# `airport_pairs` in results.json is the number of distinct ordered
+# (origin, destination) pairs -- 36,717 -- so A->B and B->A are two. The
+# identity that follows is exact: 36,717 + 29,615 parallel = 66,332 routes.
+#
+# `experiments/route-map` counts UNDIRECTED pairs for the same network and
+# reports 18,814, because it is deciding how many arcs to draw and one arc
+# serves both directions. Neither number is wrong and they are not comparable
+# without this note; reconciled, 2 x 18,814 - 36,717 = 911 pairs are served in
+# one direction only. Pinned by tests/experiments/test_graph_stats.py.
+
 # The airport whose strongly connected core is measured. Any airport in the
 # core names the same set, so this is a choice of *label*, not of result:
 # reporting "the core containing ATL" is checkable, while reporting "the

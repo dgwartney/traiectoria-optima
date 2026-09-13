@@ -44,6 +44,9 @@ as `traiectoria-optima (2).pdf`, which lives outside the repository.
 > - **§9's line counts** predate the experiment framework, `src/validation/`
 >   and the appendices. [Appendix A](report/12-appendix-a-code-inventory.md) §A.1
 >   carries the current inventory.
+> - **The Stage 1 proposal is approved.** §5 and §7 record it as "submitted;
+>   approval unconfirmed". It was submitted, accepted, and points were
+>   awarded.
 
 ---
 
