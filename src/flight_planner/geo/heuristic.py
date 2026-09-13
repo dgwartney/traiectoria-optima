@@ -10,8 +10,8 @@ reports it as optimal. The failure is silent.
 
 **Why great-circle distance is admissible here, precisely.** Not because
 haversine is a universal lower bound on geodesic distance — it is not. Measured
-over real airport pairs, haversine *exceeds* the WGS-84 geodesic on 1,905 of
-5,000 pairs, by up to 35.07 km.
+over every edge of the world snapshot, haversine *exceeds* the WGS-84 geodesic
+on **27,430 of 66,332 pairs (41.4%)**, by up to 35.18 km.
 
 It is admissible because the edge weights are themselves haversine numbers.
 `src/data/flight_network.py` generates the `distance_km` column with
@@ -19,8 +19,12 @@ It is admissible because the edge weights are themselves haversine numbers.
 single earth radius, so the heuristic and the weights are the same measurement.
 A great-circle arc is never longer than a chain of great-circle arcs between
 the same endpoints, so `h` can never exceed the true remaining cost. Measured
-on the world snapshot: **0 of 66,332 edges violate it**, worst excess
-0.000000000 km — exact, not approximate.
+on the world snapshot: **0 of 66,332 edges violate it**, and the largest
+excess of any estimate over its own edge weight is 1.8e-12 km — the last bit
+of a float, since the two numbers are the same computation run twice. Nothing
+is being approximated here; the margin is not "small", it is zero plus
+rounding. Consistency holds too: 0 violations over 6,633,200 `(edge, goal)`
+checks.
 
 **So admissibility rests on an invariant between the data pipeline and the
 heuristic, not on geometry.** `tests/flight_planner/geo/test_heuristic.py`
@@ -31,9 +35,17 @@ changes, that test fails rather than A* quietly degrading.
 axis 6378.137 km) rather than a 6371.0 km sphere, and is more physically
 accurate. That accuracy is the problem: its distances usually come out slightly
 larger while the edge weights remain haversine, so the estimate exceeds the
-truth on **3,095 of 5,000 edges**, by up to 23.73 km. A more accurate formula
-produces a *less correct* A*. Precision and admissibility are different
+truth on **38,901 of 66,332 edges (58.6%)**, by up to 25.66 km. A more accurate
+formula produces a *less correct* A*. Precision and admissibility are different
 properties, and improving the first can break the second.
+
+Every figure above is recorded by `experiments/heuristic-admissibility/`,
+pinned to the world snapshot and re-derived by
+`tests/experiments/test_heuristic_admissibility.py`. Earlier versions of this
+docstring quoted the same comparison over the first 5,000 routes in snapshot
+order — 1,905 and 3,095 — which the experiment still records under
+`legacy_leading_slice` so those numbers can be traced rather than appearing to
+have been dropped.
 """
 
 from __future__ import annotations

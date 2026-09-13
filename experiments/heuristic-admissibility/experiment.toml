@@ -1,0 +1,37 @@
+# heuristic-admissibility
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "heuristic-admissibility"
+description = "Is the A* heuristic admissible here, and would a more accurate formula break it?"
+notebooks = ["run.py"]
+snapshot = "../../data/snapshots/2026-09-11-bb90a8"  # 2026-09-11-bb90a8
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+
+# A heuristic estimate above an edge's own weight counts as a violation only
+# if it exceeds this. Below it is float noise in a haversine sum, not a real
+# breach: the same two points run through the same formula twice can differ in
+# the last bit.
+epsilon_km = 1e-9
+
+# Consistency is checked over every edge against a sample of goals rather than
+# all of them: every goal would be 3,387 x 66,332 = 224.6 million checks, and
+# at the measured 711k checks/second that is over five minutes for a property
+# that is uniform across goals. A hundred goals is 6.6 million checks in about
+# nine seconds.
+#
+# The goals are drawn with this seed, so the sample is the same on every run
+# and the recorded number is reproducible rather than merely repeatable.
+consistency_goals = 100
+goal_sample_seed = 20260913
+
+# The formula comparison runs over the WHOLE edge set -- 66,332 -- because at
+# 0.4 seconds there is no reason to sample. This slice is measured too, and
+# only because it is what the docstrings in geo/haversine.py and
+# geo/heuristic.py quoted: the first 5,000 routes in snapshot order. Keeping it
+# lets a reader trace those figures rather than wonder where they went.
+legacy_slice = 5000

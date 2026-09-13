@@ -67,7 +67,7 @@ absent columns read as their default rather than raising.
 
 ## F.4 The experiments
 
-Seven are committed. Each is a directory holding an `experiment.toml` that names
+Eight are committed. Each is a directory holding an `experiment.toml` that names
 its snapshot **as a path relative to itself** — so the experiment travels with
 the repository, and works the same from a clone, a source checkout or a Colab
 session — a notebook or script, and a `results.json` holding the answer.
@@ -78,6 +78,7 @@ session — a notebook or script, and a `results.json` holding the answer.
 | `search-cost` | How much cheaper is informed search? | world | §7 |
 | `networkx-parity` | Do our algorithms agree with an independent implementation? | world | §5, [App. D](15-appendix-d-networkx-parity.md) |
 | `astar-consistency` | Is A\* optimal for an admissible heuristic, or only a consistent one? | US large | §4.3, §5, [App. E](16-appendix-e-astar-consistency.md) |
+| `heuristic-admissibility` | Is the heuristic admissible *here*, and would a more accurate formula break it? | world | §4.3, §9 |
 | `route-map` | What does an answer look like, drawn rather than printed? | world | §8, §9 |
 | `shortest-vs-fewest` | What does skipping a stop cost? | US large | §9 |
 | `sfo-bos-dijkstra` | Does narrowing to one airline change the shortest SFO–BOS route? | world | The framework's worked example, and the fixture the [Tutorial](../tutorial.md) builds against. No chapter cites it, and it is listed here so that absence is deliberate rather than an oversight |
@@ -98,6 +99,14 @@ Three of them are worth singling out for what they had to solve:
   result cannot be a number. It writes each figure twice, dark for the deck and
   light for this report, and `tests/experiments/test_committed.py` asserts both
   exist.
+- **`heuristic-admissibility` measures an invariant rather than a result.**
+  §4.3's guarantee is not a fact about geometry — it holds because
+  `src/data/flight_network.py` and `flight_planner.geo.heuristic` use the same
+  formula at the same earth radius, which is a property of the build. An
+  invariant nobody checks is a coincidence, so the experiment exits non-zero
+  if it breaks and `tests/experiments/test_heuristic_admissibility.py`
+  re-derives it over all 66,332 edges rather than reading the recorded
+  answer.
 
 ## F.5 What this does not protect against
 

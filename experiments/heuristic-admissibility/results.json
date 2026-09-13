@@ -1,0 +1,79 @@
+{
+  "experiment": "heuristic-admissibility",
+  "recorded": "2026-09-13T23:16:12+00:00",
+  "snapshot": {
+    "id": "2026-09-11-bb90a8",
+    "reference": "../../data/snapshots/2026-09-11-bb90a8",
+    "criteria": {},
+    "source_commit": "610936de75b2d3c45e0e84daea687b32daf35aa3"
+  },
+  "parameters": {
+    "epsilon_km": 1e-09,
+    "consistency_goals": 100,
+    "goal_sample_seed": 20260913,
+    "legacy_slice": 5000
+  },
+  "results": {
+    "graph": {
+      "airports": 3387,
+      "routes": 66332
+    },
+    "radii": {
+      "haversine_sphere_km": 6371.0,
+      "vincenty_wgs84_semi_major_km": 6378.137
+    },
+    "pipeline_invariant": {
+      "checked": 66332,
+      "violations": 0,
+      "violation_rate": 0.0,
+      "worst_excess_km": 1.8189894035458565e-12,
+      "largest_understatement_km": 1.8189894035458565e-12,
+      "worst_edge": {
+        "origin": "AKL",
+        "destination": "CAN",
+        "weight_km": 9299.934868223923,
+        "estimate_km": 9299.934868223925
+      }
+    },
+    "consistency": {
+      "goals_sampled": 100,
+      "goals_available": 3387,
+      "checks": 6633200,
+      "violations": 0,
+      "worst_violation_km": 1.8189894035458565e-12
+    },
+    "formulas": {
+      "haversine_exceeds_geodesic": {
+        "checked": 66332,
+        "violations": 27430,
+        "violation_rate": 0.4135259000180908,
+        "worst_excess_km": 35.18287776859688,
+        "largest_understatement_km": 25.655823079379843
+      },
+      "vincenty_as_heuristic_would_violate": {
+        "checked": 66332,
+        "violations": 38901,
+        "violation_rate": 0.586459024301996,
+        "worst_excess_km": 25.655823079379843,
+        "largest_understatement_km": 35.18287776859688
+      },
+      "legacy_leading_slice": {
+        "size": 5000,
+        "haversine_exceeds_geodesic": {
+          "checked": 5000,
+          "violations": 1905,
+          "violation_rate": 0.381,
+          "worst_excess_km": 35.06882280838727,
+          "largest_understatement_km": 23.734619839294282
+        },
+        "vincenty_as_heuristic_would_violate": {
+          "checked": 5000,
+          "violations": 3095,
+          "violation_rate": 0.619,
+          "worst_excess_km": 23.734619839295192,
+          "largest_understatement_km": 35.06882280838727
+        }
+      }
+    }
+  }
+}
