@@ -64,7 +64,7 @@ issue, not an issue of its own.
 | Dataset | #42 (§2 intro; §2.1 written) | #53 | `graph-stats/results.json`, `degree-distribution.png`, `top-hubs.png` | Prose for sources and cleaning; the slide is transcription |
 | Graph construction + API | #43 | #54, #55 | — | One pipeline and API description, written once |
 | Algorithms + A\* argument | #44, **#15** | #56 | `results-astar-consistency.md` — 658,470 checks, 0 violations, plus a four-vertex counterexample | **The one genuine writing task.** Highest graded weight open |
-| Correctness testing | #45 | #61 | `results-networkx-parity.md`, `astar-consistency` | Blocked on #5 — see [§5](#5-order-of-work) |
+| Correctness testing | #45 | #61 | `results-networkx-parity.md`, `astar-consistency`, and the suite's assertions over both — #11 | Blocked on #5 — see [§5](#5-order-of-work) |
 | Complexity + runtime | §6, §7 written | #58 | `search-cost/results.json`, `runtime.png`, `nodes-expanded.png` | Transcription only |
 | Visualization | #46 | #57, #60 | `route-map/`, `route-map-syd-jfk.png`, `route-map-hnl-bdl.png` | Short prose, then insert an existing figure |
 | Lessons learned | #47 | #62 | §1.1's two findings, `status.md` §8 | Written once, split two ways |
@@ -130,6 +130,23 @@ the deliverable that is behind.
    this coverage, so until it lands **both artifacts would describe tests that
    do not exist.** Small, independent, startable now, and on the critical path
    rather than optional.
+
+   **#11 is already closed, and Ch. 5 should say so rather than re-test it.**
+   Its three cases — known routes, unreachable airports, ties — are covered,
+   and two of the three are covered by the experiments *through the suite*
+   rather than by hand-written unit tests:
+
+   | Case | Where |
+   |---|---|
+   | Known routes | `test_the_recorded_named_pairs_still_produce_the_recorded_costs` and `test_all_four_weighted_engines_agree_on_every_named_pair` — real pairs, recorded costs re-derived every run — plus the synthetic fixtures for small hand-computed answers |
+   | Unreachable | `test_unreachable_goal` in all three algorithms, `test_airport_not_in_graph_raises`, `test_both_libraries_agree_that_an_unreachable_pair_has_no_route`, `test_disconnected_pairs_actually_occur` |
+   | Ties | `test_equal_cost_paths_resolve_to_the_first_one_found` for Dijkstra's FIFO tie-break, plus the randomized sweep — `test_zero_weights_and_ties_actually_occur` guards that the generator keeps emitting tie-heavy and zero-weight graphs, and every engine's cost is checked against the NetworkX oracle on them |
+
+   A dedicated BFS equal-hop or A\* equal-`f` tie test would be *weaker* than
+   what the sweep already does, and writing one is the kind of duplicate work
+   this document exists to prevent. Ch. 5 cites the tests above; it does not
+   commission new ones.
+
 2. **#39, #15 and Ch. 4** — highest graded weight open, and the evidence is
    already measured.
 3. **Ch. 2 intro, Ch. 3, Ch. 5, Ch. 8, Ch. 9, Ch. 10, Ch. 11, Appendix** —
