@@ -74,11 +74,13 @@ Measured growth exponent: **0.41** (r² = 0.759).
 
 A\* is Dijkstra with the priority `f = g + h`, so its worst-case bound is
 identical: an uninformative heuristic makes it expand exactly what Dijkstra
-expands. The haversine heuristic is admissible (§4.3) — great-circle distance
-can never exceed the distance of any actual route between two airports, since a
-route is a sequence of great-circle legs and the direct arc is the shortest path
-on the sphere — and it is also consistent, which is what guarantees A\* never
-expands an airport twice and never needs to reopen one.
+expands. The bound below assumes the haversine heuristic is **consistent**,
+which is what guarantees A\* never expands an airport twice and never needs to
+reopen one. It is — 0 violations in 6,633,200 checks — but not for the
+geometric reason one might expect, and §4.3 is where that argument is made.
+The short version is that consistency here is an invariant between the data
+pipeline and the heuristic rather than a fact about spheres, so it is
+maintained by a test rather than by geometry.
 
 Measured growth exponent: **0.14** (r² = 0.606). In practice A\* settled every
 query in this benchmark in **1 to 6 expansions**.

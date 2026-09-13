@@ -15,6 +15,9 @@ agenda                   # deck-only
 # --- The data (report ch. 2) ------------------------------------------
 cleaning                 # 02-dataset.md
 
+# --- Algorithms (report ch. 4) ----------------------------------------
+astar-consistency        # 04-algorithms.md
+
 # --- Evaluation (report ch. 7) ----------------------------------------
 nodes-expanded           # 07-empirical-evaluation.md
 
