@@ -4,6 +4,10 @@ Documentation site for the Traiectoria Optima project.
 
 ## Start here
 
+- [Where we are](status.md) — a dated picture of the code, the documentation
+  and what is left: which branch holds what, what has been verified, and the
+  seven remaining items measured against the requirements. Read this first if
+  you have been away from the repository.
 - [Tutorial](tutorial.md) — build one experiment end to end, in half an hour:
   freeze a slice of the data, ask a question of it, and record the answer next
   to the data that produced it. Start here if you would rather learn by doing.
@@ -39,6 +43,14 @@ Documentation site for the Traiectoria Optima project.
   the geodesic and antimeridian problems with the pictures to prove them, a
   comparison against the alternatives, and what building it taught that designing
   it had not. Demonstrated by `experiments/route-map/`.
+- [Search instrumentation: design](design-search-instrumentation.md) — why
+  `find_path` became `search` returning a `SearchResult`, the eight decisions
+  behind the counters and `SearchObserver`, what was deliberately left out,
+  and the seven discrepancies found by checking the plan against the code.
+- [Search instrumentation: evaluation](evaluation-search-instrumentation.md) —
+  how to re-run every number in the comparison table and the runtime plot,
+  what may legitimately differ between machines, and what would be a real
+  failure.
 - [Distance Formulas](distance_formulas.md) — haversine, Vincenty, and the
   trade-offs between them.
 - [Graph Algorithm Notes](graph-algorithms-notes.md) — Dijkstra, BFS and A\*.

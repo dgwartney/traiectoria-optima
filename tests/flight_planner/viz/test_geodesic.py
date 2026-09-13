@@ -8,6 +8,10 @@ invisible on a US-only network, which is exactly why it needs a test.
 
 import pytest
 
+# Geometry needs pyproj, which lives in the `notebooks` dependency group
+# rather than `dev` -- the same reason the other viz modules skip on folium.
+pytest.importorskip("pyproj")
+
 from flight_planner import Airport
 from flight_planner.viz import Geodesic
 

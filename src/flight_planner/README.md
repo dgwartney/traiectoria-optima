@@ -31,8 +31,9 @@ viz/          RouteMap, MapLayer family      drawing what an experiment found
 - **`Point`** / **`DistanceFormula`** (`geo/`) — a
   geographic coordinate and pluggable formulas (`Haversine`, `Vincenty`) for
   computing distance between two `Point`s. Independent of `Graph` entirely.
-- **`PathfindingAlgorithm`** family (`pathfinding/algorithms.py`) —
-  `Dijkstra`, `BFS`, `AStar`. Each operates purely on the generic
+- **`PathfindingAlgorithm`** family (`pathfinding/`) — `Dijkstra`, `BFS`,
+  `AStar`, one module each, over `strategy.py`, `result.py` and
+  `observers.py`. Each operates purely on the generic
   `Graph[V, E]` interface (`get_outgoing_edges`, `edge.source/target/weight`)
   and works on *any* graph, not just flight networks.
 - **`Airport`** / **`Route`** / **`FlightPlanner`** (`flights/airport.py`,
