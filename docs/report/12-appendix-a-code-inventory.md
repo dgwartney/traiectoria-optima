@@ -1,42 +1,6 @@
-# Appendix A. Contributions and Code Inventory
+# Appendix A. Code Inventory
 
-## A.1 Contributions
-
-[`docs/project_plan.md`](../project_plan.md) proposed a three-way split of the
-nine deliverables T1–T9 across DG, ASF and JL, with each member presenting the
-work they built. That allocation did not survive contact with the term. The
-repository record is unambiguous and is reproduced here rather than summarised,
-because a contributions statement that disagrees with `git log` is worse than
-none:
-
-| | Commits | Blamed lines on the delivered tree |
-|---|---|---|
-| David Gwartney | 78 | 32,622 |
-| ASF | 4 | 0 |
-| JL | 0 | 0 |
-
-```sh
-git shortlog -sne                                    # the commit counts
-git ls-files '*.py' '*.md' | while read -r f; do \
-  git blame --line-porcelain -- "$f"; done | grep '^author ' | sort | uniq -c
-```
-
-ASF's four commits are early and their content has since been rewritten, which
-is why the blamed-line count is zero rather than small. **Every deliverable in
-this report was built by one author**, including the six T1–T9 items the plan
-assigned elsewhere: the graph core and public API (T2), the test suite and its
-edge cases (T4), BFS (T5), Dijkstra (T6), A\* and the admissibility argument
-(T7), and the evaluation (T8).
-
-Two consequences are worth stating plainly rather than leaving a reader to
-infer them. The project plan's presentation split across three speakers cannot
-be delivered as written. And the plan's "PR review before merging to `main`"
-control never operated, which is the gap the automated checks were built to
-cover: an independent NetworkX oracle (§5), randomized differential testing,
-and the rule that every published figure names a checksummed snapshot. Those
-were not chosen for elegance. They are what stands in for a second reader.
-
-## A.2 What was built
+## A.1 What was built
 
 The report argues about roughly a sixth of the code. This section accounts for
 the rest, because a reader who has just finished §7 has no way to tell whether
@@ -65,7 +29,7 @@ Two directories are in the tree and are **not** part of the delivered system:
 - **`src/exercises/` (497 lines)** — coursework study code from the textbook,
   kept for reference. No part of the deliverable imports it.
 
-## A.3 Reproducing the report
+## A.2 Reproducing the report
 
 Everything in this document is built from the repository:
 

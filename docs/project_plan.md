@@ -18,8 +18,7 @@ date: 2026-08-23
 > team's working plan rather than the commitment made to the instructor. See
 > [`remaining_work.md`](remaining_work.md) §2 for where the two disagree.
 >
-> Its **owner assignments did not hold.** All nine deliverables were built by
-> one author; [Appendix A](report/12-appendix-a-contributions.md) §A.1 states
+> Its **owner assignments did not hold.** The GitHub contributor history is
 > the record.
 
 This project implements a flight route planner over the OpenFlights world airline network,

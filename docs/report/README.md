@@ -6,7 +6,7 @@ reviewed and diffed independently. The assembled PDF is built by
 
 | # | Chapter |
 |---|---|
-| — | [Frontmatter](00-frontmatter.md) — title, authors, date |
+| — | [Frontmatter](00-frontmatter.md) — title, author, date |
 | 1 | [Introduction](01-introduction.md) |
 | 2 | [Dataset](02-dataset.md) |
 | 3 | [Graph Construction](03-graph-construction.md) |
@@ -18,7 +18,7 @@ reviewed and diffed independently. The assembled PDF is built by
 | 9 | [Challenges and Lessons Learned](09-challenges-and-lessons-learned.md) |
 | 10 | [Conclusion](10-conclusion.md) |
 | 11 | [References](11-references.md) |
-| A | [Contributions and Code Inventory](12-appendix-a-contributions.md) |
+| A | [Code Inventory](12-appendix-a-code-inventory.md) |
 | B | [Data Structures and the Public API](13-appendix-b-data-structures.md) |
 | C | [Distance Formulas](14-appendix-c-distance-formulas.md) |
 | D | [Validation against NetworkX](15-appendix-d-networkx-parity.md) |
@@ -27,11 +27,11 @@ reviewed and diffed independently. The assembled PDF is built by
 | G | [Glossary](18-appendix-g-glossary.md) |
 
 The appendices are ordered to match the chapters that cite them, not by when
-they were written: B and C back §3 and §4.3, D and E hold the full results §5
-summarises, F describes the machinery every figure depends on, and G is the
-glossary. Four of them began life as documents under `docs/` and were moved
-here once it was clear they served one part of the report rather than the
-repository as a whole.
+they were written: A accounts for the code the chapters argue about, B and C
+back §3 and §4.3, D and E hold the full results §5 summarises, F describes the
+machinery every figure depends on, and G is the glossary. Five of them — B, C, D, E and G — began life as documents under
+`docs/` and were moved here once it was clear they served one part of the
+report rather than the repository as a whole.
 
 ## Two files that are not chapters
 

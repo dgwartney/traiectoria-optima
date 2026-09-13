@@ -42,7 +42,7 @@ as `traiectoria-optima (2).pdf`, which lives outside the repository.
 >   which is what makes the divergences §6 catalogues unable to recur.
 > - **The test count** was 311. It is now 883.
 > - **§9's line counts** predate the experiment framework, `src/validation/`
->   and the appendices. [Appendix A](report/12-appendix-a-contributions.md) §A.2
+>   and the appendices. [Appendix A](report/12-appendix-a-code-inventory.md) §A.1
 >   carries the current inventory.
 
 ---

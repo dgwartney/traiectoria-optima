@@ -120,7 +120,7 @@ REPORT_CHAPTERS = \
 	$(REPORT_DIR)/09-challenges-and-lessons-learned.md \
 	$(REPORT_DIR)/10-conclusion.md \
 	$(REPORT_DIR)/11-references.md \
-	$(REPORT_DIR)/12-appendix-a-contributions.md \
+	$(REPORT_DIR)/12-appendix-a-code-inventory.md \
 	$(REPORT_DIR)/13-appendix-b-data-structures.md \
 	$(REPORT_DIR)/14-appendix-c-distance-formulas.md \
 	$(REPORT_DIR)/15-appendix-d-networkx-parity.md \
