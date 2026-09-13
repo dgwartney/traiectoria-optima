@@ -99,6 +99,19 @@ ROUTE_OUTPUT_COLUMNS = [
 ]
 
 
+# Drop categories, used as the prefix of every `skipped` reason so the
+# breakdown can be grouped without parsing airport codes out of a sentence.
+ORIGIN_DOES_NOT_RESOLVE = "origin does not resolve"
+DESTINATION_DOES_NOT_RESOLVE = "destination does not resolve"
+NEITHER_ENDPOINT_RESOLVES = "neither endpoint resolves"
+
+DROP_CATEGORIES = (
+    ORIGIN_DOES_NOT_RESOLVE,
+    DESTINATION_DOES_NOT_RESOLVE,
+    NEITHER_ENDPOINT_RESOLVES,
+)
+
+
 @dataclass
 class NetworkBuild:
     """The outcome of one build.
@@ -247,15 +260,25 @@ class FlightNetworkBuilder:
         kept_rows: List[int] = []
         skipped: List[Tuple[int, str]] = []
         for position, row in enumerate(routes.itertuples(index=True), start=1):
-            missing = [
-                code
-                for code in (row.source_airport_code, row.destination_airport_code)
-                if code not in locations
-            ]
-            if missing:
-                skipped.append(
-                    (position, f"unresolvable airport code(s): {', '.join(missing)}")
-                )
+            origin_missing = row.source_airport_code not in locations
+            destination_missing = row.destination_airport_code not in locations
+            if origin_missing or destination_missing:
+                # The category is named first so a reader -- and
+                # `drop_breakdown` -- can group on it without parsing codes
+                # out of prose. Which endpoint failed is the informative part:
+                # a near-even origin/destination split points at airports
+                # missing from OurAirports, while a lopsided one would point
+                # at a directional bug in the resolution itself.
+                if origin_missing and destination_missing:
+                    category = NEITHER_ENDPOINT_RESOLVES
+                    codes = [row.source_airport_code, row.destination_airport_code]
+                elif origin_missing:
+                    category = ORIGIN_DOES_NOT_RESOLVE
+                    codes = [row.source_airport_code]
+                else:
+                    category = DESTINATION_DOES_NOT_RESOLVE
+                    codes = [row.destination_airport_code]
+                skipped.append((position, f"{category}: {', '.join(codes)}"))
                 continue
             kept_rows.append(row.Index)
 
@@ -297,6 +320,77 @@ class FlightNetworkBuilder:
         """
         self._airport_output(build).to_csv(airports_path, index=False)
         self._route_output(build).to_csv(routes_path, index=False)
+
+    @staticmethod
+    def drop_breakdown(build: NetworkBuild) -> Dict[str, int]:
+        """Count dropped routes by category.
+
+        Args:
+            build: The build whose `skipped` pairs to tally.
+
+        Returns:
+            Every category in `DROP_CATEGORIES` mapped to its count, zeros
+            included. Zeros are kept deliberately: a category that vanishes
+            from a report reads as "not measured" rather than "did not
+            happen".
+        """
+        counts = {category: 0 for category in DROP_CATEGORIES}
+        for _, reason in build.skipped:
+            category = reason.split(":", 1)[0]
+            counts[category] = counts.get(category, 0) + 1
+        return counts
+
+    def build_report(self, build: NetworkBuild, raw: Mapping[str, int]) -> Dict[str, Any]:
+        """Summarise what the build kept and what it discarded.
+
+        The pipeline used to print only `len(skipped)` and persist nothing, so
+        the cleaning figures in the report were the one set of numbers with no
+        committed artifact behind them. This is that artifact.
+
+        Args:
+            build: The completed build.
+            raw: Input row counts, keyed by source name.
+
+        Returns:
+            A JSON-serialisable mapping of input counts, output counts, the
+            per-category drop breakdown, and every dropped row with its
+            reason.
+        """
+        breakdown = self.drop_breakdown(build)
+        return {
+            "raw": dict(raw),
+            "kept": {
+                "airports": int(len(build.airports)),
+                "routes": int(len(build.routes)),
+            },
+            "dropped": {
+                "routes": len(build.skipped),
+                "by_reason": breakdown,
+                "total_checks_out": sum(breakdown.values()) == len(build.skipped),
+            },
+            # Every row, not a sample. At 1,331 rows this costs about 90 KB
+            # and turns "1,331 were dropped" into something a reader can
+            # audit -- which is the difference between a reported figure and
+            # an asserted one.
+            "skipped": [
+                {"row": position, "reason": reason} for position, reason in build.skipped
+            ],
+        }
+
+    def write_build_report(
+        self, build: NetworkBuild, path: PathLike, raw: Mapping[str, int]
+    ) -> None:
+        """Write the build report beside the processed CSVs.
+
+        Args:
+            build: The completed build.
+            path: Destination for the JSON report.
+            raw: Input row counts, keyed by source name.
+        """
+        Path(path).write_text(
+            json.dumps(self.build_report(build, raw), indent=2) + "\n",
+            encoding="utf-8",
+        )
 
     def write_sqlite(self, build: NetworkBuild, database: PathLike) -> None:
         """Write the build to the `airports` and `routes` tables.
@@ -489,15 +583,26 @@ if __name__ == "__main__":
     args = parse_args()
     network_builder = FlightNetworkBuilder()
 
+    # Bound rather than inlined, so the build report can state what came in
+    # as well as what came out. "1,331 dropped" means nothing without 67,663.
+    raw_airports = network_builder.read_airports(args.our_airports)
+    raw_routes = network_builder.read_routes(args.open_flights_routes)
+
     built = network_builder.build(
-        network_builder.read_airports(args.our_airports),
-        network_builder.read_routes(args.open_flights_routes),
+        raw_airports,
+        raw_routes,
         airline=args.airline,
         airport_type=args.airport_type,
         country=args.country,
         international=args.international,
     )
     network_builder.write_csv(built, args.airports_csv, args.routes_csv)
+    report_path = Path(args.airports_csv).with_name("build-report.json")
+    network_builder.write_build_report(
+        built,
+        report_path,
+        raw={"airports": len(raw_airports), "routes": len(raw_routes)},
+    )
     if args.database:
         network_builder.write_sqlite(built, args.database)
     if args.snapshot_root:
@@ -515,4 +620,10 @@ if __name__ == "__main__":
 
     print(f"airports: {len(built.airports)}  routes: {len(built.routes)}")
     if built.skipped:
+        # The count, then where the rows themselves went. Printing only the
+        # count is what made these the one figures in the report with no
+        # committed artifact behind them.
         print(f"routes dropped for unresolvable endpoints: {len(built.skipped)}")
+        for category, count in network_builder.drop_breakdown(built).items():
+            print(f"  {category}: {count}")
+    print(f"build report: {report_path}")

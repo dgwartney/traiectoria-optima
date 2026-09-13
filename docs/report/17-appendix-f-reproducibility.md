@@ -67,7 +67,7 @@ absent columns read as their default rather than raising.
 
 ## F.4 The experiments
 
-Eight are committed. Each is a directory holding an `experiment.toml` that names
+Nine are committed. Each is a directory holding an `experiment.toml` that names
 its snapshot **as a path relative to itself** — so the experiment travels with
 the repository, and works the same from a clone, a source checkout or a Colab
 session — a notebook or script, and a `results.json` holding the answer.
@@ -79,6 +79,7 @@ session — a notebook or script, and a `results.json` holding the answer.
 | `networkx-parity` | Do our algorithms agree with an independent implementation? | world | §5, [App. D](15-appendix-d-networkx-parity.md) |
 | `astar-consistency` | Is A\* optimal for an admissible heuristic, or only a consistent one? | US large | §4.3, §5, [App. E](16-appendix-e-astar-consistency.md) |
 | `heuristic-admissibility` | Is the heuristic admissible *here*, and would a more accurate formula break it? | world | §4.3, §9 |
+| `data-cleaning` | What did cleaning discard, and is the snapshot what the pipeline produces? | world | §2.3, §9 |
 | `route-map` | What does an answer look like, drawn rather than printed? | world | §8, §9 |
 | `shortest-vs-fewest` | What does skipping a stop cost? | US large | §9 |
 | `sfo-bos-dijkstra` | Does narrowing to one airline change the shortest SFO–BOS route? | world | The framework's worked example, and the fixture the [Tutorial](../tutorial.md) builds against. No chapter cites it, and it is listed here so that absence is deliberate rather than an oversight |
@@ -134,5 +135,12 @@ break the hand-built graphs §5's edge-case tests rely on.
 
 **A snapshot verifies its contents, not its correctness.** The checksum proves
 the rows have not changed since they were frozen. It says nothing about whether
-the cleaning that produced them was right — which is what §2.3 argues, and what
-the cleaning provenance record exists to evidence.
+the cleaning that produced them was *right*.
+
+That gap is narrower than it was. `experiments/data-cleaning` re-runs the
+pipeline over the committed raw files and compares the result against the
+frozen snapshot code for code — so "this snapshot is what the cleaning
+produces" is now a measurement rather than an assumption, and the experiment
+exits non-zero if the two part company. What remains unverifiable by any
+amount of checksumming is whether the cleaning *rules* are the right rules,
+which is an argument (§2.3) rather than a test.

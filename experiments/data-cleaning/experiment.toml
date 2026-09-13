@@ -1,0 +1,35 @@
+# data-cleaning
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "data-cleaning"
+description = "What did cleaning discard, and does the committed snapshot match what the pipeline produces?"
+notebooks = ["run.py"]
+snapshot = "../../data/snapshots/2026-09-11-bb90a8"  # 2026-09-11-bb90a8
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+
+# This experiment is shaped differently from the other eight, and the reason
+# is worth stating rather than leaving to be noticed.
+#
+# Every other experiment asks a question *of* a snapshot. This one asks how the
+# snapshot came to exist, and cleaning runs upstream of snapshots -- raw ->
+# processed -> frozen. So it reads the RAW sources, which are committed, and
+# re-runs the pipeline over them.
+#
+# The snapshot is still pinned, and it earns the pin: the last section checks
+# the re-derived output against it. That turns the snapshot's provenance from
+# an assertion into a measurement. If the cleaning code and the committed
+# snapshot ever drift apart, this is what notices.
+raw_airports = "../../data/raw/our_airports/airports.csv"
+raw_routes = "../../data/raw/open_flights/routes.dat"
+
+# Sets the is_international column. Not part of route resolution, but it is a
+# cleaning input and its coverage belongs in a cleaning record.
+international = "../../data/processed/international_airports.csv"
+
+# The manual corrections applied upstream, whose effect the report quotes.
+iata_overrides = "../../data/reference/iata_code_overrides.csv"

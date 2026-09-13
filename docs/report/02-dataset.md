@@ -58,15 +58,24 @@ build happened to produce.
 ## 2.3 Cleaning and preparation
 
 Two filters, applied in that order, and each one reports what it discarded.
+Every figure in this section is recorded by `experiments/data-cleaning/`, which
+re-runs the pipeline over the committed raw files.
 
 **Airports: 85,884 → 9,053 → 3,387.** An airport is *usable* if it has exactly
-three characters of IATA code and both coordinates; dropping the rest, and
-deduplicating on IATA code, leaves 9,053. Most of the 85,884 are airfields,
-heliports and seaplane bases with no commercial service, so this is the
-expected attrition rather than a data problem. Of those 9,053, only the
-**3,387** that at least one surviving route actually touches are written out —
-an airport no flight reaches is not part of the airline network, and carrying
-it would inflate every statistic in §2.5 and every denominator in §6.
+three characters of IATA code and both coordinates, and duplicate codes are
+collapsed. Measured, **the IATA-code test does all of the work**: it removes
+76,831 rows, and of the 9,053 that survive it, none is missing a coordinate and
+none duplicates another's code. The other two conditions are guards that never
+fire on this data — worth keeping, because a source that begins publishing a
+coordinate-less airport should lose that row rather than acquire a vertex at
+(0, 0), but worth reporting honestly as defensive rather than load-bearing.
+
+Most of the 76,831 are airfields, heliports and seaplane bases with no
+commercial service and so no IATA code, which makes this expected attrition
+rather than a data problem. Of the 9,053 that remain, only the **3,387** that
+at least one surviving route actually touches are written out — an airport no
+flight reaches is not part of the airline network, and carrying it would
+inflate every statistic in §2.5 and every denominator in §6.
 
 **Routes: 67,663 → 66,332.** A route survives if *both* endpoints resolve to a
 usable airport. **1,331 do not**, and the split is informative:
@@ -82,12 +91,29 @@ The near-symmetry of 663 against 660 is what you would expect if the cause is a
 handful of airports missing from OurAirports rather than a systematic bias
 against one direction of travel.
 
-None of this is silent. The loader records every skipped row as a
-`(row number, reason)` pair — `missing iata_code`, `ABC: missing coordinates`,
-`unknown airport code 'XYZ'` — and the pipeline prints the dropped-route count
-when it runs. That reporting *is* the "data loading and validation" the project
-asks for: a cleaning step that cannot say what it removed is indistinguishable
-from a bug.
+None of this is silent, and the standard for "not silent" is worth being
+exact about, because this section used to fall short of it. The pipeline
+records every skipped row as a `(row number, reason)` pair, and now **persists
+them** — `make flight_network` writes `build-report.json` beside the processed
+CSVs, and `experiments/data-cleaning/results.json` commits all 1,331, one
+object each:
+
+```json
+{"row": 190, "reason": "origin does not resolve: LGP"}
+```
+
+Until that existed, the pipeline printed only `len(skipped)`. A count is a
+claim; the rows are evidence. That reporting *is* the "data loading and
+validation" the project asks for: a cleaning step that cannot say what it
+removed is indistinguishable from a bug — and one that says only *how many* it
+removed is closer to the bug than it looks.
+
+The same experiment checks the cleaning against the frozen data it is supposed
+to have produced. Re-deriving the network from the raw files yields 3,387
+airports and 66,332 routes, and **every IATA code matches the committed
+snapshot `2026-09-11-bb90a8` exactly** — none present in one and not the other.
+So the snapshot's provenance is measured rather than asserted, and the
+experiment exits non-zero if the two ever part company.
 
 Edge weights are computed during this pass, with
 `flight_planner.geo.Haversine` — the same tested implementation the search
