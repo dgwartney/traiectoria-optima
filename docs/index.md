@@ -20,6 +20,17 @@ Documentation site for the Traiectoria Optima project.
 - [Demos](demos.md) — the runnable example scripts in `src/demos/`, what each
   one shows, and the conventions they follow.
 
+## Deliverables
+
+- [Final report](report/README.md) — one file per chapter, assembled into a
+  PDF by `make report`. §1, §2.1, §6 and §7 are written; the rest are
+  outlines.
+- [Report and deck crosswalk](report-deck-crosswalk.md) — the report and the
+  presentation are two renderings of one body of committed evidence. This says
+  which chapter each slide derives from, what is transcription rather than
+  research, and the nine places the deck disagreed with the code. Read it
+  before writing any chapter or any slide.
+
 ## Reference
 
 - [Package design](../src/flight_planner/README.md) — how `flight_planner` is
