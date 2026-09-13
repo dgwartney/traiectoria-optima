@@ -13,11 +13,12 @@ quietly producing different numbers.
 | Query set | SFO–BOS, LAX–JFK, SEA–MIA, HNL–BOS, ANC–MIA — long-haul pairs, per the problem statement |
 | Repeats | 15 per measurement, after one discarded warm-up call; **median** reported, which is robust to GC pauses in a way the mean is not |
 | Timing | `time.perf_counter()` around the search only. The graph is built once *outside* the timed region, and no observer is attached while timing |
+| Heuristic | `haversine_heuristic()` — memoized, and the same heuristic the validation experiments use. See the disclosure below |
 | Size series | Eight narrowings of the world network, 2,329 to 69,719 V + E — a 30× span |
 | CPU | Apple M2 Pro, 10 cores |
 | Software | Python 3.12.12, macOS 26.6.2 (arm64) |
 
-Three methodological points that materially affect whether the numbers mean
+Four methodological points that materially affect whether the numbers mean
 anything:
 
 - **The x-axis is V + E, not airport count.** The two do not move together: the
@@ -28,6 +29,16 @@ anything:
   survives all eight narrowings, which is asserted by a test. Had a pair
   vanished partway down the series, the curve would be comparing different
   questions at different sizes.
+- **A\*'s heuristic is memoized, and its cache is warm.** The heuristic caches
+  great-circle distances by coordinate, and the discarded warm-up call fills
+  that cache before the fifteen timed runs begin. This flatters A\* relative to
+  a cold-cache measurement — by 7% to 20% on this series — and it is stated
+  here rather than buried because the reader cannot infer it from the numbers.
+  It is nevertheless the configuration being claimed: memoization is what the
+  library does by default, and it is what `networkx-parity` and
+  `astar-consistency` also measure, so the three experiments are comparable.
+  Note the caching cannot change *which* airports A\* expands, only how quickly
+  it evaluates them — the nodes-expanded results in §7.2 are unaffected.
 - **Which results are portable, and which are not.** Nodes expanded, the
   distances, and the growth exponents are properties of the algorithms and
   reproduce on any machine — across three consecutive runs the exponents moved
@@ -57,17 +68,17 @@ project's central claim, measured rather than asserted.
 
 | Narrowing | V + E | BFS (ms) | Dijkstra (ms) | A\* (ms) |
 |---|---|---|---|---|
-| `airline DL` | 2,329 | 0.314 | 1.456 | 0.196 |
-| `airline UA` | 2,597 | 0.351 | 1.715 | 0.200 |
-| US large | 7,099 | 0.424 | 1.889 | 0.161 |
-| US large+medium | 10,710 | 0.719 | 4.351 | 0.234 |
-| US all | 11,315 | 0.757 | 4.898 | 0.233 |
-| large | 51,536 | 1.229 | 3.391 | 0.222 |
-| large+medium | 66,761 | 1.631 | 6.790 | 0.312 |
-| world | 69,719 | 1.744 | 7.907 | 0.317 |
+| `airline DL` | 2,329 | 0.338 | 1.592 | 0.177 |
+| `airline UA` | 2,597 | 0.353 | 1.857 | 0.159 |
+| US large | 7,099 | 0.442 | 1.986 | 0.147 |
+| US large+medium | 10,710 | 0.755 | 4.218 | 0.203 |
+| US all | 11,315 | 0.742 | 5.029 | 0.210 |
+| large | 51,536 | 1.205 | 3.610 | 0.188 |
+| large+medium | 66,761 | 1.777 | 7.348 | 0.290 |
+| world | 69,719 | 1.860 | 8.837 | 0.284 |
 
 A\* is the fastest algorithm at every one of the eight sizes, and on the full
-network it answers the same question as Dijkstra **25× faster**.
+network it answers the same question as Dijkstra **31× faster**.
 
 ### 7.4 Runtime against input size
 
@@ -75,7 +86,7 @@ network it answers the same question as Dijkstra **25× faster**.
 
 Log-log axes, so a power law appears as a straight line whose slope is the
 growth exponent (§6.6). The ordering never changes across the whole 30× range:
-A\* is **7× to 25× faster than Dijkstra** and **1.6× to 5.6× faster than BFS**,
+A\* is **9× to 31× faster than Dijkstra** and **1.9× to 6.6× faster than BFS**,
 with the gap widening as the graph grows. Those are ratios between series
 measured in the same run on the same machine, so unlike the absolute
 milliseconds they survive being re-run elsewhere.

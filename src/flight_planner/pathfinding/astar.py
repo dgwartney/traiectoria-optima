@@ -7,7 +7,7 @@ from ..adt.min_heap import MinHeap
 from ..core.vertex import Vertex
 from ..core.edge import Edge
 from .observers import SearchObserver
-from .result import SearchResult
+from .result import COST_WEIGHT, SearchResult
 from .strategy import PathfindingAlgorithm, _reconstruct_path
 
 if TYPE_CHECKING:
@@ -26,6 +26,10 @@ class AStar(PathfindingAlgorithm[V, E]):
     the true remaining cost to the goal) for the result to be optimal, e.g.
     great-circle distance when edge weights are real travel distances.
     """
+
+    #: A* sums `edge.weight`, exactly as Dijkstra does -- the heuristic
+    #: steers the search but never enters the reported cost.
+    unit = COST_WEIGHT
 
     def __init__(self, heuristic: Callable[[V, V], float]) -> None:
         """Configure the search with the heuristic that guides it.
@@ -61,7 +65,7 @@ class AStar(PathfindingAlgorithm[V, E]):
             optimal only if the configured heuristic is admissible.
         """
         if start == goal:
-            return SearchResult(0.0, [])
+            return SearchResult(0.0, [], unit=self.unit)
 
         watcher = observer if observer is not None else _NULL_OBSERVER
 
@@ -105,8 +109,11 @@ class AStar(PathfindingAlgorithm[V, E]):
             "peak_frontier": peak,
         }
         if goal not in predecessors:
-            return SearchResult(float("inf"), [], **counters)
+            return SearchResult(float("inf"), [], unit=self.unit, **counters)
 
         return SearchResult(
-            g_score[goal], _reconstruct_path(predecessors, goal), **counters
+            g_score[goal],
+            _reconstruct_path(predecessors, goal),
+            unit=self.unit,
+            **counters,
         )

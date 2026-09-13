@@ -34,7 +34,7 @@ from typing import Any, Dict, List, Sequence, Tuple
 import networkx as nx
 
 from flight_planner.experiments import Experiment
-from flight_planner.geo import Haversine, Memoized
+from flight_planner.geo import haversine_heuristic
 from flight_planner.pathfinding import AStar, BFS, Dijkstra
 from validation import (
     NetworkXAStar,
@@ -170,15 +170,21 @@ def named_pairs_table(
     for origin, destination in pairs:
         row: Dict[str, Any] = {"pair": f"{origin}-{destination}"}
         costs: Dict[str, float] = {}
+        units: Dict[str, str] = {}
         expanded: Dict[str, int] = {}
         legs: Dict[str, int] = {}
         for name, engine in engines.items():
             result = planner.search_route(origin, destination, engine)
             costs[name] = result.cost
+            # BFS's cost is a hop count and the others' are kilometres. Both
+            # land in one `cost` mapping, so the unit has to travel with them
+            # -- a reader of results.json has only the JSON, not the prose.
+            units[name] = result.unit
             legs[name] = len(result.path)
             if not name.startswith("nx "):
                 expanded[name] = result.nodes_expanded
         row["cost"] = costs
+        row["cost_unit"] = units
         row["legs"] = legs
         row["expanded"] = expanded
         rows.append(row)
@@ -245,10 +251,7 @@ def main() -> int:
     catalog = experiment.catalog()
     planner = catalog.planner()
     view = NetworkXView(planner)
-    formula = Memoized(Haversine())
-
-    def heuristic(origin, goal):
-        return origin.distance_to(goal, formula=formula)
+    heuristic = haversine_heuristic()
 
     print(f"  airports {view.order:,}  routes {view.size:,}")
     graph = collapse_cost(planner)

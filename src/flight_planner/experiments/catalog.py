@@ -41,6 +41,7 @@ from typing import (
     Union,
 )
 
+from ..errors import AirportNotFoundError, AmbiguousRouteError, RouteNotFoundError
 from ..flights.airport import Airport
 from ..flights.planner import FlightPlanner
 from ..flights.route import Route
@@ -231,13 +232,14 @@ class Catalog:
             The `Airport` in scope.
 
         Raises:
-            KeyError: If no airport in scope carries that code.
+            AirportNotFoundError: If no airport in scope carries that code.
+                Also catchable as `KeyError`, `LookupError` or `ValueError`.
         """
         code = iata_code.strip().upper()
         try:
             return self._airports[code]
         except KeyError:
-            raise KeyError(
+            raise AirportNotFoundError(
                 f"no airport {code!r} in this catalog "
                 f"({len(self._airports)} airports in scope)"
             ) from None
@@ -256,13 +258,14 @@ class Catalog:
             The `Route`.
 
         Raises:
-            KeyError: If no route in scope carries that number.
+            RouteNotFoundError: If no route in scope carries that number.
+                Also catchable as `KeyError` or `LookupError`.
         """
         number = flight_number.strip().upper()
         try:
             return self._by_flight_number[number]
         except KeyError:
-            raise KeyError(
+            raise RouteNotFoundError(
                 f"no flight {number!r} in this catalog "
                 f"({len(self._routes)} routes in scope)"
             ) from None
@@ -307,18 +310,20 @@ class Catalog:
             The single matching `Route`.
 
         Raises:
-            LookupError: If nothing matches, or if more than one route does.
-                The message names the flight numbers to choose between, since
-                `flight()` is the unambiguous way to ask.
+            RouteNotFoundError: If nothing matches.
+            AmbiguousRouteError: If more than one route does. The message
+                names the flight numbers to choose between, since `flight()`
+                is the unambiguous way to ask. It is a `RouteNotFoundError`,
+                so catching that alone still covers both cases.
         """
         matches = self.routes_between(origin, destination, airline)
         pair = f"{origin.strip().upper()} -> {destination.strip().upper()}"
         if not matches:
             carrier = f" on {airline}" if airline else ""
-            raise LookupError(f"no route {pair}{carrier} in this catalog")
+            raise RouteNotFoundError(f"no route {pair}{carrier} in this catalog")
         if len(matches) > 1:
             numbers = ", ".join(route.flight_number for route in matches)
-            raise LookupError(
+            raise AmbiguousRouteError(
                 f"{len(matches)} routes fly {pair}: {numbers}. "
                 f"Pass airline=, or use flight() with one of those numbers."
             )
@@ -332,11 +337,30 @@ class Catalog:
 
         Returns:
             Tuple of outgoing `Route`, possibly empty. Arrivals are not
-            included; routes are directed.
+            included; routes are directed. See `routes_to` for those.
         """
         code = iata_code.strip().upper()
         return tuple(
             route for route in self._routes if route.origin.iata_code == code
+        )
+
+    def routes_to(self, iata_code: str) -> Tuple[Route, ...]:
+        """Return the routes arriving at an airport.
+
+        The mirror of `routes_from`. Routes are directed, so the two are
+        genuinely different questions: an airport served only by inbound
+        legs has arrivals and no departures.
+
+        Args:
+            iata_code: Arrival IATA code.
+
+        Returns:
+            Tuple of incoming `Route`, possibly empty. Departures are not
+            included.
+        """
+        code = iata_code.strip().upper()
+        return tuple(
+            route for route in self._routes if route.destination.iata_code == code
         )
 
     # ------------------------------------------------------------ narrowing
@@ -494,7 +518,7 @@ class Catalog:
             else.
 
         Raises:
-            KeyError: If a flight number is not in scope.
+            RouteNotFoundError: If a flight number is not in scope.
         """
         planner = FlightPlanner()
         for leg in legs:

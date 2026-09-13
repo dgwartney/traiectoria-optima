@@ -22,6 +22,7 @@ Run from anywhere:
 """
 
 from flight_planner import (
+    COST_HOPS,
     Airport,
     AStar,
     BFS,
@@ -30,6 +31,7 @@ from flight_planner import (
     FlightPlanner,
     Route,
     SearchObserver,
+    haversine_heuristic,
 )
 
 # Roughly-real coordinates on a west-to-east corridor, plus a spur heading
@@ -100,7 +102,7 @@ class NarratingObserver(SearchObserver):
 def main() -> None:
     """Run all three algorithms over the corridor and report what each cost."""
     planner = build_network()
-    heuristic = lambda origin, goal: origin.distance_to(goal)  # noqa: E731
+    heuristic = haversine_heuristic()
 
     print(__doc__.split("Run from anywhere:")[0].strip())
     print(f"\nNetwork: {len(planner.vertices)} airports, {len(planner.edges)} legs")
@@ -121,8 +123,9 @@ def main() -> None:
         results[name] = result
         route = "->".join(["SFO"] + [leg.destination.iata_code for leg in result.path])
         # BFS measures hops, the other two measure kilometres -- never put
-        # them in one column and call it "cost".
-        unit = "hops" if name == "BFS" else "km"
+        # them in one column and call it "cost". The result says which it is,
+        # so nothing here has to infer it from the algorithm's name.
+        unit = "hops" if result.unit == COST_HOPS else "km"
         print(
             f"   {name:<12}{result.nodes_expanded:>9}{result.nodes_pushed:>8}"
             f"{result.peak_frontier:>6}{result.cost:>9,.0f} {unit:<3} {route}"

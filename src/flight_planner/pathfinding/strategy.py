@@ -11,12 +11,12 @@ Each concrete algorithm lives in its own module beside this one (`dijkstra.py`,
 
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Dict, Generic, List, Optional, Tuple, TypeVar, TYPE_CHECKING
+from typing import ClassVar, Dict, Generic, List, Optional, Tuple, TypeVar, TYPE_CHECKING
 
 from ..core.vertex import Vertex
 from ..core.edge import Edge
 from .observers import SearchObserver
-from .result import SearchResult
+from .result import COST_WEIGHT, SearchResult
 
 if TYPE_CHECKING:
     from ..core.graph import Graph
@@ -31,7 +31,15 @@ class PathfindingAlgorithm(ABC, Generic[V, E]):
     Implementations provide `search`, which reports both the route and what
     finding it cost. `find_path` is the older two-value view, kept because the
     demos, notebooks and committed experiments are written against it.
+
+    Attributes:
+        unit: What this algorithm's `cost` counts — `COST_HOPS` or
+            `COST_WEIGHT`. Declared here so `SearchResult.unit` can be filled
+            in without every algorithm restating it, and so a caller holding
+            only the algorithm can ask before running it.
     """
+
+    unit: ClassVar[str] = COST_WEIGHT
 
     @abstractmethod
     def search(

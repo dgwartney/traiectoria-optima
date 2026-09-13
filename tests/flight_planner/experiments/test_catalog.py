@@ -81,6 +81,22 @@ class TestLookup:
         numbers = {leg.flight_number for leg in catalog.routes_from("HUB")}
         assert numbers == {"UA0001", "UA0003", "UA0004", "AA0001"}
 
+    def test_routes_to_is_incoming_only(self, catalog):
+        numbers = {leg.flight_number for leg in catalog.routes_to("HUB")}
+        assert numbers == {"UA0002"}
+
+    def test_routes_to_code_is_normalized(self, catalog):
+        assert catalog.routes_to(" hub ") == catalog.routes_to("HUB")
+
+    def test_routes_to_and_from_partition_a_pair(self, catalog):
+        # Routes are directed, so the two questions genuinely differ: MED has
+        # an arrival and no departures.
+        assert {leg.flight_number for leg in catalog.routes_to("MED")} == {"UA0003"}
+        assert catalog.routes_from("MED") == ()
+
+    def test_routes_to_unknown_airport_is_empty(self, catalog):
+        assert catalog.routes_to("ZZZ") == ()
+
 
 class TestNarrowing:
     def test_airline_keeps_only_that_carrier(self, catalog):

@@ -37,6 +37,7 @@ from flight_planner.core.graph import Graph
 from flight_planner.core.vertex import Vertex
 from flight_planner.pathfinding.observers import SearchObserver
 from flight_planner.pathfinding.result import SearchResult
+from flight_planner.pathfinding.result import COST_HOPS
 from flight_planner.pathfinding.strategy import PathfindingAlgorithm
 
 from .oracle import NetworkXMirror
@@ -130,16 +131,16 @@ class _NetworkXEngine(PathfindingAlgorithm[V, E]):
             contract our own algorithms keep.
         """
         if start == goal:
-            return SearchResult(0.0, [])
+            return SearchResult(0.0, [], unit=self.unit)
 
         mirror = self._mirror_of(graph)
         try:
             nodes = self._nodes(mirror, start, goal)
         except (nx.NetworkXNoPath, nx.NodeNotFound):
-            return SearchResult(math.inf, [])
+            return SearchResult(math.inf, [], unit=self.unit)
 
         legs = self._legs(graph, mirror, nodes)
-        return SearchResult(self._cost(legs), legs)
+        return SearchResult(self._cost(legs), legs, unit=self.unit)
 
     @staticmethod
     def _legs(
@@ -208,6 +209,9 @@ class NetworkXBFS(_NetworkXEngine[V, E]):
     count**, not a distance — the same unit `BFS` reports, so the two are
     comparable and neither is comparable with the weighted engines.
     """
+
+    #: Matches `BFS.unit`, which is what makes the parity comparison valid.
+    unit = COST_HOPS
 
     def _nodes(self, mirror: NetworkXMirror[V, E], start: V, goal: V) -> List[object]:
         """Return NetworkX's unweighted shortest path.

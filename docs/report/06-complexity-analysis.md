@@ -15,20 +15,20 @@ per airport and one per route, so its space is O(V + E) as well.
 This is the only bound in the project that is **directly** testable, because
 construction cannot stop early — a search can, by reaching its goal. Fitting a
 line to log(build time) against log(V + E) across eight graph sizes gives an
-exponent of **1.01** with **r² = 0.9999**:
+exponent of **1.01** with **r² = 0.9997**:
 
 | Narrowing | V | E | V + E | Build (ms) |
 |---|---|---|---|---|
-| `airline DL` | 352 | 1,977 | 2,329 | 1.16 |
-| `airline UA` | 427 | 2,170 | 2,597 | 1.27 |
-| US large | 94 | 7,005 | 7,099 | 3.45 |
-| US large+medium | 467 | 10,243 | 10,710 | 5.36 |
-| US all | 613 | 10,702 | 11,315 | 5.60 |
-| large | 1,062 | 50,474 | 51,536 | 26.43 |
-| large+medium | 2,792 | 63,969 | 66,761 | 34.09 |
-| world | 3,387 | 66,332 | 69,719 | 35.65 |
+| `airline DL` | 352 | 1,977 | 2,329 | 1.24 |
+| `airline UA` | 427 | 2,170 | 2,597 | 1.28 |
+| US large | 94 | 7,005 | 7,099 | 3.72 |
+| US large+medium | 467 | 10,243 | 10,710 | 5.70 |
+| US all | 613 | 10,702 | 11,315 | 5.85 |
+| large | 1,062 | 50,474 | 51,536 | 27.37 |
+| large+medium | 2,792 | 63,969 | 66,761 | 35.41 |
+| world | 3,387 | 66,332 | 69,719 | 37.81 |
 
-A 29.9× increase in V + E produces a 30.7× increase in build time. Linear, as
+A 29.9× increase in V + E produces a 30.5× increase in build time. Linear, as
 predicted.
 
 ### 6.2 BFS — O(V + E) time, O(V) space
@@ -38,7 +38,7 @@ outgoing routes once, giving O(V + E). It marks an airport visited at *push*
 time rather than at pop time, so no airport enters the queue twice and the queue
 holds at most V entries: O(V) space.
 
-Measured growth exponent: **0.48** (r² = 0.967) — see §6.6 for why this is
+Measured growth exponent: **0.49** (r² = 0.963) — see §6.6 for why this is
 below the bound rather than at it.
 
 ### 6.3 Dijkstra on our own binary min-heap — O((V + E) log V) time, O(V) space
@@ -68,7 +68,7 @@ Dijkstra pushes roughly 1.7–1.9 entries per expansion:
 | HNL–BOS | 1,056 | 1,985 | 1.88 | 682 |
 | ANC–MIA | 778 | 1,371 | 1.76 | 526 |
 
-Measured growth exponent: **0.40** (r² = 0.738).
+Measured growth exponent: **0.41** (r² = 0.759).
 
 ### 6.4 A\* — O((V + E) log V) time, O(V) space
 
@@ -80,7 +80,7 @@ route is a sequence of great-circle legs and the direct arc is the shortest path
 on the sphere — and it is also consistent, which is what guarantees A\* never
 expands an airport twice and never needs to reopen one.
 
-Measured growth exponent: **0.13** (r² = 0.585). In practice A\* settled every
+Measured growth exponent: **0.14** (r² = 0.606). In practice A\* settled every
 query in this benchmark in **1 to 6 expansions**.
 
 ### 6.5 Space, measured
@@ -104,10 +104,10 @@ still low.
 
 | Series | Measured exponent | r² | Asymptotic bound |
 |---|---|---|---|
-| Graph construction | **1.01** | 0.9999 | O(V + E) |
-| BFS | 0.48 | 0.967 | O(V + E) |
-| Dijkstra | 0.40 | 0.738 | O((V + E) log V) |
-| A\* | 0.13 | 0.585 | O((V + E) log V) |
+| Graph construction | **1.01** | 0.9997 | O(V + E) |
+| BFS | 0.49 | 0.963 | O(V + E) |
+| Dijkstra | 0.41 | 0.759 | O((V + E) log V) |
+| A\* | 0.14 | 0.606 | O((V + E) log V) |
 
 Only construction reaches its exponent. Every search comes out well below its
 bound, and the fits get *worse* as the algorithm gets smarter. Both facts have
@@ -121,8 +121,8 @@ the graph is. Growing the network from 2,329 to 69,719 V + E adds airports that
 the search never visits.
 
 The r² values quantify how far each algorithm has escaped its own bound. BFS is
-still fairly well described by graph size (r² = 0.967) because it fans out
-blindly. Dijkstra's 0.738 reflects a real non-monotonicity discussed in §7.5.
-A\*'s 0.585 says graph size barely explains its runtime at all — the honest
+still fairly well described by graph size (r² = 0.963) because it fans out
+blindly. Dijkstra's 0.759 reflects a real non-monotonicity discussed in §7.5.
+A\*'s 0.606 says graph size barely explains its runtime at all — the honest
 reading is that A\*'s cost on this network is dominated by fixed per-call
 overhead, because the search itself is only a handful of expansions.

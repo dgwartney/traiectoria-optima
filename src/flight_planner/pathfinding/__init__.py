@@ -7,13 +7,15 @@ found.
 """
 
 from .strategy import PathfindingAlgorithm
-from .result import SearchResult
+from .result import COST_HOPS, COST_WEIGHT, SearchResult
 from .observers import SearchObserver, ExpansionTrace
 from .dijkstra import Dijkstra
 from .bfs import BFS
 from .astar import AStar
 
 __all__ = [
+    "COST_HOPS",
+    "COST_WEIGHT",
     "AStar",
     "BFS",
     "Dijkstra",

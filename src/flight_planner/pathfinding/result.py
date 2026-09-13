@@ -15,6 +15,15 @@ from ..core.edge import Edge
 
 E = TypeVar("E", bound=Edge)
 
+#: `cost` counts edges. BFS reports this; the number is a hop count.
+COST_HOPS = "hops"
+
+#: `cost` sums `edge.weight`. Dijkstra and A* report this. The *physical* unit
+#: is the graph's to define -- kilometres for this project's flight networks --
+#: which is why the marker says "weight" rather than "km": `pathfinding` is
+#: generic over any `Graph[V, E]` and cannot know what a weight measures.
+COST_WEIGHT = "weight"
+
 
 @dataclass(frozen=True)
 class SearchResult(Generic[E]):
@@ -35,6 +44,10 @@ class SearchResult(Generic[E]):
             lazy-deletion design throws away.
         peak_frontier: Largest the frontier ever got — the measured space cost,
             against the O(V) bound the complexity write-up claims.
+        unit: What `cost` counts — `COST_HOPS` or `COST_WEIGHT`. Set by the
+            algorithm that produced the result, so a caller holding only a
+            `SearchResult` can still label or guard the number. Empty string
+            for a hand-constructed result that did not say.
     """
 
     cost: float
@@ -42,6 +55,7 @@ class SearchResult(Generic[E]):
     nodes_expanded: int = 0
     nodes_pushed: int = 0
     peak_frontier: int = 0
+    unit: str = ""
 
     @property
     def found(self) -> bool:

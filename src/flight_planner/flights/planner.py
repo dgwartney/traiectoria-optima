@@ -9,6 +9,7 @@ from __future__ import annotations
 from typing import Dict, List, Optional, Tuple, Union
 
 from ..core.graph import Graph
+from ..errors import AirportNotFoundError
 from .airport import Airport
 from .route import Route
 from ..pathfinding import (
@@ -47,15 +48,33 @@ class FlightPlanner(Graph[Airport, Route]):
         return self._iata_lookup.get(iata_code.strip().upper())
 
     def _resolve_airport(self, airport_or_code: Union[Airport, str]) -> Airport:
-        """Helper to resolve an Airport instance from an object or IATA string."""
+        """Resolve an Airport from an instance or an IATA code.
+
+        Args:
+            airport_or_code: An `Airport` already in the graph, or its
+                3-letter IATA code. Codes are stripped and upper-cased.
+
+        Returns:
+            The `Airport` held by this graph.
+
+        Raises:
+            AirportNotFoundError: If the code is unknown, or the instance is
+                not in this graph. Also catchable as `KeyError`, `LookupError`
+                or `ValueError`.
+            TypeError: If given neither an `Airport` nor a string.
+        """
         if isinstance(airport_or_code, Airport):
             if airport_or_code not in self._adjacency:
-                raise ValueError(f"Airport '{airport_or_code.iata_code}' is not in the graph.")
+                raise AirportNotFoundError(
+                    f"Airport '{airport_or_code.iata_code}' is not in the graph."
+                )
             return airport_or_code
         elif isinstance(airport_or_code, str):
             airport = self.find_airport(airport_or_code)
             if not airport:
-                raise ValueError(f"Airport with IATA code '{airport_or_code}' not found in the graph.")
+                raise AirportNotFoundError(
+                    f"Airport with IATA code '{airport_or_code}' not found in the graph."
+                )
             return airport
         raise TypeError("Expected Airport instance or IATA code string.")
 
@@ -112,9 +131,11 @@ class FlightPlanner(Graph[Airport, Route]):
         """
         start_airport = self._resolve_airport(origin)
         end_airport = self._resolve_airport(destination)
-
-        if start_airport == end_airport:
-            return SearchResult(0.0, [])
-
         chosen_algorithm = algorithm if algorithm is not None else Dijkstra()
+
+        # No search runs, but the result still has to say what its zero counts
+        # in -- an unlabelled 0.0 is the same trap as an unlabelled 4341.02.
+        if start_airport == end_airport:
+            return SearchResult(0.0, [], unit=chosen_algorithm.unit)
+
         return self.search(start_airport, end_airport, chosen_algorithm, observer)

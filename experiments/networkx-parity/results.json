@@ -1,6 +1,6 @@
 {
   "experiment": "networkx-parity",
-  "recorded": "2026-09-12T23:43:15+00:00",
+  "recorded": "2026-09-13T19:09:31+00:00",
   "snapshot": {
     "id": "2026-09-11-bb90a8",
     "reference": "../../data/snapshots/2026-09-11-bb90a8",
@@ -86,6 +86,14 @@
           "nx BFS": 1.0,
           "nx A*": 4341.022084519025
         },
+        "cost_unit": {
+          "Dijkstra": "weight",
+          "BFS": "hops",
+          "A*": "weight",
+          "nx Dijkstra": "weight",
+          "nx BFS": "hops",
+          "nx A*": "weight"
+        },
         "legs": {
           "Dijkstra": 1,
           "BFS": 1,
@@ -109,6 +117,14 @@
           "nx Dijkstra": 3974.1642519132665,
           "nx BFS": 1.0,
           "nx A*": 3974.1642519132665
+        },
+        "cost_unit": {
+          "Dijkstra": "weight",
+          "BFS": "hops",
+          "A*": "weight",
+          "nx Dijkstra": "weight",
+          "nx BFS": "hops",
+          "nx A*": "weight"
         },
         "legs": {
           "Dijkstra": 1,
@@ -134,6 +150,14 @@
           "nx BFS": 1.0,
           "nx A*": 4379.35828963113
         },
+        "cost_unit": {
+          "Dijkstra": "weight",
+          "BFS": "hops",
+          "A*": "weight",
+          "nx Dijkstra": "weight",
+          "nx BFS": "hops",
+          "nx A*": "weight"
+        },
         "legs": {
           "Dijkstra": 1,
           "BFS": 1,
@@ -157,6 +181,14 @@
           "nx Dijkstra": 8192.79410953863,
           "nx BFS": 2.0,
           "nx A*": 8192.79410953863
+        },
+        "cost_unit": {
+          "Dijkstra": "weight",
+          "BFS": "hops",
+          "A*": "weight",
+          "nx Dijkstra": "weight",
+          "nx BFS": "hops",
+          "nx A*": "weight"
         },
         "legs": {
           "Dijkstra": 2,
@@ -182,6 +214,14 @@
           "nx BFS": 2.0,
           "nx A*": 6459.621513088026
         },
+        "cost_unit": {
+          "Dijkstra": "weight",
+          "BFS": "hops",
+          "A*": "weight",
+          "nx Dijkstra": "weight",
+          "nx BFS": "hops",
+          "nx A*": "weight"
+        },
         "legs": {
           "Dijkstra": 2,
           "BFS": 2,
@@ -198,12 +238,12 @@
       }
     ],
     "sweep_ms": {
-      "Dijkstra": 3958.128124999348,
-      "BFS": 1693.9908749773167,
-      "A*": 862.1782090049237,
-      "nx Dijkstra": 2356.9017499685287,
-      "nx BFS": 13.598375022411346,
-      "nx A*": 475.23241699673235
+      "Dijkstra": 4236.346999998204,
+      "BFS": 1844.365041994024,
+      "A*": 892.1219590120018,
+      "nx Dijkstra": 2468.852833029814,
+      "nx BFS": 15.158457972574979,
+      "nx A*": 495.93079200712964
     },
     "sweep_queries": 200,
     "environment": {

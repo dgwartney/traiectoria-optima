@@ -6,7 +6,7 @@ Run from anywhere:
 
 
 from flight_planner import Airport, FlightPlanner, Route
-from flight_planner.geo import Haversine, Memoized
+from flight_planner.geo import haversine_heuristic
 from flight_planner.pathfinding import AStar
 
 if __name__ == "__main__":
@@ -24,8 +24,7 @@ if __name__ == "__main__":
     # (wrapped in Memoized to avoid recomputing it for nodes A* relaxes more
     # than once) is admissible here because real flight distance is always
     # >= straight-line great-circle distance.
-    heuristic_formula = Memoized(Haversine())
-    astar = AStar(heuristic=lambda a, b: a.distance_to(b, formula=heuristic_formula))
+    astar = AStar(haversine_heuristic())
 
     dijkstra_distance, _ = planner.find_shortest_route("JFK", "LAX")
     astar_distance, astar_legs = planner.find_shortest_route("JFK", "LAX", algorithm=astar)

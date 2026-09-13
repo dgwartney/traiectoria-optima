@@ -429,8 +429,7 @@ def pairs(oracle):
 
 @pytest.fixture(scope="module")
 def heuristic():
-    formula = Memoized(Haversine())
-    return lambda origin, goal: origin.distance_to(goal, formula=formula)
+    return haversine_heuristic()
 
 
 class TestTheTwoGraphsAreTheSameGraph:

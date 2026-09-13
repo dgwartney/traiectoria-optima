@@ -12,7 +12,7 @@ Run from anywhere:
 
 from flight_planner import Airport, FlightPlanner, Route
 from flight_planner.pathfinding import Dijkstra
-from flight_planner.geo import Memoized, Haversine
+from flight_planner.geo import haversine_heuristic
 from flight_planner.pathfinding import AStar, BFS
 
 if __name__ == "__main__":
@@ -62,8 +62,7 @@ if __name__ == "__main__":
     print("");
 
 
-    heuristic_formula = Memoized(Haversine())
-    astar = AStar(heuristic=lambda a, b: a.distance_to(b, formula=heuristic_formula))
+    astar = AStar(haversine_heuristic())
     astar_distance, astar_legs = planner.find_shortest_route(DEPARTURE, ARRIVAL, algorithm=astar)
     print(f"A* optimal distance:       {astar_distance:.1f} km (matches: {astar_distance == dijkstra_distance})")
     for leg in astar_legs:

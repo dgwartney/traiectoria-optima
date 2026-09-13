@@ -23,14 +23,15 @@ uv run python src/demos/dijkstra_example.py
 |---|---|
 | `dijkstra_example.py` | Default weighted-shortest-path search |
 | `bfs_example.py` | Fewest-hops search, contrasted with Dijkstra |
-| `astar_example.py` | A\* guided by `Point.distance_to` as an admissible heuristic |
+| `astar_example.py` | A\* guided by `haversine_heuristic()`, the package's one admissible heuristic |
 | `custom_distance_formula_example.py` | Adding a new `DistanceFormula` (`Equirectangular`) without touching `Point`/`Haversine`/`Vincenty` |
 | `custom_edge_weight_example.py` | Adding a new `Edge` subclass weighted by duration instead of distance |
-| `end_to_end_example.py` | All three algorithms and both `DistanceFormula`s over one six-airport network |
+| `end_to_end_example.py` | All three algorithms over one six-airport network, and the measurement showing that swapping `DistanceFormula` changes admissibility rather than merely precision |
 | `book_example.py` | The seven-airport flight network from Goodrich, Tamassia & Goldwasser, *Data Structures and Algorithms in Python*, hand-built and run through all three algorithms |
 | `loader_example.py` | Building a planner from the processed CSV files instead of by hand |
 | `snapshot_example.py` | Opening a frozen snapshot, and the checksum guarantee it carries |
 | `catalog_example.py` | Narrowing a snapshot to a scope, and what each narrowing cost |
+| `route_query_example.py` | The whole route-lookup surface on real data: airports, routes, the three query modes, and how a failed lookup reports itself |
 | `experiment_example.py` | Reading, running and recording an experiment against pinned data |
 | `script_experiment_example.py` | An experiment written as a `.py` script rather than a notebook, and why it must locate itself |
 | `search_instrumentation_example.py` | What a search cost — `SearchResult` counters, `ExpansionTrace`, and writing your own `SearchObserver` |
@@ -105,6 +106,16 @@ the last left off.
   reports at each step, a measured comparison of the three endpoint modes, a
   demonstration that the default mode commutes, and the `UserWarning` raised
   when a scope's routes reach outside it.
+- **`route_query_example.py`** — the demo to read if you want to *use* the
+  package rather than understand it. Opens the world snapshot, looks an airport
+  up and prints its descriptive fields, asks for its departures and arrivals
+  (`routes_from` / `routes_to`) and the carriers on one pair, then runs all
+  three query modes over SFO–BOS and prints each cost **with the unit it is
+  measured in** — BFS's is a hop count, the others' kilometres — alongside the
+  nodes each search expanded. It closes by showing the three ways a lookup can
+  fail, all catchable as one `FlightPlannerError`, and repeating the query on a
+  narrowed network. Its functions are written to be imported as readily as run,
+  so a notebook cell can call `open_catalog()` and `compare_modes()` directly.
 - **`experiment_example.py`** — reads the committed
   `experiments/sfo-bos-dijkstra` *without running it*, to show what
   `experiment.toml` declares and what its `results.json` recorded. It then

@@ -40,7 +40,7 @@ import networkx as nx
 
 from flight_planner.core import Edge, Graph, Vertex
 from flight_planner.experiments import Experiment
-from flight_planner.geo import Haversine, Memoized
+from flight_planner.geo import haversine_heuristic
 from flight_planner.pathfinding import AStar, Dijkstra
 from validation import (
     InconsistentHeuristic,
@@ -236,7 +236,7 @@ def heuristic_consistency(planner, epsilon: float) -> Dict[str, Any]:
         Mapping of the number of checks, the number of violations, and the
         worst violation in kilometres.
     """
-    formula = Memoized(Haversine())
+    heuristic = haversine_heuristic()
     checks = 0
     violations = 0
     worst = 0.0
@@ -244,10 +244,8 @@ def heuristic_consistency(planner, epsilon: float) -> Dict[str, Any]:
     for goal in planner.vertices:
         for route in planner.edges:
             checks += 1
-            direct = route.origin.distance_to(goal, formula=formula)
-            through = route.distance_km + route.destination.distance_to(
-                goal, formula=formula
-            )
+            direct = heuristic(route.origin, goal)
+            through = route.distance_km + heuristic(route.destination, goal)
             excess = direct - through
             if excess > epsilon:
                 violations += 1
@@ -364,10 +362,7 @@ def main() -> int:
     print("\n-- and on this project's own data --")
     catalog = experiment.catalog()
     planner = catalog.planner()
-    formula = Memoized(Haversine())
-
-    def heuristic(origin, goal):
-        return origin.distance_to(goal, formula=formula)
+    heuristic = haversine_heuristic()
 
     print(f"  airports {len(planner.vertices):,}  routes {len(planner.edges):,}")
     consistency = heuristic_consistency(planner, parameters["consistency_epsilon_km"])

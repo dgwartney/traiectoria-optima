@@ -7,7 +7,7 @@ from ..adt.min_heap import MinHeap
 from ..core.vertex import Vertex
 from ..core.edge import Edge
 from .observers import SearchObserver
-from .result import SearchResult
+from .result import COST_WEIGHT, SearchResult
 from .strategy import PathfindingAlgorithm, _reconstruct_path
 
 if TYPE_CHECKING:
@@ -24,6 +24,9 @@ class Dijkstra(PathfindingAlgorithm[V, E]):
 
     Priority-queue based. Requires non-negative edge weights.
     """
+
+    #: Dijkstra sums `edge.weight`; the graph defines what that measures.
+    unit = COST_WEIGHT
 
     def search(
         self,
@@ -47,7 +50,7 @@ class Dijkstra(PathfindingAlgorithm[V, E]):
             infinite cost and an empty path, keeping the real counters.
         """
         if start == goal:
-            return SearchResult(0.0, [])
+            return SearchResult(0.0, [], unit=self.unit)
 
         watcher = observer if observer is not None else _NULL_OBSERVER
 
@@ -94,8 +97,11 @@ class Dijkstra(PathfindingAlgorithm[V, E]):
             "peak_frontier": peak,
         }
         if goal not in predecessors:
-            return SearchResult(float("inf"), [], **counters)
+            return SearchResult(float("inf"), [], unit=self.unit, **counters)
 
         return SearchResult(
-            distances[goal], _reconstruct_path(predecessors, goal), **counters
+            distances[goal],
+            _reconstruct_path(predecessors, goal),
+            unit=self.unit,
+            **counters,
         )

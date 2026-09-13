@@ -119,12 +119,12 @@ sites, both pre-existing committed experiments and the Colab notebook depend on
 
 ```bash
 uv run python -c "
-from flight_planner import AStar, BFS, Dijkstra
+from flight_planner import AStar, BFS, Dijkstra, haversine_heuristic
 from flight_planner.experiments import Snapshot
 
 planner = Snapshot.open('data/snapshots/2026-09-11-bb90a8').catalog().planner()
 for name, algo in (('BFS', BFS()), ('Dijkstra', Dijkstra()),
-                   ('A*', AStar(lambda a, b: a.distance_to(b)))):
+                   ('A*', AStar(haversine_heuristic()))):
     cost, path = planner.find_shortest_route('SFO', 'BOS', algo)
     print(f'{name:<9} tuple of {len(path)} legs, cost {cost:.6f}')
 "
@@ -153,13 +153,13 @@ decimal places, which is what proves the refactor changed no answer. That is
 
 ```bash
 uv run python -c "
-from flight_planner import AStar, BFS, Dijkstra
+from flight_planner import AStar, BFS, Dijkstra, haversine_heuristic
 from flight_planner.experiments import Snapshot
 
 planner = Snapshot.open('data/snapshots/2026-09-11-bb90a8').catalog().planner()
 print(f'{\"algorithm\":<9} {\"expanded\":>9} {\"pushed\":>7} {\"peak\":>5} {\"km\":>10}')
 for name, algo in (('BFS', BFS()), ('Dijkstra', Dijkstra()),
-                   ('A*', AStar(lambda a, b: a.distance_to(b)))):
+                   ('A*', AStar(haversine_heuristic()))):
     r = planner.search_route('SFO', 'BOS', algo)
     print(f'{name:<9} {r.nodes_expanded:>9} {r.nodes_pushed:>7} {r.peak_frontier:>5} {r.cost:>10.2f}')
 "
@@ -192,7 +192,7 @@ from flight_planner import AStar, Dijkstra, ExpansionTrace
 from flight_planner.experiments import Snapshot
 
 planner = Snapshot.open('data/snapshots/2026-09-11-bb90a8').catalog().planner()
-for name, algo in (('Dijkstra', Dijkstra()), ('A*', AStar(lambda a, b: a.distance_to(b)))):
+for name, algo in (('Dijkstra', Dijkstra()), ('A*', AStar(haversine_heuristic()))):
     trace = ExpansionTrace()
     planner.search_route('HNL', 'BOS', algo, observer=trace)
     codes = [v.iata_code for v in trace.order]
@@ -362,7 +362,12 @@ after = json.load(open('experiments/search-cost/results.json'))
 
 def strip(d):
     d = json.loads(json.dumps(d)); d.pop('recorded', None)
-    for row in d['results']['runtime_series']: row.pop('median_ms')
+    for row in d['results']['runtime_series']:
+        row.pop('median_ms'); row.pop('build_ms')
+    # 'scaling' holds log-log fits OVER those timings, so it moves with them.
+    # Excluding it is not a loosening of the check -- an exponent derived from
+    # wall-clock was never a deterministic value.
+    d['results'].pop('scaling')
     return d
 
 print('deterministic payload identical:', strip(before) == strip(after))
@@ -449,6 +454,8 @@ placeholders to still be placeholders.
 | `runtime*.png` differ after a re-run; `nodes-expanded*.png` do not | **Expected**, and the point — see [§6.2](#62-re-run-it-and-confirm-it-reproduces). |
 | A\* and Dijkstra disagree on cost by any amount | **Real failure.** The heuristic is no longer admissible, or the search is wrong. |
 | Any `nodes_expanded`, `pushed`, `peak`, or `vertices`/`edges` value differs | **Real failure.** These are deterministic. |
+| A `scaling` exponent or `r²` moves by a few hundredths | **Expected.** They are least-squares fits over `median_ms` and `build_ms`, so they inherit the timing noise. Only the *shape* is portable: construction stays near 1.0, and every search stays well below its bound. |
+| `cost_unit` is absent from a row of `comparison` | **Real failure.** Every cost must say whether it counts hops or weight; a bare `cost` mapping mixes the two. |
 | `find_path()` returns anything but a 2-tuple | **Real failure.** The contract twenty call sites rely on has moved. |
 | `grep -rn "import heapq" src/flight_planner/` matches | **Real failure.** T3 requires the heap be written from scratch. |
 | Dijkstra's runtime curve dips in the middle | **Expected** — explained in [§6.3](#63-look-at-the-charts). |

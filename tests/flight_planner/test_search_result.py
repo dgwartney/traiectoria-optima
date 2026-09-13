@@ -3,7 +3,15 @@ import math
 import pytest
 
 from flight_planner.core import Edge, Graph, Vertex
-from flight_planner.pathfinding import AStar, BFS, Dijkstra, SearchResult
+from flight_planner.flights import Airport, FlightPlanner, Route
+from flight_planner.pathfinding import (
+    COST_HOPS,
+    COST_WEIGHT,
+    AStar,
+    BFS,
+    Dijkstra,
+    SearchResult,
+)
 
 
 def _diamond():
@@ -117,3 +125,85 @@ class TestCounterInvariants:
 
         assert result.peak_frontier >= 1
         assert result.peak_frontier <= result.nodes_pushed
+
+
+class TestCostUnit:
+    """A result must say what its cost counts, on every path out of a search.
+
+    `cost` means kilometres for Dijkstra and A* and a hop count for BFS. Before
+    `unit` existed, a caller holding a `SearchResult` had no way to ask, and
+    `search_instrumentation_example.py` recovered it by string-matching the
+    algorithm's display name.
+    """
+
+    EXPECTED = {"Dijkstra": COST_WEIGHT, "BFS": COST_HOPS, "AStar": COST_WEIGHT}
+
+    @pytest.mark.parametrize("name,build", ALGORITHMS)
+    def test_declared_on_the_algorithm(self, name, build):
+        assert build().unit == self.EXPECTED[name]
+
+    @pytest.mark.parametrize("name,build", ALGORITHMS)
+    def test_reported_on_a_found_route(self, name, build):
+        graph, a, _, c, _ = _diamond()
+
+        assert build().search(graph, a, c).unit == self.EXPECTED[name]
+
+    @pytest.mark.parametrize("name,build", ALGORITHMS)
+    def test_reported_when_start_equals_goal(self, name, build):
+        # An unlabelled 0.0 is the same trap as an unlabelled 4341.02.
+        graph, a, _, _, _ = _diamond()
+
+        assert build().search(graph, a, a).unit == self.EXPECTED[name]
+
+    @pytest.mark.parametrize("name,build", ALGORITHMS)
+    def test_reported_when_the_goal_is_unreachable(self, name, build):
+        graph, a, _, _, d = _diamond()
+        result = build().search(graph, a, d)
+
+        assert result.cost == math.inf
+        assert result.unit == self.EXPECTED[name]
+
+    def test_bfs_and_dijkstra_disagree_on_the_unit_of_the_same_query(self):
+        """The reason the field exists, stated as a test."""
+        graph, a, _, c, _ = _diamond()
+        hops = BFS().search(graph, a, c)
+        kilometres = Dijkstra().search(graph, a, c)
+
+        assert hops.unit != kilometres.unit
+        assert hops.cost != kilometres.cost
+
+    def test_defaults_to_empty_for_a_hand_built_result(self):
+        assert SearchResult(1.0).unit == ""
+
+
+class TestSearchRouteReportsTheUnit:
+    """`FlightPlanner.search_route` has its own start == goal shortcut."""
+
+    @staticmethod
+    def _planner():
+        planner = FlightPlanner()
+        sfo = Airport("SFO", latitude=37.6213, longitude=-122.3790)
+        bos = Airport("BOS", latitude=42.3620, longitude=-71.0079)
+        planner.add_edge(Route(sfo, bos, distance_km=4341.0))
+        return planner
+
+    @pytest.mark.parametrize(
+        "algorithm,expected",
+        [
+            (None, COST_WEIGHT),  # defaults to Dijkstra
+            (Dijkstra(), COST_WEIGHT),
+            (BFS(), COST_HOPS),
+            (AStar(_zero_heuristic), COST_WEIGHT),
+        ],
+    )
+    def test_unit_survives_a_query(self, algorithm, expected):
+        assert self._planner().search_route("SFO", "BOS", algorithm).unit == expected
+
+    @pytest.mark.parametrize(
+        "algorithm,expected",
+        [(None, COST_WEIGHT), (BFS(), COST_HOPS), (Dijkstra(), COST_WEIGHT)],
+    )
+    def test_unit_survives_a_self_query(self, algorithm, expected):
+        # search_route short-circuits before any algorithm runs, so it has to
+        # read the unit off the algorithm rather than off a result.
+        assert self._planner().search_route("SFO", "SFO", algorithm).unit == expected

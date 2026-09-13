@@ -320,13 +320,16 @@ the subject of the [Tutorial](tutorial.md), which turns it into a recorded
 experiment.
 
 A\* answers the same question as Dijkstra but reaches it faster, provided you
-give it a distance guess that never overestimates. An `Airport` is already a
-`Point`, so that guess is available with no extra work:
+give it a distance guess that never overestimates — the property called
+*admissibility*. Do not write that guess by hand: which formula you pick decides
+whether the answer is guaranteed optimal, and `haversine_heuristic()` is the one
+that is safe here. [`flight_planner.geo.heuristic`](flight_planner.md) explains
+why, and why the more accurate `Vincenty` is the *worse* choice.
 
 ```python
->>> heuristic = lambda a, b: a.distance_to(b)
+>>> from flight_planner import haversine_heuristic
 >>> cost, legs = planner.find_shortest_route('SFO', 'BOS',
-...                                          algorithm=AStar(heuristic))
+...                                          algorithm=AStar(haversine_heuristic()))
 >>> cost, [leg.destination.iata_code for leg in legs]
 (4370.0, ['DEN', 'ORD', 'BOS'])
 ```

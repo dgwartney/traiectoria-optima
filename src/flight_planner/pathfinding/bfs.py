@@ -7,7 +7,7 @@ from typing import Dict, Optional, TypeVar, TYPE_CHECKING
 from ..core.vertex import Vertex
 from ..core.edge import Edge
 from .observers import SearchObserver
-from .result import SearchResult
+from .result import COST_HOPS, SearchResult
 from .strategy import PathfindingAlgorithm, _reconstruct_path
 
 if TYPE_CHECKING:
@@ -26,6 +26,9 @@ class BFS(PathfindingAlgorithm[V, E]):
     graphs (e.g. flight distances), prefer Dijkstra or AStar. The returned
     float cost here is a hop count, not a distance.
     """
+
+    #: BFS counts edges, not weight -- `cost` is a hop count.
+    unit = COST_HOPS
 
     def search(
         self,
@@ -50,7 +53,7 @@ class BFS(PathfindingAlgorithm[V, E]):
             cost and an empty path, keeping the real counters.
         """
         if start == goal:
-            return SearchResult(0.0, [])
+            return SearchResult(0.0, [], unit=self.unit)
 
         watcher = observer if observer is not None else _NULL_OBSERVER
 
@@ -93,7 +96,7 @@ class BFS(PathfindingAlgorithm[V, E]):
             "peak_frontier": peak,
         }
         if goal not in predecessors:
-            return SearchResult(float("inf"), [], **counters)
+            return SearchResult(float("inf"), [], unit=self.unit, **counters)
 
         path = _reconstruct_path(predecessors, goal)
-        return SearchResult(float(len(path)), path, **counters)
+        return SearchResult(float(len(path)), path, unit=self.unit, **counters)

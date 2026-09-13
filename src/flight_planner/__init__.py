@@ -27,8 +27,17 @@ The names below are re-exported here for convenience, so the common case reads
 
 from .core import Edge, Graph, Vertex
 from .flights import Airport, FlightPlanner, Route
-from .geo import DistanceFormula, Haversine, Memoized, Point, Vincenty
+from .geo import (
+    DistanceFormula,
+    Haversine,
+    Memoized,
+    Point,
+    Vincenty,
+    haversine_heuristic,
+)
 from .pathfinding import (
+    COST_HOPS,
+    COST_WEIGHT,
     AStar,
     BFS,
     Dijkstra,
@@ -39,6 +48,8 @@ from .pathfinding import (
 )
 
 __all__ = [
+    "COST_HOPS",
+    "COST_WEIGHT",
     "AStar",
     "Airport",
     "BFS",
@@ -57,4 +68,5 @@ __all__ = [
     "SearchResult",
     "Vertex",
     "Vincenty",
+    "haversine_heuristic",
 ]
