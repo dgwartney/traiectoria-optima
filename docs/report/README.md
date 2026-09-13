@@ -41,6 +41,44 @@ also uses `#`, but marks it `{.unnumbered .unlisted}` so it stays out of the
 contents page. `--toc-depth=3` therefore lists chapters and their sections,
 with one level spare.
 
+## Slides live in the chapters
+
+The reveal.js deck has no content of its own. Every content slide is a block
+inside the chapter it summarises:
+
+```markdown
+<div class="deck-slide" id="cleaning">
+
+### Cleaning: what got dropped, and why
+
+...
+
+</div>
+```
+
+Exactly one of two lua filters runs on every build. `drop-slides.lua` deletes
+these blocks, so the PDF carries only prose; `deck-slides.lua` keeps only
+these blocks, and writes each one out as its own file under `build/deck/`.
+There is one source, so the report and the deck cannot say different things —
+which is precisely what went wrong with the Google Slides deck this replaces.
+
+Three rules, each enforced by [`tests/deck/`](../../tests/deck/):
+
+1. **The blank lines are load-bearing.** CommonMark ends an HTML block at a
+   blank line, which is what lets GitHub render the inner markdown and hide the
+   wrapper. Without them pandoc reads the whole thing as one raw HTML block,
+   `deck-slides.lua` never sees a `Div`, and **the slide vanishes from the deck
+   with no error.**
+2. **Every slide needs an `id`.** It is the slide's name in
+   [`docs/deck/manifest.txt`](../deck/manifest.txt), which sets presentation
+   order.
+3. **The first `###` inside the block is the slide title**, promoted to `##` on
+   the way out because reveal starts a new `<section>` at `--slide-level=2`.
+
+The wrapper is HTML rather than pandoc's `::: deck-slide` because GitHub has no
+fenced-div support and would render the colons literally. The HTML form parses
+to the same pandoc AST node, and GitHub drops the unknown class.
+
 ## Adding a chapter
 
 Add the file here, then add it to `REPORT_CHAPTERS` in the

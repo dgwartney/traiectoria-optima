@@ -1,0 +1,21 @@
+# Presentation order for `make deck`.
+#
+# One name per line. A name resolves to `docs/deck/<name>.md` if that file
+# exists -- the deck-only slides, which have no chapter home -- and otherwise
+# to the slide extracted from the report chapter carrying
+# `<div class="deck-slide" id="<name>">`.
+#
+# Every extracted slide must be listed. `scripts/build_deck.py` fails if a
+# chapter carries a slide this file does not name, because the alternative is
+# authoring a slide and silently leaving it out of the deck.
+
+title                    # deck-only
+agenda                   # deck-only
+
+# --- The data (report ch. 2) ------------------------------------------
+cleaning                 # 02-dataset.md
+
+# --- Evaluation (report ch. 7) ----------------------------------------
+nodes-expanded           # 07-empirical-evaluation.md
+
+questions                # deck-only

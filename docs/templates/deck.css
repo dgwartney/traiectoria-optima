@@ -1,0 +1,189 @@
+/* Deck theme. Loaded on top of reveal.js's `black` theme, which supplies the
+ * layout and the print-pdf behaviour; everything visual below overrides it.
+ *
+ * The palette is sampled from the Google Slides deck this replaces
+ * (`pdftoppm` + Pillow over the 12 Sept export) rather than eyeballed, so the
+ * two read as the same deck.
+ *
+ * The three algorithm accents are NOT chosen here. They are the dark-mode
+ * values from `src/flight_planner/viz/palette.py`, which the experiment charts
+ * and the route maps already use, so a chart and a bullet on the same slide
+ * agree about which colour is Dijkstra. That module validated them against
+ * colour-vision deficiency; re-picking them here would throw that away.
+ */
+
+:root {
+  --bg: #1a1a1a;
+  --card: #242424;
+  --edge: #2d2d2d;
+  --ink: #bdbdbd;
+  --bright: #f0f0f0;
+  --dim: #808080;
+  --blue: #42aff0;
+  --orange: #e06c3d;
+
+  /* viz/palette.py SERIES_COLOURS["dark"] */
+  --bfs: #3987e5;
+  --dijkstra: #d95926;
+  --astar: #199e70;
+}
+
+.reveal-viewport { background: var(--bg); }
+
+.reveal {
+  font-family: "Lato", "Helvetica Neue", Helvetica, sans-serif;
+  color: var(--ink);
+  font-size: 26px;
+}
+
+/* Slides read top-left like a page, not centred like a quote. The deck is
+ * built with `center=false` so a title sits at the same height on every
+ * slide regardless of how much body follows it. */
+.reveal .slides section {
+  text-align: left;
+  height: 100%;
+  padding-top: 0.6em;
+}
+
+/* Body prose is capped at a readable measure. Card text is exempt: a card is
+ * already a narrow column, and capping it again would leave a ragged gap. */
+.reveal .slides section > p,
+.reveal .slides section > ul {
+  max-width: 34em;
+}
+
+.reveal h2 {
+  color: var(--blue);
+  font-weight: 800;
+  text-transform: none;
+  font-size: 1.55em;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.55em;
+}
+
+/* reveal's `black` theme uppercases headings. A card heading is usually a
+ * measured number, and uppercasing makes those unreadable. */
+.reveal h3 {
+  color: var(--bright);
+  font-weight: 700;
+  text-transform: none;
+  font-size: 1em;
+  margin: 0 0 0.4em;
+}
+
+.reveal p,
+.reveal li {
+  color: var(--ink);
+  font-size: 0.62em;
+  line-height: 1.5;
+}
+
+.reveal strong { color: var(--bright); }
+
+.reveal .eyebrow {
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.42em;
+  font-weight: 700;
+  margin: 0 0 0.3em;
+}
+
+/* Card grid. `--n` is the column count; `.two` and `.four` set it, and three
+ * is the default because three is what most of these slides want. */
+.reveal .cards {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 3), 1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+.reveal .cards.two { --n: 2; }
+.reveal .cards.four { --n: 4; }
+
+/* Flex column so every card in a row is the same height regardless of how
+ * much text it carries. */
+.reveal .card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  padding: 20px 22px;
+}
+.reveal .card > *:last-child { margin-bottom: 0; }
+.reveal .card ul { margin: 0; padding-left: 1.1em; }
+
+.reveal .pill {
+  display: inline-block;
+  background: var(--blue);
+  color: #10212f;
+  font-size: 0.44em;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 13px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+.reveal .pill.warn { background: var(--orange); color: #241007; }
+.reveal .pill.mute { background: var(--dim); color: var(--bg); }
+.reveal .pill.bfs { background: var(--bfs); color: #071526; }
+.reveal .pill.dijkstra { background: var(--dijkstra); color: #240c04; }
+.reveal .pill.astar { background: var(--astar); color: #042116; }
+
+/* A single headline measurement. Green because a KPI is a result, and the
+ * result colour is A*'s. */
+.reveal .kpi {
+  color: var(--astar);
+  font-weight: 800;
+  font-size: 2em;
+  display: block;
+  line-height: 1.1;
+  margin-top: 0.2em;
+}
+.reveal .kpi-label {
+  color: var(--dim);
+  font-size: 0.62em;
+  display: block;
+  margin-bottom: 0.9em;
+}
+
+/* Tables carry measurements, so they get room. Left-aligned first column,
+ * right-aligned numbers, and wide enough that the eye can compare down a
+ * column rather than squinting at a block in the corner. */
+.reveal table {
+  font-size: 0.68em;
+  width: 100%;
+  margin: 0 0 0.8em;
+  border-collapse: collapse;
+}
+.reveal table th {
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8em;
+  font-weight: 700;
+  text-align: right;
+  padding: 0 0 0.35em 1.2em;
+  border-bottom: 1px solid var(--edge);
+}
+.reveal table td {
+  border: none;
+  text-align: right;
+  padding: 0.3em 0 0.3em 1.2em;
+}
+.reveal table th:first-child,
+.reveal table td:first-child { text-align: left; padding-left: 0; }
+.reveal table tbody tr + tr td { border-top: 1px solid rgba(255, 255, 255, 0.05); }
+
+.reveal code { color: var(--blue); background: none; }
+
+.reveal section img {
+  background: none;
+  border: none;
+  box-shadow: none;
+  max-height: 62vh;
+}
+
+.reveal .footnote { color: var(--dim); font-size: 0.48em; }

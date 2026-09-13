@@ -64,6 +64,25 @@ project's central claim, measured rather than asserted.
 
 ![Nodes expanded per query, by algorithm](../images/nodes-expanded-light.png)
 
+<div class="deck-slide" id="nodes-expanded">
+
+### A\* pays for the same answer with 130× to 784× less search
+
+| Query | BFS | Dijkstra | A\* | A\* saving |
+|---|---|---|---|---|
+| SFO–BOS | 10 | 746 | **1** | 746× |
+| LAX–JFK | 62 | 590 | **1** | 590× |
+| SEA–MIA | 52 | 784 | **1** | 784× |
+| HNL–BOS | 132 | 1,056 | **3** | 352× |
+| ANC–MIA | 174 | 778 | **6** | 130× |
+
+<span class="kpi">0.000 km</span>
+<span class="kpi-label">difference between A\* and Dijkstra's distance, on all five queries</span>
+
+<p class="footnote">Measured, not asserted: `experiments/search-cost/results.json`, world snapshot `2026-09-11-bb90a8`.</p>
+
+</div>
+
 ## 7.3 Runtime
 
 | Narrowing | V + E | BFS (ms) | Dijkstra (ms) | A\* (ms) |

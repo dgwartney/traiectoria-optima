@@ -63,9 +63,37 @@ MERMAID_DIR    = mermaid
 DOC_HEADER     = $(DOCS_TEMPLATES)/doc-header.tex
 SVG_FILTER     = $(DOCS_DIR)/svg-to-png.lua
 
+# Slide blocks live inside the report chapters, so exactly one of these two
+# filters runs on every build: the report drops them, the deck keeps only them.
+# One source, two deliverables, no drift.
+DROP_SLIDES_FILTER = $(DOCS_DIR)/drop-slides.lua
+DECK_SLIDES_FILTER = $(DOCS_DIR)/deck-slides.lua
+
 BUILD_DIR = build
 PDF_DIR   = $(BUILD_DIR)/pdf
 PNG_DIR   = $(BUILD_DIR)/png
+HTML_DIR  = $(BUILD_DIR)/html
+
+# One markdown file per slide, extracted from the chapters. Build output, not
+# a source directory -- edit the chapter, not the extracted file.
+DECK_SLIDES_DIR = $(BUILD_DIR)/deck
+DECK_DIR        = $(DOCS_DIR)/deck
+DECK_MANIFEST   = $(DECK_DIR)/manifest.txt
+DECK_CSS        = $(DOCS_TEMPLATES)/deck.css
+DECK_HTML       = $(HTML_DIR)/deck.html
+DECK_PDF        = $(PDF_DIR)/deck.pdf
+SRC_BUILD_DECK  = $(SCRIPTS_DIR)/build_deck.py
+SRC_EXPORT_DECK = $(SCRIPTS_DIR)/export_deck_pdf.py
+
+# reveal.js is fetched rather than committed: vendored JavaScript in a
+# repository whose point is from-scratch algorithms invites the wrong question.
+# The cost is one networked fetch per clone.
+REVEAL_VERSION = 5.1.0
+REVEAL_DIR     = vendor/reveal.js
+REVEAL_TARBALL = https://github.com/hakimel/reveal.js/archive/refs/tags/$(REVEAL_VERSION).tar.gz
+
+# The deck-only slides -- title, agenda, questions -- have no chapter home.
+DECK_ONLY_SRCS := $(wildcard $(DECK_DIR)/*.md)
 
 # Width of generated diagram PNGs, in pixels. Large enough to stay sharp when
 # scaled to the 6.5in text column.
@@ -125,6 +153,7 @@ PANDOC_FLAGS := \
 	--pdf-engine=xelatex \
 	--resource-path=$(DOCS_DIR):$(DOCS_DIR)/report \
 	--lua-filter=$(SVG_FILTER) \
+	--lua-filter=$(DROP_SLIDES_FILTER) \
 	--include-in-header=$(DOC_HEADER)
 
 # Quality gates below record success as a stamp file here rather than an
@@ -135,7 +164,7 @@ STAMP_DIR = .make
 PY_SRC   := $(shell find $(SRC_DIR) -name '*.py' -not -path '*/__pycache__/*')
 PY_TESTS := $(shell find tests -name '*.py' -not -path '*/__pycache__/*')
 
-.PHONY: all help notebook flight_data flight_network snapshot legacy_snapshot experiment united_airlines_tables international_airports verify_iata_codes test lint check docs report diagrams clean
+.PHONY: all help notebook flight_data flight_network snapshot legacy_snapshot experiment united_airlines_tables international_airports verify_iata_codes test lint check docs report deck deck-pdf vendor-reveal diagrams clean
 
 .DEFAULT_GOAL := help
 
@@ -169,8 +198,41 @@ REPORT_TOC_FLAGS = --toc --toc-depth=3
 # inputs before parsing, so cross-chapter section references resolve, the
 # frontmatter's YAML governs the whole document, and the table of contents is
 # built from every chapter rather than one at a time.
-$(REPORT_PDF): $(REPORT_SRCS) $(SVG_FILTER) $(DOC_HEADER) $(PNGS) | $(PDF_DIR)
+$(REPORT_PDF): $(REPORT_SRCS) $(SVG_FILTER) $(DROP_SLIDES_FILTER) $(DOC_HEADER) $(PNGS) | $(PDF_DIR)
 	pandoc $(REPORT_SRCS) -o $@ $(PANDOC_FLAGS) $(REPORT_TOC_FLAGS)
+
+#
+# --- Deck -------------------------------------------------------------
+# The deck has no sources of its own beyond the three deck-only slides. Its
+# content is the `deck-slide` blocks inside the report chapters, which is why
+# it depends on $(REPORT_CHAPTERS): edit a chapter and the deck rebuilds.
+#
+
+deck: $(DECK_HTML) ## Build the reveal.js deck from the report chapters
+
+deck-pdf: $(DECK_PDF) ## Export the deck to build/pdf/deck.pdf
+
+$(DECK_HTML): $(REPORT_CHAPTERS) $(DECK_ONLY_SRCS) $(DECK_MANIFEST) $(DECK_CSS) $(DECK_SLIDES_FILTER) $(SRC_BUILD_DECK) | $(REVEAL_DIR)
+	uv run python $(SRC_BUILD_DECK) $(REPORT_CHAPTERS) \
+	  --manifest $(DECK_MANIFEST) --slides-dir $(DECK_SLIDES_DIR) \
+	  --out $@ --reveal $(REVEAL_DIR)
+
+# Printed through reveal's own `?print-pdf` mode, so the PDF has one page per
+# slide at the deck's own aspect ratio rather than a screenshot of a scroll.
+$(DECK_PDF): $(DECK_HTML) $(SRC_EXPORT_DECK) | $(PDF_DIR)
+	uv run python $(SRC_EXPORT_DECK) $(DECK_HTML) $@
+
+vendor-reveal: $(REVEAL_DIR) ## Fetch reveal.js into vendor/ (gitignored; needed once per clone)
+
+# Only `dist/` and `plugin/` are unpacked; the rest of the tarball is the
+# project's own source, tests and demos, which we do not ship a copy of.
+$(REVEAL_DIR):
+	@mkdir -p $(dir $(REVEAL_DIR))
+	curl -fsSL -o $(dir $(REVEAL_DIR))reveal.tgz $(REVEAL_TARBALL)
+	tar xzf $(dir $(REVEAL_DIR))reveal.tgz -C $(dir $(REVEAL_DIR)) \
+	  'reveal.js-$(REVEAL_VERSION)/dist' 'reveal.js-$(REVEAL_VERSION)/plugin'
+	mv $(dir $(REVEAL_DIR))reveal.js-$(REVEAL_VERSION) $(REVEAL_DIR)
+	$(RM) $(dir $(REVEAL_DIR))reveal.tgz
 
 # Regenerate every diagram from its mermaid source.
 diagrams: $(DIAGRAM_SVGS) $(PNGS) ## Rebuild diagrams from mermaid/*.mmd
@@ -185,10 +247,10 @@ $(PNG_DIR)/%.png: $(MERMAID_DIR)/%.mmd | $(PNG_DIR)
 
 # $(PNGS) is a real prerequisite, not order-only, so editing a diagram
 # rebuilds the PDFs that embed it.
-$(PDF_DIR)/%.pdf: $(DOCS_DIR)/%.md $(SVG_FILTER) $(DOC_HEADER) $(PNGS) | $(PDF_DIR)
+$(PDF_DIR)/%.pdf: $(DOCS_DIR)/%.md $(SVG_FILTER) $(DROP_SLIDES_FILTER) $(DOC_HEADER) $(PNGS) | $(PDF_DIR)
 	pandoc $< -o $@ $(PANDOC_FLAGS)
 
-$(PDF_DIR) $(PNG_DIR):
+$(PDF_DIR) $(PNG_DIR) $(HTML_DIR):
 	mkdir -p $@
 
 check-deps:
@@ -200,7 +262,7 @@ clean: ## Remove generated data, build output, and make stamp files
 	$(RM) -r $(STAMP_DIR)
 	$(RM) -r $(BUILD_DIR)
 
-.PHONY: notebook flight_data docs report diagrams check-deps clean
+.PHONY: notebook flight_data docs report deck deck-pdf vendor-reveal diagrams check-deps clean
 
 #
 # --- Data pipeline ----------------------------------------------------

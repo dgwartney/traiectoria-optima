@@ -95,6 +95,49 @@ algorithms use, rather than a second copy of the formula written in SQL. §3
 explains why that matters more than it sounds, and §4.3 explains why the
 heuristic depends on it.
 
+<div class="deck-slide" id="cleaning">
+
+### Cleaning: what got dropped, and why
+
+<div class="cards">
+
+<div class="card">
+
+<span class="pill">Airports</span>
+
+### 85,884 → 9,053 → 3,387
+
+Usable means three IATA characters and both coordinates. Of the survivors, only
+those a **surviving route actually touches** are written out.
+
+</div>
+
+<div class="card">
+
+<span class="pill warn">Routes</span>
+
+### 67,663 → 66,332
+
+**1,331 dropped** — both endpoints must resolve. 663 origin, 660 destination,
+8 neither. The near-symmetry says *missing airports*, not directional bias.
+
+</div>
+
+<div class="card">
+
+<span class="pill mute">Not silent</span>
+
+### Every drop is a `(row, reason)` pair
+
+A cleaning step that cannot say what it removed is indistinguishable from a
+bug.
+
+</div>
+
+</div>
+
+</div>
+
 ## 2.4 What a cleaned route is, and is not
 
 Two caveats belong here rather than in the results, because they qualify every
