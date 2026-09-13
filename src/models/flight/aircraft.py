@@ -2,7 +2,7 @@
 
 import math
 
-from atomosphere import InternationalStandardAtmosphere
+from atmosphere import InternationalStandardAtmosphere
 
 class CommercialAircraft:
     """Aircraft performance configuration and force/fuel-flow calculations."""

@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from atomosphere import InternationalStandardAtmosphere as ISA
+from atmosphere import InternationalStandardAtmosphere as ISA
 
 
 def test_sea_level_properties_match_iso_2533_constants():

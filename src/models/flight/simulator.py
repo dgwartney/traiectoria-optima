@@ -3,7 +3,7 @@
 import math
 from typing import Dict, Union
 
-from atomosphere import InternationalStandardAtmosphere
+from atmosphere import InternationalStandardAtmosphere
 from aircraft import CommercialAircraft
 
 class GateToGateFlightSimulator:

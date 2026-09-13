@@ -239,7 +239,7 @@ tests/
 │   ├── algorithms/
 │   │   └── test_exercise_dijkstra.py
 │   └── graphs/
-│       └── test_adjency_list.py
+│       └── test_adjacency_list.py
 ├── flight_planner/              # the graph core, pathfinding, distances, CSV loader
 │   ├── test_vertex.py
 │   ├── test_edge.py

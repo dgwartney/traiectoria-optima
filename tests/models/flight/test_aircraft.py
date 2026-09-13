@@ -1,7 +1,7 @@
 import pytest
 
 from aircraft import CommercialAircraft
-from atomosphere import InternationalStandardAtmosphere as ISA
+from atmosphere import InternationalStandardAtmosphere as ISA
 
 
 @pytest.mark.parametrize("preset_name", ["A321neo", "B737-800", "B787-9"])
