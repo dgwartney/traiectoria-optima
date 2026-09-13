@@ -196,8 +196,6 @@ check-deps:
 	done
 
 clean: ## Remove generated data, build output, and make stamp files
-	$(RM) $(FLIGHT_DATA_DB_PATH) $(AIRPORTS_RAW_JSON) $(INTERNATIONAL_AIRPORTS_CSV)
-	$(RM) $(AIRPORTS_CSV) $(ROUTES_CSV)
 	$(RM) -r $(STAMP_DIR)
 	$(RM) -r $(BUILD_DIR)
 
