@@ -220,7 +220,7 @@ against our own internal plan, which asks for more than the rubric does.
 | 3 | **Report prose** | §6 and §7 are written. §1–§5, §9–§11 and the appendix are still bullet outlines. §8 and §5's NetworkX paragraph can be assembled from the result documents. | The long pole |
 | 4 | ~~**Graph statistics**~~ | **Closed.** `experiments/graph-stats/` measures size, density, degree, reachability and components on the world snapshot; report §2.1 is written from its `results.json`. `core/graph.py` still has no stats method and does not need one — reachability is measured with the package's own `BFS` and a `SearchObserver`. | — |
 | 5 | **One assembled demo** | p. 5: "A Jupyter notebook implementation is sufficient. (Alternatively, a command-line interface is sufficient; a web UI is never required or rewarded.)" Four experiment notebooks exist; none is a five-minute walkthrough of the three queries. | Small — see below |
-| 6 | **The deck** | Required output. `slides/index.html` has 36 TODOs, and its Core API slide still shows method names that are not the real API. | Depends on a decision — see below |
+| 6 | **The deck** | Required output. **The decision is made: the Google Slides deck is the deliverable**, and `slides/index.html` is retired — removed at `722b18c`, recoverable from `7d42b04`, with `slides/images/` kept because the experiments write those figures and the suite asserts them. What is left is porting the measured numbers into Google Slides, chapter by chapter, per `report-deck-crosswalk.md`. | Transcription, not production |
 | 7 | **`docs/index.md` entries** | Every new document is unlinked, deliberately, to keep parallel branches from colliding on one file. Whoever lands last adds them all in one hunk. | Minutes |
 
 **Not required, despite appearing in our internal plan:** a pinned large+medium
@@ -233,11 +233,12 @@ show a reader what heavy-tailed means and one chart does.
 
 **Two open decisions, both cheap to make and expensive to defer:**
 
-- **Which deck is the deliverable?** The Google Slides deck (20 slides) has
-  overtaken the in-repo reveal.js one, and the PDF says a web UI is "never
-  required or rewarded". If `slides/index.html` is retired, most of those 36
-  TODOs evaporate and item 6 becomes "port the measured numbers into Google
-  Slides".
+- ~~**Which deck is the deliverable?**~~ **Decided: the Google Slides deck.**
+  The in-repo reveal.js deck is retired — see `slides/README.md` for what was
+  removed and how to read it again. Its 36 TODOs evaporated with it, and item
+  6 is now "port the measured numbers into Google Slides". The nine places the
+  Google deck disagrees with the code are tracked once, together, in
+  `report-deck-crosswalk.md` §3.
 - **How is the demo built?** The experiment framework is the natural home — it
   already solves snapshot paths that resolve from a fresh clone or Colab, and
   `make experiment SLUG=...` scaffolds it. It should *not* be the `search-cost`

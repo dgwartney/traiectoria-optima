@@ -1,64 +1,46 @@
 # Slides
 
-Reveal.js deck for the CMPE 180A term project (**A1 — Flight Route Planner**).
+**The in-repo reveal.js deck is retired. The Google Slides deck is the
+deliverable.** This directory now holds figures only.
 
-Team: Aastha Sharma-Flores, Jake Lu, David Gwartney
+Two decks covered the same ground and only one gets presented. The reveal.js
+deck carried 36 `TODO` markers across 31 sections and a Core API slide showing
+method names that were never the real API, so maintaining it was waste on the
+one deliverable that is behind. The rubric's rule that "a web UI is never
+required or rewarded" does not penalise presentation tooling, but it does not
+reward it either.
 
-## Running
-
-Reveal.js needs to be served over HTTP (the speaker-notes window and `file://`
-don't mix). From this directory:
-
-```sh
-python3 -m http.server 8000
-# then open http://localhost:8000/
-```
-
-## Structure
-
-`index.html` is the whole deck. Reveal.js and its `notes` + `highlight` plugins
-load from jsDelivr, pinned to 6.0.1 with SRI hashes — if you bump the version,
-recompute the hashes or the browser will refuse to load the files:
+Removed: `index.html`, `css/custom.css`, and the empty `js/`. The last version
+of the deck is `7d42b04`, so nothing is lost:
 
 ```sh
-curl -sL "https://cdn.jsdelivr.net/npm/reveal.js@<ver>/dist/reveal.js" \
-  | openssl dgst -sha384 -binary | openssl base64 -A
+git show 7d42b04:slides/index.html > /tmp/deck.html   # read the retired deck
+git show 7d42b04:slides/css/custom.css                # and its overrides
 ```
 
-| Path | Purpose |
+Several design records cite that file by line — `networkx-validation.md`,
+`design-search-instrumentation.md` and `evaluation-search-instrumentation.md`
+quote its complexity table and its `TODO`s as evidence of what the deck claimed
+at the time. Those citations resolve against `7d42b04`, not against this
+directory.
+
+## `images/` is live, and is not a deck artifact
+
+The figures stay, and they are written by code rather than by hand:
+
+| Figure | Written by |
 | --- | --- |
-| `index.html` | the deck |
-| `css/custom.css` | overrides on top of the reveal `black` theme |
-| `images/` | plots and the route map (referenced, not yet added) |
-| `js/` | reserved for any deck-local scripts |
+| `runtime.png`, `nodes-expanded.png` | `experiments/search-cost/plots.py` |
+| `degree-distribution.png`, `top-hubs.png` | `experiments/graph-stats/plots.py` |
+| `route-map-syd-jfk.png`, `route-map-hnl-bdl.png` | `experiments/route-map/` |
 
-## Conventions
+Every experiment renders each figure twice — a dark version here for the deck
+and a light version in `docs/images/` for the report — and
+`tests/experiments/test_committed.py` asserts both exist. So this directory is
+the deck's supply of figures, and deleting it would break the test suite and
+the report, not just a retired HTML file.
 
-The deck is a **template** — content slides are stubbed and marked so nothing
-unfinished ships silently.
-
-- `class="todo"` — yellow, left-barred text. Every one of these must be gone
-  before the final presentation.
-- `class="placeholder"` — dashed box standing in for a figure, diagram, or table
-  we still need to generate.
-- `class="cols"` — two-column flex row; wrap two `<div>`s in it.
-- `class="chip"` — small pill label.
-- `class="small"` / `class="smaller"` / `class="muted"` — text scale and de-emphasis.
-- `<aside class="notes">` — speaker notes; press <kbd>S</kbd> for the notes window.
-
-Horizontal sections are top-level topics; nested `<section>`s are vertical
-stacks (press <kbd>↓</kbd>). Stage 1–4 each open with a `class="divider"` slide.
-
-## Keys
-
-<kbd>S</kbd> speaker notes · <kbd>O</kbd> or <kbd>Esc</kbd> slide overview ·
-<kbd>F</kbd> fullscreen · <kbd>?</kbd> help
-
-To export a PDF, open `http://localhost:8000/?print-pdf` and print from Chrome.
-
-## Remaining work
-
-The narrative scaffold, dataset slide, stage dividers, complexity table, and
-reference list are done. Still open: every `todo`/`placeholder` marker, the
-architecture diagram, the BFS-vs-Dijkstra-vs-A* results table, the runtime plot,
-and the route map.
+Put these on the Google deck rather than regenerating them: the comparison
+table and the route map are named A1 outcomes, and both are already rendered
+here. See [`docs/report-deck-crosswalk.md`](../docs/report-deck-crosswalk.md)
+for which report chapter each slide derives from.
