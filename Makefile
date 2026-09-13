@@ -159,9 +159,10 @@ docs: $(PDFS) $(REPORT_PDF)
 report: $(REPORT_PDF) ## Build the final report from docs/report/*.md into build/pdf/report.pdf
 
 # Only the report gets a table of contents. The other docs are single-topic and
-# short enough that one would be noise. Depth counts from `#`, so 3 reaches the
-# `###` subsections (4.1, 6.3, ...) -- the deepest level the report uses, and
-# the level worth listing given that §6 and §7 carry six subsections each.
+# short enough that one would be noise. Depth counts from `#`, which is a
+# chapter: 2 reaches the `##` subsections (4.1, 6.3, ...), the deepest level
+# the report uses today, and 3 leaves room for one level below them without a
+# Makefile edit.
 REPORT_TOC_FLAGS = --toc --toc-depth=3
 
 # One pandoc invocation over every chapter in order. Pandoc concatenates its

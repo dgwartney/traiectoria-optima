@@ -1,4 +1,4 @@
-## 2. Dataset
+# 2. Dataset
 - Data sources (OpenFlights airports/routes, OurAirports)
 - Scope: the world airline network — 3,387 airports and 66,332 routes after
   cleaning, measured in §2.1. One experiment (`shortest-vs-fewest`) works on a
@@ -7,7 +7,7 @@
   long-haul
 - Cleaning and preparation steps
 
-### 2.1 Basic graph statistics
+## 2.1 Basic graph statistics
 
 Every number in this section comes from `experiments/graph-stats/`, whose
 `results.json` is committed alongside the notebook that produced it. It runs on

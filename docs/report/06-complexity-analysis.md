@@ -1,10 +1,10 @@
-## 6. Complexity Analysis
+# 6. Complexity Analysis
 
 Every bound below is stated for *our* implementation and then checked against a
 measurement of it. The measurements come from the `search-cost` experiment
 (§7.1); `V` is airports, `E` is routes.
 
-### 6.1 Graph construction — O(V + E) time, O(V + E) space
+## 6.1 Graph construction — O(V + E) time, O(V + E) space
 
 `Catalog.planner()` walks the airport table once, inserting each airport into a
 dictionary, then walks the route table once, appending each route to its
@@ -31,7 +31,7 @@ exponent of **1.01** with **r² = 0.9997**:
 A 29.9× increase in V + E produces a 30.5× increase in build time. Linear, as
 predicted.
 
-### 6.2 BFS — O(V + E) time, O(V) space
+## 6.2 BFS — O(V + E) time, O(V) space
 
 BFS dequeues each reachable airport at most once and examines each of its
 outgoing routes once, giving O(V + E). It marks an airport visited at *push*
@@ -41,7 +41,7 @@ holds at most V entries: O(V) space.
 Measured growth exponent: **0.49** (r² = 0.963) — see §6.6 for why this is
 below the bound rather than at it.
 
-### 6.3 Dijkstra on our own binary min-heap — O((V + E) log V) time, O(V) space
+## 6.3 Dijkstra on our own binary min-heap — O((V + E) log V) time, O(V) space
 
 The from-scratch heap (§4.2) gives O(log n) push and pop. Our Dijkstra uses
 **lazy deletion** rather than decrease-key: when it finds a shorter route to an
@@ -70,7 +70,7 @@ Dijkstra pushes roughly 1.7–1.9 entries per expansion:
 
 Measured growth exponent: **0.41** (r² = 0.759).
 
-### 6.4 A\* — O((V + E) log V) time, O(V) space
+## 6.4 A\* — O((V + E) log V) time, O(V) space
 
 A\* is Dijkstra with the priority `f = g + h`, so its worst-case bound is
 identical: an uninformative heuristic makes it expand exactly what Dijkstra
@@ -83,7 +83,7 @@ expands an airport twice and never needs to reopen one.
 Measured growth exponent: **0.14** (r² = 0.606). In practice A\* settled every
 query in this benchmark in **1 to 6 expansions**.
 
-### 6.5 Space, measured
+## 6.5 Space, measured
 
 The O(V) space claims are backed by `peak_frontier`, the largest the frontier
 ever got during a search. Across all fifteen measured searches on the world
@@ -100,7 +100,7 @@ expanding fewest, which is not a contradiction: it enqueues an entire frontier
 level at a time, so its queue is widest exactly when its expansion count is
 still low.
 
-### 6.6 Measured exponents against the bounds
+## 6.6 Measured exponents against the bounds
 
 | Series | Measured exponent | r² | Asymptotic bound |
 |---|---|---|---|

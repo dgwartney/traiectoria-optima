@@ -1,3 +1,3 @@
-## 10. Conclusion
+# 10. Conclusion
 - Summary of findings
 - Future work / extensions

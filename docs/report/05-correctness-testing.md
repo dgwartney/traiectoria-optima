@@ -1,4 +1,4 @@
-## 5. Correctness Testing
+# 5. Correctness Testing
 - Unit test strategy (empty, single-node, disconnected, cyclic/duplicate cases)
 - Known-route validation
 - Library cross-validation results (NetworkX)

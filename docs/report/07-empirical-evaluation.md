@@ -1,6 +1,6 @@
-## 7. Empirical Evaluation
+# 7. Empirical Evaluation
 
-### 7.1 Methodology
+## 7.1 Methodology
 
 Everything in this section comes from `experiments/search-cost/`, whose
 `results.json` is committed alongside the notebook that produced it. The data is
@@ -48,7 +48,7 @@ anything:
   reproduce the timings on a stated, selectable configuration; the workload is
   single-threaded pure Python, so a GPU runtime changes nothing.
 
-### 7.2 Nodes expanded: informed against uninformed search
+## 7.2 Nodes expanded: informed against uninformed search
 
 | Query | BFS | Dijkstra | A\* | Dijkstra (km) | A\* (km) | A\* saving |
 |---|---|---|---|---|---|---|
@@ -64,7 +64,7 @@ project's central claim, measured rather than asserted.
 
 ![Nodes expanded per query, by algorithm](../images/nodes-expanded-light.png)
 
-### 7.3 Runtime
+## 7.3 Runtime
 
 | Narrowing | V + E | BFS (ms) | Dijkstra (ms) | A\* (ms) |
 |---|---|---|---|---|
@@ -80,7 +80,7 @@ project's central claim, measured rather than asserted.
 A\* is the fastest algorithm at every one of the eight sizes, and on the full
 network it answers the same question as Dijkstra **31× faster**.
 
-### 7.4 Runtime against input size
+## 7.4 Runtime against input size
 
 ![Median query time against graph size, log-log](../images/runtime-light.png)
 
@@ -91,7 +91,7 @@ with the gap widening as the graph grows. Those are ratios between series
 measured in the same run on the same machine, so unlike the absolute
 milliseconds they survive being re-run elsewhere.
 
-### 7.5 Discussion
+## 7.5 Discussion
 
 **Does A\* expand fewer nodes while returning the same answer? Yes,
 unambiguously** — §7.2. The heuristic's admissibility guarantees the answers
@@ -131,7 +131,7 @@ pairs sit one or two hops apart and Dijkstra settles fewer airports before
 reaching the goal. **Runtime tracks airports settled, not graph size** — the
 same conclusion §6.6 reaches from the exponents, arrived at independently.
 
-### 7.6 What this evaluation does not show
+## 7.6 What this evaluation does not show
 
 - **Worst-case behaviour.** Every query here succeeds and terminates early. An
   unreachable destination is the expensive case, because the search must exhaust

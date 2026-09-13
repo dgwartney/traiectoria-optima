@@ -1,6 +1,6 @@
-## 1. Introduction
+# 1. Introduction
 
-### 1.1 Executive summary
+## 1.1 Executive summary
 
 We built a flight route planner over the world airline network and used it to
 settle one question: does informed search actually pay for itself, or is that
@@ -33,7 +33,7 @@ looking for it on flight data (§4.3). Great-circle distance turns out to be
 consistent as a matter of spherical geometry, so every committed result stands
 — but we can now say *why* it stands instead of citing a textbook.
 
-### 1.2 The problem
+## 1.2 The problem
 
 From the project catalog:
 
@@ -56,7 +56,7 @@ The three are not interchangeable, and that matters for how the numbers read:
 BFS's cost column is a hop count, Dijkstra's and A\*'s are kilometres. They are
 never summed, and "BFS won" never means "BFS found a shorter route."
 
-### 1.3 Goals
+## 1.3 Goals
 
 Three, in priority order:
 
@@ -69,7 +69,7 @@ Three, in priority order:
 3. **Measure the A\* claim on real data**, with instrumentation that counts what
    each search actually did rather than timing a black box.
 
-### 1.4 The approach, in one page
+## 1.4 The approach, in one page
 
 We load the OpenFlights airport and route tables into SQLite, clean them, and
 freeze the result as a content-hashed **snapshot** (§2). Every experiment names
@@ -86,7 +86,7 @@ than baked into it, NetworkX could be wrapped as three more engines and run
 through the identical code path, which is what makes the parity comparison
 meaningful (§5).
 
-### 1.5 How the rest of this report goes
+## 1.5 How the rest of this report goes
 
 §2 and §3 cover the data and the graph we build from it. §4 is the algorithms,
 including the admissibility-versus-consistency argument for A\*. §5 is how we

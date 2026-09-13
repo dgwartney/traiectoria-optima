@@ -32,6 +32,15 @@ reviewed and diffed independently. The assembled PDF is built by
   on its own — a `\newpage` written inline would show up as literal text in
   every chapter, and this way it shows up in none of them.
 
+## Heading levels
+
+**A chapter's own title is `#`, its sections are `##`.** Pandoc concatenates
+the chapter files before parsing, so the levels have to agree across files or
+the table of contents indents one chapter under another. `00-frontmatter.md`
+also uses `#`, but marks it `{.unnumbered .unlisted}` so it stays out of the
+contents page. `--toc-depth=3` therefore lists chapters and their sections,
+with one level spare.
+
 ## Adding a chapter
 
 Add the file here, then add it to `REPORT_CHAPTERS` in the
