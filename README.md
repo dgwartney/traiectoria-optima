@@ -20,7 +20,8 @@ min-heap + Dijkstra, and A* with an admissible haversine heuristic).
 
 - [`docs/project_plan.md`](docs/project_plan.md) — project description, task
   breakdown by implementation stage, and team roles/responsibilities.
-- [`docs/report.md`](docs/report.md) — outline for the final report.
+- [`docs/report/`](docs/report/README.md) — the final report, one file per chapter.
+  `make report` assembles them into `build/pdf/report.pdf`.
 - [`docs/data.md`](docs/data.md) — OpenFlights airport/route data schemas.
 - [`docs/airlines.md`](docs/airlines.md) — background on U.S. carriers and hubs.
 - [`docs/software.md`](docs/software.md) — mapping/visualization libraries under consideration.

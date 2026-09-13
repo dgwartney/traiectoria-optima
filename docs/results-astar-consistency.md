@@ -6,7 +6,8 @@ subtitle: "Results from `experiments/astar-consistency`"
 # A\* and heuristic consistency
 
 > **For the final report.** This section is written for
-> [`docs/report.md`](report.md) §4.3, *A\* Search (Stretch Concept)* → "Haversine
+> [`docs/report/04-algorithms.md`](report/04-algorithms.md) §4.3,
+> *A\* Search (Stretch Concept)* → "Haversine
 > admissible heuristic / Admissibility argument", and §5, *Correctness
 > Testing*. Every number below is read from
 > [`experiments/astar-consistency/results.json`](../experiments/astar-consistency/results.json),
@@ -252,4 +253,5 @@ Apple M2 Pro, Python 3.12.12.
 - [Validating against NetworkX](networkx-validation.md) — the design document
   this experiment implements (Option E), and the six other options considered.
 - [Graph Algorithm Notes](graph-algorithms-notes.md) — Dijkstra, BFS and A\*.
-- [Final report](report.md) — §4.3 and §5 are where this section lands.
+- [Final report](report/README.md) — [§4.3](report/04-algorithms.md) and
+  [§5](report/05-correctness-testing.md) are where this section lands.

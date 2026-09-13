@@ -580,7 +580,8 @@ reporting divergence as a distribution rather than a boolean.
 
 #### This is the artifact the final report cites
 
-`docs/report.md` already reserves the section: §5, *Correctness Testing* →
+`docs/report/05-correctness-testing.md` already reserves the section: §5,
+*Correctness Testing* →
 "Library cross-validation results (NetworkX)". A green test suite is not
 citable in prose — "our tests pass" is an assertion, and the reader cannot see
 what was compared or against which oracle. A committed
@@ -1379,7 +1380,7 @@ is class-based, per `src/flight_planner/README.md:123`:
    patch.*
 4. **Option B** — `experiments/networkx-parity` on the **world** snapshot,
    folding in Option G's expansion totals and Option F's timing table. This is
-   the step that makes the work citable: it is what `docs/report.md` §5 quotes,
+   the step that makes the work citable: it is what the report's §5 quotes,
    and it reuses steps 1–3's code rather than adding any. *One experiment
    directory, no new infrastructure.*
 5. **Option D** — structural checks, plus the `all_shortest_paths` rewrite of
@@ -1527,7 +1528,7 @@ Option B's `record()` call are still sketches.
 - [Tutorial](tutorial.md) — builds `experiments/shortest-vs-fewest`, whose
   finding Option D re-derives.
 - [Graph Algorithm Notes](graph-algorithms-notes.md) — Dijkstra, BFS and A\*.
-- [Final report](report.md) — §5 *Correctness Testing* is the section Option
+- [Final report](report/README.md) — [§5 *Correctness Testing*](report/05-correctness-testing.md) is the section Option
   B's recorded result is written for; §6 and §7 consume its counters and
   timings.
 - [Package design](../src/flight_planner/README.md) — where a new algorithm

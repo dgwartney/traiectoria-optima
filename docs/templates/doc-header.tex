@@ -112,6 +112,15 @@
 \preto{\subsection}{\needspace{4\baselineskip}}
 \preto{\subsubsection}{\needspace{3\baselineskip}}
 
+%% Table of contents
+%% Only `make report` passes --toc, so for every other document \tableofcontents
+%% is never called and this is inert. The heading picks up the \section style
+%% above (titlesec formats the starred form too), so "Contents" matches every
+%% other heading in the document. The appended \newpage is what stops chapter 1
+%% from starting halfway down the contents page -- LaTeX does not break there on
+%% its own, and the chapter files' own page breaks sit *between* chapters.
+\apptocmd{\tableofcontents}{\newpage}{}{}
+
 %% Long table support
 \usepackage{longtable}
 \usepackage{graphicx}

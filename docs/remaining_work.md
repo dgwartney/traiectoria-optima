@@ -452,7 +452,7 @@ Build the interactive query entry point — origin, destination, mode. A CLI is
 explicitly sufficient per the rubric.
 
 **Step 8 — Write-up (#15 ASF; #20, #21, #22, #35, #37 DG; #23, #36 all).**
-Fill `docs/report.md` with the numbers from steps 2–6, correct and complete the
+Fill the chapters in `docs/report/` with the numbers from steps 2–6, correct and complete the
 deck, assemble the final notebook, dry-run it in a fresh environment, then
 rehearse.
 
@@ -625,7 +625,7 @@ algorithm, test or data-pipeline work has ever been committed by anyone else.
 
 Three practical consequences:
 
-1. **The report's team-contributions appendix (`docs/report.md` §Appendix) has
+1. **The report's team-contributions appendix (`docs/report/12-appendix.md`) has
    to be written honestly.** The instructor requires that every member presents,
    and the appendix is where contribution is declared. Write it from the record.
 2. **The reassignment in §5 is a forecast, not a description.** It assigns JL 12

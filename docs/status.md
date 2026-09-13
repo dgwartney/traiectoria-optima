@@ -70,7 +70,7 @@ below is live:
 | [`docs/flight_planner.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/flight_planner.md) | The package, layer by layer |
 | [`docs/experiments.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/experiments.md) | Snapshots, catalogs, and reproducible results |
 | [`docs/demos.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/demos.md) | Thirteen runnable scripts, one idea each |
-| [`docs/report.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/report.md) | The final report — 6 and 7 written, the rest outlined |
+| [`docs/report/`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/report/README.md) | The final report, one file per chapter — 6 and 7 written, the rest outlined |
 | [`docs/visualization.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/visualization.md) | The mapping layer's design record |
 | [`docs/networkx-validation.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/networkx-validation.md) | How the algorithms are checked against NetworkX |
 | [`docs/results-astar-consistency.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/results-astar-consistency.md) | The consistency finding, in full |
@@ -252,7 +252,7 @@ versions:
 - **`tests/experiments/test_committed.py`** — the mapping branch and the
   instrumentation branch each registered a new experiment in the same test file.
   Purely additive; both class blocks kept.
-- **`docs/report.md`** — the NetworkX branch had added a caveat to section 7's
+- **`docs/report.md`** (since split into `docs/report/`) — the NetworkX branch had added a caveat to section 7's
   *outline* while section 7 was being written in prose elsewhere. Taking either
   side alone would have dropped something, so the written section was kept and
   the caveat carried into 7.6: NetworkX's `shortest_path` runs a *bidirectional*
@@ -298,5 +298,5 @@ of what may legitimately differ and what is a real failure.
 - `remaining_work.md` (branch `docs/remaining-work-assessment`, unpublished) —
   the roadmap this document summarises: compliance table, T1–T9 detail, critical path, per-person lanes
 - [Tutorial](tutorial.md) — the end-to-end lane for a new reader
-- [Final report](report.md) — §6 and §7 are written; the rest is the work
+- [Final report](report/README.md) — one file per chapter; §6 and §7 are written, the rest is the work
 - `term-project-info.pdf` — the requirements, at the repository root

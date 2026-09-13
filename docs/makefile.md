@@ -6,9 +6,10 @@
 2. [About GNU Make](#about-gnu-make)
 3. [Targets](#targets)
 4. [Why some targets use stamp files](#why-some-targets-use-stamp-files)
-5. [Keeping Help Accurate](#keeping-make-help-accurate)
-6. [Adding a new target](#adding-a-new-target)
-7. [Known issues](#known-issues)
+5. [How the final report is assembled](#how-the-final-report-is-assembled)
+6. [Keeping Help Accurate](#keeping-make-help-accurate)
+7. [Adding a new target](#adding-a-new-target)
+8. [Known issues](#known-issues)
 
 ## Introduction
 
@@ -88,7 +89,8 @@ these produce and how to use it.
 | `make test` | Runs `uv run pytest` | Any file under `src/`, `tests/`, `scripts/`, or `pyproject.toml` changed since the last **passing** run |
 | `make lint` | Runs `uv run ruff check` | Any file under `src/` or `pyproject.toml` changed since the last passing run |
 | `make check` | `lint` + `test` | (aggregate of the above) |
-| `make docs` | Renders every `docs/*.md` to PDF with `pandoc` → `build/pdf/` | The matching `.md`, the LaTeX header, the SVG filter, or any generated diagram is newer than the PDF |
+| `make docs` | Renders every `docs/*.md` to PDF, plus the assembled report with `pandoc` → `build/pdf/` | The matching `.md`, the LaTeX header, the SVG filter, or any generated diagram is newer than the PDF |
+| `make report` | Concatenates `docs/report/*.md` into a single `build/pdf/report.pdf`, with a table of contents | Any chapter, the frontmatter, `newpage.md`, the LaTeX header, the SVG filter, or any generated diagram is newer than the PDF |
 | `make diagrams` | Renders `mermaid/*.mmd` to a committed `docs/images/*.svg` and a generated `build/png/*.png` | The `.mmd` is newer than its output |
 | `make notebook` | Syncs the `notebooks` dependency group, then runs `uv run jupyter lab` | Always |
 | `make all` | `check` | (aggregate) |
@@ -101,6 +103,47 @@ a snapshot.
 
 Run `make` with no target and it runs `help` (`.DEFAULT_GOAL := help`), so
 `make` on its own is a safe way to see what's available.
+
+## How the final report is assembled
+
+`make report` is the one target that builds a single PDF from many markdown
+files. The chapters live in [`docs/report/`](report/README.md), one file each,
+and `REPORT_CHAPTERS` in the Makefile lists them in the document's order —
+listed rather than globbed, because `ls` order stops matching reading order the
+moment a chapter is renamed or inserted.
+
+Between every pair of chapters the recipe passes `docs/report/newpage.md`, a
+file whose entire contents is a bare `\newpage`. Pandoc concatenates its inputs
+before parsing, so the directive lands between the chapters and starts each one
+on a fresh page. Keeping it in its own file is what keeps it out of GitHub:
+GitHub renders each chapter on its own, and a `\newpage` written inline would
+show up there as literal text.
+
+To add a chapter, write the file and add it to `REPORT_CHAPTERS`. Nothing else
+needs to change — `$(REPORT_SRCS)` interleaves the page breaks, the PDF's
+prerequisites are derived from the same list, and the new chapter appears in the
+contents automatically.
+
+### The table of contents
+
+`REPORT_TOC_FLAGS` adds `--toc --toc-depth=3`, and only the `report` target
+passes it: the other docs are single-topic and short enough that a contents page
+would be noise. Depth counts from `#`, so 3 reaches the `###` subsections —
+which matters, because §6 and §7 carry six subsections each and are the sections
+a reader is most likely to jump straight to.
+
+Two details are worth knowing if the contents page ever looks wrong:
+
+- **It needs its own page**, and LaTeX will not break there by itself. The
+  chapters' `newpage.md` breaks sit *between* chapters, so without help the
+  introduction would start halfway down the contents page.
+  `doc-header.tex` appends a `\newpage` to `\tableofcontents` to close it. That
+  hook is inert for every other document, which never calls the macro.
+- **The report's `#` heading is deliberately absent from it.** It repeats the
+  title page, so an entry for it would point at the whole document.
+  `00-frontmatter.md` marks it `{.unnumbered .unlisted}` — `.unlisted` is what
+  keeps it out, and pandoc requires `.unnumbered` alongside. Neither changes how
+  it looks, since pandoc leaves every heading unnumbered already.
 
 ## Keeping `make help` accurate
 

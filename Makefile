@@ -71,6 +71,43 @@ PNG_DIR   = $(BUILD_DIR)/png
 # scaled to the 6.5in text column.
 DIAGRAM_WIDTH = 1600
 
+# The final report is one file per chapter under $(REPORT_DIR), assembled into a
+# single PDF by the `report` target. Chapters are listed rather than globbed:
+# the order is the document's order, and it is not the order `ls` gives once a
+# chapter is renamed or inserted.
+REPORT_DIR = $(DOCS_DIR)/report
+REPORT_PDF = $(PDF_DIR)/report.pdf
+
+REPORT_FRONTMATTER = $(REPORT_DIR)/00-frontmatter.md
+
+REPORT_CHAPTERS = \
+	$(REPORT_DIR)/01-introduction.md \
+	$(REPORT_DIR)/02-dataset.md \
+	$(REPORT_DIR)/03-graph-construction.md \
+	$(REPORT_DIR)/04-algorithms.md \
+	$(REPORT_DIR)/05-correctness-testing.md \
+	$(REPORT_DIR)/06-complexity-analysis.md \
+	$(REPORT_DIR)/07-empirical-evaluation.md \
+	$(REPORT_DIR)/08-visualization.md \
+	$(REPORT_DIR)/09-challenges-and-lessons-learned.md \
+	$(REPORT_DIR)/10-conclusion.md \
+	$(REPORT_DIR)/11-references.md \
+	$(REPORT_DIR)/12-appendix.md
+
+# A file holding nothing but a bare \newpage. Interleaving it between the
+# chapters is what starts each one on a fresh page. It is a separate file
+# because GitHub renders each chapter on its own page, where an inline
+# \newpage would show as literal text; passed to pandoc as its own input, it
+# reaches the PDF and appears in no rendered chapter.
+REPORT_NEWPAGE = $(REPORT_DIR)/newpage.md
+
+# Frontmatter, the first chapter, then every later chapter with a page break in
+# front of it. The break goes before the *second* chapter onward so that the
+# report's H1 shares a page with the introduction rather than sitting alone.
+REPORT_SRCS = $(REPORT_FRONTMATTER) $(firstword $(REPORT_CHAPTERS)) \
+	$(foreach chapter,$(wordlist 2,$(words $(REPORT_CHAPTERS)),$(REPORT_CHAPTERS)),\
+		$(REPORT_NEWPAGE) $(chapter))
+
 MD_SRCS  := $(wildcard $(DOCS_DIR)/*.md)
 MMD_SRCS := $(wildcard $(MERMAID_DIR)/*.mmd)
 PDFS     := $(MD_SRCS:$(DOCS_DIR)/%.md=$(PDF_DIR)/%.pdf)
@@ -86,7 +123,7 @@ PNGS         := $(MMD_SRCS:$(MERMAID_DIR)/%.mmd=$(PNG_DIR)/%.png)
 # Arguments we require for pandoc
 PANDOC_FLAGS := \
 	--pdf-engine=xelatex \
-	--resource-path=$(DOCS_DIR) \
+	--resource-path=$(DOCS_DIR):$(DOCS_DIR)/report \
 	--lua-filter=$(SVG_FILTER) \
 	--include-in-header=$(DOC_HEADER)
 
@@ -98,7 +135,7 @@ STAMP_DIR = .make
 PY_SRC   := $(shell find $(SRC_DIR) -name '*.py' -not -path '*/__pycache__/*')
 PY_TESTS := $(shell find tests -name '*.py' -not -path '*/__pycache__/*')
 
-.PHONY: all help notebook flight_data flight_network snapshot legacy_snapshot experiment united_airlines_tables international_airports verify_iata_codes test lint check docs diagrams clean
+.PHONY: all help notebook flight_data flight_network snapshot legacy_snapshot experiment united_airlines_tables international_airports verify_iata_codes test lint check docs report diagrams clean
 
 .DEFAULT_GOAL := help
 
@@ -115,8 +152,24 @@ notebook: ## Start a Jupyter Lab session
 	uv sync --group notebooks
 	uv run jupyter lab
 
-# Build all project docs (project_plan.md, report.md, ...) to PDF
-docs: $(PDFS)
+# Build all project docs (project_plan.md, status.md, ...) to PDF, the
+# assembled final report included.
+docs: $(PDFS) $(REPORT_PDF)
+
+report: $(REPORT_PDF) ## Build the final report from docs/report/*.md into build/pdf/report.pdf
+
+# Only the report gets a table of contents. The other docs are single-topic and
+# short enough that one would be noise. Depth counts from `#`, so 3 reaches the
+# `###` subsections (4.1, 6.3, ...) -- the deepest level the report uses, and
+# the level worth listing given that §6 and §7 carry six subsections each.
+REPORT_TOC_FLAGS = --toc --toc-depth=3
+
+# One pandoc invocation over every chapter in order. Pandoc concatenates its
+# inputs before parsing, so cross-chapter section references resolve, the
+# frontmatter's YAML governs the whole document, and the table of contents is
+# built from every chapter rather than one at a time.
+$(REPORT_PDF): $(REPORT_SRCS) $(SVG_FILTER) $(DOC_HEADER) $(PNGS) | $(PDF_DIR)
+	pandoc $(REPORT_SRCS) -o $@ $(PANDOC_FLAGS) $(REPORT_TOC_FLAGS)
 
 # Regenerate every diagram from its mermaid source.
 diagrams: $(DIAGRAM_SVGS) $(PNGS) ## Rebuild diagrams from mermaid/*.mmd
@@ -148,7 +201,7 @@ clean: ## Remove generated data, build output, and make stamp files
 	$(RM) -r $(STAMP_DIR)
 	$(RM) -r $(BUILD_DIR)
 
-.PHONY: notebook flight_data docs diagrams check-deps clean
+.PHONY: notebook flight_data docs report diagrams check-deps clean
 
 #
 # --- Data pipeline ----------------------------------------------------

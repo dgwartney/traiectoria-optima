@@ -6,7 +6,8 @@ subtitle: "Results from `experiments/networkx-parity`"
 # Validation against NetworkX
 
 > **For the final report.** This section is written for
-> [`docs/report.md`](report.md) §5, *Correctness Testing* → "Library
+> [`docs/report/05-correctness-testing.md`](report/05-correctness-testing.md) §5,
+> *Correctness Testing* → "Library
 > cross-validation results (NetworkX)". Every number below is read from
 > [`experiments/networkx-parity/results.json`](../experiments/networkx-parity/results.json),
 > which the experiment wrote; nothing here is hand-copied from a console
@@ -243,4 +244,4 @@ a failure rather than a line of output someone has to notice. Recorded
   companion experiment, and the defect it found.
 - [Experiments](experiments.md) — snapshots, the `Catalog` vocabulary, and the
   experiment model.
-- [Final report](report.md) — §5 is where this section lands.
+- [Final report](report/README.md) — [§5](report/05-correctness-testing.md) is where this section lands.
