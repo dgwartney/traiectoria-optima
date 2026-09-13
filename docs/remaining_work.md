@@ -312,7 +312,7 @@ graded.
 | 1 | Finalize U.S. airport subset, export nodes/edges | DG | Backlog | **Partial** — processed set is worldwide; snapshot is large-only (§5.4) |
 | 2 | Compute haversine edge weights | DG | **Closed** | **Done** — `geo/haversine.py`, `Route` weights |
 | 3 | Build `RoutePlanner` as adjacency list | DG | **Closed** | **Done** — `core/graph.py`, `flights/planner.py` |
-| 4 | Report basic graph statistics | ASF | Backlog | **Not done** — no stats API, no numbers |
+| 4 | Report basic graph statistics | ASF | Backlog | **Done** — `experiments/graph-stats/`; size, density, degree, reachability and components recorded in its `results.json` and written up in report §2.1. No stats API was added: the notebook measures reachability with the package's own `BFS` through the observer seam |
 | 5 | Unit tests on a hand-built mini-graph | JL | Backlog | **Not done** — none of the four rubric cases tested on the graph (§5.4) |
 | 6 | Draft and submit the one-page proposal | DG | Backlog | **Submitted; approval unconfirmed** |
 | 7 | Implement BFS | DG | **Closed** | **Done** — `algorithms.py:94` |
@@ -444,8 +444,11 @@ plus a known-route test (the textbook network already exists in
 tie test. Small, and explicitly graded.
 
 **Step 6 — Visualization and graph statistics (#4 ASF, #18 JL).**
-Render one route to a map image for the deck, and add the graph-statistics
-reporting that slides 14/15 and report §2 need.
+Render one route to a map image for the deck. The graph-statistics half is
+**done**: `experiments/graph-stats/` measures size, density, degree,
+reachability and components on the world snapshot, and report §2.1 is written
+from its `results.json`. Slides 14/15 still need the numbers ported across; the
+two figures are already rendered for a dark surface in `slides/images/`.
 
 **Step 7 — Demo surface (#33, DG).**
 Build the interactive query entry point — origin, destination, mode. A CLI is
@@ -455,6 +458,16 @@ explicitly sufficient per the rubric.
 Fill the chapters in `docs/report/` with the numbers from steps 2–6, correct and complete the
 deck, assemble the final notebook, dry-run it in a fresh environment, then
 rehearse.
+
+### Polish items, found in passing
+
+Not board tasks and not blocking anything. Recorded here so they are not
+rediscovered late, and so the report-polish pass in step 8 has a list to work
+from.
+
+| Item | Found | What to do |
+|---|---|---|
+| **Report figures float away from their references.** In the assembled PDF, figures land at the next available LaTeX float slot rather than near the prose that introduces them. Chapter 2 runs pages 4–7 with its degree prose on 4–5 and both figures on 6 and 7; Chapter 7's two behave the same way. | 2026-09-13, reviewing §2.1 | Either add `\usepackage{float}` to `docs/templates/doc-header.tex` and set `H` placement, which pins every chapter's figures where they are written, or move the references so the prose flows into each float. Whole-document typesetting, so it belongs to a pass over the assembled report rather than to one chapter. Verify with `make report` and check which page each figure lands on relative to its reference. |
 
 ---
 

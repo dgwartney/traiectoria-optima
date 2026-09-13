@@ -333,6 +333,13 @@ for airport in busiest:
 # LHR London Heathrow Airport 520
 ```
 
+This is exploration, so it recomputes from whatever the snapshot holds and
+prints to a cell nobody keeps. The pinned, recorded version of the same
+question — degree across the whole network, the busiest airports, how much of
+the graph is mutually reachable — is the
+[`graph-stats`](../experiments/graph-stats) experiment in §6, which is where a
+number belongs once you want to cite it. Start here; end there.
+
 **Which codes are worth using.** Ask the data what it holds, and how much:
 
 ```python
@@ -1302,7 +1309,7 @@ uv run python src/demos/script_experiment_example.py
 
 ### Experiments in this repository
 
-Five are committed, and they are worth reading in this order — each one adds
+Six are committed, and they are worth reading in this order — each one adds
 something the previous did not need.
 
 | Slug | Question it asks | Snapshot | What it adds |
@@ -1312,8 +1319,9 @@ something the previous did not need.
 | [`search-cost`](../experiments/search-cost) | How much cheaper is informed search? BFS, Dijkstra and A\* on the world network. | `2026-09-11-bb90a8` — the whole world | Measures **time**, so it records the machine alongside the numbers, fits a growth exponent per series, and ships its own `plots.py` writing figures the deck and the report consume. |
 | [`networkx-parity`](../experiments/networkx-parity) | Do our algorithms agree with NetworkX on the world network? | `2026-09-11-bb90a8` — the whole world | Takes the **engine as a parameter**, not the data: NetworkX is wrapped behind `PathfindingAlgorithm` (`src/validation/engines.py`) so the same `find_shortest_route` call runs either implementation. Records an *oracle version* alongside the result, and exits non-zero on a disagreement. |
 | [`astar-consistency`](../experiments/astar-consistency) | Is A\* optimal for an admissible heuristic, or only a consistent one? | `2026-09-12-3e4f9d` — US large airports | Two halves. The first runs on **random graphs**, because the real data cannot produce the case; the second uses the snapshot to ask whether the defect is reachable here, which is what earns the pin rather than making it a unit test. The pattern to copy when a finding needs data the snapshot cannot supply. |
+| [`graph-stats`](../experiments/graph-stats) | What does the world airline network look like as a graph? Size, degree, reachability. | `2026-09-11-bb90a8` — the whole world | Asks about the **graph itself** rather than about a search over it, and so writes the report's dataset chapter rather than its evaluation. The first to use the observer seam for something other than measuring a search: a `BFS` aimed at a sentinel airport that is not in the graph never terminates early, so it becomes a **reachability probe**, and a `SearchObserver` collects what it reached. The one to copy when the question is "what is this data?" rather than "what is the answer?" |
 
-Two of the five compare our results against something outside the project, and
+Two of the six compare our results against something outside the project, and
 each ships a prose write-up destined for the final report —
 [results-networkx-parity.md](results-networkx-parity.md) and
 [results-astar-consistency.md](results-astar-consistency.md). That is the

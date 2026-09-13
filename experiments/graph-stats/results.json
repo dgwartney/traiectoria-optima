@@ -1,0 +1,242 @@
+{
+  "experiment": "graph-stats",
+  "recorded": "2026-09-13T19:18:34+00:00",
+  "snapshot": {
+    "id": "2026-09-11-bb90a8",
+    "reference": "../../data/snapshots/2026-09-11-bb90a8",
+    "criteria": {},
+    "source_commit": "610936de75b2d3c45e0e84daea687b32daf35aa3"
+  },
+  "parameters": {
+    "top_hubs": 10,
+    "degree_bins": [
+      0,
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128,
+      256
+    ],
+    "core_seed": "ATL"
+  },
+  "results": {
+    "size": {
+      "airports": 3387,
+      "routes": 66332,
+      "airport_pairs": 36717,
+      "parallel_routes": 29615,
+      "possible_pairs": 11468382,
+      "density": 0.0032015850187062135,
+      "mean_out_degree": 19.584292884558607
+    },
+    "degree": {
+      "out": {
+        "min": 0,
+        "median": 4,
+        "mean": 19.584292884558607,
+        "max": 915,
+        "busiest": "ATL"
+      },
+      "in": {
+        "min": 0,
+        "median": 4,
+        "mean": 19.584292884558607,
+        "max": 911,
+        "busiest": "ATL"
+      }
+    },
+    "degree_distribution": {
+      "out": [
+        [
+          "0",
+          16
+        ],
+        [
+          "1",
+          703
+        ],
+        [
+          "2",
+          582
+        ],
+        [
+          "3-4",
+          595
+        ],
+        [
+          "5-8",
+          495
+        ],
+        [
+          "9-16",
+          330
+        ],
+        [
+          "17-32",
+          231
+        ],
+        [
+          "33-64",
+          182
+        ],
+        [
+          "65-128",
+          129
+        ],
+        [
+          "129-256",
+          83
+        ],
+        [
+          "257+",
+          41
+        ]
+      ],
+      "in": [
+        [
+          "0",
+          7
+        ],
+        [
+          "1",
+          707
+        ],
+        [
+          "2",
+          588
+        ],
+        [
+          "3-4",
+          585
+        ],
+        [
+          "5-8",
+          499
+        ],
+        [
+          "9-16",
+          333
+        ],
+        [
+          "17-32",
+          233
+        ],
+        [
+          "33-64",
+          184
+        ],
+        [
+          "65-128",
+          129
+        ],
+        [
+          "129-256",
+          80
+        ],
+        [
+          "257+",
+          42
+        ]
+      ]
+    },
+    "top_hubs": [
+      {
+        "iata_code": "ATL",
+        "name": "Hartsfield Jackson Atlanta International Airport",
+        "out_degree": 915,
+        "in_degree": 911
+      },
+      {
+        "iata_code": "ORD",
+        "name": "Chicago O'Hare International Airport",
+        "out_degree": 556,
+        "in_degree": 548
+      },
+      {
+        "iata_code": "PEK",
+        "name": "Beijing Capital International Airport",
+        "out_degree": 531,
+        "in_degree": 530
+      },
+      {
+        "iata_code": "CDG",
+        "name": "Charles de Gaulle International Airport",
+        "out_degree": 521,
+        "in_degree": 514
+      },
+      {
+        "iata_code": "LHR",
+        "name": "London Heathrow Airport",
+        "out_degree": 520,
+        "in_degree": 517
+      },
+      {
+        "iata_code": "LAX",
+        "name": "Los Angeles International Airport",
+        "out_degree": 492,
+        "in_degree": 498
+      },
+      {
+        "iata_code": "FRA",
+        "name": "Frankfurt Main Airport",
+        "out_degree": 489,
+        "in_degree": 485
+      },
+      {
+        "iata_code": "DFW",
+        "name": "Dallas Fort Worth International Airport",
+        "out_degree": 469,
+        "in_degree": 467
+      },
+      {
+        "iata_code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "out_degree": 454,
+        "in_degree": 453
+      },
+      {
+        "iata_code": "AMS",
+        "name": "Amsterdam Airport Schiphol",
+        "out_degree": 450,
+        "in_degree": 447
+      }
+    ],
+    "reachability": {
+      "no_departures": 16,
+      "no_arrivals": 7,
+      "isolated": 0
+    },
+    "components": {
+      "weak_count": 8,
+      "weak_sizes": [
+        3359,
+        10,
+        4,
+        4,
+        4,
+        2,
+        2,
+        2
+      ],
+      "largest_weak": 3359,
+      "strong_core": 3318,
+      "strong_core_seed": "ATL",
+      "reachable_from_seed": 3341,
+      "can_reach_seed": 3336
+    }
+  },
+  "catalog": {
+    "chain": [],
+    "routes": [
+      66332
+    ],
+    "airports": [
+      3387
+    ],
+    "dangling": 0
+  }
+}

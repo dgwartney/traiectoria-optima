@@ -42,13 +42,13 @@ NetworkX validation — are all closed.
 
 | Instructor's stage | State |
 |---|---|
-| Stage 1 — Foundation | **Complete**, proposal submitted and graded. Graph statistics are the one gap ([§7](#7-what-is-left-against-the-requirements-pdf)). |
+| Stage 1 — Foundation | **Complete**, proposal submitted and graded. Graph statistics are now measured and written up — `experiments/graph-stats/`, report §2.1. |
 | Stage 2 — Core algorithm | **Complete.** BFS, Dijkstra and A\* all work, are tested, and now agree with NetworkX on real queries. |
 | Stage 3 — Stretch + features | **Code complete.** The min-heap is from scratch, `heapq` is gone from the package, A\* runs on our heap. The *written* admissibility argument is not done. |
 | Stage 4 — Evaluation | **Mostly done.** Comparison table, runtime-vs-size plot, complexity write-up and route map all exist. The report's other sections and the deck do not. |
 
 What is genuinely left is writing, not building: the report's prose sections,
-the deck, the four rubric-named edge-case tests, graph statistics, and one
+the deck, the four rubric-named edge-case tests, and one
 assembled demo. See [§7](#7-what-is-left-against-the-requirements-pdf).
 
 **Everything described below is on `main`.** Five branches and four untracked
@@ -218,16 +218,18 @@ against our own internal plan, which asks for more than the rubric does.
 | 1 | **The A\* admissibility argument, written out** | A1's stretch concept is "Dijkstra with your own min-heap **and** A\* with an admissible haversine heuristic", and outputs require it be "clearly **explained**". Highest graded weight of anything open. | Half a day. The evidence is already measured ([§6](#6-three-findings-worth-knowing-before-you-read-the-code)). |
 | 2 | **The four rubric-named tests** | p. 5 names them: empty, single-element, cyclic/duplicate, disconnected. None is tested against `Graph` today — `test_graph.py` has five tests, all about construction. A1 also asks for a hand-built mini-graph test; there is none. | Small, independent, startable now |
 | 3 | **Report prose** | §6 and §7 are written. §1–§5, §9–§11 and the appendix are still bullet outlines. §8 and §5's NetworkX paragraph can be assembled from the result documents. | The long pole |
-| 4 | **Graph statistics** | Stage 1 and A1 stage 1 both say "report graph statistics". `core/graph.py` has no degree, density or component method, so nothing can report them. | Half a day |
+| 4 | ~~**Graph statistics**~~ | **Closed.** `experiments/graph-stats/` measures size, density, degree, reachability and components on the world snapshot; report §2.1 is written from its `results.json`. `core/graph.py` still has no stats method and does not need one — reachability is measured with the package's own `BFS` and a `SearchObserver`. | — |
 | 5 | **One assembled demo** | p. 5: "A Jupyter notebook implementation is sufficient. (Alternatively, a command-line interface is sufficient; a web UI is never required or rewarded.)" Four experiment notebooks exist; none is a five-minute walkthrough of the three queries. | Small — see below |
 | 6 | **The deck** | Required output. `slides/index.html` has 36 TODOs, and its Core API slide still shows method names that are not the real API. | Depends on a decision — see below |
 | 7 | **`docs/index.md` entries** | Every new document is unlinked, deliberately, to keep parallel branches from colliding on one file. Whoever lands last adds them all in one hunk. | Minutes |
 
-**Not required, despite appearing in our internal plan:** EDA charts for the
-slides, a pinned large+medium U.S. subset, and a degree-distribution figure. The
-PDF asks for "basic statistics" and one visualization; degree distribution is
-project A4's requirement, not ours, and the U.S. narrowing is our own choice
-against a catalog that says "world airline network".
+**Not required, despite appearing in our internal plan:** a pinned large+medium
+U.S. subset. The U.S. narrowing is our own choice against a catalog that says
+"world airline network". The degree-distribution figure was also on this list —
+the PDF asks for "basic statistics" and one visualization, and degree
+distribution is project A4's requirement rather than ours — but it was built
+anyway, in `experiments/graph-stats/`, because a table of degree counts does not
+show a reader what heavy-tailed means and one chart does.
 
 **Two open decisions, both cheap to make and expensive to defer:**
 

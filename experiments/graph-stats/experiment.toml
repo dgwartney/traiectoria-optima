@@ -1,0 +1,43 @@
+# graph-stats
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "graph-stats"
+description = "What does the world airline network look like as a graph? Size, degree, reachability."
+notebooks = ["explore.ipynb"]
+snapshot = "../../data/snapshots/2026-09-11-bb90a8"  # 2026-09-11-bb90a8
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+
+# The whole world, not a slice. The report's dataset chapter describes the
+# network the evaluation actually runs on, and that is the unnarrowed one --
+# narrowing here would describe a graph no other chapter uses. No narrowing at
+# all, so `catalog.summary()` records an empty chain.
+
+# How many airports the hub table and chart show. Ten fits a report page and a
+# slide without a scroll, and the tail is flat past that: the difference
+# between the tenth and the fiftieth busiest airport is far smaller than the
+# difference between the first and the second.
+top_hubs = 10
+
+# Upper bounds for the degree table, as "at most this many routes". Powers of
+# two because the distribution is heavy-tailed -- linear bins put nearly every
+# airport in the first one and tell the reader nothing. The last bucket is
+# open-ended, holding everything above the final bound.
+#
+# Zero is its own bucket rather than being folded into the first. An airport
+# with no departures is a different kind of thing from one with a single daily
+# flight -- it is a dead end a search can enter and not leave -- and merging
+# the two hides the count that Chapter 5's disconnected-graph case is about.
+degree_bins = [0, 1, 2, 4, 8, 16, 32, 64, 128, 256]
+
+# The airport whose strongly connected core is measured. Any airport in the
+# core names the same set, so this is a choice of *label*, not of result:
+# reporting "the core containing ATL" is checkable, while reporting "the
+# largest core" would be a claim this experiment does not test. ATL is the
+# busiest airport in the data (915 outgoing routes), so it is the least
+# surprising member to name.
+core_seed = "ATL"
