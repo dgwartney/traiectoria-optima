@@ -179,6 +179,24 @@
 
 .reveal code { color: var(--blue); background: none; }
 
+/* reveal's `black` theme gives code blocks a pale background, which on a dark
+ * card reads as a hole rather than as code. Inset it instead. */
+.reveal pre {
+  box-shadow: none;
+  width: 100%;
+  margin: 0 0 0.8em;
+  font-size: 0.42em;
+  line-height: 1.4;
+}
+.reveal pre code {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--edge);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--ink);
+  max-height: none;
+}
+
 .reveal section img {
   background: none;
   border: none;

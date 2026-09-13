@@ -15,6 +15,9 @@ agenda                   # deck-only
 # --- The data (report ch. 2) ------------------------------------------
 cleaning                 # 02-dataset.md
 
+# --- Design (report ch. 3) --------------------------------------------
+why-the-layers-exist     # 03-graph-construction.md
+
 # --- Algorithms (report ch. 4) ----------------------------------------
 astar-consistency        # 04-algorithms.md
 

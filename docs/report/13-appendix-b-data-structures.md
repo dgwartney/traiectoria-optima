@@ -80,9 +80,9 @@ cares. Flights are just one of the things this machinery can be used for.
 
 ## The hierarchy
 
-![Class diagram of the flight_planner core and flight layers](../images/flight-planner-class-diagram.svg)
-
-Read it as three pairs of inheritance and two hand-offs. A solid arrow means
+The class diagram is in [§3.2](03-graph-construction.md), which makes the
+argument it illustrates. Read it as three pairs of inheritance and two
+hand-offs. A solid arrow means
 "is a kind of": an `Airport` is a kind of `Vertex`. The dotted arrows mean
 something different. `Graph` is *given* a search algorithm to use, and `Point`
 is *given* a distance formula to use, rather than inheriting either one. The
