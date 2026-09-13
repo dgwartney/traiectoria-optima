@@ -198,51 +198,48 @@ force everything to rerun regardless of timestamps.
 
 ## Known issues
 
-### TODO: `make docs` drops hand-authored `.svg` diagrams
+Both entries below are fixed, and are kept because each is a build failure
+that exited 0 — the kind worth recognising a second time.
 
-**Status:** open, narrowed. **Affects:** `distance_formulas.md`.
+### Fixed: `make docs` dropped hand-authored `.svg` diagrams
 
-`docs/svg-to-png.lua` rewrites the source of every `.svg` image to
-`build/png/<name>.png`:
+**Status:** fixed. **Was affecting:** what is now
+[Appendix C](report/14-appendix-c-distance-formulas.md).
 
-```lua
-function Image(el)
-  local name = el.src:match("([^/]+)%.svg$")
-  if name then
-    el.src = root .. "/build/png/" .. name .. ".png"
-  end
-  return el
-end
+`docs/svg-to-png.lua` rewrites the source of *every* `.svg` image to
+`build/png/<name>.png`. `$(PNGS)` was built only from `mermaid/*.mmd`, so a
+figure drawn by hand had nothing to generate its PNG and the rewritten path
+pointed at a file that did not exist. Pandoc treats a missing image as a warning
+rather than an error, so the build exited 0 and the PDF was simply missing its
+figures — `pdfimages -list` on the old `distance_formulas.pdf` returned the
+header row and nothing else.
+
+This mattered more once that document became an appendix: the four figures were
+silently absent from the assembled report.
+
+Fixed by option 2 of the two that were on the table. `HAND_SVGS` is every
+committed `docs/images/*.svg` that is *not* produced from a `.mmd`, and a static
+pattern rule converts each to `build/png/` with `rsvg-convert`:
+
+```make
+HAND_SVGS := $(filter-out $(DIAGRAM_SVGS),$(wildcard $(DOCS_IMAGES)/*.svg))
+HAND_PNGS := $(HAND_SVGS:$(DOCS_IMAGES)/%.svg=$(PNG_DIR)/%.png)
+
+$(HAND_PNGS): $(PNG_DIR)/%.png: $(DOCS_IMAGES)/%.svg | $(PNG_DIR)
+	rsvg-convert -w $(DIAGRAM_WIDTH) -o $@ $<
 ```
 
-Only diagrams with a mermaid source get a matching PNG. `$(PNGS)` is built
-from `mermaid/*.mmd`, so a `.svg` that was drawn by hand has nothing to
-generate its PNG, and the rewritten path points at a file that does not exist.
+Both PNG rules are *static* pattern rules, restricted to their own file lists,
+so the hand-drawn rule cannot compete with the mermaid rule for a diagram that
+has both a `.mmd` and a committed `.svg`. That matters because `rsvg-convert`
+drops all text from a mermaid SVG, so it must never be the rule that wins there.
 
-Pandoc treats a missing image as a warning rather than an error, so the build
-still exits 0 and the PDF is simply missing its figures. To confirm:
+Confirm with:
 
 ```bash
-make build/pdf/distance_formulas.pdf
-pdfimages -list build/pdf/distance_formulas.pdf
-# header row only -- zero images, despite the four figures the markdown references
+make report
+pdfimages -list build/pdf/report.pdf   # ten figures, not a bare header row
 ```
-
-The four affected files — `great_circle.svg`, `ellipsoid_geodesic.svg`,
-`equirectangular.svg` and `utm_projection.svg` — have no `.mmd` source.
-
-Two ways out:
-
-1. **Give the filter a fallback.** When `build/png/<name>.png` does not exist,
-   resolve to the committed `docs/images/<name>.png` instead. All four already
-   have one committed beside the `.svg`.
-2. **Add a rule that converts a committed `.svg` to `build/png/`.** Note that
-   `rsvg-convert` is the obvious tool and is already checked by `make
-   check-deps`, but it drops all text from a *mermaid* SVG; it is fine for
-   these hand-drawn ones.
-
-Whichever is chosen, a missing figure should fail the build rather than pass
-quietly.
 
 ### Fixed: mermaid diagrams were never generated
 

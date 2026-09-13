@@ -11,6 +11,17 @@ date: 2026-08-23
 
 # Introduction
 
+> **This revision was never submitted.** The plan of record is the Google Doc
+> export `project_plan.md.pdf`, which lists 37 tasks and is what the GitHub
+> project board was built from. This in-repo version, written 2026-08-23, is a
+> later reorganisation into the T1–T9 deliverable table below, and is the
+> team's working plan rather than the commitment made to the instructor. See
+> [`remaining_work.md`](remaining_work.md) §2 for where the two disagree.
+>
+> Its **owner assignments did not hold.** All nine deliverables were built by
+> one author; [Appendix A](report/12-appendix-a-contributions.md) §A.1 states
+> the record.
+
 This project implements a flight route planner over the OpenFlights world airline network,
 comparing uninformed and informed graph search on the same underlying problem: finding a
 route between two airports by fewest stops, shortest distance, or shortest distance found

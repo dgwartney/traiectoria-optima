@@ -23,8 +23,11 @@ Documentation site for the Traiectoria Optima project.
 ## Deliverables
 
 - [Final report](report/README.md) — one file per chapter, assembled into a
-  PDF by `make report`. §1, §2, §6 and §7 are written; the rest are
-  outlines.
+  PDF by `make report`. §1, §2, §6 and §7 are written and appendices A–G are
+  in place; §3–§5 and §8–§11 are outlines.
+- [Deck](deck/README.md) — the presentation, built from the report chapters by
+  `make deck`. It has no content of its own: every slide is a block inside the
+  chapter it summarises, so the two cannot drift apart.
 - [Report and deck crosswalk](report-deck-crosswalk.md) — the report and the
   presentation are two renderings of one body of committed evidence. This says
   which chapter each slide derives from, what is transcription rather than
@@ -37,10 +40,6 @@ Documentation site for the Traiectoria Optima project.
   layered, why it composes rather than inherits, and where to hook in a new
   algorithm, distance formula or edge weight. It ships inside the wheel, so it
   describes the installed package rather than this repository.
-- [Flight Planner](flight_planner.md) — the guided tour of `Airport`, `Route`
-  and `FlightPlanner`, the `Vertex`/`Edge`/`Graph` classes they derive from,
-  and how to extend them. Start here if you want to use the library directly
-  rather than run an experiment.
 - [Data](data.md) — the raw OpenFlights and OurAirports schemas, the Wikipedia
   international-airports scrape, and the processed dataset the pipeline builds.
 - [Makefile](makefile.md) — every target (`make test`, `make flight_network`,
@@ -62,20 +61,37 @@ Documentation site for the Traiectoria Optima project.
   how to re-run every number in the comparison table and the runtime plot,
   what may legitimately differ between machines, and what would be a real
   failure.
-- [Distance Formulas](distance_formulas.md) — haversine, Vincenty, and the
-  trade-offs between them.
-- [Graph Algorithm Notes](graph-algorithms-notes.md) — Dijkstra, BFS and A\*.
 - [Validating against NetworkX](networkx-validation.md) — seven ways to check
   the hand-written algorithms against an independent implementation, from a
   single oracle class to a second engine behind the Strategy interface, and
   the A\* heuristic-consistency gap that randomized testing surfaced.
-- [Validation against NetworkX: results](results-networkx-parity.md) — what
-  `experiments/networkx-parity` found: 200 long-haul queries over the world
-  network, three algorithms, zero disagreements, and why NetworkX's timings
-  are not a fair race. Written for the final report.
-- [A\* and heuristic consistency: results](results-astar-consistency.md) —
-  what `experiments/astar-consistency` found: A\* is optimal only for
-  *consistent* heuristics, the four-vertex graph that shows it, and the
-  658,470 checks proving it cannot bite this project. Written for the final
-  report.
-- [Glossary](glossary.md) — aviation and graph terms used throughout.
+
+## Now part of the report
+
+Five documents were written as references and turned out to serve one part of
+the report rather than the repository as a whole, so they moved into
+[`docs/report/`](report/README.md) as lettered appendices. They are listed here
+because the old paths are gone and search engines are not the only things with
+stale links.
+
+- [Appendix B — Data Structures and the Public API](report/13-appendix-b-data-structures.md)
+  — the guided tour of `Airport`, `Route` and `FlightPlanner`, the
+  `Vertex`/`Edge`/`Graph` classes they derive from, and how to extend them.
+  Start here if you want to use the library directly rather than run an
+  experiment. Formerly `flight_planner.md`.
+- [Appendix C — Distance Formulas](report/14-appendix-c-distance-formulas.md) —
+  haversine, Vincenty, and the trade-offs between them. Formerly
+  `distance_formulas.md`.
+- [Appendix D — Validation against NetworkX](report/15-appendix-d-networkx-parity.md)
+  — what `experiments/networkx-parity` found: 200 long-haul queries over the
+  world network, three algorithms, zero disagreements, and why NetworkX's
+  timings are not a fair race. Formerly `results-networkx-parity.md`.
+- [Appendix E — A\* and Heuristic Consistency](report/16-appendix-e-astar-consistency.md)
+  — A\* is optimal only for *consistent* heuristics, the four-vertex graph that
+  shows it, and the 658,470 checks proving it cannot bite this project.
+  Formerly `results-astar-consistency.md`.
+- [Appendix G — Glossary](report/18-appendix-g-glossary.md) — aviation and
+  graph terms as the report uses them. Formerly `glossary.md`.
+
+[Appendix F](report/17-appendix-f-reproducibility.md) is a condensation of
+[Experiments](experiments.md), which stays here as the full reference.

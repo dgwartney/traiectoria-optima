@@ -24,7 +24,9 @@ min-heap + Dijkstra, and A* with an admissible haversine heuristic).
   `make report` assembles them into `build/pdf/report.pdf`.
 - [`docs/data.md`](docs/data.md) — OpenFlights airport/route data schemas.
 - [`docs/airlines.md`](docs/airlines.md) — background on U.S. carriers and hubs.
-- [`docs/software.md`](docs/software.md) — mapping/visualization libraries under consideration.
+- [`docs/visualization.md`](docs/visualization.md) — the design of the
+  mapping layer: measured Folium costs, the geodesic and antimeridian
+  problems, and why the alternatives were not used.
 
 ## Development Environment Setup with `uv`
 

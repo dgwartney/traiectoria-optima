@@ -13,9 +13,8 @@ author: David Gwartney
 **Read this first if you have been away from the repository.** It is a dated
 snapshot, not a plan: it says what exists today, which branch it is on, whether
 it has been verified, and what is left. The roadmap lives in
-`remaining_work.md` on the `docs/remaining-work-assessment` branch, which has
-not been published; the requirements live in
-`term-project-info.pdf` at the repository root.
+[`remaining_work.md`](remaining_work.md), now in `docs/`; the requirements live
+in `term-project-info.pdf` at the repository root.
 
 Everything below was measured on 12 September 2026 by running the commands in
 [§9](#9-verifying-any-of-this-yourself), not recalled. Where a number is a
@@ -70,7 +69,7 @@ below is live:
 | [`docs/flight_planner.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/flight_planner.md) | The package, layer by layer |
 | [`docs/experiments.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/experiments.md) | Snapshots, catalogs, and reproducible results |
 | [`docs/demos.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/demos.md) | Thirteen runnable scripts, one idea each |
-| [`docs/report/`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/report/README.md) | The final report, one file per chapter — 6 and 7 written, the rest outlined |
+| [`docs/report/`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/report/README.md) | The final report, one file per chapter — §1, §2, §6 and §7 written, plus appendices A–G; §3–§5 and §8–§11 outlined |
 | [`docs/visualization.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/visualization.md) | The mapping layer's design record |
 | [`docs/networkx-validation.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/networkx-validation.md) | How the algorithms are checked against NetworkX |
 | [`docs/results-astar-consistency.md`](https://github.com/dgwartney/traiectoria-optima/blob/main/docs/results-astar-consistency.md) | The consistency finding, in full |
@@ -125,7 +124,7 @@ If you have not touched the repository in a week, this order works:
 2. **[`tutorial.md`](tutorial.md)** — seven steps from raw CSVs to a recorded
    experiment, with a Colab lane if you do not want a local checkout. This is
    the single best use of an hour, and it is current and public.
-3. **[`flight_planner.md`](flight_planner.md)** — the package, layer by layer.
+3. **[`flight_planner.md`](report/13-appendix-b-data-structures.md)** — the package, layer by layer.
    Read the local copy, not the public one ([§2](#2-what-is-public-right-now)).
 4. **[`experiments.md`](experiments.md)** — snapshots, catalogs, experiments,
    and why a result records the data that produced it.
@@ -141,7 +140,7 @@ Then, depending on what you are picking up:
 | Correctness or the report's §5 | `results-networkx-parity.md` and `networkx-validation.md` (1,532 lines: seven options considered, one chosen) |
 | A\*, admissibility, or the report's §4.3 | `results-astar-consistency.md` — start at [§6](#6-three-findings-worth-knowing-before-you-read-the-code) below |
 | Maps or figures | `visualization.md` (1,606 lines) — four module-location options, the antimeridian problem, and what the prototype measured |
-| Planning, ownership, or the board | `remaining_work.md` §7 for the critical path, §8 for lanes — unpublished, ask DG |
+| Planning, ownership, or the board | [`remaining_work.md`](remaining_work.md) §7 for the critical path, §8 for lanes |
 
 ## 5. What the code does today
 
@@ -217,10 +216,10 @@ against our own internal plan, which asks for more than the rubric does.
 |---|---|---|---|
 | 1 | **The A\* admissibility argument, written out** | A1's stretch concept is "Dijkstra with your own min-heap **and** A\* with an admissible haversine heuristic", and outputs require it be "clearly **explained**". Highest graded weight of anything open. | Half a day. The evidence is already measured ([§6](#6-three-findings-worth-knowing-before-you-read-the-code)). |
 | 2 | **The four rubric-named tests** | p. 5 names them: empty, single-element, cyclic/duplicate, disconnected. None is tested against `Graph` today — `test_graph.py` has five tests, all about construction. A1 also asks for a hand-built mini-graph test; there is none. | Small, independent, startable now |
-| 3 | **Report prose** | §6 and §7 are written. §1–§5, §9–§11 and the appendix are still bullet outlines. §8 and §5's NetworkX paragraph can be assembled from the result documents. | The long pole |
+| 3 | **Report prose** | §1, §2, §6 and §7 are written, and appendices A–G are in place. §3–§5 and §8–§11 are still bullet outlines. §8 and §5's NetworkX paragraph can be assembled from the appendices, which is where the result documents now live. | The long pole |
 | 4 | ~~**Graph statistics**~~ | **Closed.** `experiments/graph-stats/` measures size, density, degree, reachability and components on the world snapshot; report §2.5 is written from its `results.json`. `core/graph.py` still has no stats method and does not need one — reachability is measured with the package's own `BFS` and a `SearchObserver`. | — |
 | 5 | **One assembled demo** | p. 5: "A Jupyter notebook implementation is sufficient. (Alternatively, a command-line interface is sufficient; a web UI is never required or rewarded.)" Four experiment notebooks exist; none is a five-minute walkthrough of the three queries. | Small — see below |
-| 6 | **The deck** | Required output. **The decision is made: the Google Slides deck is the deliverable**, and `slides/index.html` is retired — removed at `722b18c`, recoverable from `7d42b04`, with `slides/images/` kept because the experiments write those figures and the suite asserts them. What is left is porting the measured numbers into Google Slides, chapter by chapter, per `report-deck-crosswalk.md`. | Transcription, not production |
+| 6 | **The deck** | Required output. **Superseded: the deck is now built from the report chapters** by `make deck` — a reveal.js deck whose content is the `deck-slide` blocks inside the chapters, so it cannot drift from the prose the way the Google deck did. The first in-repo deck (`slides/index.html`) was deleted at `b0bb9cf` and is recoverable from `7d42b04`; `slides/images/` was kept because the experiments write those figures and the suite asserts them. What is left is authoring each slide as its chapter is written. | Moves with the chapters, not after them |
 | 7 | **`docs/index.md` entries** | Every new document is unlinked, deliberately, to keep parallel branches from colliding on one file. Whoever lands last adds them all in one hunk. | Minutes |
 
 **Not required, despite appearing in our internal plan:** a pinned large+medium
@@ -298,8 +297,8 @@ of what may legitimately differ and what is a real failure.
 
 ## See also
 
-- `remaining_work.md` (branch `docs/remaining-work-assessment`, unpublished) —
-  the roadmap this document summarises: compliance table, T1–T9 detail, critical path, per-person lanes
+- [`remaining_work.md`](remaining_work.md) — the roadmap this document
+  summarises: compliance table, T1–T9 detail, critical path, per-person lanes
 - [Tutorial](tutorial.md) — the end-to-end lane for a new reader
-- [Final report](report/README.md) — one file per chapter; §6 and §7 are written, the rest is the work
+- [Final report](report/README.md) — one file per chapter, plus appendices A–G; §1, §2, §6 and §7 are written, the rest is the work
 - `term-project-info.pdf` — the requirements, at the repository root

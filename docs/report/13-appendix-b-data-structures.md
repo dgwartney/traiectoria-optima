@@ -1,4 +1,9 @@
-# Flight Planner: airports, routes, and the planner
+# Appendix B. Data Structures and the Public API
+
+This is the reference for the classes §3 argues about: what each general-purpose
+class promises, what each flight-specific class adds, and what is gained by
+keeping them apart. §3 carries the argument; this carries the surface, with
+every example run at the Python prompt and pasted back exactly as it came out.
 
 `Airport`, `Route` and `FlightPlanner` are the three classes you use when you
 ask this project a question about flying. None of them builds a graph itself.
@@ -14,17 +19,17 @@ came out.
 
 **What this does not cover.** `Snapshot`, `Catalog` and `Experiment` — the
 parts that keep results repeatable — are described in
-[Experiments](experiments.md) and built step by step in the
-[Tutorial](tutorial.md). The distance formulas are in [Distance
-Formulas](distance_formulas.md), the search algorithms in [Graph Algorithm
-Notes](graph-algorithms-notes.md), and a shorter summary of the design ships
+[Experiments](../experiments.md) and built step by step in the
+[Tutorial](../tutorial.md). The distance formulas are in [Distance
+Formulas](14-appendix-c-distance-formulas.md), the search algorithms in [report
+§4](04-algorithms.md), and a shorter summary of the design ships
 inside the package itself as [the
-README](../src/flight_planner/README.md). Runnable versions of much of what
-follows are listed in [Demos](demos.md).
+README](../../src/flight_planner/README.md). Runnable versions of much of what
+follows are listed in [Demos](../demos.md).
 
 **Trying it yourself.** `uv run python` from a clone is all you need — these
 examples load no data files. See [Setup
-§3](setup.md#3-create-the-environment-and-install-dependencies) if you do not
+§3](../setup.md#3-create-the-environment-and-install-dependencies) if you do not
 have the environment yet, or [Running the examples](#running-the-examples) at
 the end of this document for Jupyter and Google Colab.
 
@@ -75,13 +80,13 @@ cares. Flights are just one of the things this machinery can be used for.
 
 ## The hierarchy
 
-![Class diagram of the flight_planner core and flight layers](images/flight-planner-class-diagram.svg)
+![Class diagram of the flight_planner core and flight layers](../images/flight-planner-class-diagram.svg)
 
 Read it as three pairs of inheritance and two hand-offs. A solid arrow means
 "is a kind of": an `Airport` is a kind of `Vertex`. The dotted arrows mean
 something different. `Graph` is *given* a search algorithm to use, and `Point`
 is *given* a distance formula to use, rather than inheriting either one. The
-[package README](../src/flight_planner/README.md#why-composition-over-inheritance)
+[package README](../../src/flight_planner/README.md#why-composition-over-inheritance)
 argues that choice in full. Here is what it buys: adding a new algorithm never
 changes `Graph`, and adding a new formula never changes `Point`.
 
@@ -143,18 +148,18 @@ Only `iata_code` is required. Every other field defaults to empty: `name`,
 `city`, `country`, `region`, `continent`, `elevation_ft`, `type`, `icao_code`,
 `has_scheduled_service`, `is_international` and `wikipedia_link`. So an airport
 you build by hand stays one line long, while airports loaded from the dataset
-can still carry everything [Data §5](data.md#5-the-processed-dataset) lists.
+can still carry everything [Data §5](../data.md#5-the-processed-dataset) lists.
 
 None of these take part in identity. They are there for reporting, and for
 narrowing a `Catalog` down to the scope you want. `country`, `type` and
 `is_international` each have a matching filter — see [Experiments
-§5](experiments.md#narrowing). The rest you filter on yourself, as [Experiments
-§3](experiments.md#finding-airports-airlines-and-codes) does by city, region
+§5](../experiments.md#narrowing). The rest you filter on yourself, as [Experiments
+§3](../experiments.md#finding-airports-airlines-and-codes) does by city, region
 and continent.
 
 `icao_code` is the four-letter code used in air-traffic control — `KSFO`,
 `KBOS`, `EGLL` — kept for matching against other datasets. Both codes are in
-the [Glossary](glossary.md#i).
+the [Glossary](18-appendix-g-glossary.md#i).
 
 The `Point` half adds one method, and it takes the formula as an argument:
 
@@ -166,7 +171,7 @@ The `Point` half adds one method, and it takes the formula as an argument:
 
 That is `Haversine` by default. Passing `Vincenty()`, or a formula of your
 own, changes the number and nothing else. See [Distance
-Formulas](distance_formulas.md).
+Formulas](14-appendix-c-distance-formulas.md).
 
 ## `Route`: an `Edge` whose weight is domain data
 
@@ -231,7 +236,7 @@ It lets you ask questions using codes rather than object references.
 The network below has no direct SFO–BOS service, and two ways across the
 country:
 
-![Five-airport example network](images/flight-planner-network.svg)
+![Five-airport example network](../images/flight-planner-network.svg)
 
 ```python
 >>> from flight_planner import (Airport, Route, FlightPlanner,
@@ -316,14 +321,14 @@ answer:
 Two flights instead of three, but 4,736 km instead of 4,370. Notice that BFS
 reports a cost of `2.0`: it counts flights and ignores `weight` entirely,
 which is why the distance had to be added up separately. That difference is
-the subject of the [Tutorial](tutorial.md), which turns it into a recorded
+the subject of the [Tutorial](../tutorial.md), which turns it into a recorded
 experiment.
 
 A\* answers the same question as Dijkstra but reaches it faster, provided you
 give it a distance guess that never overestimates — the property called
 *admissibility*. Do not write that guess by hand: which formula you pick decides
 whether the answer is guaranteed optimal, and `haversine_heuristic()` is the one
-that is safe here. [`flight_planner.geo.heuristic`](flight_planner.md) explains
+that is safe here. [`flight_planner.geo.heuristic`](13-appendix-b-data-structures.md) explains
 why, and why the more accurate `Vincenty` is the *worse* choice.
 
 ```python
@@ -335,7 +340,8 @@ why, and why the more accurate `Vincenty` is the *worse* choice.
 ```
 
 The agreement is the point: the guess changed how the search ran, not what it
-found. [Graph Algorithm Notes](graph-algorithms-notes.md) covers why, and
+found. [Report §4.3](04-algorithms.md) covers why — it turns on the
+heuristic being *consistent* and not merely admissible — and
 `src/demos/astar_example.py` wraps the guess in `Memoized` so it is not
 recalculated.
 
@@ -373,7 +379,7 @@ The second reads files that `make flight_network` rewrites. They are fine for
 looking around, but not for a number you plan to quote later.
 
 The third is the repeatable route, and is the subject of
-[Experiments](experiments.md#materializing-turning-a-catalog-into-a-graph). A
+[Experiments](../experiments.md#materializing-turning-a-catalog-into-a-graph). A
 `Catalog` narrows checked, frozen data down to the scope you want, then hands
 back a `FlightPlanner` holding exactly that scope's airports and routes. What
 comes back is the same class described here, so everything in
@@ -447,7 +453,7 @@ flying, as [Why the split exists](#why-the-split-exists) showed. Nothing in `cor
 
 Every example in this document runs against the installed package and needs no
 data files. From a clone, `uv run python` is enough — see [Setup
-§3](setup.md#3-create-the-environment-and-install-dependencies).
+§3](../setup.md#3-create-the-environment-and-install-dependencies).
 
 Nothing here is specific to the Python prompt: the same code works in a
 notebook cell, without the `>>>` markers. What changes is how the package gets
@@ -455,10 +461,10 @@ installed, which depends on where the notebook runs:
 
 | Where | What you do | Instructions |
 |---|---|---|
-| Jupyter, in a clone | `uv sync --group notebooks`, then `uv run jupyter lab` — a plain `uv sync` does not install JupyterLab | [Setup §5](setup.md#5-jupyter-notebooks) |
-| Google Colab | Clone the repository into `/content/`, then `pip install` that directory — a plain install, *not* `pip install -e` | [Setup §6](setup.md#6-google-colab) |
+| Jupyter, in a clone | `uv sync --group notebooks`, then `uv run jupyter lab` — a plain `uv sync` does not install JupyterLab | [Setup §5](../setup.md#5-jupyter-notebooks) |
+| Google Colab | Clone the repository into `/content/`, then `pip install` that directory — a plain install, *not* `pip install -e` | [Setup §6](../setup.md#6-google-colab) |
 
-Read [Setup §6](setup.md#6-google-colab) before your first Colab session
+Read [Setup §6](../setup.md#6-google-colab) before your first Colab session
 rather than after. It explains the three things that most often go wrong:
 
 - an editable install (`pip install -e`) reports success, then fails to import
@@ -466,24 +472,25 @@ rather than after. It explains the three things that most often go wrong:
 - nothing needs a runtime restart
 
 It also gives a `sys.path` fallback that skips installing altogether.
-[Experiments §2](experiments.md#2-three-pieces) shows the same table with the
+[Experiments §2](../experiments.md#2-three-pieces) shows the same table with the
 non-notebook cases alongside.
 
 This repository's own notebooks are in `notebooks/`. If a notebook in a clone
 cannot find the package, its kernel is pointing somewhere other than `.venv`;
-[Setup §5](setup.md#5-jupyter-notebooks) has the command that fixes it.
+[Setup §5](../setup.md#5-jupyter-notebooks) has the command that fixes it.
 
 ## See also
 
-- [Package design](../src/flight_planner/README.md) — the design summary that
+- [Package design](../../src/flight_planner/README.md) — the design summary that
   ships inside the package, including the full argument for handing classes
   their behaviour instead of inheriting it, and the testing layout.
-- [Experiments](experiments.md) — snapshots, catalogs, and how a
+- [Experiments](../experiments.md) — snapshots, catalogs, and how a
   `FlightPlanner` gets built from data that cannot change quietly.
-- [Tutorial](tutorial.md) — one experiment from start to finish, comparing the
+- [Tutorial](../tutorial.md) — one experiment from start to finish, comparing the
   BFS and Dijkstra answers in [`FlightPlanner`: a `Graph` with an
   index](#flightplanner-a-graph-with-an-index).
-- [Demos](demos.md) — runnable versions of most of the above.
-- [Distance Formulas](distance_formulas.md) and [Graph Algorithm
-  Notes](graph-algorithms-notes.md) — the two supporting layers in depth.
-- [Glossary](glossary.md) — aviation and graph terms.
+- [Demos](../demos.md) — runnable versions of most of the above.
+- [Distance Formulas](14-appendix-c-distance-formulas.md) — the geodesic layer in depth.
+- [Report §4 *Algorithms*](04-algorithms.md) — the three searches, the
+  min-heap, and the admissibility argument.
+- [Glossary](18-appendix-g-glossary.md) — aviation and graph terms.

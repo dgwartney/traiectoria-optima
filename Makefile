@@ -120,7 +120,13 @@ REPORT_CHAPTERS = \
 	$(REPORT_DIR)/09-challenges-and-lessons-learned.md \
 	$(REPORT_DIR)/10-conclusion.md \
 	$(REPORT_DIR)/11-references.md \
-	$(REPORT_DIR)/12-appendix.md
+	$(REPORT_DIR)/12-appendix-a-contributions.md \
+	$(REPORT_DIR)/13-appendix-b-data-structures.md \
+	$(REPORT_DIR)/14-appendix-c-distance-formulas.md \
+	$(REPORT_DIR)/15-appendix-d-networkx-parity.md \
+	$(REPORT_DIR)/16-appendix-e-astar-consistency.md \
+	$(REPORT_DIR)/17-appendix-f-reproducibility.md \
+	$(REPORT_DIR)/18-appendix-g-glossary.md
 
 # A file holding nothing but a bare \newpage. Interleaving it between the
 # chapters is what starts each one on a fresh page. It is a separate file
@@ -146,7 +152,18 @@ PDFS     := $(MD_SRCS:$(DOCS_DIR)/%.md=$(PDF_DIR)/%.pdf)
 #   .png -> build/, generated. Only the PDF needs it; svg-to-png.lua rewrites
 #           every .svg reference to the matching build/png file.
 DIAGRAM_SVGS := $(MMD_SRCS:$(MERMAID_DIR)/%.mmd=$(DOCS_IMAGES)/%.svg)
-PNGS         := $(MMD_SRCS:$(MERMAID_DIR)/%.mmd=$(PNG_DIR)/%.png)
+MMD_PNGS     := $(MMD_SRCS:$(MERMAID_DIR)/%.mmd=$(PNG_DIR)/%.png)
+
+# Hand-drawn figures: committed .svg with no mermaid source. They need a PNG
+# too, because svg-to-png.lua rewrites *every* .svg reference and pandoc treats
+# a missing image as a warning rather than an error -- so before this rule the
+# four figures in Appendix C were silently absent from the PDF while the build
+# still exited 0. Converted with rsvg-convert, which is fine here but must
+# never be pointed at a mermaid .svg: it drops all the text.
+HAND_SVGS := $(filter-out $(DIAGRAM_SVGS),$(wildcard $(DOCS_IMAGES)/*.svg))
+HAND_PNGS := $(HAND_SVGS:$(DOCS_IMAGES)/%.svg=$(PNG_DIR)/%.png)
+
+PNGS := $(MMD_PNGS) $(HAND_PNGS)
 
 # Arguments we require for pandoc
 PANDOC_FLAGS := \
@@ -242,8 +259,11 @@ diagrams: $(DIAGRAM_SVGS) $(PNGS) ## Rebuild diagrams from mermaid/*.mmd
 $(DOCS_IMAGES)/%.svg: $(MERMAID_DIR)/%.mmd
 	mmdc -i $< -o $@
 
-$(PNG_DIR)/%.png: $(MERMAID_DIR)/%.mmd | $(PNG_DIR)
+$(MMD_PNGS): $(PNG_DIR)/%.png: $(MERMAID_DIR)/%.mmd | $(PNG_DIR)
 	mmdc -i $< -o $@ -w $(DIAGRAM_WIDTH)
+
+$(HAND_PNGS): $(PNG_DIR)/%.png: $(DOCS_IMAGES)/%.svg | $(PNG_DIR)
+	rsvg-convert -w $(DIAGRAM_WIDTH) -o $@ $<
 
 # $(PNGS) is a real prerequisite, not order-only, so editing a diagram
 # rebuilds the PDFs that embed it.

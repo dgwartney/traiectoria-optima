@@ -1,9 +1,10 @@
-# Distance Formulas for Latitude/Longitude Pairs
+# Appendix C. Distance Formulas
 
-This document describes the major methods for computing the distance between two points
-given as latitude/longitude pairs, including the mathematics behind each.
+The major methods for computing the distance between two latitude/longitude
+pairs, with the mathematics behind each. §2.3's edge weights and §4.3's
+heuristic both use the first of them, haversine; §4.3's argument turns on how it
+compares with the fourth, Vincenty.
 
----
 
 ## 1. Haversine Formula
 
@@ -31,7 +32,6 @@ Where:
 **Pros:** Numerically stable for very small distances, simple to implement.
 **Cons:** Assumes a perfect sphere, so it has about 0.5 percent error due to Earth's actual ellipsoidal shape.
 
----
 
 ## 2. Spherical Law of Cosines
 
@@ -51,7 +51,6 @@ Where the variables are the same as above.
 **Pros:** Simple, direct formula.
 **Cons:** Suffers from floating-point rounding errors when distances are very small (points close together), because it involves taking the arccosine of a value very close to 1.
 
----
 
 ## 3. Equirectangular Approximation
 
@@ -76,7 +75,6 @@ Where:
 **Pros:** Very fast to compute, good for short distances (city-scale).
 **Cons:** Accuracy degrades quickly over long distances since it ignores Earth's curvature.
 
----
 
 ## 4. Vincenty's Formula
 
@@ -112,7 +110,6 @@ during iteration until convergence (typically within a few iterations).
 **Pros:** Accurate to within millimeters for most points on Earth.
 **Cons:** Computationally heavier due to iteration; can fail to converge for nearly antipodal points (points almost exactly opposite each other on the globe).
 
----
 
 ## 5. Karney's Algorithm (Geodesic Method)
 
@@ -140,7 +137,6 @@ involved than Vincenty's but robust in all cases.
 **Pros:** Highly accurate everywhere on Earth, including edge cases; well-optimized.
 **Cons:** More complex to implement from scratch (most users rely on a library like GeographicLib).
 
----
 
 ## 6. Projected Coordinate Methods (e.g., UTM)
 
@@ -162,7 +158,6 @@ d = √[ (x2 − x1)² + (y2 − y1)² ]
 **Pros:** Very fast and intuitive once projected; ideal for local/regional GIS work.
 **Cons:** Only accurate within a single UTM zone; distortion increases significantly if points span multiple zones or are far apart.
 
----
 
 ## Summary Table
 
@@ -176,7 +171,6 @@ d = √[ (x2 − x1)² + (y2 − y1)² ]
 | Projected (UTM) | Projected ellipsoid | High within zone | Local/regional GIS analysis |
 
 
----
 
 ## Python Implementations
 
@@ -309,7 +303,6 @@ def utm_distance(lat1, lon1, lat2, lon2):
     return d / 1000.0  # meters to kilometers
 ```
 
----
 
 ## Example Usage
 
@@ -325,7 +318,6 @@ print("Karney:", karney_geodesic(lat1, lon1, lat2, lon2), "km")
 ```
 
 
----
 
 ## Diagrams
 
@@ -344,8 +336,8 @@ They are located in the `images/` subfolder alongside this file.
 To embed these in a rendered markdown report, reference them like so:
 
 ```markdown
-![Great Circle Diagram](images/great_circle.svg)
-![Ellipsoid Geodesic Diagram](images/ellipsoid_geodesic.svg)
-![Equirectangular Diagram](images/equirectangular.svg)
-![UTM Projection Diagram](images/utm_projection.svg)
+![Great Circle Diagram](../images/great_circle.svg)
+![Ellipsoid Geodesic Diagram](../images/ellipsoid_geodesic.svg)
+![Equirectangular Diagram](../images/equirectangular.svg)
+![UTM Projection Diagram](../images/utm_projection.svg)
 ```

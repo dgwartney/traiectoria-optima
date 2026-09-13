@@ -12,7 +12,7 @@
 - Haversine admissible heuristic
 - A* implementation using the custom heap
 - Admissibility argument/proof
-  — drop in [results-astar-consistency.md](../results-astar-consistency.md);
+  — drop in [results-astar-consistency.md](16-appendix-e-astar-consistency.md);
   note that the implementation requires *consistency*, not merely
   admissibility, and that the project's heuristic satisfies it
   (658,470 checks, 0 violations)

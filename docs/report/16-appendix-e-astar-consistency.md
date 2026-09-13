@@ -1,18 +1,10 @@
----
-title: "A* and heuristic consistency"
-subtitle: "Results from `experiments/astar-consistency`"
----
+# Appendix E. A\* and Heuristic Consistency
 
-# A\* and heuristic consistency
-
-> **For the final report.** This section is written for
-> [`docs/report/04-algorithms.md`](report/04-algorithms.md) §4.3,
-> *A\* Search (Stretch Concept)* → "Haversine
-> admissible heuristic / Admissibility argument", and §5, *Correctness
-> Testing*. Every number below is read from
-> [`experiments/astar-consistency/results.json`](../experiments/astar-consistency/results.json),
-> which the experiment wrote. Regenerate with
-> `uv run python experiments/astar-consistency/run.py`.
+Full results for the argument §4.3 makes and the defect §5 reports. Every number
+below is read from
+[`experiments/astar-consistency/results.json`](../../experiments/astar-consistency/results.json),
+which the experiment wrote. Regenerate with
+`uv run python experiments/astar-consistency/run.py`.
 
 ## The question, and why it is not the obvious one
 
@@ -185,7 +177,7 @@ data.
 would not change a single published number.** `ReopeningAStar` expands
 *exactly* the same 24,424 nodes as `AStar`, because a consistent heuristic
 never triggers a re-expansion. That matters because
-[`experiments/search-cost`](../experiments/search-cost) publishes A\*'s
+[`experiments/search-cost`](../../experiments/search-cost) publishes A\*'s
 per-pair expansion counts and `tests/experiments/test_committed.py` pins every
 one of them; the obvious worry about adopting the patch — that it would
 invalidate the project's headline comparison table — is measurably unfounded.
@@ -248,10 +240,9 @@ Apple M2 Pro, Python 3.12.12.
 
 ## See also
 
-- [Validation against NetworkX](results-networkx-parity.md) — the companion
+- [Validation against NetworkX](15-appendix-d-networkx-parity.md) — the companion
   experiment: do our answers match NetworkX's on real long-haul queries?
-- [Validating against NetworkX](networkx-validation.md) — the design document
+- [Validating against NetworkX](../networkx-validation.md) — the design document
   this experiment implements (Option E), and the six other options considered.
-- [Graph Algorithm Notes](graph-algorithms-notes.md) — Dijkstra, BFS and A\*.
-- [Final report](report/README.md) — [§4.3](report/04-algorithms.md) and
-  [§5](report/05-correctness-testing.md) are where this section lands.
+- [Final report](README.md) — [§4.3](04-algorithms.md) and
+  [§5](05-correctness-testing.md) are where this section lands.

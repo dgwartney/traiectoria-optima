@@ -311,7 +311,7 @@ In this repository that is exactly one class, a test double in
 rename `find_path` to `search` and return a `SearchResult` instead of a tuple.
 The two extension-point docs a consumer would read
 ([`src/flight_planner/README.md:80`](../src/flight_planner/README.md) and
-[flight_planner.md:425](flight_planner.md)) were updated in `24c8676` to say
+[flight_planner.md:425](report/13-appendix-b-data-structures.md)) were updated in `24c8676` to say
 `search`.
 
 Callers are unaffected — that is D9's entire purpose.
@@ -360,10 +360,10 @@ documents added in parallel both append to the same list, and git sees one
 region changed twice.
 
 This is why [evaluation-search-instrumentation.md](evaluation-search-instrumentation.md)
-and this document are **not** linked from `docs/index.md`. `project_plan.md`,
-`report.md` and `discussion.md` are not either, so project-management docs
-already sit outside that list. Whoever lands last can add all the index entries
-in one edit, as one hunk, with no conflict.
+and this document are **not** linked from `docs/index.md`. `project_plan.md` is
+not either, so project-management docs already sit outside that list. Whoever
+lands last can add all the index entries in one edit, as one hunk, with no
+conflict.
 
 ### The remaining T8 work splits cleanly
 

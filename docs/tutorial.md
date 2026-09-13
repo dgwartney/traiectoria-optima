@@ -58,7 +58,7 @@ behind a step:
 |---|---|
 | [Experiments](experiments.md) | The same machinery as a reference: every snapshot filter, the narrowing vocabulary, the endpoint modes. The natural next read |
 | [Setup](setup.md) | If Step 1 gives you trouble, or you want the Colab install explained line by line |
-| [Graph Algorithm Notes](graph-algorithms-notes.md) | If Dijkstra and BFS are new. Step 6 turns on the difference between them, and works without prior reading — but this is where the theory lives |
+| [Report §4 *Algorithms*](report/04-algorithms.md) | If Dijkstra and BFS are new. Step 6 turns on the difference between them, and works without prior reading — but this is where the theory lives, alongside Goodrich, Tamassia & Goldwasser ch. 14 |
 | [Makefile](makefile.md) | Every target, including the two this tutorial uses |
 | [Demos](demos.md) | Small runnable scripts, one idea each, once you want to poke at the library directly |
 
@@ -1155,7 +1155,7 @@ The reference covers each of these:
 | Building a small graph by hand from real flights | [Experiments §5](experiments.md#materializing-turning-a-catalog-into-a-graph) |
 | Narrowing at freeze time vs in the notebook | [Experiments §6](experiments.md#6-experiment-the-directory-and-its-record) |
 | Why `pip install -e` breaks in Colab, and installing without pip at all | [Setup §6](setup.md#6-google-colab) |
-| Dijkstra, BFS and A\* in the abstract | [Graph Algorithm Notes](graph-algorithms-notes.md) |
+| Dijkstra, BFS and A\* in the abstract | [Report §4](report/04-algorithms.md), and Goodrich, Tamassia & Goldwasser ch. 14 |
 
 ## Appendix: a condensed one-file version
 

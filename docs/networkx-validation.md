@@ -64,8 +64,8 @@ as. The commands are in [Appendix A](#appendix-a--how-these-were-run).
 > | Option | Where it landed | Write-up |
 > |---|---|---|
 > | **C** — NetworkX behind the Strategy | `src/validation/engines.py` | used by both experiments below |
-> | **B** — a parity experiment | [`experiments/networkx-parity`](../experiments/networkx-parity) | [results-networkx-parity.md](results-networkx-parity.md) |
-> | **E** — randomized differential testing | [`experiments/astar-consistency`](../experiments/astar-consistency) | [results-astar-consistency.md](results-astar-consistency.md) |
+> | **B** — a parity experiment | [`experiments/networkx-parity`](../experiments/networkx-parity) | [results-networkx-parity.md](report/15-appendix-d-networkx-parity.md) |
+> | **E** — randomized differential testing | [`experiments/astar-consistency`](../experiments/astar-consistency) | [results-astar-consistency.md](report/16-appendix-e-astar-consistency.md) |
 >
 > Options A, D, F and G remain proposals. Read the sections below for the
 > reasoning and the design alternatives; read the two write-ups for what the
@@ -548,7 +548,7 @@ Asserting on equal total cost is the durable contract.
 ### Option B — A parity *experiment*, recorded like any other result
 
 > **Built.** [`experiments/networkx-parity`](../experiments/networkx-parity),
-> written up in [results-networkx-parity.md](results-networkx-parity.md). The
+> written up in [results-networkx-parity.md](report/15-appendix-d-networkx-parity.md). The
 > recorded payload below is close to what shipped; the built version also
 > records the `DiGraph` collapse figure and an oracle version.
 
@@ -805,7 +805,7 @@ option that most strengthens the docs.
 ### Option E — Randomized differential testing
 
 > **Built.** [`experiments/astar-consistency`](../experiments/astar-consistency),
-> written up in [results-astar-consistency.md](results-astar-consistency.md).
+> written up in [results-astar-consistency.md](report/16-appendix-e-astar-consistency.md).
 > `RandomGraphPair` and `InconsistentHeuristic` are in
 > [`src/validation/random_graphs.py`](../src/validation/random_graphs.py) and
 > the patch is `ReopeningAStar`. Final counts: **27 suboptimal / 25
@@ -1526,7 +1526,6 @@ Option B's `record()` call are still sketches.
   experiment model this document builds on.
 - [Tutorial](tutorial.md) — builds `experiments/shortest-vs-fewest`, whose
   finding Option D re-derives.
-- [Graph Algorithm Notes](graph-algorithms-notes.md) — Dijkstra, BFS and A\*.
 - [Final report](report/README.md) — [§5 *Correctness Testing*](report/05-correctness-testing.md) is the section Option
   B's recorded result is written for; §6 and §7 consume its counters and
   timings.

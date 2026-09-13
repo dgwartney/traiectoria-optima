@@ -1,18 +1,10 @@
----
-title: "Validation against NetworkX"
-subtitle: "Results from `experiments/networkx-parity`"
----
+# Appendix D. Validation against NetworkX
 
-# Validation against NetworkX
-
-> **For the final report.** This section is written for
-> [`docs/report/05-correctness-testing.md`](report/05-correctness-testing.md) §5,
-> *Correctness Testing* → "Library
-> cross-validation results (NetworkX)". Every number below is read from
-> [`experiments/networkx-parity/results.json`](../experiments/networkx-parity/results.json),
-> which the experiment wrote; nothing here is hand-copied from a console
-> session. Regenerate with
-> `uv run python experiments/networkx-parity/run.py`.
+Full results for the cross-validation §5 summarises. Every number below is read
+from
+[`experiments/networkx-parity/results.json`](../../experiments/networkx-parity/results.json),
+which the experiment wrote; nothing here is hand-copied from a console session.
+Regenerate with `uv run python experiments/networkx-parity/run.py`.
 
 ## The question
 
@@ -216,7 +208,7 @@ pair.
 - **200 pairs is a sample, not a proof.** It is drawn reproducibly from a
   seed, but a 0.002% sample of the 11.5 million possible pairs cannot rule out
   a defect that appears only on a rare graph shape. That gap is what
-  [`experiments/astar-consistency`](results-astar-consistency.md) exists to
+  [`experiments/astar-consistency`](16-appendix-e-astar-consistency.md) exists to
   close from the other direction, with randomized graphs designed to produce
   shapes flight data never does.
 - **A recorded result goes stale silently.** "Zero mismatches" keeps reading
@@ -237,11 +229,11 @@ a failure rather than a line of output someone has to notice. Recorded
 
 ## See also
 
-- [Validating against NetworkX](networkx-validation.md) — the design document
+- [Validating against NetworkX](../networkx-validation.md) — the design document
   this experiment implements (Options B and C), and the five other options
   considered.
-- [A\* and heuristic consistency](results-astar-consistency.md) — the
+- [A\* and heuristic consistency](16-appendix-e-astar-consistency.md) — the
   companion experiment, and the defect it found.
-- [Experiments](experiments.md) — snapshots, the `Catalog` vocabulary, and the
+- [Experiments](../experiments.md) — snapshots, the `Catalog` vocabulary, and the
   experiment model.
-- [Final report](report/README.md) — [§5](report/05-correctness-testing.md) is where this section lands.
+- [Final report](README.md) — [§5](05-correctness-testing.md) is where this section lands.

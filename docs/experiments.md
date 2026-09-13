@@ -648,9 +648,16 @@ Two design points worth knowing:
 | Id | Contents | Criteria |
 |---|---|---|
 | `2026-09-11-bb90a8` | 66,332 routes / 3,387 airports | none — the whole network |
+| `2026-09-12-3e4f9d` | 7,005 routes / 94 airports | `airport_type=large_airport`, `country=US` |
 | `2026-09-11-1528c4` | 861 routes / 88 airports | `airline=UA`, `airport_type=large_airport`, `country=US` |
 
-The second predates the pipeline going global and is kept pinned rather than
+The second is the US large-airport slice `shortest-vs-fewest` and
+`astar-consistency` pin: dense enough that a fewest-stops answer and a
+shortest-distance answer differ. Its manifest also carries a `narrowing` record
+— two steps, 66,332 → 50,474 → 7,005 routes, with zero dangling edges at each
+— so the slice states how it was cut and not merely what it contains.
+
+The third predates the pipeline going global and is kept pinned rather than
 re-frozen. It is also a working demonstration of forward compatibility: it was
 cut before the `is_international` column existed, and it still loads — absent
 columns read as their default instead of raising.
@@ -1309,7 +1316,7 @@ uv run python src/demos/script_experiment_example.py
 
 ### Experiments in this repository
 
-Six are committed, and they are worth reading in this order — each one adds
+Seven are committed, and they are worth reading in this order — each one adds
 something the previous did not need.
 
 | Slug | Question it asks | Snapshot | What it adds |
@@ -1320,11 +1327,12 @@ something the previous did not need.
 | [`networkx-parity`](../experiments/networkx-parity) | Do our algorithms agree with NetworkX on the world network? | `2026-09-11-bb90a8` — the whole world | Takes the **engine as a parameter**, not the data: NetworkX is wrapped behind `PathfindingAlgorithm` (`src/validation/engines.py`) so the same `find_shortest_route` call runs either implementation. Records an *oracle version* alongside the result, and exits non-zero on a disagreement. |
 | [`astar-consistency`](../experiments/astar-consistency) | Is A\* optimal for an admissible heuristic, or only a consistent one? | `2026-09-12-3e4f9d` — US large airports | Two halves. The first runs on **random graphs**, because the real data cannot produce the case; the second uses the snapshot to ask whether the defect is reachable here, which is what earns the pin rather than making it a unit test. The pattern to copy when a finding needs data the snapshot cannot supply. |
 | [`graph-stats`](../experiments/graph-stats) | What does the world airline network look like as a graph? Size, degree, reachability. | `2026-09-11-bb90a8` — the whole world | Asks about the **graph itself** rather than about a search over it, and so writes the report's dataset chapter rather than its evaluation. The first to use the observer seam for something other than measuring a search: a `BFS` aimed at a sentinel airport that is not in the graph never terminates early, so it becomes a **reachability probe**, and a `SearchObserver` collects what it reached. The one to copy when the question is "what is this data?" rather than "what is the answer?" |
+| [`route-map`](../experiments/route-map) | What does an answer look like? Dijkstra against BFS on three world pairs, drawn rather than printed. | `2026-09-11-bb90a8` — the whole world | The only one whose **output is a picture**. It drives `flight_planner.viz` and writes the report's and the deck's route maps, which is why its three pairs were each chosen to make a different point: HNL–BDL saves a leg for 544.7 km, ANC–PVD pays 1,620.3 km for skipping one, and SYD–JFK is the same leg count 7,057.3 km apart — the case where only the drawing explains it. Also the one that discovered the tile-provider trap in §9. |
 
-Two of the six compare our results against something outside the project, and
+Two of the seven compare our results against something outside the project, and
 each ships a prose write-up destined for the final report —
-[results-networkx-parity.md](results-networkx-parity.md) and
-[results-astar-consistency.md](results-astar-consistency.md). That is the
+[results-networkx-parity.md](report/15-appendix-d-networkx-parity.md) and
+[results-astar-consistency.md](report/16-appendix-e-astar-consistency.md). That is the
 pattern for an experiment whose output is an argument rather than a number:
 `results.json` is what the code produced, and the markdown is what it means.
 

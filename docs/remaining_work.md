@@ -28,6 +28,23 @@ The assessment of *state* is based on the code and documents in the repository
 at commit `fd475e1` (`main`, clean tree), plus the Google Slides deck exported
 as `traiectoria-optima (2).pdf`, which lives outside the repository.
 
+> **This is a dated assessment, and four of its findings have since moved.** It
+> is kept as written rather than revised, because a snapshot that gets edited
+> stops being evidence of what was true when it was taken. Read it against
+> [`status.md`](status.md) for the current picture. What has changed:
+>
+> - **§1 item 6** describes `docs/report.md` as 83 lines of headings. That file
+>   no longer exists; the report is one file per chapter under
+>   [`docs/report/`](report/README.md), of which §1, §2, §6 and §7 are written
+>   and appendices A–G are in place.
+> - **§1 item 7 and §6** treat two hand-maintained decks as live. Both are
+>   retired. The deck is now generated from the report chapters by `make deck`,
+>   which is what makes the divergences §6 catalogues unable to recur.
+> - **The test count** was 311. It is now 883.
+> - **§9's line counts** predate the experiment framework, `src/validation/`
+>   and the appendices. [Appendix A](report/12-appendix-a-contributions.md) §A.2
+>   carries the current inventory.
+
 ---
 
 ## 1. Summary
@@ -222,7 +239,7 @@ the instructor's structure is the four stages in §3.
 | T4 | Test suite: mini-graph plus empty, single-element, cyclic/duplicate, disconnected | JL | **Partial — audited** | 311 tests pass and the package is well covered, but **none of the four rubric-named cases are tested against the graph**, there is no known-route test, and route-level ties are untested. Then the testing/validation slide. |
 | T5 | BFS fewest-stops with reconstruction, validated against NetworkX | JL | **Half done** | BFS works (`algorithms.py:94`) with predecessor-map reconstruction, and is tested. NetworkX cross-validation not started. |
 | T6 | Dijkstra on our own min-heap, validated against NetworkX | ASF | **Half done** | Dijkstra works and is tested, but runs on `heapq` — so it does not satisfy the deliverable as written. NetworkX validation not started. |
-| T7 | A\* with haversine heuristic + written admissibility argument | ASF | **Mostly done** | A\* works (`algorithms.py:142`), tested, demonstrated in `src/demos/astar_example.py`. Admissibility is asserted in docstrings and `docs/graph-algorithms-notes.md`; the written argument for slide 19 and report §4.3 is unwritten. Also must move off `heapq`. |
+| T7 | A\* with haversine heuristic + written admissibility argument | ASF | **Mostly done** | A\* works (`src/flight_planner/pathfinding/astar.py`, one module per algorithm since the split), tested, demonstrated in `src/demos/astar_example.py`. It runs on the project's own `MinHeap`, so the former `heapq` dependency is gone. What is outstanding is prose: the argument lives in the `geo/heuristic.py` docstring and in `docs/results-astar-consistency.md`, and report §4.3 is still a stub. |
 | T8 | Evaluation: comparison table (nodes expanded + runtime), runtime-vs-size plot, Big-O write-up, rendered route map | JL | **Not started** | Everything. The experiments framework is the right vehicle — `experiments/shortest-vs-fewest/` already compares Dijkstra against BFS over three pairs and records to `results.json`. A three-way benchmark experiment is the natural shape. |
 | T9 | Runnable notebook/CLI + live demo, assembled deck, final report | DG | **Partially started** | Google Slides deck is real but substantively incomplete and partly inaccurate (§6). Report is an outline. No interactive query entry point — `argparse` appears only in `scripts/new_snapshot.py` and `scripts/new_experiment.py`, which are authoring tools. No assembled final notebook. |
 
