@@ -42,7 +42,7 @@ NetworkX validation — are all closed.
 
 | Instructor's stage | State |
 |---|---|
-| Stage 1 — Foundation | **Complete**, proposal submitted and graded. Graph statistics are now measured and written up — `experiments/graph-stats/`, report §2.1. |
+| Stage 1 — Foundation | **Complete**, proposal submitted and graded. Graph statistics are now measured and written up — `experiments/graph-stats/`, report §2.5. |
 | Stage 2 — Core algorithm | **Complete.** BFS, Dijkstra and A\* all work, are tested, and now agree with NetworkX on real queries. |
 | Stage 3 — Stretch + features | **Code complete.** The min-heap is from scratch, `heapq` is gone from the package, A\* runs on our heap. The *written* admissibility argument is not done. |
 | Stage 4 — Evaluation | **Mostly done.** Comparison table, runtime-vs-size plot, complexity write-up and route map all exist. The report's other sections and the deck do not. |
@@ -218,7 +218,7 @@ against our own internal plan, which asks for more than the rubric does.
 | 1 | **The A\* admissibility argument, written out** | A1's stretch concept is "Dijkstra with your own min-heap **and** A\* with an admissible haversine heuristic", and outputs require it be "clearly **explained**". Highest graded weight of anything open. | Half a day. The evidence is already measured ([§6](#6-three-findings-worth-knowing-before-you-read-the-code)). |
 | 2 | **The four rubric-named tests** | p. 5 names them: empty, single-element, cyclic/duplicate, disconnected. None is tested against `Graph` today — `test_graph.py` has five tests, all about construction. A1 also asks for a hand-built mini-graph test; there is none. | Small, independent, startable now |
 | 3 | **Report prose** | §6 and §7 are written. §1–§5, §9–§11 and the appendix are still bullet outlines. §8 and §5's NetworkX paragraph can be assembled from the result documents. | The long pole |
-| 4 | ~~**Graph statistics**~~ | **Closed.** `experiments/graph-stats/` measures size, density, degree, reachability and components on the world snapshot; report §2.1 is written from its `results.json`. `core/graph.py` still has no stats method and does not need one — reachability is measured with the package's own `BFS` and a `SearchObserver`. | — |
+| 4 | ~~**Graph statistics**~~ | **Closed.** `experiments/graph-stats/` measures size, density, degree, reachability and components on the world snapshot; report §2.5 is written from its `results.json`. `core/graph.py` still has no stats method and does not need one — reachability is measured with the package's own `BFS` and a `SearchObserver`. | — |
 | 5 | **One assembled demo** | p. 5: "A Jupyter notebook implementation is sufficient. (Alternatively, a command-line interface is sufficient; a web UI is never required or rewarded.)" Four experiment notebooks exist; none is a five-minute walkthrough of the three queries. | Small — see below |
 | 6 | **The deck** | Required output. **The decision is made: the Google Slides deck is the deliverable**, and `slides/index.html` is retired — removed at `722b18c`, recoverable from `7d42b04`, with `slides/images/` kept because the experiments write those figures and the suite asserts them. What is left is porting the measured numbers into Google Slides, chapter by chapter, per `report-deck-crosswalk.md`. | Transcription, not production |
 | 7 | **`docs/index.md` entries** | Every new document is unlinked, deliberately, to keep parallel branches from colliding on one file. Whoever lands last adds them all in one hunk. | Minutes |

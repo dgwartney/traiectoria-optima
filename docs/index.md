@@ -23,7 +23,7 @@ Documentation site for the Traiectoria Optima project.
 ## Deliverables
 
 - [Final report](report/README.md) — one file per chapter, assembled into a
-  PDF by `make report`. §1, §2.1, §6 and §7 are written; the rest are
+  PDF by `make report`. §1, §2, §6 and §7 are written; the rest are
   outlines.
 - [Report and deck crosswalk](report-deck-crosswalk.md) — the report and the
   presentation are two renderings of one body of committed evidence. This says

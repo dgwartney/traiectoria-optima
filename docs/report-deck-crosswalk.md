@@ -15,7 +15,7 @@ date: 2026-09-13
 presentation deck are two of the six outputs the rubric names, and they are not
 two bodies of work. They are two renderings of one body of evidence that is
 already committed: six experiments' `results.json`, six figures in
-`slides/images/`, and three result documents. Report §1, §2.1, §6 and §7 are
+`slides/images/`, and three result documents. Report §1, §2, §6 and §7 are
 already written prose over that evidence.
 
 Everything still open in both artifacts is **transcription, not research** —
@@ -61,7 +61,7 @@ issue, not an issue of its own.
 
 | Content unit | Report | Deck | Evidence already committed | Real work |
 |---|---|---|---|---|
-| Dataset | #42 (§2 intro; §2.1 written) | #53 | `graph-stats/results.json`, `degree-distribution.png`, `top-hubs.png` | Prose for sources and cleaning; the slide is transcription |
+| Dataset | #42 (written) | #53 | `graph-stats/results.json`, `degree-distribution.png`, `top-hubs.png` | Prose for sources and cleaning; the slide is transcription |
 | Graph construction + API | #43 | #54, #55 | — | One pipeline and API description, written once |
 | Algorithms + A\* argument | #44, **#15** | #56 | `results-astar-consistency.md` — 658,470 checks, 0 violations, plus a four-vertex counterexample | **The one genuine writing task.** Highest graded weight open |
 | Correctness testing | #45 | #61 | `results-networkx-parity.md`, `astar-consistency`, and the suite's assertions over both — #11 | Blocked on #5 — see [§5](#5-order-of-work) |
@@ -94,8 +94,8 @@ rather than being independently corrected.
 | "ipyleaflet Widgets… bidirectional communication" | `ipyleaflet` appears nowhere in `src/`. `flight_planner.viz` is Folium and pyproj. Ch. 8's outline repeats the same error. |
 | "Decrease-Key Optimizations… resolving the standard [TODO]" | `MinHeap` exposes `push`, `pop` and `peek` and has **no `decrease_key`**. Dijkstra uses lazy superseded entries — see `test_superseded_entry_does_not_corrupt_the_distance`. The claim is false, and the lazy-deletion design is the better slide. |
 | Core API: `fewest_stops` / `shortest_distance` / `astar`, plus "TODO: confirm signatures" | The API is `FlightPlanner`, and `search()` returning a `SearchResult`. |
-| Empirical Runtime: complexity classes only; "optimal baseline for dense graph processing" | Density is **0.32%** — the graph is sparse, and that sparsity is §2.1's and §3's argument for the adjacency list. Measured growth exponents are in `search-cost/results.json`. |
-| "~3,300 airports / ~67,000 routes", plus a TODO | Measured: **3,387 airports and 66,332 routes**, of which 29,615 run parallel to another on the same pair (§2.1). |
+| Empirical Runtime: complexity classes only; "optimal baseline for dense graph processing" | Density is **0.32%** — the graph is sparse, and that sparsity is §2.5's and §3's argument for the adjacency list. Measured growth exponents are in `search-cost/results.json`. |
+| "~3,300 airports / ~67,000 routes", plus a TODO | Measured: **3,387 airports and 66,332 routes**, of which 29,615 run parallel to another on the same pair (§2.5). |
 
 The A\* row travels with #39: the consistency correction has to land in
 `AStar`'s docstring, in Ch. 4 and on the A\* slide together, or the three
@@ -159,7 +159,7 @@ the deliverable that is behind.
 
 ## See also
 
-- [Final report](report/README.md) — one file per chapter; §1, §2.1, §6 and §7
+- [Final report](report/README.md) — one file per chapter; §1, §2, §6 and §7
   are written, the rest is the work
 - [Where we are](status.md) — the dated snapshot this document's evidence
   column is drawn from

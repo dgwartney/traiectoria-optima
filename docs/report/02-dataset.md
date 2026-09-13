@@ -1,13 +1,122 @@
 # 2. Dataset
-- Data sources (OpenFlights airports/routes, OurAirports)
-- Scope: the world airline network — 3,387 airports and 66,332 routes after
-  cleaning, measured in §2.1. One experiment (`shortest-vs-fewest`) works on a
-  94-airport US large-airport slice of it, frozen as its own snapshot; the
-  evaluation in §7 uses the whole network, because the queries it asks are
-  long-haul
-- Cleaning and preparation steps
 
-## 2.1 Basic graph statistics
+## 2.1 Data sources
+
+The project catalog names one source — OpenFlights airports and routes — and we
+use two. The edges come from OpenFlights `routes.dat`, which is the only open
+table of scheduled airline service at this scale. The vertices come from
+**OurAirports** instead of OpenFlights' own `airports.dat`, because the edges
+are the harder half and the airports have to be good enough to resolve them.
+
+| Source | Raw rows | What we take from it |
+|---|---|---|
+| OurAirports `airports.csv` | 85,884 | Airport identity, coordinates, and the descriptive columns |
+| OpenFlights `routes.dat` | 67,663 | Airline, origin, destination, codeshare flag, stops, equipment |
+| Wikipedia list of international airports | 1,329 airports | The `is_international` flag |
+
+`airports.dat` carries 14 fields for 7,698 airports; OurAirports carries 85,884
+rows and adds `iso_region`, `continent`, `scheduled_service`, `type` and
+`wikipedia_link`, and gives country as an ISO code rather than a free-text name.
+That difference is load-bearing rather than cosmetic: `type` and `iso_country`
+are the two columns the experiment catalog narrows on, so the 94-airport US
+slice in §2.2 exists only because the airport table has them. A third
+column, `is_international`, is not in either source — it comes from a scrape of
+Wikipedia's list of international airports, and marks 1,329 of the 3,387. It is
+independent of `type`: 116 large airports are absent from that list and 364
+medium ones appear on it, so "large" and "international" are two different
+questions rather than two spellings of one.
+
+## 2.2 Scope
+
+The catalog's subject is the whole world airline network, and after cleaning
+that is **3,387 airports and 66,332 routes** — measured in §2.5, not
+estimated. The evaluation in §7 runs on all of it: its queries are long-haul
+by design, and a route across an ocean is exactly the case where an
+informed search has room to win. One experiment,
+`experiments/shortest-vs-fewest`, deliberately works on a narrower slice — the
+**94 US large airports and the 7,005 routes among them**, frozen as snapshot
+`2026-09-12-3e4f9d` — because the question it asks is what skipping a layover
+costs on a dense domestic network, where a fewest-stops answer and a
+shortest-distance answer actually differ.
+
+Every experiment names the frozen **snapshot** it ran against and re-verifies it
+by checksum before reading a row, so a number in this report cannot quietly
+drift away from the data that produced it. §2.5 and the evaluation in §7 both
+run on the world snapshot `2026-09-11-bb90a8`.
+
+A snapshot is the two cleaned CSVs plus a manifest recording, per file, its
+SHA-256, its byte count, its row count, the narrowing criteria that produced it
+and the commit of the code that wrote it. Opening one re-hashes every file
+against that manifest and refuses to proceed on a mismatch, which costs 0.01 s
+on the world network — cheap enough that a live demo can afford to verify its
+own data. The processed CSVs under `data/processed/` are build output and are
+rewritten whenever the pipeline runs, so nothing that needs a stable answer
+reads them directly. That is the distinction that matters here: "3,387
+airports" names a specific, hashed set of rows rather than whatever the last
+build happened to produce.
+
+## 2.3 Cleaning and preparation
+
+Two filters, applied in that order, and each one reports what it discarded.
+
+**Airports: 85,884 → 9,053 → 3,387.** An airport is *usable* if it has exactly
+three characters of IATA code and both coordinates; dropping the rest, and
+deduplicating on IATA code, leaves 9,053. Most of the 85,884 are airfields,
+heliports and seaplane bases with no commercial service, so this is the
+expected attrition rather than a data problem. Of those 9,053, only the
+**3,387** that at least one surviving route actually touches are written out —
+an airport no flight reaches is not part of the airline network, and carrying
+it would inflate every statistic in §2.5 and every denominator in §6.
+
+**Routes: 67,663 → 66,332.** A route survives if *both* endpoints resolve to a
+usable airport. **1,331 do not**, and the split is informative:
+
+| Reason a route was dropped | Rows |
+|---|---|
+| origin does not resolve | 663 |
+| destination does not resolve | 660 |
+| neither resolves | 8 |
+| **total** | **1,331** |
+
+The near-symmetry of 663 against 660 is what you would expect if the cause is a
+handful of airports missing from OurAirports rather than a systematic bias
+against one direction of travel.
+
+None of this is silent. The loader records every skipped row as a
+`(row number, reason)` pair — `missing iata_code`, `ABC: missing coordinates`,
+`unknown airport code 'XYZ'` — and the pipeline prints the dropped-route count
+when it runs. That reporting *is* the "data loading and validation" the project
+asks for: a cleaning step that cannot say what it removed is indistinguishable
+from a bug.
+
+Edge weights are computed during this pass, with
+`flight_planner.geo.Haversine` — the same tested implementation the search
+algorithms use, rather than a second copy of the formula written in SQL. §3
+explains why that matters more than it sounds, and §4.3 explains why the
+heuristic depends on it.
+
+## 2.4 What a cleaned route is, and is not
+
+Two caveats belong here rather than in the results, because they qualify every
+number that follows.
+
+**A route is a marketed airline service, not a distinct flight.** 66,332 routes
+run between 36,717 distinct airport pairs, so 29,615 of them are parallel to
+another (§2.5). It is tempting to read that as competition, and partly it is —
+564 distinct carriers appear in the table. But of the 45,754 route rows sitting
+on a pair served more than once, **11,982 carry a codeshare flag**: the same
+aircraft, sold under another airline's code. ORD→ATL has 20 rows. The graph is
+therefore a multigraph of *marketing*, and the shortest-path algorithms treat
+its parallel edges as what they are — alternative ways to fly one leg, all of
+the same length.
+
+**Eleven surviving rows have `stops > 0`**, so a handful of "routes" are not
+nonstop legs. The edge weight is the great-circle distance between endpoints
+regardless, which slightly understates those eleven. At 0.017% of the table it
+changes no result in §7, and it is recorded here because the alternative —
+noticing it later — is how a clean story becomes a wrong one.
+
+## 2.5 Basic graph statistics
 
 Every number in this section comes from `experiments/graph-stats/`, whose
 `results.json` is committed alongside the notebook that produced it. It runs on
