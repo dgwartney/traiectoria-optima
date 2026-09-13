@@ -1,0 +1,46 @@
+# route-map
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "route-map"
+description = "What does an answer look like? Dijkstra against BFS on the world network, drawn rather than printed."
+notebooks = ["explore.ipynb"]
+snapshot = "../../data/snapshots/2026-09-11-bb90a8"  # 2026-09-11-bb90a8
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+
+# Three pairs, each chosen because it makes a different point about what a map
+# adds to a number. All three are on the world snapshot as committed.
+#
+#   HNL-BDL  the fewest-stops trade: BFS saves a leg and spends 545 km. This
+#            is the pair docs/visualization.md opens with.
+#   ANC-PVD  the widest gap found: BFS's two legs cost 1,620 km more than
+#            Dijkstra's three, which is hard to believe until it is drawn.
+#   SYD-JFK  same leg count both ways, 7,057 km apart -- so the picture, not
+#            the hop count, is what explains it. Also crosses the
+#            antimeridian, which is the geometry the helper exists to get
+#            right.
+pairs = [
+    ["HNL", "BDL"],
+    ["ANC", "PVD"],
+    ["SYD", "JFK"],
+]
+
+# The pair drawn with the whole network underneath it, to show what the
+# context layer costs and why it ships switched off.
+context_pair = ["HNL", "BDL"]
+
+# Where the figures go, relative to this file like the snapshot.
+#
+# Note what is NOT here: a dark variant. plots.py renders every chart twice
+# because the deck is a black reveal.js theme, but a map cannot follow it --
+# every Carto basemap is watermarked without an API key and every Stadia one
+# returns 401, so OpenStreetMap is the only style available and it is light.
+# The deck therefore gets the same light PNG, to be placed in a white card.
+# docs/visualization.md section 7 has the alternatives that were rejected.
+[parameters.figures]
+report_dir = "../../docs/images"
+slides_dir = "../../slides/images"

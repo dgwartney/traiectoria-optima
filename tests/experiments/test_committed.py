@@ -22,6 +22,11 @@ EXPERIMENT_SLUG = "sfo-bos-dijkstra"
 TUTORIAL_SNAPSHOT_ID = "2026-09-12-3e4f9d"
 TUTORIAL_SLUG = "shortest-vs-fewest"
 
+# The experiment that demonstrates flight_planner.viz. Unnarrowed world data,
+# because one of its three pairs crosses the antimeridian and a US slice has
+# no such route.
+ROUTE_MAP_SLUG = "route-map"
+
 
 def notebooks_only(experiment):
     """Return the experiment's `.ipynb` files.
@@ -54,6 +59,11 @@ def experiment(repo_root):
 @pytest.fixture(scope="module")
 def tutorial_experiment(repo_root):
     return Experiment.open(repo_root / "experiments" / TUTORIAL_SLUG)
+
+
+@pytest.fixture(scope="module")
+def route_map_experiment(repo_root):
+    return Experiment.open(repo_root / "experiments" / ROUTE_MAP_SLUG)
 
 
 class TestTheFullSnapshot:
@@ -234,6 +244,82 @@ class TestTheTutorialExperiment:
             ) - best_km == pytest.approx(row["bfs_overshoot_km"], abs=1e-3)
 
 
+class TestTheRouteMapExperiment:
+    """The experiment that demonstrates `flight_planner.viz`.
+
+    Its recorded answers are checked the same way every other committed
+    experiment's are -- by re-deriving them -- and its figures are checked for
+    existing and being real PNGs. What the map *looks* like is not asserted;
+    that is a human step, the same position `plots.py`'s tests take.
+    """
+
+    def test_it_opens_and_pins_the_world_snapshot(self, route_map_experiment):
+        assert route_map_experiment.slug == ROUTE_MAP_SLUG
+        assert route_map_experiment.snapshot.snapshot_id == FULL_SNAPSHOT_ID
+
+    def test_the_snapshot_path_is_relative(self, route_map_experiment):
+        assert route_map_experiment.snapshot_reference.startswith("../../")
+
+    def test_its_notebook_exists(self, route_map_experiment):
+        assert route_map_experiment.notebooks
+        assert all(path.is_file() for path in route_map_experiment.notebook_paths)
+
+    def test_its_notebook_carries_no_stored_output(self, route_map_experiment):
+        # A rendered folium map is megabytes of inline HTML, so this matters
+        # more here than anywhere else in the suite.
+        for path in notebooks_only(route_map_experiment):
+            for cell in json.loads(path.read_text())["cells"]:
+                assert not cell.get("outputs")
+
+    def test_it_has_been_run(self, route_map_experiment):
+        recorded = route_map_experiment.results()
+        assert recorded is not None
+        assert recorded["snapshot"]["id"] == FULL_SNAPSHOT_ID
+
+    def test_the_recorded_routes_are_still_the_routes(self, route_map_experiment):
+        planner = route_map_experiment.catalog().planner()
+        recorded = route_map_experiment.results()["results"]["comparison"]
+
+        for pair, found in recorded.items():
+            origin, destination = pair.split("-")
+            for label, algorithm in (("Dijkstra", Dijkstra()), ("BFS", BFS())):
+                _cost, legs = planner.find_shortest_route(
+                    origin, destination, algorithm
+                )
+                codes = "-".join(
+                    [legs[0].origin.iata_code]
+                    + [leg.destination.iata_code for leg in legs]
+                )
+
+                assert codes == found[label]["route"]
+                assert sum(
+                    leg.distance_km for leg in legs
+                ) == pytest.approx(found[label]["km"], abs=0.1)
+
+    def test_the_recorded_deduplication_still_holds(self, route_map_experiment):
+        # The 3.5-to-1 collapse from route rows to airport pairs is the whole
+        # reason NetworkLayer batches the way it does.
+        from flight_planner.viz import NetworkLayer
+
+        catalog = route_map_experiment.catalog()
+        recorded = route_map_experiment.results()["results"]["network"]
+
+        assert len(catalog.routes) == recorded["route_rows"]
+        assert len(NetworkLayer(catalog.routes).distinct_pairs()) == (
+            recorded["distinct_pairs"]
+        )
+
+    def test_its_figures_are_committed_pngs(self, route_map_experiment, repo_root):
+        # An inline map cannot be committed, so the figure file is the durable
+        # artifact -- and the report and the deck both reference it.
+        recorded = route_map_experiment.results()["results"]["figures"]
+        assert recorded
+
+        for filename in recorded:
+            for directory in ("docs/images", "slides/images"):
+                path = repo_root / directory / filename
+                assert path.is_file(), f"{path} is missing"
+                assert path.read_bytes()[:8] == b"\x89PNG\r\n\x1a\n"
 # The benchmark behind the BFS/Dijkstra/A* comparison table and the
 # runtime-vs-input-size plot. It runs on the full world network rather than a
 # narrowing, because the catalogue asks the comparison to run on long-haul

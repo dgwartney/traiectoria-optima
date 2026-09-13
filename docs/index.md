@@ -33,6 +33,12 @@ Documentation site for the Traiectoria Optima project.
   works.
 - [Documentation Standard](documentation-standard.md) — how code in this
   project is documented.
+- [Visualization](visualization.md) — the design behind `flight_planner.viz`, the
+  class-based mapping layer that lets every experiment draw its answer the same
+  way: measured Folium costs on both the 7,005-route and 66,332-route snapshots,
+  the geodesic and antimeridian problems with the pictures to prove them, a
+  comparison against the alternatives, and what building it taught that designing
+  it had not. Demonstrated by `experiments/route-map/`.
 - [Distance Formulas](distance_formulas.md) — haversine, Vincenty, and the
   trade-offs between them.
 - [Graph Algorithm Notes](graph-algorithms-notes.md) — Dijkstra, BFS and A\*.
