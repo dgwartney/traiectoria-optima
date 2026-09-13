@@ -40,6 +40,10 @@ date: 2026-08-23
 - Haversine admissible heuristic
 - A* implementation using the custom heap
 - Admissibility argument/proof
+  — drop in [results-astar-consistency.md](results-astar-consistency.md);
+  note that the implementation requires *consistency*, not merely
+  admissibility, and that the project's heuristic satisfies it
+  (658,470 checks, 0 violations)
 
 ### 4.4 Secondary Features
 - Fewest-stops vs. cheapest-distance mode switch
@@ -49,6 +53,12 @@ date: 2026-08-23
 - Unit test strategy (empty, single-node, disconnected, cyclic/duplicate cases)
 - Known-route validation
 - Library cross-validation results (NetworkX)
+  — drop in [results-networkx-parity.md](results-networkx-parity.md);
+  200 long-haul queries over the world network, three algorithms, 0 cost
+  mismatches, recorded in `experiments/networkx-parity/results.json`
+- Randomized differential testing
+  — [results-astar-consistency.md](results-astar-consistency.md);
+  10,866 queries on random graphs, which found a real defect in A*
 
 ## 6. Complexity Analysis
 
@@ -312,6 +322,10 @@ same conclusion §6.6 reaches from the exponents, arrived at independently.
   put A\*'s heuristic under real pressure, and these exponents would not carry
   over.
 - **Comparability of absolute timings.** See §7.1.
+- **Comparability with NetworkX's timings.** NetworkX's `shortest_path`
+  runs a *bidirectional* search, so of the three algorithms only the A\*
+  row compares like with like — see
+  [results-networkx-parity.md](results-networkx-parity.md).
 
 ## 8. Visualization
 - Rendered route map (Folium/ipyleaflet)

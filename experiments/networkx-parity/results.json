@@ -1,0 +1,228 @@
+{
+  "experiment": "networkx-parity",
+  "recorded": "2026-09-12T23:43:15+00:00",
+  "snapshot": {
+    "id": "2026-09-11-bb90a8",
+    "reference": "../../data/snapshots/2026-09-11-bb90a8",
+    "criteria": {},
+    "source_commit": "610936de75b2d3c45e0e84daea687b32daf35aa3"
+  },
+  "parameters": {
+    "sample_pairs": 200,
+    "sample_seed": 20260913,
+    "pairs": [
+      [
+        "SFO",
+        "BOS"
+      ],
+      [
+        "LAX",
+        "JFK"
+      ],
+      [
+        "SEA",
+        "MIA"
+      ],
+      [
+        "HNL",
+        "BOS"
+      ],
+      [
+        "ANC",
+        "MIA"
+      ]
+    ],
+    "repeats": 5,
+    "tolerance": 1e-09
+  },
+  "results": {
+    "oracle": "networkx 3.6.1",
+    "graph": {
+      "routes": 66332,
+      "airport_pairs": 36717,
+      "routes_a_digraph_would_discard": 29615
+    },
+    "parity": {
+      "Dijkstra": {
+        "pairs_checked": 200,
+        "unreachable_pairs": 0,
+        "cost_mismatches": 0,
+        "mismatches": [],
+        "largest_absolute_divergence_km": 3.637978807091713e-12,
+        "identical_paths": 200,
+        "identical_flight_numbers": 200
+      },
+      "BFS": {
+        "pairs_checked": 200,
+        "unreachable_pairs": 0,
+        "cost_mismatches": 0,
+        "mismatches": [],
+        "largest_absolute_divergence_km": 0.0,
+        "identical_paths": 142,
+        "identical_flight_numbers": 142
+      },
+      "A*": {
+        "pairs_checked": 200,
+        "unreachable_pairs": 0,
+        "cost_mismatches": 0,
+        "mismatches": [],
+        "largest_absolute_divergence_km": 3.637978807091713e-12,
+        "identical_paths": 200,
+        "identical_flight_numbers": 200
+      }
+    },
+    "unreachable": {
+      "pairs_tested": 4,
+      "both_agree_no_route": 4
+    },
+    "named_pairs": [
+      {
+        "pair": "SFO-BOS",
+        "cost": {
+          "Dijkstra": 4341.022084519025,
+          "BFS": 1.0,
+          "A*": 4341.022084519025,
+          "nx Dijkstra": 4341.022084519025,
+          "nx BFS": 1.0,
+          "nx A*": 4341.022084519025
+        },
+        "legs": {
+          "Dijkstra": 1,
+          "BFS": 1,
+          "A*": 1,
+          "nx Dijkstra": 1,
+          "nx BFS": 1,
+          "nx A*": 1
+        },
+        "expanded": {
+          "Dijkstra": 746,
+          "BFS": 10,
+          "A*": 1
+        }
+      },
+      {
+        "pair": "LAX-JFK",
+        "cost": {
+          "Dijkstra": 3974.1642519132665,
+          "BFS": 1.0,
+          "A*": 3974.1642519132665,
+          "nx Dijkstra": 3974.1642519132665,
+          "nx BFS": 1.0,
+          "nx A*": 3974.1642519132665
+        },
+        "legs": {
+          "Dijkstra": 1,
+          "BFS": 1,
+          "A*": 1,
+          "nx Dijkstra": 1,
+          "nx BFS": 1,
+          "nx A*": 1
+        },
+        "expanded": {
+          "Dijkstra": 590,
+          "BFS": 62,
+          "A*": 1
+        }
+      },
+      {
+        "pair": "SEA-MIA",
+        "cost": {
+          "Dijkstra": 4379.35828963113,
+          "BFS": 1.0,
+          "A*": 4379.35828963113,
+          "nx Dijkstra": 4379.35828963113,
+          "nx BFS": 1.0,
+          "nx A*": 4379.35828963113
+        },
+        "legs": {
+          "Dijkstra": 1,
+          "BFS": 1,
+          "A*": 1,
+          "nx Dijkstra": 1,
+          "nx BFS": 1,
+          "nx A*": 1
+        },
+        "expanded": {
+          "Dijkstra": 784,
+          "BFS": 52,
+          "A*": 1
+        }
+      },
+      {
+        "pair": "HNL-BOS",
+        "cost": {
+          "Dijkstra": 8192.79410953863,
+          "BFS": 2.0,
+          "A*": 8192.79410953863,
+          "nx Dijkstra": 8192.79410953863,
+          "nx BFS": 2.0,
+          "nx A*": 8192.79410953863
+        },
+        "legs": {
+          "Dijkstra": 2,
+          "BFS": 2,
+          "A*": 2,
+          "nx Dijkstra": 2,
+          "nx BFS": 2,
+          "nx A*": 2
+        },
+        "expanded": {
+          "Dijkstra": 1056,
+          "BFS": 132,
+          "A*": 3
+        }
+      },
+      {
+        "pair": "ANC-MIA",
+        "cost": {
+          "Dijkstra": 6459.621513088026,
+          "BFS": 2.0,
+          "A*": 6459.621513088026,
+          "nx Dijkstra": 6459.621513088026,
+          "nx BFS": 2.0,
+          "nx A*": 6459.621513088026
+        },
+        "legs": {
+          "Dijkstra": 2,
+          "BFS": 2,
+          "A*": 2,
+          "nx Dijkstra": 2,
+          "nx BFS": 2,
+          "nx A*": 2
+        },
+        "expanded": {
+          "Dijkstra": 778,
+          "BFS": 174,
+          "A*": 6
+        }
+      }
+    ],
+    "sweep_ms": {
+      "Dijkstra": 3958.128124999348,
+      "BFS": 1693.9908749773167,
+      "A*": 862.1782090049237,
+      "nx Dijkstra": 2356.9017499685287,
+      "nx BFS": 13.598375022411346,
+      "nx A*": 475.23241699673235
+    },
+    "sweep_queries": 200,
+    "environment": {
+      "cpu": "Apple M2 Pro",
+      "cores": 10,
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "python": "3.12.12",
+      "colab": false
+    },
+    "total_cost_mismatches": 0
+  },
+  "catalog": {
+    "chain": [],
+    "routes": [
+      66332
+    ],
+    "airports": [
+      3387
+    ],
+    "dangling": 0
+  }
+}

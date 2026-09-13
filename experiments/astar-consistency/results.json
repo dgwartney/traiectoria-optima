@@ -1,0 +1,104 @@
+{
+  "experiment": "astar-consistency",
+  "recorded": "2026-09-12T23:45:31+00:00",
+  "snapshot": {
+    "id": "2026-09-12-3e4f9d",
+    "reference": "../../data/snapshots/2026-09-12-3e4f9d",
+    "criteria": {
+      "airport_type": "large_airport",
+      "country": "US"
+    },
+    "source_commit": "4087d45828c2c2e1dde8f59befadde844703b0df"
+  },
+  "parameters": {
+    "seeds": 50,
+    "max_order": 25,
+    "density": 3,
+    "heuristic_seed_mask": 165,
+    "tolerance": 1e-09,
+    "consistency_epsilon_km": 1e-09
+  },
+  "results": {
+    "oracle": "networkx 3.6.1",
+    "minimal_case": {
+      "heuristic": {
+        "S": 0.0,
+        "B": 1.5,
+        "A": 0.0,
+        "G": 0.0
+      },
+      "optimum": 2.5,
+      "Dijkstra": {
+        "cost": 2.5,
+        "legs_sum_to": 2.5,
+        "route": "S->B->A->G",
+        "nodes_expanded": 3
+      },
+      "AStar": {
+        "cost": 3.0,
+        "legs_sum_to": 2.5,
+        "route": "S->B->A->G",
+        "nodes_expanded": 3
+      },
+      "ReopeningAStar": {
+        "cost": 2.5,
+        "legs_sum_to": 2.5,
+        "route": "S->B->A->G",
+        "nodes_expanded": 4
+      }
+    },
+    "randomized": {
+      "graphs": 50,
+      "queries": 10866,
+      "goals": 681,
+      "inconsistent_goals": 304,
+      "astar_suboptimal": 27,
+      "astar_cost_contradicts_its_path": 25,
+      "reopening_astar_suboptimal": 0,
+      "networkx_astar_suboptimal": 0,
+      "nodes_expanded": {
+        "AStar": 40580,
+        "ReopeningAStar": 40792
+      },
+      "reopening_expansion_overhead": 0.0052242483982256616,
+      "first_failure": {
+        "seed": 6,
+        "pair": "n3->n12",
+        "astar": 7.76407066564499,
+        "optimal": 7.0
+      }
+    },
+    "snapshot_heuristic_consistency": {
+      "checks": 658470,
+      "violations": 0,
+      "worst_violation_km": 0.0
+    },
+    "snapshot_agreement": {
+      "pairs_checked": 8742,
+      "mismatches": [],
+      "nodes_expanded": {
+        "Dijkstra": 410874,
+        "AStar": 24424,
+        "ReopeningAStar": 24424
+      },
+      "patch_changes_expansions": false
+    },
+    "environment": {
+      "cpu": "Apple M2 Pro",
+      "cores": 10,
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "python": "3.12.12",
+      "colab": false
+    }
+  },
+  "catalog": {
+    "chain": [],
+    "routes": [
+      7005
+    ],
+    "airports": [
+      94
+    ],
+    "dangling": 0
+  }
+}
