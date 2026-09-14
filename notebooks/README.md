@@ -58,6 +58,11 @@ Its logic lives in [`src/demos/route_query_example.py`](../src/demos/route_query
 rather than in the cells, so it is testable —
 `tests/demos/test_route_query_example.py`.
 
+It carries four visualizations: two charts — nodes expanded and runtime
+against graph size — redrawn live by `experiments/search-cost/plots.py` from
+that experiment's committed `results.json`, so they are the report's own
+figures rather than lookalikes; and two route maps.
+
 **The two map cells need network access** (Leaflet from a CDN, tiles from
 OpenStreetMap). Offline, the same three routes are committed as PNGs under
 `slides/images/` and carried on the deck's route-map slide.
