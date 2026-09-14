@@ -143,8 +143,8 @@ the expensive operation, since each one touches every outgoing route of an
 airport — and not in heap traffic. Reporting only nodes expanded would overstate
 the result; `nodes_pushed` is what makes the honest version visible.
 
-**Dijkstra's runtime is not monotonic in graph size.** It drops from 4.898 ms at
-11,315 V + E to 3.391 ms at 51,536 — a graph 4.6× larger answered 1.4× faster.
+**Dijkstra's runtime is not monotonic in graph size.** It drops from 5.029 ms at
+11,315 V + E to 3.610 ms at 51,536 — a graph 4.6× larger answered 1.4× faster.
 The `large` narrowing holds 50,474 routes among only 1,062 airports, so the query
 pairs sit one or two hops apart and Dijkstra settles fewer airports before
 reaching the goal. **Runtime tracks airports settled, not graph size** — the
@@ -165,3 +165,43 @@ same conclusion §6.6 reaches from the exponents, arrived at independently.
   runs a *bidirectional* search, so of the three algorithms only the A\*
   row compares like with like — see
   [results-networkx-parity.md](15-appendix-d-networkx-parity.md).
+
+<div class="deck-slide" id="runtime">
+
+### The ordering never changes across a 30× range
+
+<div class="cards two figure-left">
+
+<div class="card figure">
+
+![](../../slides/images/runtime.png)
+
+<p class="caption">Median query time against V + E, log–log, so a power law reads as a straight line. Eight narrowings, 15 repeats each after a discarded warm-up.</p>
+
+</div>
+
+<div class="card">
+
+<span class="pill astar">The result</span>
+
+### A\* is fastest at all eight sizes
+
+**9× to 31× faster than Dijkstra**, 1.9× to 6.6× faster than BFS, with the gap
+widening as the graph grows. Those are ratios within one run on one machine, so
+unlike the absolute milliseconds they survive being re-run elsewhere.
+
+<span class="pill warn">The anomaly worth explaining</span>
+
+### Dijkstra is not monotonic in graph size
+
+5.029 ms at 11,315 V + E, **3.610 ms at 51,536** — a graph 4.6× larger answered
+1.4× faster. The `large` narrowing packs 50,474 routes among 1,062 airports, so
+the query pairs sit one or two hops apart.
+
+**Runtime tracks airports settled, not graph size.**
+
+</div>
+
+</div>
+
+</div>

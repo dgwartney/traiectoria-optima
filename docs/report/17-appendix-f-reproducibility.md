@@ -52,6 +52,62 @@ then by country gives the same set as the reverse. Edges left dangling by a
 narrowing are reported rather than quietly retained, since a graph whose
 vertices arrived by accident is not the graph anyone asked for.
 
+<div class="deck-slide" id="snapshots">
+
+### Why every number in this deck names a snapshot
+
+<div class="cards">
+
+<div class="card">
+
+<span class="pill warn">The problem</span>
+
+### `data/processed/` is build output
+
+`make flight_network` overwrites it and the filenames do not change, so a
+notebook reading it directly can produce a different answer later with nothing
+to say the *data* moved rather than the code.
+
+**"4,341 km" is not a result.** "4,341 km, from the frozen copy
+`2026-09-11-bb90a8`" is.
+
+</div>
+
+<div class="card">
+
+<span class="pill">Three pieces</span>
+
+### Catalog · Snapshot · Experiment
+
+A `Catalog` explores and narrows. A `Snapshot` freezes one working set,
+**content-addressed** — its id is a hash of its contents, so it can be
+superseded but never edited.
+
+`Snapshot.open()` re-hashes every file against the manifest before returning a
+row. **0.01 s** on 66,332 routes — cheap enough for a live demo to verify its
+own data.
+
+</div>
+
+<div class="card">
+
+<span class="pill astar">Nine committed experiments</span>
+
+### The answer travels with its derivation
+
+Each is a directory: an `experiment.toml` naming its snapshot **by relative
+path**, the notebook or script, and a committed `results.json`.
+
+The manifest records provenance, not just content — the narrowing chain
+operation by operation, with counts before and after each, plus the commit that
+wrote it. `tests/experiments/` re-derives them on every run.
+
+</div>
+
+</div>
+
+</div>
+
 ## F.3 The snapshots
 
 | Id | Contents | Criteria | Used by |

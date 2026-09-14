@@ -128,3 +128,27 @@ blindly. Dijkstra's 0.759 reflects a real non-monotonicity discussed in §7.5.
 A\*'s 0.606 says graph size barely explains its runtime at all — the honest
 reading is that A\*'s cost on this network is dominated by fixed per-call
 overhead, because the search itself is only a handful of expansions.
+
+<div class="deck-slide" id="complexity">
+
+### Every bound, checked against a measurement of our own code
+
+| Series | Measured exponent | r² | Asymptotic bound |
+|---|---|---|---|
+| Graph construction | **1.01** | 0.9997 | O(V + E) |
+| BFS | 0.49 | 0.963 | O(V + E) |
+| Dijkstra | 0.41 | 0.759 | O((V + E) log V) |
+| A\* | 0.14 | 0.606 | O((V + E) log V) |
+
+Fitted across **eight narrowings of the network, 2,329 to 69,719 V + E** — a
+30× span.
+
+Only construction reaches its exponent, and the fits get *worse* as the
+algorithm gets smarter. Both facts have one cause: **a worst-case bound
+describes a search that exhausts the graph, and none of these do.** They stop
+on arrival, so what predicts their cost is how much graph lies *between* origin
+and goal. A\*'s r² of 0.606 says graph size barely explains its runtime at all.
+
+<p class="footnote">Space too: peak frontier reached 37% of V for BFS, 20% for Dijkstra, 5% for A\* — all inside the O(V) bound. `experiments/search-cost/results.json`.</p>
+
+</div>

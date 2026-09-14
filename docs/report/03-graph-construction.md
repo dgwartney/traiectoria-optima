@@ -213,6 +213,60 @@ know. That is all §4's algorithms use — which is why they work on the
 three-city road graph in §3.1, and why §5 can verify a search's self-reported
 expansion count against an independent count taken through the same method.
 
+<div class="deck-slide" id="adjacency-list">
+
+### Why an adjacency list, in numbers
+
+<div class="cards">
+
+<div class="card">
+
+<span class="pill">What it is</span>
+
+### `Dict[V, List[E]]`
+
+Per airport, only the routes that exist. **One method is the entire traversal
+interface:**
+
+```python
+graph.get_outgoing_edges(vertex)
+```
+
+That is all three searches ever ask for — which is why they run unchanged on a
+graph of road distances.
+
+</div>
+
+<div class="card">
+
+<span class="pill warn">What a matrix would cost</span>
+
+### 11,468,382 cells for 36,717 facts
+
+The network uses **0.32%** of the ordered pairs available to it, so a matrix
+would spend **over 99.6% of itself recording the absence of a route** — and
+pay twice, in the zeros it stores and the row scan that reads past them.
+
+</div>
+
+<div class="card">
+
+<span class="pill dijkstra">What a matrix could not do at all</span>
+
+### ORD→ATL has 20 rows
+
+**29,615 of 66,332 routes run parallel** to another on the same pair. One cell
+has nowhere to put twenty airlines.
+
+A NetworkX mirror built as a `DiGraph` silently discards exactly those 29,615
+— which is how §5 caught it.
+
+</div>
+
+</div>
+
+</div>
+
 ## 3.5 Edge weights come from one formula, used once
 
 Every `Route.distance_km` is computed by `src/data/flight_network.py` calling

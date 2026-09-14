@@ -328,7 +328,7 @@ A\* answers the same question as Dijkstra but reaches it faster, provided you
 give it a distance guess that never overestimates — the property called
 *admissibility*. Do not write that guess by hand: which formula you pick decides
 whether the answer is guaranteed optimal, and `haversine_heuristic()` is the one
-that is safe here. [`flight_planner.geo.heuristic`](13-appendix-b-data-structures.md) explains
+that is safe here. [Appendix C](14-appendix-c-distance-formulas.md) explains
 why, and why the more accurate `Vincenty` is the *worse* choice.
 
 ```python
@@ -363,6 +363,69 @@ every flight was declared eastbound. Asking for a route from an airport to
 itself gives `(0.0, [])`. An airport that is not in the network raises an
 error instead of quietly returning an empty path, which keeps "no such
 airport" separate from "no such route".
+
+<div class="deck-slide" id="core-api">
+
+### The API the algorithms actually see
+
+<div class="cards">
+
+<div class="card">
+
+<span class="pill">Building</span>
+
+### `add_edge` is enough
+
+```python
+planner = FlightPlanner()
+planner.add_edge(Route(sfo, den, 1553))
+planner.find_airport('sfo ')
+planner.get_outgoing_edges(sfo)
+```
+
+`add_edge` registers either endpoint it has not seen; adding an airport twice
+is a no-op that leaves its routes alone. `FlightPlanner` adds exactly one thing
+to the generic graph — an IATA index.
+
+</div>
+
+<div class="card">
+
+<span class="pill dijkstra">Asking</span>
+
+### The algorithm is an argument
+
+```python
+planner.search_route("HNL", "BDL")
+planner.search_route("HNL", "BDL", BFS())
+planner.search_route("HNL", "BDL",
+    AStar(haversine_heuristic()))
+```
+
+Dijkstra by default. A fourth algorithm needs **no change to
+`FlightPlanner`** — that is the property the layering was for.
+
+</div>
+
+<div class="card">
+
+<span class="pill astar">Answering</span>
+
+### `SearchResult`, not a number
+
+`cost` · `path` · `nodes_expanded` · `nodes_pushed` · `peak_frontier` · and a
+`unit` tag declaring whether the cost is hops or weight.
+
+§7's entire comparison is read off that one return value. Three boundaries are
+defined and tested: unreachable → `(inf, [])`, origin = destination →
+`(0.0, [])`, unknown code → **`AirportNotFoundError`**, because "no such
+airport" and "no such route" are different facts.
+
+</div>
+
+</div>
+
+</div>
 
 ## Where the data comes from
 

@@ -9,7 +9,7 @@ margin than we expected, and the margin is measured rather than claimed.
 On the full cleaned network — **3,387 airports and 66,332 routes** — A\* with a
 haversine heuristic returned **exactly** Dijkstra's shortest distance on every
 long-haul query asked, to the last decimal place, while expanding **130× to
-784× fewer airports** and running **7× to 25× faster** (§7).
+784× fewer airports** and running **9× to 31× faster** (§7).
 
 Everything the assignment names as from-scratch work is from scratch. The
 adjacency-list digraph, the array-backed binary min-heap, BFS, Dijkstra and A\*
@@ -151,7 +151,7 @@ report either names a checksummed result or should not have been printed.
 ### Informed search pays
 
 A\* returned **exactly** Dijkstra's distance on every long-haul query, while
-expanding **130×–784× fewer** airports and running **7×–25× faster**.
+expanding **130×–784× fewer** airports and running **9×–31× faster**.
 
 Graph, heap and all three searches from scratch. `heapq` appears nowhere.
 
@@ -177,7 +177,7 @@ A heuristic must agree with the **cost model**, not with reality.
 
 ### A different edge weight
 
-`src/models/flight/` — 504 prototyped lines of aircraft performance, ISA
+`src/models/flight/` — 611 prototyped lines of aircraft performance, ISA
 atmosphere and wind — is **not** part of the delivered system.
 
 Wired in, it swaps great-circle km for **fuel burn into a headwind**. §3's

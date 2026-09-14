@@ -10,14 +10,14 @@ we expected.
 On the full OpenFlights network — **3,387 airports and 66,332 routes** — A\*
 with a haversine heuristic returned **exactly** Dijkstra's shortest distance on
 every long-haul query we asked, to the last decimal place, while expanding
-**130× to 784× fewer airports** and running **7× to 25× faster**. That is the
+**130× to 784× fewer airports** and running **9× to 31× faster**. That is the
 result the project asks for, and §7 measures it rather than claiming it.
 
 | | |
 |---|---|
 | Graph, heap, BFS, Dijkstra and A\* | Written from scratch on Python dicts, lists, sets and `deque`. `heapq` appears nowhere in the package |
 | Libraries | Loading, plotting and **validating** only, per the assignment's rules |
-| A\* against Dijkstra | Identical distance on all five benchmark queries; 130×–784× fewer expansions; 25× faster on the world graph |
+| A\* against Dijkstra | Identical distance on all five benchmark queries; 130×–784× fewer expansions; 31× faster on the world graph |
 | Cross-validated | 200 long-haul queries against NetworkX, three algorithms, **0 cost mismatches** |
 | Heuristic checked, not assumed | **658,470** consistency checks on real data, **0 violations** — plus a four-vertex counterexample showing why *admissible* alone would not have been enough |
 | Tests | **1,061 passing** across 57 files (988 with a plain `uv sync`; the mapping tests skip without the `notebooks` extras), `ruff` clean |
@@ -59,6 +59,51 @@ The three are not interchangeable, and that matters for how the numbers read:
 BFS's cost column is a hop count, Dijkstra's and A\*'s are kilometres. They are
 never summed, and "BFS won" never means "BFS found a shorter route."
 
+<div class="deck-slide" id="travelers-dilemma">
+
+### One question, three different right answers
+
+<div class="cards">
+
+<div class="card">
+
+<span class="pill bfs">Fewest stops</span>
+
+### BFS — 2 legs, 8,616 km
+
+`HNL→ATL→BDL`. Every hop costs 1, so `edge.weight` is ignored entirely and the
+cost column is a **hop count**.
+
+</div>
+
+<div class="card">
+
+<span class="pill dijkstra">Shortest distance</span>
+
+### Dijkstra — 3 legs, 8,071 km
+
+`HNL→SLC→DTW→BDL`. Weight is great-circle distance. Skipping BFS's extra stop
+costs **544.7 km**.
+
+</div>
+
+<div class="card">
+
+<span class="pill astar">Same answer, less search</span>
+
+### A\* — 3 legs, 8,071 km
+
+The same route and the same cost **to the last digit of a float** — reached in
+**10 expansions against Dijkstra's 1,019**.
+
+</div>
+
+</div>
+
+<p class="footnote">"Cheapest" means distance: OpenFlights carries no fare data. BFS never "wins" — it was asked a different question, and its cost is measured in different units.</p>
+
+</div>
+
 ## 1.3 Goals
 
 Three, in priority order:
@@ -74,8 +119,10 @@ Three, in priority order:
 
 ## 1.4 The approach, in one page
 
-We load the OpenFlights airport and route tables into SQLite, clean them, and
-freeze the result as a content-hashed **snapshot** (§2). Every experiment names
+We load the airport and route tables with pandas, clean them, and freeze the
+result as a content-hashed **snapshot** (§2). SQLite is written from the same
+frames as a second representation of the same data, but it is an output rather
+than a stage — no part of `flight_planner` imports `sqlite3` (§3.5). Every experiment names
 the snapshot it ran against and re-verifies it by checksum, so a result can
 never quietly drift away from the data that produced it.
 

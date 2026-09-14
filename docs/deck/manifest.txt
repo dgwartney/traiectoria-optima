@@ -12,20 +12,32 @@
 title                    # deck-only
 agenda                   # deck-only
 
-# --- The data (report ch. 2) ------------------------------------------
-cleaning                 # 02-dataset.md
+# --- The problem (report ch. 1) ---------------------------------------
+travelers-dilemma        # 01-introduction.md
 
-# --- Design (report ch. 3) --------------------------------------------
+# --- The data (report ch. 2, appendix F) ------------------------------
+dataset-and-sources      # 02-dataset.md
+cleaning                 # 02-dataset.md
+snapshots                # 17-appendix-f-reproducibility.md
+
+# --- Design (report ch. 3, appendix B) --------------------------------
 why-the-layers-exist     # 03-graph-construction.md
+adjacency-list           # 03-graph-construction.md
+core-api                 # 13-appendix-b-data-structures.md
 
 # --- Algorithms (report ch. 4) ----------------------------------------
+bfs                      # 04-algorithms.md
+min-heap                 # 04-algorithms.md
+dijkstra                 # 04-algorithms.md
 astar-consistency        # 04-algorithms.md
 
 # --- Correctness (report ch. 5) ---------------------------------------
 correctness-parity       # 05-correctness-testing.md
 
-# --- Evaluation (report ch. 7) ----------------------------------------
+# --- Cost (report ch. 6 and 7) ----------------------------------------
+complexity               # 06-complexity-analysis.md
 nodes-expanded           # 07-empirical-evaluation.md
+runtime                  # 07-empirical-evaluation.md
 
 # --- Visualization (report ch. 8) -------------------------------------
 route-map                # 08-visualization.md

@@ -26,6 +26,47 @@ independent of `type`: 116 large airports are absent from that list and 364
 medium ones appear on it, so "large" and "international" are two different
 questions rather than two spellings of one.
 
+<div class="deck-slide" id="dataset-and-sources">
+
+### Two sources, because the edges are the harder half
+
+<div class="cards two figure-left">
+
+<div class="card figure">
+
+![](../../slides/images/degree-distribution.png)
+
+<p class="caption">Out-degree, log–log. **38.4% of airports have two or fewer departures**; ATL has 915. Mean 19.6 against a median of 4 — the gap *is* the shape of the network.</p>
+
+</div>
+
+<div class="card">
+
+<span class="pill">Where it comes from</span>
+
+### 85,884 vertices, 67,663 edges
+
+**OurAirports** for the airports, not OpenFlights' own `airports.dat` — it
+carries `type` and `iso_country`, which are the columns every narrowing in
+this project filters on.
+
+**OpenFlights `routes.dat`** for the routes: the only open table of scheduled
+service at this scale.
+
+<span class="pill mute">What it becomes</span>
+
+### 3,387 airports, 66,332 routes
+
+Sparse — **0.32%** of the 11,468,382 ordered pairs a complete digraph would
+have. 98.0% of airports sit in one strongly connected core, which is why a
+long-haul query is real search rather than "no route".
+
+</div>
+
+</div>
+
+</div>
+
 ## 2.2 Scope
 
 The catalog's subject is the whole world airline network, and after cleaning

@@ -61,6 +61,48 @@ The goal is excluded, in all three algorithms, because it is found rather than
 expanded. §7's comparison table is only meaningful because `nodes_expanded`
 means the same thing in every row of it.
 
+<div class="deck-slide" id="bfs">
+
+### BFS — fewest stops, and an honest counter
+
+<div class="cards two">
+
+<div class="card">
+
+<span class="pill bfs">The algorithm</span>
+
+### Rings, on a FIFO queue
+
+Everything one hop out, then everything two hops out. The first arrival at the
+destination is by the fewest edges possible, because a shorter route would have
+been found in an earlier ring.
+
+`collections.deque`, no priority, no weights. `SearchResult.unit` says
+`COST_HOPS`, so a hop count can never be summed with a distance.
+
+</div>
+
+<div class="card">
+
+<span class="pill warn">The subtlety that changes the numbers</span>
+
+### `len(visited)` is not the expansion count
+
+BFS marks a vertex visited at **enqueue**, not at pop — it must, or a vertex
+is queued once per inbound edge. So `visited` counts airports *discovered*.
+
+Reporting it would have inflated BFS's cost against the two algorithms it is
+compared with, by the size of the queue at the moment the search stopped. BFS
+keeps a **separate counter**, incremented where expansion actually happens.
+
+</div>
+
+</div>
+
+<p class="footnote">The goal is excluded in all three algorithms — it is found, not expanded. §7's table is only meaningful because `nodes_expanded` means the same thing in every row of it.</p>
+
+</div>
+
 ## 4.2 Dijkstra — shortest distance, on our own heap
 
 Dijkstra replaces the FIFO queue with a priority queue keyed on distance from
@@ -90,6 +132,64 @@ come out in insertion order and `Airport` never has to be comparable. This is
 not a detail: without it, a tie between two equal-distance airports would fall
 through to comparing the airports themselves, and the natural implementations
 of that are either an exception or an ordering nobody chose.
+
+<div class="deck-slide" id="min-heap">
+
+### The min-heap, written rather than imported
+
+<div class="cards">
+
+<div class="card">
+
+<span class="pill">The structure</span>
+
+### An array, read as a tree
+
+Goodrich ch. 9: the backing list holds the complete binary tree level by level,
+so the links are **index arithmetic rather than pointers**.
+
+```python
+children of j: 2j+1, 2j+2
+parent  of j: (j-1)//2
+```
+
+No node objects, no rebalancing. `push` appends and sifts up; `pop` swaps the
+root with the last entry, truncates, and sifts down — one root-to-leaf walk
+each, **O(log n)**.
+
+</div>
+
+<div class="card">
+
+<span class="pill dijkstra">The tie-break</span>
+
+### Order on `(priority, sequence)`
+
+Every push records an incrementing sequence number, so equal distances come out
+in insertion order and **`Airport` never has to be comparable**.
+
+Without it a tie falls through to comparing the airports themselves — and the
+natural implementations of that are an exception, or an ordering nobody chose.
+
+</div>
+
+<div class="card">
+
+<span class="pill mute">The whole surface</span>
+
+### `push` · `pop` · `peek`
+
+No handles, no index map, no `decrease_key`. That interface is a deliberate
+constraint rather than an omission, and the next slide is what it costs.
+
+`heapq` is imported nowhere in the package: the heap is the stretch concept, so
+importing one would be importing the deliverable.
+
+</div>
+
+</div>
+
+</div>
 
 ### No decrease-key
 
@@ -125,6 +225,60 @@ Dijkstra's answers are cross-validated against NetworkX over 200 long-haul
 queries on the world network: **0 cost mismatches**, worst divergence
 3.6 × 10⁻¹² km, and identical paths on 200 of 200. §5 covers the method and
 [Appendix D](15-appendix-d-networkx-parity.md) the full results.
+
+<div class="deck-slide" id="dijkstra">
+
+### Dijkstra — and the price of not writing `decrease_key`
+
+<div class="cards">
+
+<div class="card">
+
+<span class="pill dijkstra">The invariant</span>
+
+### First pop is final
+
+Priority is distance from the origin; *relaxation* re-queues an airport reached
+more cheaply than before.
+
+Nothing still on the queue is cheaper and no edge can reduce it, **because
+weights are non-negative** — which is the whole correctness argument, and the
+reason the one 0.0 km self-loop in the data is harmless.
+
+</div>
+
+<div class="card">
+
+<span class="pill warn">Lazy deletion instead</span>
+
+### Push a second entry, discard the stale one
+
+Textbook Dijkstra repositions a queued entry. That needs a handle per entry,
+which needs a vertex→index map maintained on every swap.
+
+Ours pushes again and skips any pop that is already settled. The heap stays at
+`push`/`pop`/`peek`, and grows to one entry **per improvement** rather than per
+vertex.
+
+</div>
+
+<div class="card">
+
+<span class="pill">The cost, measured</span>
+
+### 1.69–1.88 pushes per expansion
+
+`nodes_pushed − nodes_expanded` is exactly the work thrown away, so the trade
+is a number rather than a caveat. **Roughly four pops in ten are discarded.**
+
+Cross-validated against NetworkX over 200 long-haul queries: **0 cost
+mismatches**, worst divergence 3.6e-12 km.
+
+</div>
+
+</div>
+
+</div>
 
 ## 4.3 A\* — the stretch concept, and the argument it rests on
 
