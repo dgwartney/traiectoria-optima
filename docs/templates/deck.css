@@ -114,6 +114,30 @@
 .reveal .card > *:last-child { margin-bottom: 0; }
 .reveal .card ul { margin: 0; padding-left: 1.1em; }
 
+/* A card whose content is a screenshot rather than prose. No padding, so the
+ * figure meets the card's rounded edge; the caption sits under it. Used for
+ * the route map, where a slide about drawing routes must actually show one. */
+.reveal .card.figure {
+  padding: 0;
+  overflow: hidden;
+  justify-content: center;
+}
+.reveal .card.figure img {
+  display: block;
+  width: 100%;
+  max-height: none;
+  margin: 0;
+}
+.reveal .card.figure .caption {
+  padding: 10px 18px 14px;
+  font-size: 0.46em;
+  color: var(--dim);
+  margin: 0;
+}
+
+/* Wider left column for a figure paired with findings. */
+.reveal .cards.figure-left { grid-template-columns: 1.35fr 1fr; }
+
 .reveal .pill {
   display: inline-block;
   background: var(--blue);

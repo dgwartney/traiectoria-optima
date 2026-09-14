@@ -1590,7 +1590,7 @@ split as §2:
 
 | | Plotting |
 |---|---|
-| **In a clone** | `matplotlib` comes with `uv sync` (it is in the `dev` group). The mapping libraries — `folium`, `ipyleaflet`, `pyproj` — need `uv sync --group notebooks` ([Setup §5](setup.md#5-jupyter-notebooks)). |
+| **In a clone** | `matplotlib` comes with `uv sync` (it is in the `dev` group). The mapping libraries — `folium` and `pyproj` — need `uv sync --group notebooks` ([Setup §5](setup.md#5-jupyter-notebooks)). |
 | **In Colab** | Nothing to do. `matplotlib`, `seaborn`, `folium` and `plotly` are preinstalled; `uv` is not involved at all. |
 
 `notebooks/` in this repository has worked examples of both the chart and the

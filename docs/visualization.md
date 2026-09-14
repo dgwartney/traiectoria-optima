@@ -76,10 +76,15 @@ layer control — exists in the repository exactly once, in a notebook that cann
 imported, pinned to data that is not a snapshot. Copying it into each new experiment
 is how every experiment ends up with a slightly different map.
 
-**The dependencies are already in place.** `pyproject.toml` puts `folium>=0.20.0`,
-`ipyleaflet>=0.20.0` and `pyproj>=3.7.2` in the `notebooks` dependency group, which
+**The dependencies are already in place.** `pyproject.toml` puts `folium>=0.20.0`
+and `pyproj>=3.7.2` in the `notebooks` dependency group, which
 `uv sync --group notebooks` (or `make notebook`) installs. The environment used for
-the measurements below resolved to folium 0.20.0, ipyleaflet 0.20.0, pyproj 3.7.2.
+the measurements below resolved to folium 0.20.0, pyproj 3.7.2.
+
+`ipyleaflet>=0.20.0` was in that group too when this document was written, and was
+dropped once the recommendation below settled on folium: nothing in `src/` ever
+imported it. The comparison in [section 8](#8-competing-libraries) is why, and is
+left as the record of the decision.
 
 Note what is *not* there: the published wheel depends on `pandas` and nothing else,
 deliberately. `pyproject.toml` says so in a comment — "everything a consumer needs,

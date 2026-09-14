@@ -84,3 +84,59 @@ class TestTheDateline:
 
     def test_it_unwraps_westward_too(self):
         assert jumps(Geodesic(segments=8).between(LAX, AKL)) == 0
+
+
+#: Route rows in the committed world snapshot whose shorter great circle
+#: crosses the antimeridian, and the undirected airport pairs they collapse
+#: to. Report §8.3 states both.
+CROSSING_ROWS = 647
+CROSSING_PAIRS = 137
+
+
+@pytest.fixture(scope="module")
+def crossings(repo_root):
+    """Every snapshot route whose shorter arc crosses the antimeridian."""
+    from flight_planner.experiments import Snapshot
+
+    planner = (
+        Snapshot.open(repo_root / "data" / "snapshots" / "2026-09-11-bb90a8")
+        .catalog()
+        .planner()
+    )
+
+    return [
+        edge
+        for edge in planner.edges
+        if abs(edge.origin.longitude - edge.destination.longitude) > 180
+    ]
+
+
+class TestTheRealNetworkSuppliesTheDatelineCase:
+    """The snapshot contains these routes, and all of them draw continuously.
+
+    Report §8.3 states the count. The unwrapping tests above use two
+    hand-picked airports, which proves the algorithm; this proves the
+    algorithm is needed -- and that no route in the committed world snapshot
+    defeats it.
+    """
+
+    def test_the_snapshot_contains_them(self, crossings):
+        pairs = {
+            frozenset((e.origin.iata_code, e.destination.iata_code))
+            for e in crossings
+        }
+
+        assert len(crossings) == CROSSING_ROWS
+        assert len(pairs) == CROSSING_PAIRS
+
+    def test_every_one_of_them_draws_as_a_continuous_line(self, crossings):
+        """Zero jumps across 647 real routes, not just the two tested above."""
+        geodesic = Geodesic(segments=6)
+
+        offenders = [
+            f"{e.origin.iata_code}->{e.destination.iata_code}"
+            for e in crossings
+            if jumps(geodesic.between(e.origin, e.destination))
+        ]
+
+        assert offenders == []

@@ -45,7 +45,6 @@ dev = [
 notebooks = [
     "folium>=0.20.0",
     "ipykernel>=7.3.0",
-    "ipyleaflet>=0.20.0",
     "jupyterlab>=4.6.3",
     "jupyterlab-git>=0.54.1",
     "pyproj>=3.7.2",

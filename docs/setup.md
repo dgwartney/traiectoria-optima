@@ -63,7 +63,7 @@ package never drags in the whole working environment:
 | --- | --- | --- |
 | `[project.dependencies]` | `pandas` — the only third-party import in the package | always; the only entry published in the wheel |
 | `dev` group | pytest, ruff, matplotlib, numpy, scipy, playwright | `uv sync` (default) |
-| `notebooks` group | JupyterLab, ipykernel, folium, pyproj, ipyleaflet | `uv sync --group notebooks` |
+| `notebooks` group | JupyterLab, ipykernel, folium, pyproj | `uv sync --group notebooks` |
 
 Only the first is published in the wheel metadata, which is what lets the
 package install into an existing environment without upgrading it. To get
