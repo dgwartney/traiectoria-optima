@@ -98,7 +98,7 @@ and changing no algorithm.
 
 <span class="pill bfs">Built from scratch</span>
 
-### 1,548 lines, no `heapq`
+### 1,591 lines, no `heapq`
 
 `core/` digraph · `adt/` binary min-heap · `pathfinding/` three searches ·
 `geo/` two geodesic formulas.

@@ -15,12 +15,12 @@ being wrong:
 | Cross-validation against NetworkX (§5.4) | A wrong *design*, because the oracle shares no code and no author | Anything both implementations get wrong the same way |
 | Randomized differential testing (§5.5) | The case nobody thought to write — it found the A\* defect §4.3 is about | Failure modes the generator cannot produce |
 
-The suite is **1,050 tests across 57 files**. Its shape says something about
+The suite is **1,052 tests across 57 files**. Its shape says something about
 where the risk was judged to be:
 
 | Area | Tests |
 |---|---|
-| `tests/flight_planner/` — the graph, heap, searches and formulas | 411 |
+| `tests/flight_planner/` — the graph, heap, searches and formulas | 413 |
 | `tests/validation/` — the oracle and differential harness | 256 |
 | `tests/experiments/` — re-derives every committed result | 145 |
 | `tests/deck/` and `tests/docs/` — the report and deck builds | 109 |
@@ -165,7 +165,7 @@ test that fails if either half stops being true.
 
 ## 5.4 Cross-validation against an independent implementation
 
-1,050 tests say the code behaves as designed. They cannot say the design is
+1,052 tests say the code behaves as designed. They cannot say the design is
 right, because the same person wrote both. For that the same questions have to
 be put to an implementation sharing no code, no data structures and no author.
 [NetworkX](https://networkx.org) 3.6.1 is that implementation.
@@ -307,7 +307,7 @@ same decisions — and §5.4's `DiGraph` trap is the concrete example of how two
 confident answers can both be about the wrong thing.
 
 **Coverage is not uniform, and the gaps are where the risk is lowest.** The
-searches, the heap and the formulas carry 411 tests; the demos carry 13, and
+searches, the heap and the formulas carry 413 tests; the demos carry 13, and
 they run one graph. `src/models/flight/` has 25 tests for code the delivered
 system never imports (§10), and `src/exercises/` is coursework outside the
 deliverable (Appendix A). The suite is weighted toward the graded work, not
@@ -338,7 +338,7 @@ conclusions.
 
 <span class="pill">Four layers</span>
 
-### 1,050 tests, then an oracle
+### 1,052 tests, then an oracle
 
 A known seven-airport graph from the textbook · the four structural edge cases
 on fixtures **and on the real network** · NetworkX as an independent

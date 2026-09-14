@@ -6,19 +6,19 @@ The report argues about roughly a sixth of the code. This section accounts for
 the rest, because a reader who has just finished §7 has no way to tell whether
 the thing measured is 500 lines or 18,000.
 
-**18,465 lines of Python** across `src/`, `scripts/` and `tests/`, of which the
-installable `flight_planner` package is 5,181.
+**20,201 lines of Python** across `src/`, `scripts/` and `tests/`, of which the
+installable `flight_planner` package is 5,224.
 
 | Layer | Lines | What it is |
 |---|---|---|
-| `core/` + `adt/` + `pathfinding/` + `geo/` | **1,548** | **The graded from-scratch work — 30% of the package.** Adjacency-list digraph; array-backed binary min-heap with sequence tie-breaking and no `decrease_key`; three searches behind one Strategy interface; an Observer layer; two geodesic formulas and a memoizing decorator. `heapq`, `networkx` and `scipy` appear nowhere in it |
+| `core/` + `adt/` + `pathfinding/` + `geo/` | **1,591** | **The graded from-scratch work — 30% of the package.** Adjacency-list digraph; array-backed binary min-heap with sequence tie-breaking and no `decrease_key`; three searches behind one Strategy interface; an Observer layer; two geodesic formulas and a memoizing decorator. `heapq`, `networkx` and `scipy` appear nowhere in it |
 | `flights/` | 450 | Domain composition — `Airport`, `Route`, `FlightPlanner`, and the one multiple-inheritance decision in the project (§3) |
 | `loaders/` + `experiments/` + `viz/` + package root | **3,183** | Infrastructure, and not boilerplate: `experiments/catalog.py` alone is 694 lines of narrowing, query and provenance logic |
 | `src/validation/` | 1,336 | The NetworkX oracle, randomized differential testing, and the reopening detector. **The best-covered subsystem in the repository by ratio** — 1,349 test lines and 256 collected tests against 1,336 source lines. It is what found the A\* defect §4.3 reports |
-| `src/data/` | 1,324 | The four-stage cleaning pipeline behind §2.3 |
-| `src/demos/` | 1,415 | 14 runnable scripts, deliberately outside the wheel so they exercise the package's public re-exports rather than its internals |
+| `src/data/` | 1,430 | The four-stage cleaning pipeline behind §2.3 |
+| `src/demos/` | 1,446 | 14 runnable scripts, deliberately outside the wheel so they exercise the package's public re-exports rather than its internals |
 | `scripts/` | 1,037 | Snapshot and experiment scaffolders, and the deck build. These know the repository's layout, which is why they are not package code |
-| `tests/` | 7,171 | **644 test functions, 883 collected** with parametrization, across 49 files |
+| `tests/` | 8,722 | **731 test functions, 1,052 collected** with parametrization, across 57 files |
 
 Two directories are in the tree and are **not** part of the delivered system:
 

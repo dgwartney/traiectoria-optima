@@ -20,7 +20,7 @@ result the project asks for, and §7 measures it rather than claiming it.
 | A\* against Dijkstra | Identical distance on all five benchmark queries; 130×–784× fewer expansions; 25× faster on the world graph |
 | Cross-validated | 200 long-haul queries against NetworkX, three algorithms, **0 cost mismatches** |
 | Heuristic checked, not assumed | **658,470** consistency checks on real data, **0 violations** — plus a four-vertex counterexample showing why *admissible* alone would not have been enough |
-| Tests | 697 passing (768 with the mapping extras installed), `ruff` clean |
+| Tests | **1,052 passing** across 57 files, `ruff` clean |
 
 Two findings complicate the tidy story, and we think they are the more
 interesting half of the report. **BFS is not simply "the slow one"** — on some
@@ -29,9 +29,12 @@ because it is answering a different question (§7.5). And **our A\* needs a
 *consistent* heuristic, not merely an admissible one**, because it closes each
 airport permanently on first expansion; randomized differential testing found
 that gap as a real defect on 27 of 10,866 generated queries before we went
-looking for it on flight data (§4.3). Great-circle distance turns out to be
-consistent as a matter of spherical geometry, so every committed result stands
-— but we can now say *why* it stands instead of citing a textbook.
+looking for it on flight data (§4.3). Our heuristic *is* consistent here, so
+every committed result stands — but the reason is not spherical geometry. It is
+that the pipeline generates the edge weights with the same formula at the same
+radius the heuristic uses, which makes admissibility an **invariant between two
+parts of the build** rather than a theorem about the earth. The corollary is
+§9.4's: substituting a *more accurate* distance formula breaks it.
 
 ## 1.2 The problem
 
