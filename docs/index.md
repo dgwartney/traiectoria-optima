@@ -47,6 +47,10 @@ Documentation site for the Traiectoria Optima project.
   works.
 - [Documentation Standard](documentation-standard.md) — how code in this
   project is documented.
+- [Existing software](software.md) — why the snapshot, catalog and experiment
+  machinery is hand-written when Pooch, DVC, Hydra, MLflow and Kedro exist:
+  what each of them would add, what adopting one would cost, and the four
+  conditions that would change the answer.
 - [Visualization](visualization.md) — the design behind `flight_planner.viz`, the
   class-based mapping layer that lets every experiment draw its answer the same
   way: measured Folium costs on both the 7,005-route and 66,332-route snapshots,

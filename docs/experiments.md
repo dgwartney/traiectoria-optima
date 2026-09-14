@@ -1722,3 +1722,5 @@ Busiest carriers by resolved routes: `FR` 2,384 · `AA` 2,346 · `UA` 2,170.
 - [Setup](setup.md) — installing, and the Colab install cell
 - [Data](data.md) — where the raw data comes from and what the pipeline makes of it
 - [Makefile](makefile.md) — every target, including `snapshot` and `experiment`
+- [Existing software](software.md) — the open-source packages that do some of
+  this, and why none of them is a dependency
