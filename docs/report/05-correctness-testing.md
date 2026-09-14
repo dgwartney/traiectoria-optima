@@ -15,7 +15,7 @@ being wrong:
 | Cross-validation against NetworkX (§5.4) | A wrong *design*, because the oracle shares no code and no author | Anything both implementations get wrong the same way |
 | Randomized differential testing (§5.5) | The case nobody thought to write — it found the A\* defect §4.3 is about | Failure modes the generator cannot produce |
 
-The suite is **1,102 tests across 60 files**, of which 77 need the
+The suite is **1,118 tests across 61 files**, of which 77 need the
 `notebooks` dependency group — the map geometry cannot be tested without
 pyproj, so those skip rather than fail on a plain `uv sync`. Its shape says something about
 where the risk was judged to be:
@@ -25,9 +25,9 @@ where the risk was judged to be:
 | `tests/flight_planner/` — the graph, heap, searches and formulas | 413 |
 | `tests/validation/` — the oracle and differential harness | 256 |
 | `tests/experiments/` — re-derives every committed result | 145 |
-| `tests/deck/` and `tests/docs/` — the report and deck builds | 109 |
+| `tests/deck/` and `tests/docs/` — the report and deck builds | 120 |
 | `tests/data/` and `tests/scripts/` — the cleaning pipeline and tooling | 80 |
-| `tests/demos/`, `tests/models/`, `tests/exercises/` | 58 |
+| `tests/demos/`, `tests/models/`, `tests/exercises/` | 87 |
 
 `tests/validation/` is 1,349 lines of test against 1,336 lines of source — the
 only subsystem in the repository with more test than code, which is what it
@@ -167,7 +167,7 @@ test that fails if either half stops being true.
 
 ## 5.4 Cross-validation against an independent implementation
 
-1,102 tests say the code behaves as designed. They cannot say the design is
+1,118 tests say the code behaves as designed. They cannot say the design is
 right, because the same person wrote both. For that the same questions have to
 be put to an implementation sharing no code, no data structures and no author.
 [NetworkX](https://networkx.org) 3.6.1 is that implementation.
@@ -309,8 +309,13 @@ same decisions — and §5.4's `DiGraph` trap is the concrete example of how two
 confident answers can both be about the wrong thing.
 
 **Coverage is not uniform, and the gaps are where the risk is lowest.** The
-searches, the heap and the formulas carry 413 tests; the demos carry 13, and
-they run one graph. `src/models/flight/` has 34 tests for code the delivered
+searches, the heap and the formulas carry 413 tests; the fourteen demos carry
+42, and most of those are a smoke run — every demo is executed and required to
+produce output, which catches the failure that actually happens to a demo
+(an API it calls has moved) and not much else. One caveat is worth stating,
+because it is why the smoke run is not the whole answer: `loader_example`
+printed a heading reading `OMA -> OMA` above a route from OMA to SJC, and it
+ran perfectly. Only reading the output found that. `src/models/flight/` has 34 tests for code the delivered
 system never imports (§10), and `src/exercises/` is coursework outside the
 deliverable (Appendix A). The suite is weighted toward the graded work, not
 spread evenly across the repository.
@@ -340,7 +345,7 @@ conclusions.
 
 <span class="pill">Four layers</span>
 
-### 1,102 tests, then an oracle
+### 1,118 tests, then an oracle
 
 A known seven-airport graph from the textbook · the four structural edge cases
 on fixtures **and on the real network** · NetworkX as an independent

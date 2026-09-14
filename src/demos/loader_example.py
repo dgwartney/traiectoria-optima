@@ -59,7 +59,7 @@ if __name__ == "__main__":
     print(f"Optimal Distance: {total_km:.1f} km")
     print_legs(itinerary)
 
-    print(f"\n--- BFS: Fewest-Hops Path ({DEPARTURE} -> {DEPARTURE}) ---")
+    print(f"\n--- BFS: Fewest-Hops Path ({DEPARTURE} -> {ARRIVAL}) ---")
     hop_count, bfs_legs = network.find_shortest_route(DEPARTURE, ARRIVAL, algorithm=BFS())
     print(
         f"Hop Count: {int(hop_count)} "

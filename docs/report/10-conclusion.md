@@ -119,10 +119,11 @@ only (§4.4). The pieces exist — `Airport` is a `Point`, and `geo.Haversine`
 measures between any two — so it is a short addition rather than a design
 problem.
 
-**4. Close the coverage gaps this report admits.** `src/demos/` is fourteen
-modules and thirteen are unexercised by any test (§5.6); a smoke test per
-module would catch the failure that matters, which is a demo drifting from the
-API it demonstrates. And bidirectional search is worth implementing for its own
+**4. Close the coverage gaps this report admits.** The largest one is now
+shut: every demo in `src/demos/` is executed by a smoke test, which is what
+catches a demo drifting from the API it demonstrates (§5.6). What that cannot
+catch is a demo that runs and says the wrong thing, so the remaining work
+there is assertions rather than execution. And bidirectional search is worth implementing for its own
 sake — NetworkX's `shortest_path` uses it, which is why only the A\* row of
 §7.3's timing table compares like with like (§7.6).
 
