@@ -9,6 +9,7 @@ GeoJson rather than N PolyLines -- which HTML would only tell us indirectly.
 import pytest
 
 from flight_planner import Airport, Route
+from flight_planner.pathfinding import SearchResult
 from flight_planner.viz import (
     AirportLayer,
     Geodesic,
@@ -202,13 +203,7 @@ class TestPathLayer:
     def test_it_accepts_a_search_result_and_reports_its_counters(self):
         # Purely additive: the counters appear in the legend when they are
         # available and the layer works without them.
-        search_result = pytest.importorskip(
-            "flight_planner.pathfinding"
-        )
-        if not hasattr(search_result, "SearchResult"):
-            pytest.skip("SearchResult lands with feature/search-instrumentation")
-
-        result = search_result.SearchResult(
+        result = SearchResult(
             cost=8493.0, path=[SFO_JFK, SFO_BOS], nodes_expanded=746
         )
         layer = PathLayer.from_result(result, name="Dijkstra")
