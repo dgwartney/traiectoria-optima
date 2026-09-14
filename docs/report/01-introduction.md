@@ -7,7 +7,8 @@ settle one question: does informed search actually pay for itself, or is that
 just something textbooks assert? The answer is yes, and by a wider margin than
 we expected.
 
-On the full OpenFlights network — **3,387 airports and 66,332 routes** — A\*
+On the full cleaned network — **3,387 airports and 66,332 routes**, its routes
+from OpenFlights and its airports from OurAirports (§2.1) — A\*
 with a haversine heuristic returned **exactly** Dijkstra's shortest distance on
 every long-haul query we asked, to the last decimal place, while expanding
 **130× to 784× fewer airports** and running **9× to 31× faster**. That is the
@@ -15,11 +16,11 @@ result the project asks for, and §7 measures it rather than claiming it.
 
 | | |
 |---|---|
-| Graph, heap, BFS, Dijkstra and A\* | Written from scratch on Python dicts, lists, sets and `deque`. `heapq` appears nowhere in the package |
+| Graph, heap, BFS, Dijkstra, A\* and both distance formulas | Written from scratch on Python dicts, lists, sets and `deque`. `heapq` and `networkx` appear nowhere in the package, and `scipy` is not a dependency of the project |
 | Libraries | Loading, plotting and **validating** only, per the assignment's rules |
 | A\* against Dijkstra | Identical distance on all five benchmark queries; 130×–784× fewer expansions; 31× faster on the world graph |
 | Cross-validated | 200 long-haul queries against NetworkX, three algorithms, **0 cost mismatches** |
-| Heuristic checked, not assumed | **658,470** consistency checks on real data, **0 violations** — plus a four-vertex counterexample showing why *admissible* alone would not have been enough |
+| Heuristic checked, not assumed | **6,633,200** consistency checks across all 66,332 real edges, **0 violations**, worst gap 1.8 × 10⁻¹² km — plus a four-vertex counterexample showing why *admissible* alone would not have been enough |
 | Tests | **1,118 passing** across 61 files (1,041 with a plain `uv sync`; the mapping tests skip without the `notebooks` extras), `ruff` clean |
 
 Two findings complicate the tidy story, and we think they are the more
@@ -110,10 +111,13 @@ Three, in priority order:
 
 1. **Build the data structures and the algorithms ourselves.** An adjacency-list
    graph, an array-backed binary min-heap, then BFS, Dijkstra on that heap, and
-   A\*. Nothing that a library could have handed us.
-2. **Prove it works** — unit tests for the shape of the code, and an
-   independent implementation (NetworkX) for the correctness of the design,
-   since the same people wrote the code and its tests.
+   A\*. Nothing that a library could have handed us — and layered so that the
+   graph and the searches have never heard of an airport (§3).
+2. **Prove it works** — four layers, because each catches what the one before
+   it cannot (§5): a known small input from the textbook, the structural edge
+   cases, an independent implementation (NetworkX) for the correctness of the
+   *design* rather than the code, and randomized differential testing for the
+   case nobody thought to write. The last of those found a real defect.
 3. **Measure the A\* claim on real data**, with instrumentation that counts what
    each search actually did rather than timing a black box.
 
@@ -142,8 +146,18 @@ meaningful (§5).
 including the admissibility-versus-consistency argument for A\*. §5 is how we
 know they are right. §6 derives the complexity bounds and then checks each one
 against a measurement of our own code. §7 is the evaluation — the headline
-numbers above, plus the three results that complicate them. §8 shows a route on
-a map, §9 covers what went wrong, and §10 concludes.
+numbers above, plus three *further* complications it turns up that are not the
+two named in §1.1. §8 shows a route on a map, §9 covers what went wrong, §10
+concludes and §11 lists the sources.
+
+Seven appendices carry what the chapters argue from rather than about:
+[A](12-appendix-a-code-inventory.md) accounts for every line of code,
+[B](13-appendix-b-data-structures.md) and [C](14-appendix-c-distance-formulas.md)
+back §3 and §4.3, [D](15-appendix-d-networkx-parity.md) and
+[E](16-appendix-e-astar-consistency.md) hold the full results §5 summarises,
+[F](17-appendix-f-reproducibility.md) describes the snapshot and experiment
+machinery every figure depends on, and [G](18-appendix-g-glossary.md) is the
+glossary.
 
 Everything reported here is reproducible: each figure comes from a committed
 `results.json` written by a committed notebook or script, and §7.1 says which
