@@ -56,6 +56,7 @@ testpaths = ["tests"]
 pythonpath = [
     "src",
     "src/data",
+    "src/demos",
     "scripts",
     "src/models/flight",
     "src/exercises",
