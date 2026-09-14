@@ -93,7 +93,7 @@ runtime contract.
 | `folium` | 0.20.0 | **Plotting.** | The route maps in §8. Imported lazily, inside the method that needs it |
 | `pyproj` | 3.7.2 | **Plotting.** | Great-circle interpolation for drawing only (§8.2). **Not** used for any distance this report reports — those come from our own `geo.Haversine` |
 | `playwright` | — | **Plotting.** | Screenshots a Leaflet map to PNG so a static PDF can cite it (§8.6), and exports the deck |
-| `pytest`, `ruff` | 9.1.1, 0.16.4 | Tooling | The 1,061-test suite and the lint gate |
+| `pytest`, `ruff` | 9.1.1, 0.16.4 | Tooling | The 1,061-test suite (988 without the `notebooks` extras) and the lint gate |
 
 The two claims worth verifying rather than accepting:
 

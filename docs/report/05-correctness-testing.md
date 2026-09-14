@@ -15,7 +15,9 @@ being wrong:
 | Cross-validation against NetworkX (§5.4) | A wrong *design*, because the oracle shares no code and no author | Anything both implementations get wrong the same way |
 | Randomized differential testing (§5.5) | The case nobody thought to write — it found the A\* defect §4.3 is about | Failure modes the generator cannot produce |
 
-The suite is **1,061 tests across 57 files**. Its shape says something about
+The suite is **1,061 tests across 57 files**, of which 69 need the
+`notebooks` dependency group — the map geometry cannot be tested without
+pyproj, so those skip rather than fail on a plain `uv sync`. Its shape says something about
 where the risk was judged to be:
 
 | Area | Tests |
