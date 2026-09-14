@@ -229,3 +229,63 @@
 }
 
 .reveal .footnote { color: var(--dim); font-size: 0.48em; }
+
+/* --- The title slide ------------------------------------------------
+ * Its own type scale. Reusing the body sizes left everything crammed into
+ * the left third of the frame under the 34em measure, with the bottom half
+ * empty -- fine for a slide carrying three cards, wrong for one carrying a
+ * name and a question. Laid out as a column so the byline sits at the foot
+ * of the frame rather than wherever the text happens to end.
+ */
+.reveal section.title-slide {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2em 0 0.8em;
+}
+.reveal section.title-slide h2 {
+  font-size: 2.7em;
+  margin: 0 0 0.1em;
+}
+.reveal section.title-slide .eyebrow {
+  font-size: 0.5em;
+  order: -1;
+  margin: 0 0 1.1em;
+}
+.reveal section.title-slide h3 {
+  color: var(--blue);
+  font-size: 1.45em;
+  font-weight: 400;
+  margin: 0 0 0.9em;
+}
+.reveal section.title-slide .lede {
+  font-size: 0.8em;
+  max-width: 34em;
+  margin: 0 0 1.6em;
+}
+
+/* The question the deck exists to answer. Green because it is a result the
+ * audience is being walked toward, and green is the A* accent throughout. */
+.reveal .question {
+  color: var(--astar);
+  font-weight: 800;
+  font-size: 1.35em;
+  line-height: 1.15;
+  margin: 0 0 0.2em;
+  max-width: none;
+}
+.reveal .subquestion {
+  color: var(--dim);
+  font-size: 0.78em;
+  margin: 0;
+  max-width: none;
+}
+
+/* Set well below the question rather than flush against it. A flex `auto`
+ * margin would be tidier, but reveal sizes a section to its content in
+ * print-pdf mode, so there is no slack for it to consume and the byline
+ * would land in a different place in the HTML and the PDF. */
+.reveal .byline {
+  margin: 2.4em 0 0;
+  font-size: 0.72em;
+  color: var(--bright);
+}
