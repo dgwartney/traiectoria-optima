@@ -1425,8 +1425,10 @@ dev = [
 
 NetworkX 3.6.1 is BSD-3-Clause, requires Python `>=3.11` (this project pins
 3.12+), and has **no required runtime dependencies** — `numpy`, `scipy`,
-`matplotlib` and `pandas` are all behind its `default` extra, and `dev`
-already carries all four. Adding it costs the wheel nothing and Colab nothing.
+`matplotlib` and `pandas` are all behind its `default` extra, and `dev` already
+carries `numpy`, `matplotlib` and `pandas`. (`scipy` was dropped from `dev`
+later, once `src/models/flight/wind.py` stopped being its only user; NetworkX
+does not require it.) Adding it costs the wheel nothing and Colab nothing.
 
 For Options A and G the adapter goes in `tests/networkx_parity/` beside the
 test modules. If Option C is ever taken, its engine belongs in `tests/` or

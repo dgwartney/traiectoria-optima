@@ -14,8 +14,9 @@ long-haul query asked, to the last decimal place, while expanding **130× to
 Everything the assignment names as from-scratch work is from scratch. The
 adjacency-list digraph, the array-backed binary min-heap, BFS, Dijkstra and A\*
 are built on Python dicts, lists, sets and `deque`; **`heapq` appears nowhere
-in the package**, and neither does `networkx` or `scipy`. Libraries do loading,
-plotting and validating, which is what the assignment permits (§11).
+in the package**, and neither does `networkx`. `scipy` is not a dependency of
+this project at all (§10.4). Libraries do loading, plotting and validating,
+which is what the assignment permits (§11).
 
 What makes those numbers worth more than the same numbers printed from a
 console is that they are pinned. Every figure in this report names a
@@ -85,7 +86,7 @@ where it says *admissible*. Both are small. Leaving them both undone is the
 one option that should not survive.
 
 **2. Physics-aware routing, which is the one substantial thing already
-prototyped.** `src/models/flight/` is **504 lines that nothing in the
+prototyped.** `src/models/flight/` is **611 lines that nothing in the
 delivered system imports**: a commercial aircraft performance model, an
 International Standard Atmosphere up to the tropopause, an interpolated wind
 field with wind-triangle calculations, a gate-to-gate time and fuel-burn
@@ -100,9 +101,17 @@ rather than great-circle kilometres. That change would be almost entirely
 contained — §3's layering means `Route.distance_km` is domain data behind
 `edge.weight`, and the searches never look at anything else.
 
-One caveat it creates, worth stating since §11 lists the libraries: **`scipy`
-is a `dev`-group dependency used by nothing except `wind.py`.** It is in the
-tree for code the deliverable does not run.
+It was also carrying a dependency for its own sake. `wind.py` used
+`scipy.interpolate.RegularGridInterpolator`, and that was the **only** use of
+scipy anywhere in the repository — a large dependency for one interpolation, in
+code the delivered system does not import. It is now `_RegularGrid`, trilinear
+interpolation on numpy, which was **verified against scipy over 8,120 points
+across 40 random grids with zero disagreement** before the dependency was
+removed. Nine tests pin the three behaviours that were easy to get wrong:
+unevenly spaced axes, a point exactly on the upper boundary, and the rule that
+a point outside the grid on *any* axis returns the fill value entirely rather
+than being clamped onto the nearest face. §11.3's library table is one row
+shorter for it.
 
 **3. The secondary feature that was specified and not built.** The project plan
 listed nearest-airport-to-a-coordinate lookup; airports resolve by IATA code

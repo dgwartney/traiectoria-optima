@@ -6,7 +6,7 @@ The report argues about roughly a sixth of the code. This section accounts for
 the rest, because a reader who has just finished §7 has no way to tell whether
 the thing measured is 500 lines or 18,000.
 
-**20,201 lines of Python** across `src/`, `scripts/` and `tests/`, of which the
+**20,370 lines of Python** across `src/`, `scripts/` and `tests/`, of which the
 installable `flight_planner` package is 5,224.
 
 | Layer | Lines | What it is |
@@ -18,11 +18,11 @@ installable `flight_planner` package is 5,224.
 | `src/data/` | 1,430 | The four-stage cleaning pipeline behind §2.3 |
 | `src/demos/` | 1,446 | 14 runnable scripts, deliberately outside the wheel so they exercise the package's public re-exports rather than its internals |
 | `scripts/` | 1,037 | Snapshot and experiment scaffolders, and the deck build. These know the repository's layout, which is why they are not package code |
-| `tests/` | 8,722 | **731 test functions, 1,052 collected** with parametrization, across 57 files |
+| `tests/` | 8,784 | **737 test functions, 1,061 collected** with parametrization, across 57 files |
 
 Two directories are in the tree and are **not** part of the delivered system:
 
-- **`src/models/flight/` (504 lines)** — aircraft performance, an ISA
+- **`src/models/flight/` (611 lines)** — aircraft performance, an ISA
   atmosphere model, wind and payload-range. It has its own tests and nothing
   imports it. §10 treats it as the natural next step, and it is excluded from
   the system description in §3 for that reason.

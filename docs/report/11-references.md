@@ -89,12 +89,11 @@ runtime contract.
 | `pandas` | 3.0.5 | **Loading.** The only third-party import in `flight_planner` | Reads CSV and runs the cleaning transform (§2.3). No graph, no search, no distance |
 | `networkx` | 3.6.1 | **Validating, only.** | The independent oracle in §5.4. Wrapped behind our own `PathfindingAlgorithm` interface so it is a *parameter* of an experiment, never a substitute for the algorithms. It reports its expansion counters as literal zero, because it cannot measure them and a fabricated number in a comparison column would be worse than an obviously absent one (§5.4) |
 | `matplotlib` | 3.11.1 | **Plotting.** | §2.5's and §7's charts |
-| `numpy` | 2.5.2 | Plotting support | Array handling underneath matplotlib and the wind model |
+| `numpy` | 2.5.2 | Plotting support | Array handling underneath matplotlib, and the trilinear interpolation in §10.4's wind model — which is why removing `scipy` cost nothing |
 | `folium` | 0.20.0 | **Plotting.** | The route maps in §8. Imported lazily, inside the method that needs it |
 | `pyproj` | 3.7.2 | **Plotting.** | Great-circle interpolation for drawing only (§8.2). **Not** used for any distance this report reports — those come from our own `geo.Haversine` |
 | `playwright` | — | **Plotting.** | Screenshots a Leaflet map to PNG so a static PDF can cite it (§8.6), and exports the deck |
-| `scipy` | 1.18.1 | Nothing in the delivered system | Used only by `src/models/flight/wind.py`, which nothing imports. Present for the future work in §10.4 |
-| `pytest`, `ruff` | 9.1.1, 0.16.4 | Tooling | The 1,052-test suite and the lint gate |
+| `pytest`, `ruff` | 9.1.1, 0.16.4 | Tooling | The 1,061-test suite and the lint gate |
 
 The two claims worth verifying rather than accepting:
 
