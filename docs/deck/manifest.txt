@@ -33,4 +33,8 @@ route-map                # 08-visualization.md
 # --- Lessons (report ch. 9) ------------------------------------------
 lessons                  # 09-challenges-and-lessons-learned.md
 
+# --- Closing (report ch. 10 and 11) -----------------------------------
+conclusion               # 10-conclusion.md
+references               # 11-references.md
+
 questions                # deck-only
