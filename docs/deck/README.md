@@ -21,7 +21,30 @@ uv run pytest tests/deck
 
 `vendor/` is not committed. Vendored JavaScript in a repository whose point is
 from-scratch data structures invites the wrong question, and the cost is one
-networked fetch per clone.
+networked fetch per clone. The version is **pinned** — `REVEAL_VERSION = 5.1.0`
+in the [`Makefile`](../../Makefile), fetched by release tag — so "not
+committed" does not mean "not determined".
+
+## Neither PDF is committed, and that is the policy
+
+`build/` is gitignored in full, so `build/pdf/deck.pdf` is untracked on exactly
+the same terms as `build/pdf/report.pdf`. **The deck is under version control
+by virtue of its sources, not its export.** Every input is tracked:
+
+| Input | Where |
+| --- | --- |
+| Slide content | The `deck-slide` blocks in `docs/report/*.md` |
+| Deck-only slides, order | `docs/deck/` |
+| Theme | `docs/templates/deck.css` |
+| Extraction and dropping | `docs/deck-slides.lua`, `docs/drop-slides.lua` |
+| Build and export | `scripts/build_deck.py`, `scripts/export_deck_pdf.py` |
+| Figures | `slides/images/*.png`, written by `experiments/route-map` |
+| reveal.js | Pinned to 5.1.0 by tag, above |
+
+Committing the PDF would add a binary that cannot be diffed, cannot be
+reviewed, and would go stale the moment a chapter changed — reintroducing in
+one file the exact drift this whole design exists to prevent. `make deck-pdf`
+regenerates it in seconds.
 
 ## The slide files under `build/deck/`
 
