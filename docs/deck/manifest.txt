@@ -42,6 +42,9 @@ runtime                  # 07-empirical-evaluation.md
 # --- Visualization (report ch. 8) -------------------------------------
 route-map                # 08-visualization.md
 
+# --- The demo --------------------------------------------------------
+demo                     # deck-only
+
 # --- Lessons (report ch. 9) ------------------------------------------
 lessons                  # 09-challenges-and-lessons-learned.md
 

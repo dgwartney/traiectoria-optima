@@ -10,7 +10,7 @@ This directory holds the two things that are not derived:
 | File | What it is |
 | --- | --- |
 | `manifest.txt` | Presentation order. Every chapter slide must be listed; the build fails if one is not, because the alternative is a slide silently missing from the deck. |
-| `title.md`, `agenda.md`, `questions.md` | The deck-only slides. These have no chapter home — no report chapter wants an agenda — so they are written by hand. A file here also *overrides* a chapter slide of the same name, if one ever needs to diverge. |
+| `title.md`, `agenda.md`, `demo.md`, `questions.md` | The deck-only slides. These have no chapter home — no report chapter wants an agenda, and none describes the live demo — so they are written by hand. A file here also *overrides* a chapter slide of the same name, if one ever needs to diverge. |
 
 ```sh
 make vendor-reveal   # once per clone: fetches reveal.js into vendor/ (gitignored)
