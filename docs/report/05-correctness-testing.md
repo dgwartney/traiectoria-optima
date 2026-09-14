@@ -15,7 +15,7 @@ being wrong:
 | Cross-validation against NetworkX (§5.4) | A wrong *design*, because the oracle shares no code and no author | Anything both implementations get wrong the same way |
 | Randomized differential testing (§5.5) | The case nobody thought to write — it found the A\* defect §4.3 is about | Failure modes the generator cannot produce |
 
-The suite is **1,061 tests across 57 files**, of which 69 need the
+The suite is **1,102 tests across 60 files**, of which 77 need the
 `notebooks` dependency group — the map geometry cannot be tested without
 pyproj, so those skip rather than fail on a plain `uv sync`. Its shape says something about
 where the risk was judged to be:
@@ -167,7 +167,7 @@ test that fails if either half stops being true.
 
 ## 5.4 Cross-validation against an independent implementation
 
-1,061 tests say the code behaves as designed. They cannot say the design is
+1,102 tests say the code behaves as designed. They cannot say the design is
 right, because the same person wrote both. For that the same questions have to
 be put to an implementation sharing no code, no data structures and no author.
 [NetworkX](https://networkx.org) 3.6.1 is that implementation.
@@ -340,7 +340,7 @@ conclusions.
 
 <span class="pill">Four layers</span>
 
-### 1,061 tests, then an oracle
+### 1,102 tests, then an oracle
 
 A known seven-airport graph from the textbook · the four structural edge cases
 on fixtures **and on the real network** · NetworkX as an independent

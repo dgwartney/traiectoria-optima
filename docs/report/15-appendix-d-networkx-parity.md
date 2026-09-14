@@ -13,7 +13,7 @@ cannot be replaced by a library — the assignment's rules say libraries are
 "allowed only for loading, plotting, and **validating** your own results".
 That leaves the question of how anyone knows they are right.
 
-1,061 unit tests say the code behaves as designed. They cannot say the design is
+1,102 unit tests say the code behaves as designed. They cannot say the design is
 correct, because the same person wrote both. For that, the same questions have
 to be put to an implementation that shares no code, no data structures and no
 author with ours. [NetworkX](https://networkx.org) is that implementation: a

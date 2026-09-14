@@ -20,7 +20,7 @@ result the project asks for, and §7 measures it rather than claiming it.
 | A\* against Dijkstra | Identical distance on all five benchmark queries; 130×–784× fewer expansions; 31× faster on the world graph |
 | Cross-validated | 200 long-haul queries against NetworkX, three algorithms, **0 cost mismatches** |
 | Heuristic checked, not assumed | **658,470** consistency checks on real data, **0 violations** — plus a four-vertex counterexample showing why *admissible* alone would not have been enough |
-| Tests | **1,061 passing** across 57 files (988 with a plain `uv sync`; the mapping tests skip without the `notebooks` extras), `ruff` clean |
+| Tests | **1,102 passing** across 60 files (1,025 with a plain `uv sync`; the mapping tests skip without the `notebooks` extras), `ruff` clean |
 
 Two findings complicate the tidy story, and we think they are the more
 interesting half of the report. **BFS is not simply "the slow one"** — on some
