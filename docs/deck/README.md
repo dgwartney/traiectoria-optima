@@ -13,17 +13,33 @@ This directory holds the two things that are not derived:
 | `title.md`, `agenda.md`, `demo.md`, `questions.md` | The deck-only slides. These have no chapter home — no report chapter wants an agenda, and none describes the live demo — so they are written by hand. A file here also *overrides* a chapter slide of the same name, if one ever needs to diverge. |
 
 ```sh
-make vendor-reveal   # once per clone: fetches reveal.js into vendor/ (gitignored)
 make deck            # -> build/html/deck.html
 make deck-pdf        # -> build/pdf/deck.pdf, one page per slide
 uv run pytest tests/deck
 ```
 
-`vendor/` is not committed. Vendored JavaScript in a repository whose point is
-from-scratch data structures invites the wrong question, and the cost is one
-networked fetch per clone. The version is **pinned** — `REVEAL_VERSION = 5.1.0`
-in the [`Makefile`](../../Makefile), fetched by release tag — so "not
-committed" does not mean "not determined".
+## reveal.js comes from a CDN
+
+`deck.html` loads reveal.js from jsDelivr, **pinned to 5.1.0** in the
+[`Makefile`](../../Makefile), so the deck cannot shift underneath a rehearsal.
+Committing the library instead would put vendored JavaScript in a repository
+whose point is from-scratch data structures, which invites the wrong question;
+fetching it into `vendor/` at build time worked but cost every clone a setup
+step before `make deck` would run at all.
+
+**The consequence is that the built `deck.html` needs a network to present.**
+That is what `make deck-pdf` is for: `build/pdf/deck.pdf` embeds everything
+and is the offline copy. If you would rather present the HTML with no network,
+fetch a local reveal.js and point the build at it:
+
+```sh
+make vendor-reveal                 # -> vendor/reveal.js (gitignored)
+make deck REVEAL=vendor/reveal.js  # relative URLs, no CDN
+```
+
+`--reveal` takes a URL or a directory; a directory is written into the HTML
+*relative* to it, so the tree can be copied onto a presentation machine and
+still work.
 
 ## Neither PDF is committed, and that is the policy
 

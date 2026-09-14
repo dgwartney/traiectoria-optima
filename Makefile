@@ -85,10 +85,15 @@ DECK_PDF        = $(PDF_DIR)/deck.pdf
 SRC_BUILD_DECK  = $(SCRIPTS_DIR)/build_deck.py
 SRC_EXPORT_DECK = $(SCRIPTS_DIR)/export_deck_pdf.py
 
-# reveal.js is fetched rather than committed: vendored JavaScript in a
-# repository whose point is from-scratch algorithms invites the wrong question.
-# The cost is one networked fetch per clone.
+# reveal.js is loaded from a CDN rather than committed: vendored JavaScript in
+# a repository whose point is from-scratch algorithms invites the wrong
+# question, and a clone should build the deck with no setup step.
+#
+# Pinned by version, so the deck cannot shift underneath a rehearsal.
+# `make vendor-reveal` fetches a local copy for presenting without a network;
+# point the build at it with `make deck REVEAL=$(REVEAL_DIR)`.
 REVEAL_VERSION = 5.1.0
+REVEAL         = https://cdn.jsdelivr.net/npm/reveal.js@$(REVEAL_VERSION)
 REVEAL_DIR     = vendor/reveal.js
 REVEAL_TARBALL = https://github.com/hakimel/reveal.js/archive/refs/tags/$(REVEAL_VERSION).tar.gz
 
@@ -229,17 +234,17 @@ deck: $(DECK_HTML) ## Build the reveal.js deck from the report chapters
 
 deck-pdf: $(DECK_PDF) ## Export the deck to build/pdf/deck.pdf
 
-$(DECK_HTML): $(REPORT_CHAPTERS) $(DECK_ONLY_SRCS) $(DECK_MANIFEST) $(DECK_CSS) $(DECK_SLIDES_FILTER) $(SRC_BUILD_DECK) | $(REVEAL_DIR)
+$(DECK_HTML): $(REPORT_CHAPTERS) $(DECK_ONLY_SRCS) $(DECK_MANIFEST) $(DECK_CSS) $(DECK_SLIDES_FILTER) $(SRC_BUILD_DECK)
 	uv run python $(SRC_BUILD_DECK) $(REPORT_CHAPTERS) \
 	  --manifest $(DECK_MANIFEST) --slides-dir $(DECK_SLIDES_DIR) \
-	  --out $@ --reveal $(REVEAL_DIR)
+	  --out $@ --reveal $(REVEAL)
 
 # Printed through reveal's own `?print-pdf` mode, so the PDF has one page per
 # slide at the deck's own aspect ratio rather than a screenshot of a scroll.
 $(DECK_PDF): $(DECK_HTML) $(SRC_EXPORT_DECK) | $(PDF_DIR)
 	uv run python $(SRC_EXPORT_DECK) $(DECK_HTML) $@
 
-vendor-reveal: $(REVEAL_DIR) ## Fetch reveal.js into vendor/ (gitignored; needed once per clone)
+vendor-reveal: $(REVEAL_DIR) ## Fetch reveal.js into vendor/ for offline presenting (gitignored)
 
 # Only `dist/` and `plugin/` are unpacked; the rest of the tarball is the
 # project's own source, tests and demos, which we do not ship a copy of.

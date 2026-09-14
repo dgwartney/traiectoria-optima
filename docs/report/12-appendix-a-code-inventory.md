@@ -37,7 +37,7 @@ Everything in this document is built from the repository:
 uv sync                            # the environment
 uv run pytest                      # 883 tests
 make report                        # this PDF
-make vendor-reveal && make deck    # the presentation, from these same chapters
+make deck                          # the presentation, from these same chapters
 ```
 
 The nine committed experiments under `experiments/` each hold an

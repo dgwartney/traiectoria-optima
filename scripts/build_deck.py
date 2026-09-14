@@ -12,7 +12,8 @@ Three stages:
 2. `docs/deck/manifest.txt` puts them in presentation order and interleaves the
    deck-only slides -- title, agenda, questions -- which have no chapter home
    and are hand-written under `docs/deck/`.
-3. pandoc's revealjs writer turns the concatenation into one HTML file.
+3. pandoc's revealjs writer turns the concatenation into one HTML file,
+   pointed at a version-pinned reveal.js on jsDelivr.
 
 Stage 2 is why this is a script rather than a make recipe: resolving each
 manifest entry against two directories, and failing loudly when a slide exists
@@ -35,7 +36,11 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = REPO_ROOT / "docs" / "deck" / "manifest.txt"
 DEFAULT_SLIDES_DIR = REPO_ROOT / "build" / "deck"
 DEFAULT_OUT = REPO_ROOT / "build" / "html" / "deck.html"
-DEFAULT_REVEAL = REPO_ROOT / "vendor" / "reveal.js"
+#: reveal.js is loaded from a CDN rather than vendored. Pinned by version, so
+#: the deck cannot shift underneath a rehearsal. Pass a directory to
+#: `--reveal` to use a local copy instead -- `make vendor-reveal` fetches one.
+REVEAL_VERSION = "5.1.0"
+DEFAULT_REVEAL = f"https://cdn.jsdelivr.net/npm/reveal.js@{REVEAL_VERSION}"
 
 EXTRACT_FILTER = REPO_ROOT / "docs" / "deck-slides.lua"
 DECK_CSS = REPO_ROOT / "docs" / "templates" / "deck.css"
@@ -162,25 +167,44 @@ def assemble(paths: Sequence[Path], out: Path) -> Path:
     return out
 
 
-def render(deck_md: Path, out: Path, reveal: Path) -> None:
-    """Run pandoc's revealjs writer over the assembled markdown.
+def resolve_reveal(reveal: str, out: Path) -> str:
+    """Return the value pandoc should use for `revealjs-url`.
 
-    `revealjs-url` is written relative to the output file rather than absolute,
-    so the built `deck.html` still works if the tree is moved or copied onto a
-    presentation machine.
+    A URL is passed through. A local directory is written *relative* to the
+    output file rather than absolute, so a `deck.html` built here still works
+    after the tree is copied onto a presentation machine.
+
+    Args:
+        reveal: A CDN base URL, or a path to a reveal.js checkout.
+        out: Where the HTML will be written.
+
+    Returns:
+        The URL or relative path to hand pandoc.
+
+    Raises:
+        SystemExit: If a local path was given and does not hold reveal.js.
+    """
+    if reveal.startswith(("http://", "https://")):
+        return reveal.rstrip("/")
+    directory = Path(reveal)
+    if not (directory / "dist" / "reveal.js").exists():
+        sys.exit(
+            f"no reveal.js at {directory} -- run `make vendor-reveal`, or drop "
+            "the --reveal argument to load it from the CDN"
+        )
+    return os.path.relpath(directory, out.parent)
+
+
+def render(deck_md: Path, out: Path, reveal: str) -> None:
+    """Run pandoc's revealjs writer over the assembled markdown.
 
     Args:
         deck_md: The assembled slide markdown.
         out: Where to write the HTML.
-        reveal: The vendored reveal.js checkout.
-
-    Raises:
-        SystemExit: If reveal.js has not been vendored.
+        reveal: A CDN base URL, or a path to a reveal.js checkout.
     """
-    if not (reveal / "dist" / "reveal.js").exists():
-        sys.exit(f"reveal.js is not vendored at {reveal} -- run `make vendor-reveal`")
     out.parent.mkdir(parents=True, exist_ok=True)
-    reveal_url = os.path.relpath(reveal, out.parent)
+    reveal_url = resolve_reveal(reveal, out)
     subprocess.run(
         [
             "pandoc",
@@ -233,7 +257,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--slides-dir", type=Path, default=DEFAULT_SLIDES_DIR)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
-    parser.add_argument("--reveal", type=Path, default=DEFAULT_REVEAL)
+    parser.add_argument("--reveal", default=DEFAULT_REVEAL)
     args = parser.parse_args(argv)
 
     names = read_manifest(args.manifest)

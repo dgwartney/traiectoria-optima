@@ -40,12 +40,12 @@ afford to check its own data.
 
 ### The output is already on this slide
 
-Only the two map cells need the network — Leaflet from a CDN, tiles from
-OpenStreetMap.
+Of the notebook, only the two **maps** need one — Leaflet and the basemap
+tiles. The charts and every number render offline.
 
-The maps are committed as PNGs and carried on the route-map slide; the numbers
-are on the nodes-expanded slide. **Nothing in the demo is claimed only by the
-demo.**
+These slides need one too: reveal.js is loaded from a CDN. `build/pdf/deck.pdf`
+is the offline copy, and the maps are committed as PNGs on the route-map
+slide. **Nothing here is claimed only by the demo.**
 
 </div>
 
