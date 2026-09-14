@@ -52,8 +52,9 @@ All three from scratch behind one interface — and the argument that A\* needs 
 
 ### Correctness, complexity, and cost
 
-An independent oracle and a randomized sweep; every bound checked against a
-measurement; **130×–784× fewer expansions** for the same answer.
+Every answer checked against **NetworkX**, an implementation nobody here
+wrote, plus 10,866 randomized queries. Every complexity bound checked against
+a measurement. **130×–784× fewer expansions** for the same answer.
 
 </div>
 

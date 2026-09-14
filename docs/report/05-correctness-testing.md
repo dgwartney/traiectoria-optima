@@ -345,7 +345,7 @@ conclusions.
 
 <span class="pill">Four layers</span>
 
-### 1,118 tests, then an oracle
+### 1,118 tests, then a second opinion
 
 A known seven-airport graph from the textbook · the four structural edge cases
 on fixtures **and on the real network** · NetworkX as an independent
@@ -385,6 +385,6 @@ was sufficient.
 
 </div>
 
-<p class="footnote">`experiments/networkx-parity` and `experiments/astar-consistency`; oracle NetworkX 3.6.1.</p>
+<p class="footnote">`experiments/networkx-parity` and `experiments/astar-consistency`; reference implementation NetworkX 3.6.1.</p>
 
 </div>
