@@ -33,10 +33,31 @@ document, script or test:
   [`setup.md` §6](../docs/setup.md#6-google-colab) explains the install line by
   line — both of which route through a snapshot rather than build output.
 
-## Where the demo notebook will live
+## `demo.ipynb` — the deliverable
 
-The graded demo notebook is tracked as issue #20 and belongs in this directory.
-It is held to the experiment rules rather than these: it pins a snapshot, reads
-its figures from `experiments/search-cost/results.json` rather than recomputing
-them, and carries **no stored output** — which
-`tests/experiments/test_committed.py` enforces.
+The graded demo notebook (#20). It is held to the experiment rules rather than
+to the two exhibits above:
+
+- **It pins a snapshot** and opens it through `Snapshot.open()`, so every file
+  is re-hashed against the manifest before a row is read. A demo that would
+  have shown the wrong data fails loudly instead.
+- **Every measured number is read from a committed `results.json`**, never
+  recomputed. A demo that re-runs a timing loop on stage is a demo that waits,
+  and a number produced live cannot be compared against the report. Only the
+  route queries and the boundary cases are computed as it runs — both fast and
+  both deterministic.
+- **It carries no stored output.** Committed empty on purpose; run it top to
+  bottom.
+
+`tests/notebooks/test_demo_notebook.py` enforces all three, plus the one that
+would otherwise rot unnoticed: every name it imports from `flight_planner`
+must still exist. No test imports the notebook, so nothing else would catch a
+rename in the package until someone ran it in front of an audience.
+
+Its logic lives in [`src/demos/route_query_example.py`](../src/demos/route_query_example.py)
+rather than in the cells, so it is testable —
+`tests/demos/test_route_query_example.py`.
+
+**The two map cells need network access** (Leaflet from a CDN, tiles from
+OpenStreetMap). Offline, the same three routes are committed as PNGs under
+`slides/images/` and carried on the deck's route-map slide.
