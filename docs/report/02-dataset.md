@@ -30,13 +30,21 @@ questions rather than two spellings of one.
 
 ### Two sources, because the edges are the harder half
 
-<div class="cards two figure-left">
+<div class="cards">
 
 <div class="card figure">
 
 ![](../../slides/images/degree-distribution.png)
 
-<p class="caption">Out-degree, log–log. **38.4% of airports have two or fewer departures**; ATL has 915. Mean 19.6 against a median of 4 — the gap *is* the shape of the network.</p>
+<p class="caption">Out-degree, log–log. **38.4% of airports have two or fewer departures**; ATL (Atlanta) has 915. Mean 19.6 against a median of 4 — the gap *is* the shape of the network.</p>
+
+</div>
+
+<div class="card figure">
+
+![](../../slides/images/top-hubs.png)
+
+<p class="caption">The ten busiest airports, in- and out-degree. ATL (Atlanta) 915/911, AMS (Amsterdam) 450/447 — in- and out-degree track each other at every hub. The ten alone carry **8.1%** of all routes.</p>
 
 </div>
 
@@ -215,7 +223,7 @@ run between 36,717 distinct airport pairs, so 29,615 of them are parallel to
 another (§2.5). It is tempting to read that as competition, and partly it is —
 564 distinct carriers appear in the table. But of the 45,754 route rows sitting
 on a pair served more than once, **11,982 carry a codeshare flag**: the same
-aircraft, sold under another airline's code. ORD→ATL has 20 rows. The graph is
+aircraft, sold under another airline's code. ORD (Chicago)→ATL (Atlanta) has 20 rows. The graph is
 therefore a multigraph of *marketing*, and the shortest-path algorithms treat
 its parallel edges as what they are — alternative ways to fly one leg, all of
 the same length.
@@ -242,7 +250,7 @@ one, and it is independently confirmed by the NetworkX mirror in §5, which
 records the same 29,615 as the routes a collapsing graph type would discard.
 
 **Directed or undirected, and why both appear.** The 36,717 above counts
-*ordered* pairs, so ATL→ORD and ORD→ATL are two. Collapsing direction as well
+*ordered* pairs, so ATL (Atlanta)→ORD (Chicago) and ORD (Chicago)→ATL (Atlanta) are two. Collapsing direction as well
 leaves **18,814** city pairs — which is the figure `experiments/route-map`
 reports, because it is deciding how many arcs to draw and one arc serves both
 directions. The two experiments are counting different things rather than
@@ -281,8 +289,8 @@ falling line spanning three orders of magnitude in each direction.
 
 ![The ten busiest airports, in- and out-degree](../images/top-hubs-light.png)
 
-In- and out-degree track each other closely at every hub — ATL's 915 departures
-against 911 arrivals, AMS's 450 against 447 — which is what scheduled aviation
+In- and out-degree track each other closely at every hub — ATL (Atlanta)'s 915 departures
+against 911 arrivals, AMS (Amsterdam)'s 450 against 447 — which is what scheduled aviation
 should look like, since aircraft that arrive must leave. The near-symmetry is a
 useful sanity check on the cleaning: a large gap at a major airport would point
 to dropped rows rather than to real one-way service.

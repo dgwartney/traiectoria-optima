@@ -224,7 +224,7 @@ the real cost that each algorithm adds up along a path. They are two separate
 things, and [Extending it](#extending-it) changes one without touching the
 other.
 
-**Arrows point one way.** `Route(sfo, lax, ...)` creates SFO→LAX and nothing
+**Arrows point one way.** `Route(sfo, lax, ...)` creates SFO (San Francisco)→LAX (Los Angeles) and nothing
 else. A return flight is a second `Route`.
 
 ## `FlightPlanner`: a `Graph` with an index
@@ -233,7 +233,7 @@ else. A return flight is a second `Route`.
 lookup table from IATA code to `Airport`, kept current as airports are added.
 It lets you ask questions using codes rather than object references.
 
-The network below has no direct SFO–BOS service, and two ways across the
+The network below has no direct SFO (San Francisco)–BOS (Boston) service, and two ways across the
 country:
 
 ![Five-airport example network](../images/flight-planner-network.svg)
@@ -288,7 +288,7 @@ shows up plainly in it:
 ```
 
 `get_outgoing_edges` is the entire interface the algorithms see. No departures
-from BOS were declared, so nothing leaves BOS.
+from BOS (Boston) were declared, so nothing leaves BOS (Boston).
 
 ### Asking for a route
 
@@ -368,58 +368,33 @@ airport" separate from "no such route".
 
 ### The API the algorithms actually see
 
-<div class="cards">
+<div class="cards two figure-left">
+
+<div class="card figure">
+
+![](../../slides/images/flight-planner-network.png)
+
+<p class="caption">Five-airport example network — the API below built and queried on exactly this graph.</p>
+
+</div>
 
 <div class="card">
 
 <span class="pill">Building</span>
 
-### `add_edge` is enough
-
-```python
-planner = FlightPlanner()
-planner.add_edge(Route(sfo, den, 1553))
-planner.find_airport('sfo ')
-planner.get_outgoing_edges(sfo)
-```
-
-`add_edge` registers either endpoint it has not seen; adding an airport twice
-is a no-op that leaves its routes alone. `FlightPlanner` adds exactly one thing
-to the generic graph — an IATA index.
-
-</div>
-
-<div class="card">
+**`add_edge` is enough.** `planner.add_edge(Route(sfo, den, 1553))` registers
+either endpoint it has not seen; adding an airport twice is a no-op.
 
 <span class="pill dijkstra">Asking</span>
 
-### The algorithm is an argument
-
-```python
-planner.search_route("HNL", "BDL")
-planner.search_route("HNL", "BDL", BFS())
-planner.search_route("HNL", "BDL",
-    AStar(haversine_heuristic()))
-```
-
-Dijkstra by default. A fourth algorithm needs **no change to
-`FlightPlanner`** — that is the property the layering was for.
-
-</div>
-
-<div class="card">
+**The algorithm is an argument.** `planner.search_route("HNL", "BDL", BFS())`
+— Dijkstra by default. A fourth algorithm needs no change to `FlightPlanner`.
 
 <span class="pill astar">Answering</span>
 
-### `SearchResult`, not a number
-
-`cost` · `path` · `nodes_expanded` · `nodes_pushed` · `peak_frontier` · and a
-`unit` tag declaring whether the cost is hops or weight.
-
-§7's entire comparison is read off that one return value. Three boundaries are
-defined and tested: unreachable → `(inf, [])`, origin = destination →
-`(0.0, [])`, unknown code → **`AirportNotFoundError`**, because "no such
-airport" and "no such route" are different facts.
+**`SearchResult`, not a number.** `cost` · `path` · `nodes_expanded` ·
+`nodes_pushed` · `peak_frontier` · a `unit` tag. Boundaries tested:
+unreachable → `(inf, [])`, unknown code → **`AirportNotFoundError`**.
 
 </div>
 

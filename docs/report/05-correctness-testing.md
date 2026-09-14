@@ -61,7 +61,7 @@ unless someone reads the output and knows what it should say.
 `tests/demos/test_book_example.py` now asserts every number above, so a
 regression in any of the three searches fails before anyone opens a console.
 
-Two things the book's graph supplies for free. **SFO is a sink** — the figure
+Two things the book's graph supplies for free. **SFO (San Francisco) is a sink** — the figure
 gives it an arrival and no departure — so `SFO → BOS` is a genuine unreachable
 query on a hand-checkable graph, returning `(inf, [])` from all three
 algorithms. And **the book gives no coordinates**, so every `Airport` defaults
@@ -106,12 +106,12 @@ tests use the data, so they do:
 
 - **The self-loop.** Exactly one survives cleaning — flight `IL0016`,
   `PKN→PKN`, 0.0 km. It is not quarantined: it sits in a live adjacency list as
-  one of PKN's seven departures. A real query out of PKN runs through
+  one of PKN (Pangkalanbun)'s seven departures. A real query out of PKN (Pangkalanbun) runs through
   all three algorithms, and the assertion is that the loop never appears in the
   itinerary handed back.
 - **The parallel edges.** 66,332 routes collapse to 36,717 distinct directed
   pairs, so 29,615 run parallel to another — the figure §2.5 reports and the
-  one §5.4 turns out to depend on. ORD→ATL carries twenty, and the test checks
+  one §5.4 turns out to depend on. ORD (Chicago)→ATL (Atlanta) carries twenty, and the test checks
   they are several airlines rather than one airline duplicated, because twenty
   copies of one carrier would mean the cleaning had a bug rather than that the
   route is busy.
@@ -314,7 +314,7 @@ searches, the heap and the formulas carry 413 tests; the fourteen demos carry
 produce output, which catches the failure that actually happens to a demo
 (an API it calls has moved) and not much else. One caveat is worth stating,
 because it is why the smoke run is not the whole answer: `loader_example`
-printed a heading reading `OMA -> OMA` above a route from OMA to SJC, and it
+printed a heading reading `OMA -> OMA` above a route from OMA (Omaha) to SJC (San Jose), and it
 ran perfectly. Only reading the output found that. `src/models/flight/` has 34 tests for code the delivered
 system never imports (§10), and `src/exercises/` is coursework outside the
 deliverable (Appendix A). The suite is weighted toward the graded work, not

@@ -285,7 +285,7 @@ mismatches**, worst divergence 3.6e-12 km.
 A\* is Dijkstra with one change: the priority is `f = g + h`, where `g` is the
 distance already travelled and `h` estimates the distance still to go. A good
 estimate makes the search lean toward the destination instead of expanding
-outward in all directions. On HNL–BDL that is the difference between 1,019
+outward in all directions. On HNL (Honolulu)–BDL (Hartford) that is the difference between 1,019
 expansions and 10.
 
 `h` here is the great-circle distance from an airport to the destination,
@@ -368,7 +368,7 @@ not a theorem about the earth.** Measured on the world snapshot by
 
 The worst excess is not a small margin — it is **zero plus one bit of float
 rounding**, which is what "the same computation run twice" looks like. The
-worst case on the whole network is AKL→CAN, where the weight is
+worst case on the whole network is AKL (Auckland)→CAN (Guangzhou), where the weight is
 9299.934868223923 km and the estimate 9299.934868223925 km.
 
 Because it is an invariant rather than a theorem, it can be broken by an edit

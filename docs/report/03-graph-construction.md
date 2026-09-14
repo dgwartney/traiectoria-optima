@@ -92,50 +92,28 @@ and changing no algorithm.
 
 ### The graph has never heard of an airport
 
-<div class="cards">
+<div class="cards two">
+
+<div class="card figure">
+
+![](../../slides/images/flight-planner-class-diagram.png)
+
+<p class="caption">The core and flight layers. Solid arrows are inheritance; dotted arrows are a strategy being handed in.</p>
+
+</div>
 
 <div class="card">
 
 <span class="pill bfs">Built from scratch</span>
 
-### 1,591 lines, no `heapq`
-
-`core/` digraph · `adt/` binary min-heap · `pathfinding/` three searches ·
-`geo/` two geodesic formulas.
-
-No `heapq`, no `networkx`, no `scipy` anywhere in it.
-
-</div>
-
-<div class="card">
+**1,591 lines, no `heapq`.** `core/` digraph · `adt/` binary min-heap ·
+`pathfinding/` three searches · `geo/` two geodesic formulas.
 
 <span class="pill">Composition, not inheritance</span>
 
-### Behaviour is passed in
-
-```python
-graph.shortest_path(a, b, Dijkstra())
-point.distance_to(other, Haversine())
-```
-
-Adding an algorithm never changes `Graph`. The rejected alternative — `Graph`
+**Behaviour is passed in.** `graph.shortest_path(a, b, Dijkstra())` — adding
+an algorithm never changes `Graph`. The rejected alternative — `Graph`
 deriving *from* Dijkstra — forces every graph to carry every algorithm.
-
-</div>
-
-<div class="card">
-
-<span class="pill astar">The proof</span>
-
-### Road distances, no aviation
-
-```
-Portland -> Boise -> Reno
-cost 1370.0
-```
-
-Three cities and no airport in sight. Dijkstra prefers two hops of 1,370 to
-one direct leg of 1,450 — on the same machinery §7 measures.
 
 </div>
 
@@ -201,7 +179,7 @@ to find the four or five edges that are really there. §6.1 carries the
 O(V + E) construction bound and §6.5 the measured space.
 
 The adjacency list also keeps the multigraph, which a matrix cannot. 29,615 of
-the 66,332 routes run parallel to another on the same pair — ORD→ATL alone has
+the 66,332 routes run parallel to another on the same pair — ORD (Chicago)→ATL (Atlanta) alone has
 20 — and a single cell has nowhere to put twenty airlines. §2.4 explains why
 those parallel edges are real rather than dirty data, and §5 records that a
 NetworkX mirror built with the wrong graph type silently discards exactly those
@@ -253,7 +231,7 @@ pay twice, in the zeros it stores and the row scan that reads past them.
 
 <span class="pill dijkstra">What a matrix could not do at all</span>
 
-### ORD→ATL has 20 rows
+### ORD (Chicago)→ATL (Atlanta) has 20 rows
 
 **29,615 of 66,332 routes run parallel** to another on the same pair. One cell
 has nowhere to put twenty airlines.
@@ -322,9 +300,9 @@ cleaning:
 IL0016  IL  PKN->PKN  0.0 km  Iskandar Airport (ID)
 ```
 
-It sits in the live adjacency list beside PKN's six genuine departures, and
+It sits in the live adjacency list beside PKN (Pangkalanbun)'s six genuine departures, and
 costs nothing to leave there. Relaxation in §4.2 is strictly-less-than, so
-reaching PKN again at `0 + 0` is not an improvement and the edge is never
+reaching PKN (Pangkalanbun) again at `0 + 0` is not an improvement and the edge is never
 traversed:
 
 ```

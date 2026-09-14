@@ -182,7 +182,7 @@ downstream route the moment an entry was added to
 `data/reference/iata_code_overrides.csv`; stability was judged worth the gaps.
 
 **`Airport` hashes on IATA code alone, and `Graph.add_vertex` is first-wins.**
-Mixing a bare `Airport('BOS')` with a catalog-sourced BOS keeps whichever
+Mixing a bare `Airport('BOS')` with a catalog-sourced BOS (Boston) keeps whichever
 arrived first and silently discards the other's coordinates — which would leave
 A\*'s heuristic measuring from (0, 0). Entities that come from a catalog are
 safe by construction. This is documented and tested rather than fixed, because

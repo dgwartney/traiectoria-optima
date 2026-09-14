@@ -24,7 +24,7 @@ Eleven surviving rows have `stops > 0` (§2.4), so a handful of this dataset's
 
 **Hub-and-spoke.** A network shape in which most traffic routes through a few
 large airports. It is what produces the heavy-tailed degree distribution in
-§2.5: a median out-degree of 4 against ATL's 915.
+§2.5: a median out-degree of 4 against ATL (Atlanta)'s 915.
 
 **IATA code.** The three-letter airport identifier assigned by the
 International Air Transport Association (`SFO`, `BOS`, `LHR`) — the one on a

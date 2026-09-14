@@ -121,11 +121,11 @@ Three findings complicate the simple story, and all three are more interesting
 than the headline:
 
 **BFS is not uniformly more expensive than Dijkstra.** It expands far fewer
-nodes on every query here (10 against 746 on SFO–BOS) because it stops at the
+nodes on every query here (10 against 746 on SFO (San Francisco)–BOS (Boston)) because it stops at the
 first route it finds. But it answers a *different question*: fewest stops, not
 shortest distance. Its "cost" column is a hop count, not kilometres, which is
 why §7.2 reports Dijkstra's and A\*'s distances and not BFS's. On the 94-airport US
-slice (snapshot `2026-09-12-3e4f9d`) the pair BOI–CHS shows the trade cleanly:
+slice (snapshot `2026-09-12-3e4f9d`) the pair BOI (Boise)–CHS (Charleston) shows the trade cleanly:
 
 | Algorithm | Expanded | Route | Legs | Distance |
 |---|---|---|---|---|
@@ -137,7 +137,7 @@ still being correct, because it was asked for the fewest stops and it found
 them. Neither algorithm dominates, and the two are not comparable on a single
 axis.
 
-**A\* pushes far more than it expands.** On SFO–BOS it expands 1 airport but
+**A\* pushes far more than it expands.** On SFO (San Francisco)–BOS (Boston) it expands 1 airport but
 pushes 105 entries onto the heap. Its saving is concentrated in expansions —
 the expensive operation, since each one touches every outgoing route of an
 airport — and not in heap traffic. Reporting only nodes expanded would overstate

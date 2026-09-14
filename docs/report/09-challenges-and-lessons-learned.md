@@ -183,7 +183,7 @@ Each cost time, and in two cases nearly cost a "fix" that would have made the
 project worse.
 
 **29,615 parallel edges.** 66,332 routes collapse to 36,717 distinct directed
-pairs, so 44.6% of rows run parallel to another; ORD→ATL alone carries twenty.
+pairs, so 44.6% of rows run parallel to another; ORD (Chicago)→ATL (Atlanta) alone carries twenty.
 The first instinct was to deduplicate. That would have been wrong: OpenFlights
 routes are *marketed services*, not distinct aircraft movements, and 11,982 of
 them carry a codeshare flag. Twenty rows on one pair is several airlines

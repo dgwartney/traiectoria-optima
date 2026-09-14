@@ -22,7 +22,7 @@ nothing else (§3).
 The comparison the chapter exists to draw: `HNL→BDL`, both algorithms on one
 map, each route its own toggleable layer.
 
-![HNL→BDL by both algorithms. BFS in blue takes two legs via Atlanta;
+![HNL (Honolulu)→BDL (Hartford) by both algorithms. BFS in blue takes two legs via Atlanta;
 Dijkstra in orange takes three via Salt Lake City and Detroit, and is 544.7 km
 shorter.](../images/route-map-hnl-bdl.png)
 
@@ -101,7 +101,7 @@ map infer bounds from airport positions. Markers are shifted into the same copy
 of the world as the lines for the same reason: a marker left at its raw
 longitude renders one globe to the west and falls off the edge of the frame.
 
-![SYD→JFK unwrapped and framed on the drawn coordinates: one continuous line
+![SYD (Sydney)→JFK (New York City) unwrapped and framed on the drawn coordinates: one continuous line
 across the Pacific, both endpoints on it, and a frame 135° wide rather than
 404°.](../images/route-map-syd-jfk.png)
 
@@ -234,7 +234,7 @@ default.
 
 <span class="pill warn">Where the table fails</span>
 
-### SYD→JFK, same 2 legs
+### SYD (Sydney)→JFK (New York City), same 2 legs
 
 Dijkstra east via Los Angeles: **16,035 km**. BFS west via Abu Dhabi:
 **23,092 km**.
