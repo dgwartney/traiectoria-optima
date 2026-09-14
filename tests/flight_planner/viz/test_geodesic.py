@@ -140,3 +140,27 @@ class TestTheRealNetworkSuppliesTheDatelineCase:
         ]
 
         assert offenders == []
+
+
+class TestSegmentsIsValidatedAtConstruction:
+    """`segments=0` used to be accepted and then fail inside pyproj.
+
+    Found by the #72 code review. The guard rejected only negatives, so zero
+    reached `Geod.npts`, which treats `npts=0` as "unset" and raises
+    `GeodError: npts and del_s are mutually exclusive` -- naming an argument
+    the caller never passed, from a library the caller may not know is
+    involved. The error now arrives at construction, in the caller's terms.
+    """
+
+    @pytest.mark.parametrize("segments", [0, -1, -10])
+    def test_fewer_than_one_segment_is_rejected(self, segments):
+        with pytest.raises(ValueError, match="at least 1"):
+            Geodesic(segments=segments)
+
+    def test_one_segment_is_the_smallest_that_works(self):
+        points = Geodesic(segments=1).between(
+            Airport("SFO", latitude=37.6, longitude=-122.4),
+            Airport("BOS", latitude=42.4, longitude=-71.0),
+        )
+
+        assert len(points) == 3  # origin, one interpolated, destination

@@ -15,6 +15,7 @@ whether imported from a source checkout or an installed wheel.
 
 from __future__ import annotations
 
+import warnings
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, ClassVar, Dict, List, Mapping, Optional, Tuple, Union
@@ -195,6 +196,9 @@ class CsvRecordLoader(ABC):
 
         Returns:
             The domain object, or `None` if the row should be skipped.
+            **An implementation returning `None` must call `_skip` first**:
+            `load` does not record the row itself, so a bare `None` drops it
+            without saying so.
         """
 
 
@@ -356,6 +360,14 @@ def load_flight_planner(
 ) -> FlightPlanner:
     """Build a `FlightPlanner` populated from the processed CSV files.
 
+    The convenience wrapper over the two loaders. It returns only the planner,
+    so the per-row `skipped` lists the loaders build are not reachable through
+    it -- and a caller who never sees them cannot tell a clean file from one
+    that lost half its rows. Rather than change the return type, unusable rows
+    are **warned about**, the same way `Catalog.planner()` reports a route
+    reaching outside its scope. Construct `AirportLoader` and `RouteLoader`
+    directly when the reasons themselves are wanted.
+
     Args:
         airports_path: Airports CSV to load.
         routes_path: Routes CSV to load.
@@ -363,12 +375,31 @@ def load_flight_planner(
     Returns:
         A `FlightPlanner` containing every loaded airport as a vertex and every
         loaded route as a directed edge.
+
+    Warns:
+        UserWarning: If either file had rows that could not be loaded.
     """
-    airports = AirportLoader(airports_path).load_by_iata()
+    airport_loader = AirportLoader(airports_path)
+    airports = airport_loader.load_by_iata()
+
+    route_loader = RouteLoader(airports, routes_path)
+    routes = route_loader.load()
+
+    for loader, what in ((airport_loader, "airport"), (route_loader, "route")):
+        if loader.skipped:
+            first = "; ".join(reason for _, reason in loader.skipped[:3])
+            warnings.warn(
+                f"{len(loader.skipped)} {what} row(s) in {loader.path.name} "
+                f"could not be loaded and are absent from the planner "
+                f"({first}{'; ...' if len(loader.skipped) > 3 else ''}). "
+                f"Use {type(loader).__name__} directly for the full list.",
+                UserWarning,
+                stacklevel=2,
+            )
 
     planner = FlightPlanner()
     for airport in airports.values():
         planner.add_vertex(airport)
-    for route in RouteLoader(airports, routes_path).load():
+    for route in routes:
         planner.add_edge(route)
     return planner

@@ -339,3 +339,72 @@ class TestInternationalFlag:
         )
 
         assert AirportLoader(path).load()[0].is_international is False
+
+
+class TestLoadFlightPlannerReportsWhatItDropped:
+    """The convenience wrapper returns only a planner, so `skipped` is lost.
+
+    Found by the #72 code review. `AirportLoader` and `RouteLoader` each
+    record a `(row, reason)` pair for every row they could not build, but
+    `load_flight_planner` discards both loaders -- a caller who never sees
+    them cannot tell a clean file from one that lost half its rows. That is
+    the same defect report §2.3 argues against one layer up: "a cleaning step
+    that cannot say what it removed is indistinguishable from a bug."
+
+    The fix warns rather than changing the return type, matching what
+    `Catalog.planner()` already does for a route reaching outside its scope.
+    """
+
+    def _files(self, tmp_path, airports, routes):
+        return (
+            _write(tmp_path, "airports.csv", AIRPORT_HEADER + airports),
+            _write(tmp_path, "routes.csv", ROUTE_HEADER + routes),
+        )
+
+    def test_a_clean_pair_of_files_warns_about_nothing(self, tmp_path, recwarn):
+        airports, routes = self._files(
+            tmp_path,
+            '"Logan",US,US-MA,BOS,42.36,-71.0,large_airport\n'
+            '"SFO",US,US-CA,SFO,37.62,-122.37,large_airport\n',
+            "UA,SFO,BOS,N,0,738,4340\n",
+        )
+
+        planner = load_flight_planner(airports, routes)
+
+        assert len(planner.vertices) == 2
+        assert len(planner.edges) == 1
+        assert [w for w in recwarn if issubclass(w.category, UserWarning)] == []
+
+    def test_an_unusable_airport_row_is_warned_about(self, tmp_path):
+        airports, routes = self._files(
+            tmp_path,
+            '"Logan",US,US-MA,BOS,42.36,-71.0,large_airport\n'
+            '"Nameless",US,US-CA,,37.62,-122.37,large_airport\n',
+            "",
+        )
+
+        with pytest.warns(UserWarning, match="1 airport row"):
+            planner = load_flight_planner(airports, routes)
+
+        assert len(planner.vertices) == 1
+
+    def test_a_route_to_an_unknown_airport_is_warned_about(self, tmp_path):
+        airports, routes = self._files(
+            tmp_path,
+            '"Logan",US,US-MA,BOS,42.36,-71.0,large_airport\n'
+            '"SFO",US,US-CA,SFO,37.62,-122.37,large_airport\n',
+            "UA,SFO,BOS,N,0,738,4340\n" "UA,SFO,ZZZ,N,0,738,100\n",
+        )
+
+        with pytest.warns(UserWarning, match=r"1 route row.*ZZZ"):
+            planner = load_flight_planner(airports, routes)
+
+        assert len(planner.edges) == 1
+
+    def test_the_warning_names_the_loader_that_holds_the_detail(self, tmp_path):
+        airports, routes = self._files(
+            tmp_path, '"Nameless",US,US-CA,,37.62,-122.37,large_airport\n', ""
+        )
+
+        with pytest.warns(UserWarning, match="AirportLoader"):
+            load_flight_planner(airports, routes)

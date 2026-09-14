@@ -13,9 +13,9 @@ class Geodesic:
 
     A two-point line between coordinates is a straight line in Web Mercator,
     which is neither the path an aircraft flies nor the distance
-    `Route.distance_km` reports. `docs/distance_formulas.md` makes that point
-    for distance; a map has to make it too, or the picture contradicts the
-    number printed beside it.
+    `Route.distance_km` reports. The report's Appendix C makes that point for
+    distance; a map has to make it too, or the picture contradicts the number
+    printed beside it.
 
     Longitudes are *unwrapped* past ±180 rather than normalized into it, so a
     route crossing the antimeridian draws as one continuous line instead of
@@ -38,10 +38,13 @@ class Geodesic:
             segments: Number of points to interpolate between the endpoints.
 
         Raises:
-            ValueError: If `segments` is negative.
+            ValueError: If `segments` is less than one. Zero is rejected here
+                rather than passed through: `Geod.npts` treats `npts=0` as
+                "unset" and raises `GeodError` about a mutually exclusive
+                argument the caller never supplied.
         """
-        if segments < 0:
-            raise ValueError(f"segments must not be negative, got {segments}")
+        if segments < 1:
+            raise ValueError(f"segments must be at least 1, got {segments}")
         self.ellipsoid = ellipsoid
         self.segments = segments
 
