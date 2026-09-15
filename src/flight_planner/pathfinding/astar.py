@@ -22,9 +22,10 @@ _NULL_OBSERVER: SearchObserver = SearchObserver()
 class AStar(PathfindingAlgorithm[V, E]):
     """Weighted shortest-path search guided by a heuristic.
 
-    heuristic: Callable[[V, V], float] must be admissible (never overestimate
-    the true remaining cost to the goal) for the result to be optimal, e.g.
-    great-circle distance when edge weights are real travel distances.
+    heuristic: Callable[[V, V], float] must be consistent (never overestimate
+    the remaining cost to the goal by more than the true cost of any one
+    edge) for the result to be optimal, e.g. great-circle distance when edge
+    weights are real travel distances.
     """
 
     #: A* sums `edge.weight`, exactly as Dijkstra does -- the heuristic
@@ -36,8 +37,9 @@ class AStar(PathfindingAlgorithm[V, E]):
 
         Args:
             heuristic: Callable estimating the remaining cost from a vertex to
-                the goal. Must be admissible — never overestimating the true
-                remaining cost — for the returned path to be optimal.
+                the goal. Must be consistent — its estimate can never drop, on
+                a single edge, by more than that edge's real weight — for the
+                returned path to be optimal.
         """
         self._heuristic = heuristic
 
@@ -62,7 +64,7 @@ class AStar(PathfindingAlgorithm[V, E]):
             A `SearchResult` whose `cost` is the total weight, with the
             counters the search accumulated. `nodes_expanded` is the number
             this project exists to compare against Dijkstra's. The path is
-            optimal only if the configured heuristic is admissible.
+            optimal only if the configured heuristic is consistent.
         """
         if start == goal:
             return SearchResult(0.0, [], unit=self.unit)
