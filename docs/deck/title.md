@@ -10,4 +10,4 @@
 
 <p class="subquestion">Or is that just something textbooks assert?</p>
 
-<p class="byline">David Gwartney</p>
+<p class="byline">David Gwartney, Aastha Sharma, Jake Lu</p>
