@@ -44,7 +44,7 @@ Sinnott, R. W. (1984). Virtues of the haversine. *Sky & Telescope*, 68(2), 159.
 
 Vincenty, T. (1975). Direct and inverse solutions of geodesics on the ellipsoid
 with application of nested equations. *Survey Review*, 23(176), 88–93.
-: The ellipsoidal comparison formula. §9.4's corollary — that the *more
+: The ellipsoidal comparison formula. §9.2's corollary — that the *more
   accurate* formula makes a *less correct* heuristic — is measured against
   this one.
 

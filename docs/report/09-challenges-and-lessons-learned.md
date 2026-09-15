@@ -5,7 +5,7 @@ everything that cost real time fell into one of two categories: **data that was
 wrong in a way that looked right**, and **a correct-looking claim about our own
 code that measurement contradicted.**
 
-Six lessons, each one paid for:
+Three lessons, each one paid for:
 
 | | Lesson |
 |---|---|
@@ -65,20 +65,19 @@ record.
 
 ## 9.2 A more accurate formula made A\* less correct
 
-Randomized differential testing revealed that our A* implementation returned suboptimal costs on 27 of 10,866 queries—with 25 reporting costs that contradicted their returned itineraries. The core findings:
+Randomized differential testing revealed that our A\* implementation returned suboptimal costs on 27 of 10,866 queries—with 25 reporting costs that contradicted their returned itineraries. The core findings, starting with the wrong theoretical guarantee:
 
-* **Wrong Theoretical Guarantee:**
 * **Admissible Heuristic (Never Overestimates):** The rule of thumb that an estimate should never guess a route is longer than it actually is. The docstring claimed this alone guaranteed the best route, but that only applies if the algorithm is allowed to revisit and correct paths it already explored.
-* **Consistent Heuristic (Never Skips Corners):** A stricter rule ensuring your estimate steadily decreases as you take real steps forward—the estimated distance to the destination can't drop by more than the actual distance you just traveled. Because our algorithm locks down a location forever the first time it reaches it (to save memory and time), it requires this stronger guarantee to avoid locking in a bad route too early.
+* **Consistent Heuristic (Never Skips Corners):** A stricter rule ensuring the estimate steadily decreases as the algorithm takes real steps forward—the estimated distance to the destination can't drop by more than the actual distance just travelled. Because our algorithm locks down a location forever the first time it reaches it (to save memory and time), it requires this stronger guarantee to avoid locking in a bad route too early.
 
 * **Accidental Correctness via Code Coupling:** Flight routing originally worked not because of Earth's true geometry, but because edge weights in `flight_network.py` and the heuristic both called the exact same `Haversine()` function (radius 6371.0 km). Admissibility was an invariant of shared code, not physical geography.
 * **Real-World Precision Breaks the Heuristic:** Replacing the heuristic with the `Vincenty` formula (which models the accurate WGS-84 ellipsoid) while keeping edge weights on spherical Haversine broke admissibility:
 * Vincenty overestimated the Haversine edge weights on **58.6% of edges** (38,901 of 66,332), by up to 25.66 km.
-* Overestimating actual model costs breaks the lower-bound requirement, causing A* to silently discard optimal paths.
+* Overestimating actual model costs breaks the lower-bound requirement, causing A\* to silently discard optimal paths.
 
 * **Bidirectional Geometric Error:** Contrary to the belief that spherical calculations strictly underestimate ellipsoidal geodesics, Haversine also exceeded Vincenty on **41.4% of edges** (by up to 35.18 km).
 
-**Core Takeaway:** A heuristic is not a measurement of the physical world. It is a lower bound strictly bound to an internal cost model—improving its real-world accuracy without updating the model will break optimality.
+**Core Takeaway:** A heuristic is not a measurement of the physical world. It is a lower bound strictly tied to an internal cost model—improving its real-world accuracy without updating the model will break optimality.
 
 ## 9.3 What looked like defects and were not
 

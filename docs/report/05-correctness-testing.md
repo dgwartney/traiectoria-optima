@@ -98,7 +98,7 @@ into "the structure handles this".
 | Disconnected | `(inf, [])` with the counters still populated — the search ran |
 
 **The cyclic and duplicate cases also run on the real network, not only on
-fixtures.** §3.6 argues that the cleaned data supplies one genuine self-loop
+fixtures.** §3.5 argues that the cleaned data supplies one genuine self-loop
 and 29,615 genuine parallel edges, and that filtering them would have been the
 tidier choice and the worse one, because the handling would then never be
 exercised on anything but a test fixture. That argument is only honest if the

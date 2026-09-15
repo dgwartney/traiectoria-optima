@@ -72,7 +72,7 @@ a relative tolerance of `1e-9`.
 | A\* | 200 | **0** | 3.6 × 10⁻¹² km | 200 / 200 | 200 / 200 |
 
 Zero disagreements on cost, for all three algorithms. The largest divergence
-anywhere in the sweep is 3.6 × 10⁻¹² km — about four picometres, which is
+anywhere in the sweep is 3.6 × 10⁻¹² km — about four nanometres, which is
 float64 addition order and not a difference in answer.
 
 Both libraries also agreed on all 4 unreachable pairs found in the first 400

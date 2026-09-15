@@ -1,29 +1,30 @@
 # 3. Graph Construction and Data Structures
 
-This term project required the building of graphs using Airport and Route
-information to then apply alogorithms to the graph. The algorithms
-them selves rely strictly on *edges* and *vertexes* which are then
-aggregated with a container: the *graph*. This chapter is describes
-how these software components where built; the class-by-class reference is
+This term project required building graphs from airport and route
+information, and then applying algorithms to the graph. The algorithms
+themselves rely strictly on *edges* and *vertices*, which are then
+aggregated with a container: the *graph*. This chapter describes
+how these software components were built; the class-by-class reference is
 [Appendix B](13-appendix-b-data-structures.md).
 
-One approach would have been tightly couple to the domain that
-was to be used by dispensing with the abstraction of edges and vertexes
-and use their respective domain equivalents data *airports* and *routes*.
+One approach would have been to tightly couple the design to the domain that
+was to be used, by dispensing with the abstraction of edges and vertices
+and using their respective domain equivalents, *airports* and *routes*,
+directly.
 
-A concious decision was made to use derivation by first establishing the key
-abstractions: edge and vertex and then inheriting this behavior as
+A conscious decision was made to use derivation by first establishing the key
+abstractions, edge and vertex, and then inheriting this behavior into
 the domain classes.
 
-This approach allows the ability to create other domains that where
+This approach makes it possible to create other domains where
 graph searching can be used.
 
 ## 3.1 The Four Layers of the Design
 
-For this a project a Python package was created: `flight_plan`.
+For this project a Python package was created: `flight_planner`.
 
-Below is summary of this package the details of which are
-futher enumerated in appendix B.
+Below is a summary of this package; the details are
+further enumerated in Appendix B.
 
 | Layer | Holds | Knows nothing about |
 |---|---|---|
@@ -32,9 +33,9 @@ futher enumerated in appendix B.
 | `pathfinding/` | `Dijkstra`, `BFS`, `AStar`, `SearchResult` | airports; reads only "which edges leave this vertex" and "what does an edge cost" |
 | `flights/` | `Airport`, `Route`, `FlightPlanner` | — the only layer where the word *airport* appears |
 
-The `flights` layer uses the top three layers which enables the ability
-to apply graph searches to other problems that are NOT a flight network at all.
-An example of which is shown below:
+The `flights` layer uses the top three layers, which enables applying graph
+searches to other problems that are not a flight network at all. An example
+of this is shown below:
 
 ```python
 >>> from flight_planner import Vertex, Edge, Graph, Dijkstra
@@ -59,10 +60,11 @@ contains no aviation.
 
 ![The core and flight layers. Solid arrows are inheritance; dotted arrows are a strategy being handed in.](../images/flight-planner-class-diagram.svg)
 
-`FlightPlanner` permits the selection of the algorithm ar runtime which is exactly what §4.4's
- mode switch and §7's comparison both need. In the code snippet make note how the distance
- formula (`Haversine`) and search path algorithm (`Dijkstrat()`) are arguments rather than embedded which
- permits switching these components.
+`FlightPlanner` permits the selection of the algorithm at runtime, which is
+exactly what §4.4's mode switch and §7's comparison both need. In the code
+snippet, note how the distance formula (`Haversine`) and search algorithm
+(`Dijkstra()`) are arguments rather than embedded, which permits switching
+these components.
 
 
 ```python
@@ -71,10 +73,11 @@ point.distance_to(other, Haversine())            # the point is given a formula
 AStar(haversine_heuristic())                     # the search is given a heuristic
 ```
 
-This allows the experimenter the flexibilityto try out other search algorithms (BFS, A\*, etc)
-with the nearly the same code.
+This gives the experimenter the flexibility to try out other search algorithms
+(BFS, A\*, etc.) with nearly the same code.
 
-This is in fact a well known behavioral software design pattern known as [Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern)
+This is in fact a well-known behavioral software design pattern known as the
+[Strategy pattern](https://en.wikipedia.org/wiki/Strategy_pattern).
 
 <div class="deck-slide" id="why-the-layers-exist">
 
@@ -145,8 +148,8 @@ True
 
 The graph representation models airports and flight routes using an adjacency
 list rather than an adjacency matrix. Because global air route networks
-are inherently sparse—connecting thousands of airports through only
-a tiny fraction of all theoretically possible direct pairs—an adjacency
+are inherently sparse — connecting thousands of airports through only
+a tiny fraction of all theoretically possible direct pairs — an adjacency
 matrix would waste vast amounts of memory storing non-existent connections
 and incur unnecessary overhead during neighbor lookups.
 

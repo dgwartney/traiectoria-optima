@@ -81,7 +81,7 @@ times.
 
 The fix is to **unwrap rather than normalize**: when consecutive longitudes
 differ by more than 180°, keep adding or subtracting 360° so the sequence stays
-continuous. `AKL→LAX` at eight interpolated points, before and after:
+continuous. `AKL→LAX` at ten interpolated points, before and after:
 
 ```
 naive:      174.8  -176.0  -168.0  -160.9  -154.3  -147.9  -141.4  -134.5  -127.0  -118.4

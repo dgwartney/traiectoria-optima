@@ -164,7 +164,7 @@ same conclusion §6.6 reaches from the exponents, arrived at independently.
 - **Comparability with NetworkX's timings.** NetworkX's `shortest_path`
   runs a *bidirectional* search, so of the three algorithms only the A\*
   row compares like with like — see
-  [results-networkx-parity.md](15-appendix-d-networkx-parity.md).
+  [Appendix D](15-appendix-d-networkx-parity.md).
 
 <div class="deck-slide" id="runtime">
 

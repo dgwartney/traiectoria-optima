@@ -28,8 +28,8 @@ the gap between them.
 **Why this could not be found with flight data.** Great-circle distance is
 consistent as a matter of spherical geometry — the estimate from `u` to the
 goal cannot exceed the flown distance `u → v` plus the estimate from `v`,
-because that is the triangle inequality. So no quantity of real routes reaches
-the case. The experiment therefore has two halves that ask different questions
+because that is the triangle inequality. So no amount of real flight data can
+produce this case. The experiment therefore has two halves that ask different questions
 of different data.
 
 ## Half one: the defect, on four vertices
@@ -53,9 +53,9 @@ The heuristic:
 | A | 0.0 | 1.0 |
 | G | 0.0 | 0.0 |
 
-No estimate exceeds the truth, so it is **admissible**. But `h(S) = 0` while
-`h(B) = 1.5` across an edge of weight 1.0, so `h(S) <= w(S,B) + h(B)` — it is
-**not consistent**.
+No estimate exceeds the truth, so it is **admissible**. But `h(B) = 1.5` while
+`h(A) = 0.0` across the edge `B → A` of weight 0.5, so `h(B) <= w(B,A) + h(A)`
+fails (1.5 is not ≤ 0.5) — it is **not consistent**.
 
 What the three engines return:
 
@@ -68,9 +68,9 @@ What the three engines return:
 **There are two defects in that middle row, and the second is worse than the
 first.** A\* returns 3.0 where the optimum is 2.5 — suboptimal, which is bad.
 But the itinerary it hands back is `S→B→A→G`, whose legs sum to 2.5. **The
-cost it reports does not describe the route it returns.** A user handed a
-three-leg itinerary and told it costs 3.0 when those three legs cost 2.5 has
-been given two answers that contradict each other.
+cost it reports does not describe the route it returns.** A user who is handed
+a three-leg itinerary and told it costs 3.0, when those three legs cost 2.5,
+has been given two answers that contradict each other.
 
 The mechanism: A\* pops `A` early, carrying the 2.0 route via `S→A`, and closes
 it. The cheaper route `S→B→A` is found afterwards, so `predecessors[A]` is

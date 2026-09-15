@@ -24,10 +24,10 @@ are the harder half and the airports have to be good enough to resolve them.
     - `type`
     - `wikipedia_link`
 
-The field `type` and `iso_country` proved useful given that `type` categorized
+The fields `type` and `iso_country` proved useful given that `type` categorized
 airports as *small*, *medium*, and *large*; `iso_country` is an ISO code rather
-than a free-text name. Each of these fields were useful to narrow an analysis
-to a smaller data set.
+than a free-text name. Each of these fields was useful for narrowing an
+analysis to a smaller dataset.
 
 An additional column, `is_international`, comes from a scrape of
 Wikipedia's list of international airports, and marks 1,329 of the 3,387
@@ -84,19 +84,19 @@ long-haul query is real search rather than "no route".
 
 ## 2.2 Scope
 
-After cleaning the raw data our whole world airline network consisted of
-**3,387 airports and 66,332 routes** which is measured in §2.5, not
+After cleaning the raw data, our whole world airline network consisted of
+**3,387 airports and 66,332 routes**, which are measured in §2.5, not
 estimated.
 
-Every experiment that was run for this project was against frozen **snapshot**
-that included a checksum to avoid drift.
+Every experiment that was run for this project was against a frozen
+**snapshot** that included a checksum to avoid drift.
 
-A snapshot is the two cleaned CSVs: *airports.csv* and *routes.csv* that are filtered
-on for example an `iso_country` or the aformentioned `type` which describes the size of 
-an airport, with larger airports typically having the larger number of routes.
-To ensure integrity of the files each files SHA-256 is recorded, such that
-successive runs of the same experiment can detect if the data has been altered
-from previous runs of the same experiment
+A snapshot is the two cleaned CSVs, *airports.csv* and *routes.csv*, filtered
+on, for example, an `iso_country` or the aforementioned `type`, which describes
+the size of an airport, with larger airports typically having a larger number
+of routes. To ensure integrity of the files, each file's SHA-256 is recorded,
+such that successive runs of the same experiment can detect if the data has
+been altered from previous runs of the same experiment.
 
 ## 2.3 Cleaning and preparation
 
@@ -156,7 +156,7 @@ Two caveats qualify every number that follows:
 First, *a route is a marketed airline service, not a distinct physical flight*.
 Of the 66,332 routes across 36,717 airport pairs, 29,615 run parallel to another (§2.5). While 564 carriers suggest competition, 11,982 of the 45,754 duplicated route rows are simply codeshares—the same aircraft marketed under different carrier codes (e.g., ORD→ATL accounts for 20 rows). Consequently, the network is a multigraph of marketing offers, and the shortest-path algorithms treat these parallel edges as equivalent alternatives of identical length.
 
-Second, eleven rows have stops > 0, meaning a tiny fraction of routes are not nonstop. Edge weights use great-circle distance regardless, which slightly understates these specific journeys. However, representing just 0.017% of the dataset, they do not alter any findings in §7; they are noted upfront simply to keep the analysis rigorous.
+Second, eleven rows have stops > 0, meaning a tiny fraction of routes are not non-stop. Edge weights use great-circle distance regardless, which slightly understates these specific journeys. However, representing just 0.017% of the dataset, they do not alter any findings in §7; they are noted upfront simply to keep the analysis rigorous.
 
 ## 2.5 Basic graph statistics
 

@@ -1,9 +1,7 @@
 # Appendix B. Data Structures and the Public API
 
-This is the reference for the classes §3 argues about: what each general-purpose
-class promises, what each flight-specific class adds, and what is gained by
-keeping them apart. §3 carries the argument; this carries the surface, with
-every example run at the Python prompt and pasted back exactly as it came out.
+This is the reference for the classes §3 argues about. §3 carries the
+argument; this carries the surface.
 
 `Airport`, `Route` and `FlightPlanner` are the three classes you use when you
 ask this project a question about flying. None of them builds a graph itself.
@@ -14,7 +12,7 @@ in this document follows from that one arrangement.
 This is a guided tour of those six classes, plus `Point`, the small class that
 gives an airport its location. For each pair: what the general class promises,
 what the flight-specific class adds, and what you gain by keeping them apart.
-Every example below was run in the Python prompt and pasted back exactly as it
+Every example below was run at the Python prompt and pasted back exactly as it
 came out.
 
 **What this does not cover.** `Snapshot`, `Catalog` and `Experiment` — the
@@ -159,7 +157,7 @@ and continent.
 
 `icao_code` is the four-letter code used in air-traffic control — `KSFO`,
 `KBOS`, `EGLL` — kept for matching against other datasets. Both codes are in
-the [Glossary](18-appendix-g-glossary.md#i).
+the [Glossary](18-appendix-g-glossary.md#aviation).
 
 The `Point` half adds one method, and it takes the formula as an argument:
 

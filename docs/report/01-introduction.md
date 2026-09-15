@@ -34,8 +34,8 @@ looking for it on flight data (§4.3). Our heuristic *is* consistent here, so
 every committed result stands — but the reason is not spherical geometry. It is
 that the pipeline generates the edge weights with the same formula at the same
 radius the heuristic uses, which makes admissibility an **invariant between two
-parts of the build** rather than a theorem about the earth. The corollary is
-§9.4's: substituting a *more accurate* distance formula breaks it.
+parts of the build** rather than a theorem about the earth. §9.2 draws the corollary: substituting a *more accurate* distance formula
+breaks it.
 
 ## 1.2 The problem
 

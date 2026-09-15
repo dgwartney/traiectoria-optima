@@ -195,7 +195,7 @@ the cleaning that produced them was *right*.
 
 That gap is narrower than it was. `experiments/data-cleaning` re-runs the
 pipeline over the committed raw files and compares the result against the
-frozen snapshot code for code — so "this snapshot is what the cleaning
+frozen snapshot, code for code — so "this snapshot is what the cleaning
 produces" is now a measurement rather than an assumption, and the experiment
 exits non-zero if the two part company. What remains unverifiable by any
 amount of checksumming is whether the cleaning *rules* are the right rules,
