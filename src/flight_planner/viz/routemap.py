@@ -18,6 +18,38 @@ from .path import PathLayer
 # token, so provider metadata is not a substitute for fetching a tile.
 KEYED_TILE_FAMILIES = ("cartodb", "carto", "stadia", "stamen")
 
+# THE SECOND TILE TRAP, and the one that is not about keys at all.
+#
+# `OpenStreetMap` needs no API key, which is why it is the default above -- but
+# it does need the request to be attributable. OSM's tile usage policy blocks
+# traffic it cannot tie to an identified app, and it enforces that on the
+# `Referer` header: a page served over HTTP sends one and gets real tiles,
+# while the *same file opened from `file://`* sends none and gets a tile
+# reading `403 / Access blocked / App is not following the tile usage policy`.
+#
+# That block arrives as **HTTP 200 with a PNG body**, so nothing raises,
+# nothing logs, and the map renders perfectly with every tile replaced by a
+# notice. It cannot be caught by checking status codes; only by looking.
+#
+# The consequence for this project: a *committed* map that a reader opens by
+# double-clicking has no `Referer` and so cannot use OSM. Esri's World Light
+# Gray Base needs neither a key nor a referer, and being a desaturated canvas
+# it also keeps a basemap from competing with the arcs drawn on it. Measured
+# 2026-09-15: a generic-browser-UA request with no `Referer` returns a real
+# tile from Esri and the block notice from OSM.
+#
+# NOT VERIFIED: whether Esri's terms of service permit this use outside their
+# own SDKs. It demonstrably works; that is a different claim from being
+# allowed, and this file is the wrong place to guess at the difference. See
+# `docs/visualization.md` section 9.
+ESRI_LIGHT_GRAY = (
+    "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/"
+    "World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+)
+ESRI_LIGHT_GRAY_ATTRIBUTION = (
+    "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
+)
+
 # A world view, used only until something is drawn and the bounds take over.
 DEFAULT_LOCATION = (20.0, 0.0)
 DEFAULT_ZOOM = 2
@@ -41,25 +73,43 @@ class RouteMap:
         tiles: str = "OpenStreetMap",
         palette: Optional[Palette] = None,
         *,
+        attribution: Optional[str] = None,
+        basemap_name: Optional[str] = None,
         path_segments: int = 24,
         context_segments: int = 6,
     ) -> None:
         """Create an empty map.
 
         Args:
-            tiles: Basemap style.
+            tiles: Basemap style, or a tile URL template such as
+                `ESRI_LIGHT_GRAY`. The default needs no API key but *does*
+                need a `Referer`, so a map saved for a reader to open from
+                `file://` should pass `ESRI_LIGHT_GRAY` instead -- see the
+                comment on that constant.
             palette: Colours for every layer added. Defaults to the light
                 surface, which is what the report and GitHub use.
+            attribution: Credit line for a tile URL template. Required by
+                folium for anything that is not a named style, and required
+                by every tile provider's terms regardless.
+            basemap_name: Label for the basemap in the layer control. Worth
+                setting whenever `tiles` is a URL template, because folium
+                otherwise labels it with the entire URL.
             path_segments: Interpolation for `path()` layers. A thick line
                 shows its faceting, so it gets the finer curve.
             context_segments: Interpolation for `routes()` layers, where 6 is
                 indistinguishable from 24 and 2.2x smaller.
 
         Raises:
-            ValueError: If `tiles` names a style that needs an API key.
+            ValueError: If `tiles` names a style that needs an API key, or if
+                a tile URL template is passed with no attribution.
         """
         self._reject_keyed_tiles(tiles)
+        self._reject_unattributed_tiles(tiles, attribution)
         self.tiles = tiles
+        self.attribution = attribution
+        self.basemap_name = basemap_name or (
+            tiles if isinstance(tiles, str) and "{z}" not in tiles else "Basemap"
+        )
         self.layers: List[MapLayer] = []
         self._palette = palette or Palette()
         self._path_geodesic = Geodesic(segments=path_segments)
@@ -79,6 +129,26 @@ class RouteMap:
                 "'API KEY REQUIRED' watermark across every tile and Stadia "
                 "styles return HTTP 401. Use 'OpenStreetMap', or pass a "
                 "folium.TileLayer carrying your own key."
+            )
+
+    @staticmethod
+    def _reject_unattributed_tiles(
+        tiles: str, attribution: Optional[str]
+    ) -> None:
+        """Refuse a tile URL template with no credit line.
+
+        folium raises deep inside `Map` for this, by which point the message
+        says nothing about which call was wrong. Refused here instead, and
+        refused rather than defaulted because inventing a credit line for
+        someone else's tiles is worse than failing.
+        """
+        if not isinstance(tiles, str) or attribution:
+            return
+        if "{z}" in tiles or "//" in tiles:
+            raise ValueError(
+                f"{tiles!r} is a tile URL template, so it needs an "
+                "attribution= credit line. Every provider's terms require "
+                "one; pass ESRI_LIGHT_GRAY_ATTRIBUTION with ESRI_LIGHT_GRAY."
             )
 
     # --- building -------------------------------------------------------
@@ -162,8 +232,26 @@ class RouteMap:
             The `folium.Map`.
         """
         folium = _folium()
+        # A URL template has to be wrapped in a `TileLayer` to get a readable
+        # label. `folium.Map` builds its own `TileLayer` internally and names
+        # it from the tile string, so a `name=` passed to `Map` is silently
+        # ignored -- it lands in `**kwargs`, renders somewhere harmless, and
+        # leaves the whole tile URL sitting in the layer control, which on a
+        # faceted map is the legend. `Map` does accept a prebuilt `TileLayer`,
+        # and that is the supported way to name one.
+        #
+        # A named style keeps the original code path exactly, so every map
+        # that predates this renders unchanged.
+        tiles: Any = self.tiles
+        if self.attribution is not None:
+            tiles = folium.TileLayer(
+                tiles=self.tiles,
+                attr=self.attribution,
+                name=self.basemap_name,
+            )
+
         self._map = folium.Map(
-            tiles=self.tiles,
+            tiles=tiles,
             location=list(DEFAULT_LOCATION),
             zoom_start=DEFAULT_ZOOM,
         )

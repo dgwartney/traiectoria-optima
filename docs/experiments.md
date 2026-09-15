@@ -1316,7 +1316,7 @@ uv run python src/demos/script_experiment_example.py
 
 ### Experiments in this repository
 
-Ten are committed, and they are worth reading in this order — each one adds
+Eleven are committed, and they are worth reading in this order — each one adds
 something the previous did not need.
 
 | Slug | Question it asks | Snapshot | What it adds |
@@ -1331,8 +1331,9 @@ something the previous did not need.
 | [`heuristic-admissibility`](../experiments/heuristic-admissibility) | Is the A\* heuristic admissible here, and would a *more accurate* formula break it? | `2026-09-11-bb90a8` — the whole world | The only one whose subject is an **invariant between two parts of the project** rather than a result: admissibility here holds because the pipeline and the heuristic use the same formula at the same radius, which is a property of the build and not of geometry. Samples nothing it does not have to — the full 66,332-edge comparison costs 0.4 s — and seeds the one sample it cannot avoid. Writes the report's §4.3. |
 | [`data-cleaning`](../experiments/data-cleaning) | What did cleaning discard, and is the committed snapshot what the pipeline actually produces? | `2026-09-11-bb90a8` — the whole world | The only one that reads the **raw** sources rather than the snapshot, because cleaning runs upstream of snapshots and a frozen file contains only survivors by construction. It still pins a snapshot, and earns the pin by comparing its re-derived output against it code for code — which turns the snapshot's provenance from an assertion into a measurement. Commits all 1,331 dropped rows with a reason each, because a count is a claim and the rows are evidence. |
 | [`manhattan-heuristic`](../experiments/manhattan-heuristic) | What does a badly inadmissible heuristic buy, and what does it cost? A\* with Manhattan distance on the world network. | `2026-09-11-bb90a8` — the whole world | The only one whose subject is **deliberately wrong**. Where `heuristic-admissibility` verifies an invariant, this one breaks it on purpose and measures the trade: the taxicab estimate exceeds its own edge weight on 66,331 of 66,332 edges, which buys about half the expansions of the admissible heuristic and costs a suboptimal route on 172 of 290 random pairs. Also the one to read on **why the pairs are random**: three of the five long-haul pairs `search-cost` uses are single direct flights, so a hand-picked list reports the heuristic as very nearly free and very nearly correct. |
+| [`us-route-map`](../experiments/us-route-map) | Who flies where in the US, Alaska, Hawaii and Puerto Rico? | `2026-09-15-8054eb` — 473 airports / 10,363 routes, US + PR large and medium | The only one whose deliverable is **interactive**, and the only one that hands the reader the filter instead of the finding — `graph-stats` already asks what the data looks like, but it answers. Thirteen `NetworkLayer`s — twelve carriers plus what they miss — make folium's layer control a filter: 4,515 arcs on load, 25 when only Hawaiian is checked. Two findings came out of building it. Its palette had to be **measured**, and the measurement refuted the first design: six hues over two dash classes left two solid carriers at CIE76 ΔE 0.9 under tritanopia, so the table became four hues over three. And a **hidden layer still counts toward the frame** — `bounds()` is the union of what every layer drew, so a switched-off 473-airport layer pinned every still to the full Adak-to-Culebra box. The one to copy when a reader should ask the question rather than read the answer. |
 
-Two of the ten compare our results against something outside the project, and
+Two of the eleven compare our results against something outside the project, and
 each ships a prose write-up destined for the final report —
 [results-networkx-parity.md](report/15-appendix-d-networkx-parity.md) and
 [results-astar-consistency.md](report/16-appendix-e-astar-consistency.md). That is the

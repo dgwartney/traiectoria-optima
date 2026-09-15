@@ -123,7 +123,7 @@ absent columns read as their default rather than raising.
 
 ## F.4 The experiments
 
-Ten are committed. Each is a directory holding an `experiment.toml` that names
+Eleven are committed. Each is a directory holding an `experiment.toml` that names
 its snapshot **as a path relative to itself** — so the experiment travels with
 the repository, and works the same from a clone, a source checkout or a Colab
 session — a notebook or script, and a `results.json` holding the answer.

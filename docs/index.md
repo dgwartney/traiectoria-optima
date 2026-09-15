@@ -56,7 +56,16 @@ Documentation site for the Traiectoria Optima project.
   way: measured Folium costs on both the 7,005-route and 66,332-route snapshots,
   the geodesic and antimeridian problems with the pictures to prove them, a
   comparison against the alternatives, and what building it taught that designing
-  it had not. Demonstrated by `experiments/route-map/`.
+  it had not. Demonstrated by `experiments/route-map/`, and extended by
+  `experiments/us-route-map/` — thirteen simultaneous layers, a palette that
+  measuring refuted before it shipped, and the browser-checked filtering
+  numbers behind it.
+- **[US route map](maps/us-route-map.html)** — the one deliverable here you can
+  click. Every airline serving the United States, Alaska, Hawaii and Puerto
+  Rico, one switchable layer each: 4,515 arcs across twelve carriers, or one
+  carrier on its own, or any combination. Built by
+  [`experiments/us-route-map/`](../experiments/us-route-map); open it from a
+  checkout, since GitHub will not render a 2 MB HTML file in place.
 - [Search instrumentation: design](design-search-instrumentation.md) — why
   `find_path` became `search` returning a `SearchResult`, the eight decisions
   behind the counters and `SearchObserver`, what was deliberately left out,

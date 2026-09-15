@@ -1,0 +1,64 @@
+{
+  "snapshot_id": "2026-09-15-8054eb",
+  "created": "2026-09-15T18:36:18+00:00",
+  "source_commit": "73e5d2fdb1c3a1a33a8a872d5b5f2dbc9a2007e9",
+  "generator": "scripts/new_snapshot.py",
+  "criteria": {
+    "airport_type": [
+      "large_airport",
+      "medium_airport"
+    ],
+    "country": [
+      "US",
+      "PR"
+    ]
+  },
+  "files": {
+    "airports.csv": {
+      "sha256": "00c13566fb64538b567223ced97a5a0fb434070a1fb87ba275a60dde78921a2b",
+      "bytes": 82130,
+      "rows": 473
+    },
+    "routes.csv": {
+      "sha256": "5d8de11ce184f40289dbade338b67d27bf69f504031a532e78c28613de6ecbea",
+      "bytes": 484756,
+      "rows": 10363
+    }
+  },
+  "narrowing": [
+    {
+      "operation": "airport_type",
+      "arguments": [
+        "large_airport",
+        "medium_airport"
+      ],
+      "endpoints": "both",
+      "routes": [
+        66332,
+        63969
+      ],
+      "airports": [
+        3387,
+        2792
+      ],
+      "dangling": 0
+    },
+    {
+      "operation": "country",
+      "arguments": [
+        "US",
+        "PR"
+      ],
+      "endpoints": "both",
+      "routes": [
+        63969,
+        10363
+      ],
+      "airports": [
+        2792,
+        473
+      ],
+      "dangling": 0
+    }
+  ]
+}

@@ -156,6 +156,92 @@ class TestNetworkLayer:
         assert built.data["features"] == []
 
 
+def style_of(built):
+    """Return a built GeoJson's style dict."""
+    return built.style_function(None)
+
+
+class TestNetworkLayerAsAFacet:
+    """`experiments/us-route-map` draws one of these per airline.
+
+    Everything that makes the class cheap as a backdrop -- batching, pair
+    collapsing -- makes thirteen of them affordable at once. What it needed to
+    become a facet was a colour, a stroke and a say in its own visibility.
+    """
+
+    def test_the_backdrop_defaults_are_unchanged(self):
+        # Every existing caller relies on these, so the facet arguments must
+        # be additions rather than a change of behaviour.
+        layer = NetworkLayer([SFO_BOS])
+        built = layer.build(folium)
+
+        assert layer.show() is False
+        assert style_of(built)["color"] == Palette().context()
+        assert "dashArray" not in style_of(built)
+
+    def test_it_takes_a_colour(self):
+        built = NetworkLayer([SFO_BOS], colour="#0072b2").build(folium)
+
+        assert style_of(built)["color"] == "#0072b2"
+
+    def test_it_takes_a_dash_array(self):
+        built = NetworkLayer([SFO_BOS], dash_array="6,4").build(folium)
+
+        assert style_of(built)["dashArray"] == "6,4"
+
+    def test_a_solid_layer_carries_no_dash_key_at_all(self):
+        # Present-but-null would be bytes per feature across 4,647 features,
+        # in a file that ships committed.
+        built = NetworkLayer([SFO_BOS], dash_array=None).build(folium)
+
+        assert "dashArray" not in style_of(built)
+
+    def test_it_can_start_visible(self):
+        # A carrier layer is the finding, not the backdrop: the reader
+        # switches carriers *off* to isolate one.
+        layer = NetworkLayer([SFO_BOS], show=True)
+
+        assert layer.show() is True
+        assert layer.build(folium).show is True
+
+    def test_it_carries_the_airline_into_the_feature_properties(self):
+        # Without this the tooltip cannot say who flies the arc, which on a
+        # faceted map is the one thing a reader most wants from it.
+        built = NetworkLayer([SFO_BOS]).build(folium)
+
+        assert built.data["features"][0]["properties"]["airline"] == "XX"
+
+    def test_the_tooltip_offers_the_airline_when_the_routes_name_one(self):
+        built = NetworkLayer([SFO_BOS]).build(folium)
+        tooltip = next(
+            child
+            for child in built._children.values()
+            if isinstance(child, folium.GeoJsonTooltip)
+        )
+
+        assert tooltip.fields == ["label", "km", "airline"]
+
+    def test_it_omits_the_airline_field_when_no_route_names_one(self):
+        # Advertising a field every feature leaves blank would render an
+        # empty row in every tooltip.
+        anonymous = Route(
+            origin=SFO,
+            destination=BOS,
+            distance_km=4341.0,
+            flight_number="XX0001",
+            airline="",
+        )
+        built = NetworkLayer([anonymous]).build(folium)
+        tooltip = next(
+            child
+            for child in built._children.values()
+            if isinstance(child, folium.GeoJsonTooltip)
+        )
+
+        assert tooltip.fields == ["label", "km"]
+        assert "airline" not in built.data["features"][0]["properties"]
+
+
 class TestPathLayer:
     def test_it_builds_one_polyline_per_leg(self):
         # A path is a handful of legs, each with its own tooltip, so batching

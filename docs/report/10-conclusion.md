@@ -18,7 +18,7 @@ package. Libraries only load, plot and validate (§11).
 
 Every figure in this report is pinned: a content-addressed snapshot,
 re-hashed on open, and a committed `results.json` an experiment wrote
-(Appendix F). Ten experiments, re-derived by `tests/experiments/` on every
+(Appendix F). Eleven experiments, re-derived by `tests/experiments/` on every
 run.
 
 ## 10.2 The two findings that complicate it

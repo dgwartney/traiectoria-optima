@@ -1,0 +1,248 @@
+{
+  "experiment": "us-route-map",
+  "recorded": "2026-09-15T20:30:27+00:00",
+  "snapshot": {
+    "id": "2026-09-15-8054eb",
+    "reference": "../../data/snapshots/2026-09-15-8054eb",
+    "criteria": {
+      "airport_type": [
+        "large_airport",
+        "medium_airport"
+      ],
+      "country": [
+        "US",
+        "PR"
+      ]
+    },
+    "source_commit": "73e5d2fdb1c3a1a33a8a872d5b5f2dbc9a2007e9"
+  },
+  "parameters": {
+    "countries": [
+      "US",
+      "PR"
+    ],
+    "airport_types": [
+      "large",
+      "medium"
+    ],
+    "defunct": [
+      "US",
+      "FL"
+    ],
+    "other_label": "All other carriers",
+    "carriers": {
+      "AA": "American",
+      "US": "US Airways",
+      "DL": "Delta",
+      "UA": "United",
+      "WN": "Southwest",
+      "FL": "AirTran",
+      "AS": "Alaska",
+      "G4": "Allegiant",
+      "B6": "JetBlue",
+      "NK": "Spirit",
+      "F9": "Frontier",
+      "HA": "Hawaiian"
+    },
+    "focus": {
+      "structure": [
+        "WN",
+        "AA"
+      ],
+      "pacific": [
+        "AS",
+        "HA"
+      ],
+      "caribbean": [
+        "B6"
+      ]
+    },
+    "figures": {
+      "report_dir": "../../docs/images",
+      "slides_dir": "../../slides/images",
+      "interactive": "../../docs/maps"
+    }
+  },
+  "results": {
+    "airports_drawn": 473,
+    "route_rows": 10363,
+    "network_pairs": 2688,
+    "carrier_pairs": {
+      "AA": 718,
+      "US": 673,
+      "DL": 668,
+      "UA": 665,
+      "WN": 570,
+      "FL": 437,
+      "AS": 247,
+      "G4": 190,
+      "B6": 134,
+      "NK": 94,
+      "F9": 94,
+      "HA": 25
+    },
+    "layer_sum": 4515,
+    "carrier_union": 2556,
+    "other_bucket": 132,
+    "features_drawn": 4647,
+    "airports_by_region": {
+      "US-AK": 56,
+      "US-HI": 10,
+      "PR-U-A": 6
+    },
+    "region_leaders": {
+      "US-AK": {
+        "AS": 44,
+        "AA": 4,
+        "DL": 3,
+        "UA": 3,
+        "US": 1
+      },
+      "US-HI": {
+        "AS": 24,
+        "HA": 23,
+        "UA": 20,
+        "AA": 19,
+        "US": 14,
+        "DL": 9,
+        "G4": 2
+      },
+      "PR-U-A": {
+        "B6": 15,
+        "AA": 7,
+        "US": 6,
+        "FL": 6,
+        "UA": 5,
+        "WN": 5,
+        "DL": 3,
+        "NK": 3
+      }
+    },
+    "bounds": {
+      "south": 18.008301,
+      "west": -176.642783,
+      "north": 71.285402,
+      "east": -65.303893,
+      "longitude_span": 111.3
+    },
+    "interactive_bytes": 2008555,
+    "palette_contrast": {
+      "light": {
+        "mode": "light",
+        "worst_same_stroke": {
+          "normal": {
+            "delta_e": 26.4,
+            "pair": [
+              "AA",
+              "US"
+            ]
+          },
+          "protanopia": {
+            "delta_e": 25.6,
+            "pair": [
+              "AA",
+              "US"
+            ]
+          },
+          "deuteranopia": {
+            "delta_e": 25.0,
+            "pair": [
+              "AA",
+              "US"
+            ]
+          },
+          "tritanopia": {
+            "delta_e": 19.6,
+            "pair": [
+              "UA",
+              "US"
+            ]
+          }
+        },
+        "strokes": {
+          "solid": [
+            "AA",
+            "DL",
+            "UA",
+            "US"
+          ],
+          "6,4": [
+            "WN",
+            "AS",
+            "B6",
+            "FL"
+          ],
+          "1,5": [
+            "G4",
+            "NK",
+            "F9",
+            "HA"
+          ]
+        }
+      },
+      "dark": {
+        "mode": "dark",
+        "worst_same_stroke": {
+          "normal": {
+            "delta_e": 37.1,
+            "pair": [
+              "AA",
+              "US"
+            ]
+          },
+          "protanopia": {
+            "delta_e": 31.6,
+            "pair": [
+              "DL",
+              "UA"
+            ]
+          },
+          "deuteranopia": {
+            "delta_e": 37.9,
+            "pair": [
+              "AA",
+              "US"
+            ]
+          },
+          "tritanopia": {
+            "delta_e": 30.4,
+            "pair": [
+              "UA",
+              "US"
+            ]
+          }
+        },
+        "strokes": {
+          "solid": [
+            "AA",
+            "DL",
+            "UA",
+            "US"
+          ],
+          "6,4": [
+            "WN",
+            "AS",
+            "B6",
+            "FL"
+          ],
+          "1,5": [
+            "G4",
+            "NK",
+            "F9",
+            "HA"
+          ]
+        }
+      }
+    }
+  },
+  "catalog": {
+    "chain": [],
+    "routes": [
+      10363
+    ],
+    "airports": [
+      473
+    ],
+    "dangling": 0
+  }
+}

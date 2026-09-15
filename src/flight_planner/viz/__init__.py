@@ -35,9 +35,15 @@ from .layer import MapLayer
 from .network import NetworkLayer
 from .palette import Palette
 from .path import PathLayer
-from .routemap import RouteMap
+from .routemap import (
+    ESRI_LIGHT_GRAY,
+    ESRI_LIGHT_GRAY_ATTRIBUTION,
+    RouteMap,
+)
 
 __all__ = [
+    "ESRI_LIGHT_GRAY",
+    "ESRI_LIGHT_GRAY_ATTRIBUTION",
     "AirportLayer",
     "Geodesic",
     "MapExporter",

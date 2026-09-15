@@ -25,6 +25,12 @@ class NetworkLayer(MapLayer):
     The layer starts hidden. That is not only about size: the context buries
     the answer it sits under, and the reader can switch it on when the
     question is "what else was available?".
+
+    It is also the class a *faceted* map is built from, which is what
+    `experiments/us-route-map` does: one instance per airline, each with its
+    own `colour`, `dash_array` and `name`, all `show=True`. Everything that
+    makes it cheap as a backdrop -- batching into one `GeoJson`, collapsing to
+    distinct pairs -- makes thirteen of them affordable at once.
     """
 
     def __init__(
@@ -37,6 +43,9 @@ class NetworkLayer(MapLayer):
         decimals: int = 3,
         weight: float = 1.0,
         opacity: float = 0.3,
+        colour: Optional[str] = None,
+        dash_array: Optional[str] = None,
+        show: bool = False,
     ) -> None:
         """Create a network layer.
 
@@ -51,6 +60,17 @@ class NetworkLayer(MapLayer):
             decimals: Coordinate rounding. Three places is about 110 m.
             weight: Line width in pixels.
             opacity: Line opacity, low so the context recedes.
+            colour: Line colour. Defaults to the palette's scenery colour,
+                which is what a context backdrop wants. A faceted map passes
+                `palette.carrier(code)` instead, so the layer means one
+                airline rather than "everything else".
+            dash_array: Leaflet `dashArray`, e.g. `"6,4"`. `None` draws a
+                solid line and omits the key entirely, so a solid layer's
+                JSON does not grow. Half of a carrier's identity when twelve
+                of them share six hues.
+            show: Whether the layer starts switched on. `False` for a
+                backdrop; a faceted map passes `True`, because the reader
+                switches carriers *off* to isolate one.
         """
         self._routes = tuple(routes)
         self._geodesic = geodesic or Geodesic(segments=6)
@@ -59,6 +79,9 @@ class NetworkLayer(MapLayer):
         self._decimals = decimals
         self._weight = weight
         self._opacity = opacity
+        self._colour = colour
+        self._dash_array = dash_array
+        self._show = show
         self._drawn: List[List[float]] = []
 
     def name(self) -> str:
@@ -66,8 +89,12 @@ class NetworkLayer(MapLayer):
         return self._name
 
     def show(self) -> bool:
-        """Report that this layer starts switched off."""
-        return False
+        """Report whether the layer starts switched on.
+
+        Defaults to off, which is what a context backdrop wants. A faceted
+        map passes `show=True` per carrier.
+        """
+        return self._show
 
     def drawn_points(self) -> Sequence[Sequence[float]]:
         """Return every `[lat, lon]` drawn, longitudes as drawn."""
@@ -105,10 +132,21 @@ class NetworkLayer(MapLayer):
         """
         self._drawn = []
         features = []
+        # Set only if at least one representative route names an airline, so
+        # the tooltip never advertises a field every feature leaves blank.
+        any_airline = False
 
         for key, route in self.distinct_pairs().items():
             points = self._geodesic.between(route.origin, route.destination)
             self._collect(points, self._drawn)
+            properties = {
+                "label": "-".join(key),
+                "km": round(route.distance_km),
+            }
+            airline = getattr(route, "airline", None)
+            if airline:
+                properties["airline"] = airline
+                any_airline = True
             features.append(
                 {
                     "type": "Feature",
@@ -125,18 +163,22 @@ class NetworkLayer(MapLayer):
                             for latitude, longitude in points
                         ],
                     },
-                    "properties": {
-                        "label": "-".join(key),
-                        "km": round(route.distance_km),
-                    },
+                    "properties": properties,
                 }
             )
 
         style = {
-            "color": self._palette.context(),
+            "color": self._colour or self._palette.context(),
             "weight": self._weight,
             "opacity": self._opacity,
         }
+        if self._dash_array is not None:
+            style["dashArray"] = self._dash_array
+
+        fields = ["label", "km"]
+        if any_airline:
+            fields.append("airline")
+
         return folium.GeoJson(
             {"type": "FeatureCollection", "features": features},
             name=self.name(),
@@ -144,5 +186,5 @@ class NetworkLayer(MapLayer):
             style_function=lambda _feature: style,
             # Batching does not cost the per-route tooltip, which is the
             # obvious worry about collapsing into one layer.
-            tooltip=folium.GeoJsonTooltip(fields=["label", "km"]),
+            tooltip=folium.GeoJsonTooltip(fields=fields),
         )

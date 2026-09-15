@@ -26,6 +26,13 @@ alternatives.
 > document's own prototype had. The design sections below are unchanged except
 > where that section says otherwise, so they still read as the argument that was
 > made before any of it was written.
+>
+> [Section 13](#13-what-faceting-changed) is a later addition, from
+> `experiments/us-route-map/` — the first experiment to ask the layer system
+> for thirteen simultaneous layers and a reader who filters them. It answers
+> the pydeck caveat in [section 8](#8-competing-libraries) with a measurement,
+> records a palette design that measuring **refuted** before it shipped, and
+> names two things about the existing layer that nothing had exercised before.
 
 It is also meant to be the *only* thing an implementer needs. Every number and
 screenshot in it came from a working prototype run against committed snapshots —
@@ -50,6 +57,13 @@ already lost half of itself.
 - [10. What the rest of the repository has already decided](#10-what-the-rest-of-the-repository-has-already-decided)
 - [11. Open questions](#11-open-questions)
 - [12. What implementing it changed](#12-what-implementing-it-changed)
+- [13. What faceting changed](#13-what-faceting-changed)
+  - [13.1 What it measures](#131-what-it-measures)
+  - [13.2 Answering section 8's objection](#132-answering-section-8s-objection)
+  - [13.3 The palette had to be measured, and the measurement refuted the design](#133-the-palette-had-to-be-measured-and-the-measurement-refuted-the-design)
+  - [13.4 Two things this found in the existing layer](#134-two-things-this-found-in-the-existing-layer)
+  - [13.5 The committed HTML](#135-the-committed-html)
+  - [13.6 The second tile trap: a key is not the only thing a basemap needs](#136-the-second-tile-trap-a-key-is-not-the-only-thing-a-basemap-needs)
 - [Appendix A — how these were run](#appendix-a--how-these-were-run)
 - [Appendix B — the prototype](#appendix-b--the-prototype)
 
@@ -781,6 +795,19 @@ Carto and Stadia style needs a key. This is exactly the kind of thing that shoul
 decided once in a helper rather than rediscovered by each notebook author after
 their map is already in a report.
 
+> **Correction, 2026-09-15.** This table asked the right question of the wrong
+> header. Every style above was tested for whether it needs an API *key*;
+> `OpenStreetMap` does not, and that conclusion stands. But OSM's tile usage
+> policy also requires the request to be **attributable**, which it enforces on
+> `Referer` — so OSM works from a page served over HTTP and fails from the same
+> file opened at a `file://` URL, which sends no `Referer`. The failure arrives
+> as HTTP 200 with a PNG body reading `403 / Access blocked`, so "zero failed
+> tile requests" in the row above would still be true while every tile was a
+> block notice. §13.6 has the measurement, and the conclusion that "OpenStreetMap
+> is the only keyless option" is now only true with "…for a page served over
+> HTTP" attached. `ESRI_LIGHT_GRAY` in `viz/routemap.py` is the option for a map
+> saved to be opened directly.
+
 ---
 
 ## 6. Three problems the helper must solve once
@@ -1371,6 +1398,232 @@ answered by Dijkstra in two legs via Los Angeles and by BFS in two legs via **Ab
 Dhabi** — the same hop count, 7,057 km apart, leaving Sydney in opposite
 directions. No column in a results table explains that. The map does, and it is the
 clearest argument in the repository for why this layer exists.
+
+---
+
+## 13. What faceting changed
+
+[`experiments/us-route-map`](../experiments/us-route-map) asks the layer system
+for something no earlier experiment did: not two or three layers, but thirteen,
+all switched on, each independently switchable. It is the first experiment here
+whose deliverable is interactive, and the first whose question is about the
+data's shape rather than an algorithm's behaviour — *who flies where* in the
+United States, Alaska, Hawaii and Puerto Rico.
+
+**Almost nothing had to be built.** The faceting is `Catalog.airline()` for the
+filter, one `NetworkLayer` per carrier for the drawing, and the
+`LayerControl(collapsed=False)` that [section 6](#6-three-problems-the-helper-must-solve-once)
+already attaches. `NetworkLayer` needed three additions, all defaulted so no
+existing caller changed: a `colour`, a `dash_array`, and a `show` argument to
+override its hard `False`. It also now carries `route.airline` into the GeoJSON
+properties and the tooltip, which [section 4](#4-what-the-api-should-look-like)
+noted as available and unused. That is the whole diff to the package.
+
+### 13.1 What it measures
+
+`--country US PR --airport-type large medium`, both endpoints in scope. Puerto
+Rico is `PR` and not `US`, so narrowing on `US` alone silently drops every
+Caribbean arc; `large` alone leaves Alaska as essentially Anchorage by itself.
+
+| Measurement | Value |
+|---|---|
+| Airports drawn | 473 (56 Alaska, 10 Hawaii, 6 Puerto Rico) |
+| Route rows | 10,363 |
+| Distinct airport pairs | 2,688 |
+| Arcs drawn across 12 carrier layers | 4,515 |
+| Pairs those twelve cover | 2,556 |
+| Pairs they miss, in the bucket layer | 132 |
+| Total features | 4,647 |
+| Interactive HTML | 2,008,548 bytes (2.01 MB) |
+| Longitude span of the frame | 111.3° (Adak −176.6° to Culebra −65.3°) |
+
+The layer sum exceeding the pair count is the comparison, not an error: a pair
+flown by both American and Delta is drawn once in each layer, which is what
+makes switching one off informative. The bucket holds the pairs *no* named
+carrier serves rather than everything the unnamed carriers fly, so the thirteen
+layers partition the network — which is what makes "132" mean "what the majors
+miss" rather than an arithmetic accident.
+
+Filtering was verified in a browser, not inferred: on load the DOM carries
+4,518 SVG paths (4,515 arcs plus three map decorations); unchecking every
+carrier but Hawaiian leaves 28; adding Alaska back gives 275, which is
+247 + 25 + 3.
+
+### 13.2 Answering section 8's objection
+
+[Section 8](#8-competing-libraries) rejected pydeck with a specific caveat:
+"pydeck earns its place when someone wants to pan and filter 18,814 arcs at 60
+fps, which no experiment in this repository asks for." This experiment is that
+ask, at 4,647 features rather than 18,814 — a quarter of the load that
+sentence was written about. Folium holds up: the map pans and toggles without
+perceptible lag, and the recommendation in
+[section 9](#9-recommendation) stands unchanged. The caveat was well drawn
+rather than wrong, and it is worth keeping for whoever eventually wants the
+whole world faceted this way.
+
+### 13.3 The palette had to be measured, and the measurement refuted the design
+
+Twelve simultaneously distinguishable hues do not exist for a colour-blind
+reader, so a carrier's identity is hue **and** stroke — the same construction
+`SERIES_MARKERS` uses when a chart series carries both a colour and a marker.
+
+The first attempt was six Okabe–Ito hues over two dash patterns. Measuring it
+killed it. Under tritanopia the three warm hues collapse into one another:
+
+| Pair | ΔE under tritanopia |
+|---|---|
+| vermillion / reddish purple | **0.9** |
+| orange / reddish purple | 13.9 |
+| orange / vermillion | 14.9 |
+
+Vermillion was Delta and reddish purple was US Airways — two legacy majors,
+both drawn solid, effectively the same colour for a tritanope. And the problem
+is structural rather than an unlucky assignment: six hues over two dash classes
+puts every hue in *every* class, so the three warm hues always share a class
+and no dash can separate them.
+
+The fix is four hues over three dash classes — blue, sky blue, bluish green and
+vermillion, only one of them warm, so no class ever holds two. Each class then
+holds each hue exactly once, which makes the guarantee structural: the worst
+same-stroke pair is the worst pair among four distinct hues.
+
+| Surface | Worst same-stroke ΔE | Where |
+|---|---|---|
+| light | **19.6** | UA / US, tritanopia |
+| dark | **30.4** | UA / US, tritanopia |
+
+Same-stroke is the set that matters, because two carriers a reader must
+separate by colour alone are two carriers drawn with the same dash. The dark
+column was also stepped by measurement rather than by eye: lightening all four
+hues uniformly pulled blue and bluish green to ΔE 12.6, so blue is left
+unlightened. All four clear the 3:1 contrast against black that the series
+colours are held to — 4.05, 7.30, 7.42 and 11.77 to 1.
+
+One honesty note. The series-palette figures quoted in
+[section 4](#4-what-the-api-should-look-like) and in `palette.py` ("worst
+all-pairs CVD ΔE 9.4") came from an external checker with no script in this
+repository, so they cannot be reproduced or compared against these. The carrier
+figures above come from `palette_contrast()` in
+`experiments/us-route-map/plots.py` — CIE76 over a Viénot–Brettel–Mollon
+dichromat simulation — and `tests/experiments/test_us_route_map_plots.py` tests
+that simulation against properties any correct implementation must have (grey
+is unmoved by every deficiency; red and green converge under deuteranopia)
+rather than against the numbers it happens to produce. Re-deriving the series
+palette's own numbers the same way is worthwhile and is not done here.
+
+### 13.4 Two things this found in the existing layer
+
+**A hidden layer still counts toward the frame.** `RouteMap.bounds()` is the
+union of what every layer drew, visible or not, so a switched-off 473-airport
+layer pins the map to the full Adak-to-Culebra box. Every single-carrier still
+came out as zoomed out as the whole network until the layer was left out
+entirely. `plots.write_stills` omits it for the focus views, and framing on the
+arcs alone is also how the lower-48 still works — no bounds override exists or
+was added, because `RouteMap` frames itself on what was drawn and dropping the
+offshore arcs is the whole mechanism.
+
+Whether that is a defect is a real question, and it is left open deliberately.
+`compare(context=...)` adds the whole world as a hidden layer, so framing on
+visible layers only would change every committed figure that uses it. It is
+recorded here rather than fixed.
+
+**`AirportLayer` is unbatched, and it costs.** 473 `CircleMarker`s are 622,075
+bytes of the 2.01 MB file — 31% of a committed deliverable for a layer that
+starts switched off, or about 1.3 KB per marker, because folium emits a
+JavaScript statement per marker. This is the same problem
+[section 5](#5-what-the-prototype-measured) solved for routes by collapsing
+them into one `GeoJson`, and the same solution would apply. Not done here: it
+belongs in the package rather than in an experiment, and the experiment's own
+philosophy is that copying drawing logic into a notebook is how every map ends
+up slightly different. Worth doing when a second faceted map wants it.
+
+For comparison, coarser coordinates are *not* where the bytes are: rounding the
+arcs from 3 decimals to 2 saved 5% (1.35 MB → 1.28 MB) and to 1 decimal 10%, so
+precision stayed at 3.
+
+### 13.5 The committed HTML
+
+This experiment commits generated output, which nothing else here does — a
+folium HTML was removed from this repository once before as "147 KB of
+generated Folium output committed as a source file". The judgement differs
+because interactivity *is* the finding: a map whose point is toggling twelve
+carriers cannot be delivered as a still, and one that needs a Jupyter kernel to
+open is not delivered at all. It ships at
+[`docs/maps/us-route-map.html`](maps/us-route-map.html) under a 2.5 MB bound
+that `tests/experiments/test_us_route_map.py` enforces, which is the condition
+that made committing it acceptable.
+
+The stills are rendered **once and copied**, not rendered twice. Screenshot
+output is not byte-deterministic — two renders of the same map came out 25
+bytes apart, because basemap tiles arrive and labels settle on their own
+schedule — and `tests/experiments/test_figures.py` requires the two copies to
+be identical. Like `route-map`, the experiment ships one light PNG into both
+image directories: no keyless dark basemap exists, and `RouteMap` refuses the
+ones that need an API key.
+
+### 13.6 The second tile trap: a key is not the only thing a basemap needs
+
+Committing the HTML is what exposed this, and it is the sharpest finding here.
+
+The map shipped with the package default, `OpenStreetMap`. Opened the way a
+reader would open it — double-clicked, so `file://` — **every tile was a notice
+reading `403 / Access blocked / App is not following the tile usage policy of
+OpenStreetMap's volunteer-run servers`.** The arcs, the layer control and the
+filtering all worked perfectly on top of it.
+
+Three things made it survive review:
+
+1. **It is not an error.** OSM serves the block as **HTTP 200 with a PNG
+   body**. Nothing raises, nothing logs, no status code is out of place. The
+   §5 measurement "zero failed tile requests" would report success.
+2. **It depends on how the file is opened.** OSM enforces its policy on
+   `Referer`. A page served over HTTP sends one; a `file://` page sends none.
+3. **Every check had been done over HTTP.** The interactive map was verified
+   through a local server, and the PNG stills are rendered by Playwright
+   through one too. Both had a `Referer` and both were fine. The one access
+   path that was never tested is the only one the deliverable is *for*.
+
+Measured 2026-09-15, generic browser UA, no `Referer`:
+
+| Request | Result |
+|---|---|
+| `tile.openstreetmap.org`, no `Referer` | HTTP 200, block notice PNG |
+| `tile.openstreetmap.org`, identifying `User-Agent` | HTTP 200, real tile |
+| `server.arcgisonline.com` World Light Gray, no `Referer` | HTTP 200, real tile |
+
+A browser cannot set `User-Agent`, so the identifying-UA row is available to
+`curl` and not to Leaflet. The fix is a provider that does not require
+attribution by header: `ESRI_LIGHT_GRAY`. Verified from a `file://` URL, 35
+tile requests, all 200, no block notices.
+
+Two things came out better for it. A desaturated canvas stops the basemap
+competing with the arcs — on OSM's green-and-blue base, four carrier hues fight
+the landmass; on gray they do not. And `RouteMap` gained the ability to take a
+tile URL template at all, with two guards: an unattributed template is refused
+at construction rather than failing deep inside folium, and the basemap is
+given a readable layer-control label.
+
+That second guard is itself worth recording, because the first attempt at it
+was wrong and a test passed anyway. `folium.Map` builds its own `TileLayer`
+internally and names it from the tile string, so a `name=` handed to `Map` is
+silently swallowed by `**kwargs`. It rendered *somewhere* in the document, so a
+test asserting `"Esri light gray" in html` passed while the layer control still
+displayed the entire tile URL. The corrected test asserts against the control's
+own base-layer mapping, and the fix passes a prebuilt `folium.TileLayer`, which
+is the supported path. A substring assertion over generated HTML is weaker
+evidence than it looks.
+
+`tests/experiments/test_us_route_map.py` now pins the committed artifact
+directly: no `tile.openstreetmap.org`, an Esri URL present, attributed, and
+named. The guard is on what shipped, not on the builder, because what shipped
+is what was broken.
+
+**Still open:** whether Esri's terms of service permit this use outside their
+own SDKs. It demonstrably works, which is a different claim from being allowed,
+and nothing in this document should be read as having checked. The irony is not
+lost — §5's lesson was that provider metadata is no substitute for fetching a
+tile, and the converse holds just as well: fetching a tile is no substitute for
+reading the terms.
 
 ---
 

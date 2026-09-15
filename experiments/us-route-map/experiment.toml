@@ -1,0 +1,123 @@
+# us-route-map
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "us-route-map"
+description = "Who flies where in the US, Alaska, Hawaii and Puerto Rico -- one switchable layer per airline."
+notebooks = ["explore.ipynb"]
+snapshot = "../../data/snapshots/2026-09-15-8054eb"  # 2026-09-15-8054eb
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+#
+# This is the first experiment here whose question is about the *data's* shape
+# rather than an algorithm's behaviour: not "which route is shortest" but "who
+# flies where". Every other experiment ends in a number that a map illustrates;
+# this one ends in a map that numbers corroborate.
+[parameters]
+
+# The snapshot's own criteria, restated so the notebook can assert it opened
+# the snapshot it was written for rather than trusting the pinned id.
+#
+# Puerto Rico is `PR`, not `US` -- ISO 3166-1 gives it its own code, so
+# `country("US")` alone silently drops SJU, BQN, PSE, MAZ, VQS and CPX. That is
+# the one thing about this slice that is easy to get wrong.
+#
+# large + medium, not large alone: `large_airport` leaves Alaska as essentially
+# ANC by itself, which throws away the bush network that is half the reason to
+# draw Alaska at all. 58 Alaskan airports survive large+medium, against ~1 for
+# large. Adding `small_airport` would bring 117 more airports for 195 more
+# pairs, almost all Alaskan -- a denser picture, but not a different one.
+countries = ["US", "PR"]
+airport_types = ["large", "medium"]
+
+# Carriers that no longer exist as of 2026, flagged in their layer label so the
+# data's vintage is visible on the map itself and not only in this file.
+defunct = ["US", "FL"]
+
+# The thirteenth layer: every pair served by none of the twelve carriers below.
+# Not "every pair flown by the other 64 carriers" -- most of those are also
+# flown by a major, and drawing them again would just thicken lines already on
+# screen. Drawn in the recessive scenery grey and switched off, because it is
+# context rather than a finding.
+other_label = "All other carriers"
+
+# The twelve carriers that get their own switchable layer, largest first by
+# distinct airport pair.
+#
+# DATA VINTAGE: the OpenFlights route table is circa 2014. US Airways (`US`),
+# AirTran (`FL`) and Virgin America (`VX`) have all been merged away since, and
+# Alaska has since absorbed Hawaiian. `US` and `FL` are nonetheless the 2nd and
+# 6th largest carriers *in this data*, so a map that quietly dropped them to
+# look like the present day would be drawing something the snapshot does not
+# say. They are drawn, and labelled. Read this map as 2014.
+#
+# Names are carried here because `Route` carries only `airline_code` and no
+# airline-name table is wired into the pipeline:
+# `data/raw/open_flights/airlines.dat` is vendored but referenced nowhere in
+# `src/` or the Makefile. Keeping the mapping in the experiment's own inputs is
+# cheaper than a pipeline stage and states itself in results.json.
+#
+# Twelve and not more: the layer control is the legend, and a legend with 76
+# checkboxes is not one. The 64 left over are bucketed under `other_label`.
+[parameters.carriers]
+AA = "American"
+US = "US Airways"
+DL = "Delta"
+UA = "United"
+WN = "Southwest"
+FL = "AirTran"
+AS = "Alaska"
+G4 = "Allegiant"
+B6 = "JetBlue"
+NK = "Spirit"
+F9 = "Frontier"
+HA = "Hawaiian"
+
+# Pairs worth a still image, each making a different point that the interactive
+# map lets a reader find for themselves.
+#
+#   WN + AA   Southwest's point-to-point mesh against American's hub-and-spoke.
+#             The clearest structural contrast in the data, and the one that
+#             most needs two layers on at once to see.
+#   AS + HA   the Pacific: who actually reaches Hawaii, and Alaska's bush
+#             network, neither of which is visible on a lower-48 map.
+#   B6        Puerto Rico. JetBlue leads the Caribbean here with 15 pairs, and
+#             a single-carrier layer is the point of the checkboxes.
+[parameters.focus]
+structure = ["WN", "AA"]
+pacific = ["AS", "HA"]
+caribbean = ["B6"]
+
+# Where the figures go, relative to this file like the snapshot.
+#
+# `interactive` is new in this experiment. Every other figure-producing
+# experiment writes PNGs only, and `route-map` writes its HTML to a temp
+# directory -- a committed folium HTML was deliberately removed from this
+# repository once before, as "147 KB of generated Folium output committed as a
+# source file". The judgement is different here because interactivity *is* the
+# deliverable: a map whose whole point is toggling twelve carriers cannot be
+# delivered as a still, and one that needs a Jupyter kernel to open is not
+# delivered at all. It is committed under a size bound enforced by
+# tests/experiments/test_us_route_map.py, which is the condition that made
+# committing it acceptable.
+#
+# Note what is NOT here: a dark variant. plots.py in other experiments renders
+# every chart twice because the deck is a black reveal.js theme, but a map
+# cannot follow -- every Carto basemap is watermarked without an API key and
+# every Stadia one returns 401, so no keyless dark style is available. The deck
+# gets the same light PNG, in a white card. This is the same exception
+# `route-map` documents.
+#
+# Nor is the basemap here: it lives in plots.py, because it is a property of
+# how the map is drawn rather than an input to the question. Worth knowing that
+# it is NOT the package default. `OpenStreetMap` needs no API key but does need
+# a `Referer`, and the whole point of the committed HTML is that a reader opens
+# it directly -- a `file://` page sends no `Referer`, and OSM answers with a
+# `403 / Access blocked` tile served as HTTP 200. See docs/visualization.md
+# section 13.6.
+[parameters.figures]
+report_dir = "../../docs/images"
+slides_dir = "../../slides/images"
+interactive = "../../docs/maps"

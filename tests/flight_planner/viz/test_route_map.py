@@ -6,10 +6,14 @@ its own endpoints -- so a map framed on airport positions frames the line out
 of view, and the bug is invisible on any US-only network.
 """
 
+import re
+
 import pytest
 
 from flight_planner import Airport, Route
 from flight_planner.viz import (
+    ESRI_LIGHT_GRAY,
+    ESRI_LIGHT_GRAY_ATTRIBUTION,
     AirportLayer,
     Geodesic,
     NetworkLayer,
@@ -61,6 +65,71 @@ class TestTheTileLayer:
         # Better to fail here than to discover it after the map is in a report.
         with pytest.raises(ValueError, match="API key"):
             RouteMap(tiles="CartoDB dark_matter")
+
+
+class TestACustomBasemap:
+    """A tile URL template, for the case the named styles cannot serve.
+
+    `OpenStreetMap` needs no API key but does need a `Referer`, and OSM
+    answers an unattributable request with a block notice served as HTTP 200
+    -- so a map saved for someone to open from `file://` cannot use it.
+    `ESRI_LIGHT_GRAY` is the way out, and `experiments/us-route-map` is the
+    caller that needed it.
+    """
+
+    def test_a_url_template_needs_an_attribution(self):
+        # folium raises for this deep inside Map, where the message says
+        # nothing about which call was wrong.
+        with pytest.raises(ValueError, match="attribution"):
+            RouteMap(tiles=ESRI_LIGHT_GRAY)
+
+    def test_a_url_template_with_an_attribution_is_accepted(self):
+        route_map = RouteMap(
+            tiles=ESRI_LIGHT_GRAY, attribution=ESRI_LIGHT_GRAY_ATTRIBUTION
+        )
+
+        assert route_map.tiles == ESRI_LIGHT_GRAY
+
+    def test_a_named_style_needs_no_attribution(self):
+        assert RouteMap().attribution is None
+
+    def test_a_named_style_labels_itself(self):
+        assert RouteMap().basemap_name == "OpenStreetMap"
+
+    def test_a_url_template_is_not_labelled_with_its_own_url(self):
+        # folium would otherwise put the whole tile URL in the layer control,
+        # which on a faceted map is the legend.
+        route_map = RouteMap(
+            tiles=ESRI_LIGHT_GRAY, attribution=ESRI_LIGHT_GRAY_ATTRIBUTION
+        )
+
+        assert "http" not in route_map.basemap_name
+
+    def test_the_layer_control_labels_the_basemap_by_name(self):
+        # Asserted against the layer control's own base-layer mapping, not
+        # merely against the name appearing somewhere in the document. The
+        # first version of this test checked the latter and passed while the
+        # control still showed the raw tile URL: `name=` on `folium.Map` is
+        # ignored, because Map builds its own TileLayer and names it from the
+        # tile string.
+        route_map = RouteMap(
+            tiles=ESRI_LIGHT_GRAY,
+            attribution=ESRI_LIGHT_GRAY_ATTRIBUTION,
+            basemap_name="Esri light gray",
+        )
+        html = route_map.airports([SFO, BOS]).finish().get_root().render()
+
+        assert re.search(r'"Esri light gray"\s*:', html)
+        assert not re.search(r'"https://server\.arcgisonline[^"]*"\s*:', html)
+
+    def test_the_credit_line_reaches_the_rendered_map(self):
+        route_map = RouteMap(
+            tiles=ESRI_LIGHT_GRAY, attribution=ESRI_LIGHT_GRAY_ATTRIBUTION
+        )
+        html = route_map.airports([SFO, BOS]).finish().get_root().render()
+
+        assert "Esri" in html
+        assert "arcgisonline" in html
 
 
 class TestBuildingItUp:

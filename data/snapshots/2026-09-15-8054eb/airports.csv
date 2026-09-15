@@ -1,0 +1,474 @@
+name,iso_country,iso_region,continent,municipality,iata_code,icao_code,latitude_deg,longitude_deg,elevation_ft,scheduled_service,type,is_international,wikipedia_link
+Aberdeen Regional Airport,US,US-SD,NA,Aberdeen,ABR,KABR,45.449100494384766,-98.42179870605467,1302.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Aberdeen_Regional_Airport
+Abilene Regional Airport,US,US-TX,NA,Abilene,ABI,KABI,32.4113006592,-99.6819000244,1791.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Abilene_Regional_Airport
+Abraham Lincoln Capital Airport,US,US-IL,NA,Springfield,SPI,KSPI,39.844101,-89.677902,598.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Abraham_Lincoln_Capital_Airport
+Adak Airport,US,US-AK,NA,Adak,ADK,PADK,51.883564,-176.642783,18.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Adak_Airport
+Adirondack Regional Airport,US,US-NY,NA,Saranac Lake,SLK,KSLK,44.38691,-74.204629,1663.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Adirondack_Regional_Airport
+Akron Canton Regional Airport,US,US-OH,NA,Akron,CAK,KCAK,40.91609954833984,-81.44219970703125,1228.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Akron-Canton_Regional_Airport
+Albany International Airport,US,US-NY,NA,Albany,ALB,KALB,42.748299,-73.801697,285.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Albany_International_Airport
+Albert J Ellis Airport,US,US-NC,NA,Richlands,OAJ,KOAJ,34.829201,-77.612099,94.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Albert_J._Ellis_Airport
+Albuquerque International Sunport,US,US-NM,NA,Albuquerque,ABQ,KABQ,35.039976,-106.608925,5355.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Albuquerque_International_Sunport
+Alexandria International Airport,US,US-LA,NA,Alexandria,AEX,KAEX,31.325828,-92.546702,89.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Alexandria_International_Airport_(Louisiana)
+Alliance Municipal Airport,US,US-NE,NA,Alliance,AIA,KAIA,42.052543,-102.803965,3931.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Alliance_Municipal_Airport
+Alpena County Regional Airport,US,US-MI,NA,Alpena,APN,KAPN,45.0780983,-83.56030273,690.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Alpena_County_Regional_Airport
+Altoona Blair County Airport,US,US-PA,NA,Altoona,AOO,KAOO,40.296398,-78.32,1503.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Altoona-Blair_County_Airport
+Ambler Airport,US,US-AK,NA,Ambler,ABL,PAFM,67.105529,-157.855339,334.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Ambler_Airport
+Anaktuvuk Pass Airport,US,US-AK,NA,Anaktuvuk Pass,AKP,PAKP,68.133598,-151.742996,2102.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Anaktuvuk_Pass_Airport
+Aniak Airport,US,US-AK,NA,Aniak,ANI,PANI,61.581600189208984,-159.54299926757812,88.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Aniak_Airport
+Antonio Rivera Rodriguez Airport,PR,PR-U-A,NA,Vieques,VQS,TJVQ,18.1348,-65.493599,49.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Antonio_Rivera_Rodr%C3%ADguez_Airport
+Anvik Airport,US,US-AK,NA,Anvik,ANV,PANV,62.646702,-160.190994,291.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Anvik_Airport
+Appleton International Airport,US,US-WI,NA,Appleton,ATW,KATW,44.258515,-88.519,918.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Outagamie_County_Regional_Airport
+Arnold Palmer Regional Airport,US,US-PA,NA,Latrobe,LBE,KLBE,40.275902,-79.4048,1199.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Arnold_Palmer_Regional_Airport
+Asheville Regional Airport,US,US-NC,NA,Asheville,AVL,KAVL,35.435488,-82.541853,2165.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Asheville_Regional_Airport
+Aspen-Pitkin County Airport (Sardy Field),US,US-CO,NA,Aspen,ASE,KASE,39.223202,-106.869003,7820.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Aspen%E2%80%93Pitkin_County_Airport
+Athens Ben Epps Airport,US,US-GA,NA,Athens,AHN,KAHN,33.948842,-83.325634,808.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Athens-Ben_Epps_Airport
+Atlantic City International Airport,US,US-NJ,NA,Atlantic City,ACY,KACY,39.456201,-74.577511,75.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Atlantic_City_International_Airport
+Atqasuk Edward Burnell Sr Memorial Airport,US,US-AK,NA,Atqasuk,ATK,PATQ,70.46704,-157.436013,96.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Atqasuk_Edward_Burnell_Sr._Memorial_Airport
+Augusta Regional At Bush Field,US,US-GA,NA,Augusta,AGS,KAGS,33.3699,-81.9645,144.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Augusta_Regional_Airport
+Augusta State Airport,US,US-ME,NA,Augusta,AUG,KAUG,44.320598602299995,-69.7973022461,352.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Augusta_State_Airport
+Austin Bergstrom International Airport,US,US-TX,NA,Austin,AUS,KAUS,30.197535,-97.662015,542.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Austin-Bergstrom_International_Airport
+Austin Straubel International Airport,US,US-WI,NA,Green Bay,GRB,KGRB,44.483459,-88.130805,695.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Austin_Straubel_International_Airport
+Baltimore/Washington International Thurgood Marshall Airport,US,US-MD,NA,Baltimore,BWI,KBWI,39.1754,-76.668297,146.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Baltimore/Washington_International_Airport
+Bangor International Airport,US,US-ME,NA,Bangor,BGR,KBGR,44.806364,-68.826668,192.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Bangor_International_Airport
+Barkley Regional Airport,US,US-KY,NA,Paducah,PAH,KPAH,37.06079864501953,-88.7738037109375,410.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Barkley_Regional_Airport
+Barter Island Long Range Radar Station Airport,US,US-AK,NA,Barter Island,BTI,PABA,70.134003,-143.582001,2.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Barter_Island_LRRS_Airport
+Baton Rouge Metropolitan Airport,US,US-LA,NA,Baton Rouge,BTR,KBTR,30.533199,-91.149597,70.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Baton_Rouge_Metropolitan_Airport
+Bellingham International Airport,US,US-WA,NA,Bellingham,BLI,KBLI,48.79280090332031,-122.53800201416016,170.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Bellingham_International_Airport
+Bemidji Regional Airport,US,US-MN,NA,Bemidji,BJI,KBJI,47.50939941,-94.93370056,1391.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Bemidji_Regional_Airport
+Benjamin Rivera Noriega Airport,PR,PR-U-A,NA,Culebra,CPX,TJCP,18.312954,-65.303893,49.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Benjam%C3%ADn_Rivera_Noriega_Airport
+Bert Mooney Airport,US,US-MT,NA,Butte,BTM,KBTM,45.95479965209961,-112.49700164794922,5550.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Bert_Mooney_Airport
+Bethel Airport,US,US-AK,NA,Bethel,BET,PABE,60.77980042,-161.8379974,126.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Bethel_Airport
+Bill & Hillary Clinton National Airport/Adams Field,US,US-AR,NA,Little Rock,LIT,KLIT,34.729222,-92.223591,262.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Little_Rock_National_Airport
+Billings Logan International Airport,US,US-MT,NA,Billings,BIL,KBIL,45.808932,-108.541242,3652.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Billings_Logan_International_Airport
+Birmingham-Shuttlesworth International Airport,US,US-AL,NA,Birmingham,BHM,KBHM,33.562877,-86.750712,650.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Birmingham_International_Airport_(US)
+Bishop International Airport,US,US-MI,NA,Flint,FNT,KFNT,42.969294,-83.743355,782.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Bishop_International_Airport
+Bismarck Municipal Airport,US,US-ND,NA,Bismarck,BIS,KBIS,46.772734,-100.746874,1661.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Bismarck_Municipal_Airport
+Blue Grass Airport,US,US-KY,NA,Lexington,LEX,KLEX,38.035066,-84.606738,979.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Blue_Grass_Airport
+Bob Baker Memorial Airport,US,US-AK,NA,Kiana,IAN,PAIK,66.976128,-160.439014,166.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Bob_Baker_Memorial_Airport
+Boise Air Terminal/Gowen Field,US,US-ID,NA,Boise,BOI,KBOI,43.5644,-116.223,2871.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Boise_Airport
+Boone County Airport,US,US-AR,NA,Harrison,HRO,KHRO,36.26150131225586,-93.15470123291016,1365.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Boone_County_Airport
+Boston Logan International Airport,US,US-MA,NA,Boston,BOS,KBOS,42.36197,-71.0079,20.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Logan_International_Airport
+Bozeman Yellowstone International Airport,US,US-MT,NA,Bozeman,BZN,KBZN,45.778853,-111.153711,4473.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Bozeman_Yellowstone_International_Airport
+Bradford Regional Airport,US,US-PA,NA,Bradford,BFD,KBFD,41.8031005859375,-78.64009857177734,2143.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Bradford_Regional_Airport
+Bradley International Airport,US,US-CT,NA,Hartford,BDL,KBDL,41.938555,-72.688016,173.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Bradley_International_Airport
+Brainerd Lakes Regional Airport,US,US-MN,NA,Brainerd,BRD,KBRD,46.402861,-94.129727,1232.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Brainerd_Lakes_Regional_Airport
+Branson Airport,US,US-MO,NA,Branson,BKG,KBBG,36.532082,-93.200544,1302.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Branson_Airport
+Brownsville South Padre Island International Airport,US,US-TX,NA,Brownsville,BRO,KBRO,25.907238,-97.425235,22.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Brownsville/South_Padre_Island_International_Airport
+Brunswick Golden Isles Airport,US,US-GA,NA,Brunswick,BQK,KBQK,31.258801,-81.466499,26.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Brunswick_Golden_Isles_Airport
+Buffalo Niagara International Airport,US,US-NY,NA,Buffalo,BUF,KBUF,42.940498,-78.732201,728.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Buffalo_Niagara_International_Airport
+California Redwood Coast-Humboldt County Airport,US,US-CA,NA,Arcata/Eureka,ACV,KACV,40.978101,-124.109,221.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Arcata-Eureka_Airport
+Canyonlands Regional Airport,US,US-UT,NA,Moab,CNY,KCNY,38.755001,-109.754997,4557.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Canyonlands_Field
+Cape Cod Gateway Airport,US,US-MA,NA,Hyannis,HYA,KHYA,41.6693,-70.280403,54.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Barnstable_Municipal_Airport
+Cape Girardeau Regional Airport,US,US-MO,NA,Cape Girardeau,CGI,KCGI,37.2253,-89.570801,342.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Cape_Girardeau_Regional_Airport
+Cape Lisburne LRRS Airport,US,US-AK,NA,Cape Lisburne,LUR,PALU,68.875099,-166.110001,16.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Cape_Lisburne_LRRS_Airport
+Capital Region International Airport,US,US-MI,NA,Lansing,LAN,KLAN,42.777582,-84.585721,861.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Lansing_Capital_City_Airport
+Casper-Natrona County International Airport,US,US-WY,NA,Casper,CPR,KCPR,42.907381,-106.461609,5350.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Natrona_County_International_Airport
+Cavern City Air Terminal,US,US-NM,NA,Carlsbad,CNM,KCNM,32.337501525878906,-104.26300048828124,3295.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Cavern_City_Air_Terminal
+Cedar City Regional Airport,US,US-UT,NA,Cedar City,CDC,KCDC,37.70100021362305,-113.0989990234375,5622.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Cedar_City_Regional_Airport
+Central Illinois Regional Airport at Bloomington-Normal,US,US-IL,NA,Bloomington/Normal,BMI,KBMI,40.4771,-88.915901,871.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Central_Illinois_Regional_Airport
+Central Nebraska Regional Airport,US,US-NE,NA,Grand Island,GRI,KGRI,40.967498779296875,-98.30960083007812,1847.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Central_Nebraska_Regional_Airport
+Central Wisconsin Airport,US,US-WI,NA,Mosinee,CWA,KCWA,44.777448,-89.670238,1277.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Central_Wisconsin_Airport
+Central Wyoming Regional Airport,US,US-WY,NA,Riverton,RIW,KRIW,43.064201,-108.459999,5525.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Central_Wyoming_Regional_Airport
+Chadron Municipal Airport,US,US-NE,NA,Chadron,CDR,KCDR,42.837601,-103.095001,3297.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Chadron_Municipal_Airport
+Charles M. Schulz Sonoma County Airport,US,US-CA,NA,Santa Rosa,STS,KSTS,38.50899887,-122.8130035,128.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Charles_M._Schulz_-_Sonoma_County_Airport
+Charleston International Airport,US,US-SC,NA,Charleston,CHS,KCHS,32.896159,-80.038151,46.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Charleston_International_Airport
+Charlotte Douglas International Airport,US,US-NC,NA,Charlotte,CLT,KCLT,35.2140007019043,-80.94309997558594,748.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Charlotte/Douglas_International_Airport
+Charlottesville Albemarle Airport,US,US-VA,NA,Charlottesville,CHO,KCHO,38.13859939575195,-78.4529037475586,639.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Charlottesville-Albemarle_Airport
+Chattanooga Metropolitan Airport (Lovell Field),US,US-TN,NA,Chattanooga,CHA,KCHA,35.035301,-85.203796,683.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Chattanooga_Metropolitan_Airport
+Chautauqua County-Jamestown Airport,US,US-NY,NA,Jamestown,JHW,KJHW,42.15425,-79.254008,1723.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Chautauqua_County-Jamestown_Airport
+Cherry Capital Airport,US,US-MI,NA,Traverse City,TVC,KTVC,44.741402,-85.582199,624.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Cherry_Capital_Airport
+Cheyenne Regional Jerry Olson Field,US,US-WY,NA,Cheyenne,CYS,KCYS,41.155701,-104.811997,6159.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Cheyenne_Regional_Airport
+Chicago Midway International Airport,US,US-IL,NA,Chicago,MDW,KMDW,41.785999,-87.752403,620.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Midway_International_Airport
+Chicago O'Hare International Airport,US,US-IL,NA,Chicago,ORD,KORD,41.9786,-87.9048,680.0,yes,large_airport,no,https://en.wikipedia.org/wiki/O'Hare_International_Airport
+Chicago Rockford International Airport,US,US-IL,NA,Chicago/Rockford,RFD,KRFD,42.1954,-89.097198,742.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Chicago/Rockford_International_Airport
+Chippewa County International Airport,US,US-MI,NA,Kincheloe,CIU,KCIU,46.242038,-84.462082,800.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Chippewa_County_International_Airport
+Chippewa Valley Regional Airport,US,US-WI,NA,Eau Claire,EAU,KEAU,44.86579895019531,-91.48429870605467,913.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Chippewa_Valley_Regional_Airport
+Cincinnati Municipal Airport Lunken Field,US,US-OH,NA,Cincinnati,LUK,KLUK,39.102357,-84.418945,483.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Cincinnati_Municipal_Airport
+Cincinnati Northern Kentucky International Airport,US,US-KY,NA,Cincinnati / Covington,CVG,KCVG,39.048801,-84.667801,896.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Cincinnati/Northern_Kentucky_International_Airport
+City of Colorado Springs Municipal Airport,US,US-CO,NA,Colorado Springs,COS,KCOS,38.805801,-104.700996,6187.0,yes,large_airport,no,https://en.wikipedia.org/wiki/Colorado_Springs_Airport
+Cleveland Hopkins International Airport,US,US-OH,NA,Cleveland,CLE,KCLE,41.411701,-81.8498,791.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Cleveland_Hopkins_International_Airport
+Coastal Carolina Regional Airport,US,US-NC,NA,New Bern,EWN,KEWN,35.0730018616,-77.04290008539999,18.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Craven_County_Regional_Airport
+Cold Bay Airport,US,US-AK,NA,Cold Bay,CDB,PACD,55.207871,-162.725029,96.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Cold_Bay_Airport
+Columbia Metropolitan Airport,US,US-SC,NA,Columbia,CAE,KCAE,33.938172,-81.123022,236.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Columbia_Metropolitan_Airport
+Columbia Regional Airport,US,US-MO,NA,Columbia,COU,KCOU,38.8181,-92.219597,889.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Columbia_Regional_Airport
+Columbus Airport,US,US-GA,NA,Columbus,CSG,KCSG,32.516415,-84.939602,397.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Columbus_Metropolitan_Airport
+Corpus Christi International Airport,US,US-TX,NA,Corpus Christi,CRP,KCRP,27.770399,-97.501198,44.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Corpus_Christi_International_Airport
+Cortez Municipal Airport,US,US-CO,NA,Cortez,CEZ,KCEZ,37.303001,-108.627998,5918.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Cortez_Municipal_Airport
+Crater Lake-Klamath Regional Airport,US,US-OR,NA,Klamath Falls,LMT,KLMT,42.156101,-121.733002,4095.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Klamath_Falls_Airport
+Dallas Fort Worth International Airport,US,US-TX,NA,Dallas-Fort Worth,DFW,KDFW,32.896801,-97.038002,607.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Dallas/Fort_Worth_International_Airport
+Dallas Love Field,US,US-TX,NA,Dallas,DAL,KDAL,32.844776,-96.847653,487.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Dallas_Love_Field
+Dane County Regional Truax Field,US,US-WI,NA,Madison,MSN,KMSN,43.1399,-89.337502,887.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Dane_County_Regional_Airport
+Daniel K. Inouye International Airport,US,US-HI,OC,"Honolulu, Oahu",HNL,PHNL,21.318387,-157.92567,13.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Daniel_K._Inouye_International_Airport
+Dawson Community Airport,US,US-MT,NA,Glendive,GDV,KGDV,47.137658,-104.80691,2458.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Dawson_Community_Airport
+Daytona Beach International Airport,US,US-FL,NA,Daytona Beach,DAB,KDAB,29.18255,-81.059464,34.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Daytona_Beach_International_Airport
+Deadhorse Airport,US,US-AK,NA,Deadhorse,SCC,PASC,70.19470215,-148.4649963,65.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Deadhorse_Airport
+Decatur Airport,US,US-IL,NA,Decatur,DEC,KDEC,39.834598541259766,-88.8656997680664,682.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Decatur_Airport
+Deering Airport,US,US-AK,NA,Deering,DRG,PADE,66.068901,-162.766914,21.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Deering_Airport
+Delta County Airport,US,US-MI,NA,Escanaba,ESC,KESC,45.723199,-87.088623,609.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Delta_County_Airport
+Denver International Airport,US,US-CO,NA,Denver,DEN,KDEN,39.860027,-104.673792,5431.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Denver_International_Airport
+Des Moines International Airport,US,US-IA,NA,Des Moines,DSM,KDSM,41.534027,-93.656719,958.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Des_Moines_International_Airport
+Destin-Fort Walton Beach Airport,US,US-FL,NA,Valparaiso,VPS,KVPS,30.481315,-86.515839,87.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Destin%E2%80%93Fort_Walton_Beach_Airport
+Detroit Metropolitan Wayne County Airport,US,US-MI,NA,Detroit,DTW,KDTW,42.21377,-83.353786,645.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Detroit_Metropolitan_Airport
+Dickinson Theodore Roosevelt Regional Airport,US,US-ND,NA,Dickinson,DIK,KDIK,46.797533,-102.801905,2592.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Dickinson_Theodore_Roosevelt_Regional_Airport
+Dillingham Airport,US,US-AK,NA,Dillingham,DLG,PADL,59.04470062,-158.5050049,81.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Dillingham_Airport
+Dodge City Regional Airport,US,US-KS,NA,Dodge City,DDC,KDDC,37.76340103149414,-99.9655990600586,2594.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Dodge_City_Regional_Airport
+Dothan Regional Airport,US,US-AL,NA,Dothan,DHN,KDHN,31.321300506591797,-85.44960021972656,401.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Dothan_Regional_Airport
+DuBois Regional Airport,US,US-PA,NA,Dubois,DUJ,KDUJ,41.17829895,-78.8986969,1817.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/DuBois_Regional_Airport
+Dubuque Regional Airport,US,US-IA,NA,Dubuque,DBQ,KDBQ,42.402,-90.709503,1077.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Dubuque_Regional_Airport
+Duluth International Airport,US,US-MN,NA,Duluth,DLH,KDLH,46.841873,-92.198746,1428.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Duluth_International_Airport
+Durango La Plata County Airport,US,US-CO,NA,Durango,DRO,KDRO,37.151501,-107.753998,6685.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Durango-La_Plata_County_Airport
+Eagle County Regional Airport,US,US-CO,NA,Eagle,EGE,KEGE,39.64260101,-106.9179993,6548.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Eagle_County_Regional_Airport
+East Texas Regional Airport,US,US-TX,NA,Longview,GGG,KGGG,32.38399887084961,-94.71150207519533,365.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/East_Texas_Regional_Airport
+Eastern Oregon Regional Airport at Pendleton,US,US-OR,NA,Pendleton,PDT,KPDT,45.695099,-118.841003,1497.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Eastern_Oregon_Regional_Airport
+Easterwood Field,US,US-TX,NA,College Station,CLL,KCLL,30.5886,-96.3638,320.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Easterwood_Airport
+Edward G. Pitka Sr Airport,US,US-AK,NA,Galena,GAL,PAGA,64.736198,-156.936997,153.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Edward_G._Pitka_Sr._Airport
+Egegik Airport,US,US-AK,NA,Egegik,EGX,PAII,58.184386,-157.374873,92.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Egegik_Airport
+El Paso International Airport,US,US-TX,NA,El Paso,ELP,KELP,31.809908,-106.375607,3959.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/El_Paso_International_Airport
+Elko Regional Airport,US,US-NV,NA,Elko,EKO,KEKO,40.82490158081055,-115.79199981689452,5140.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Elko_Regional_Airport
+Ellison Onizuka Kona International Airport at Keāhole,US,US-HI,OC,Kailua-Kona,KOA,PHKO,19.738783,-156.045603,47.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Kona_International_Airport
+Elmira Corning Regional Airport,US,US-NY,NA,Elmira/Corning,ELM,KELM,42.1599006652832,-76.8916015625,954.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Elmira-Corning_Regional_Airport
+Emmonak Airport,US,US-AK,NA,Emmonak,EMK,PAEM,62.78609848,-164.4909973,13.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Emmonak_Airport
+Eppley Airfield,US,US-NE,NA,Omaha,OMA,KOMA,41.3032,-95.894096,984.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Eppley_Airfield
+Erie International Tom Ridge Field,US,US-PA,NA,Erie,ERI,KERI,42.083127,-80.173867,732.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Erie_International_Airport
+Eugene Airport,US,US-OR,NA,Eugene,EUG,KEUG,44.124599,-123.211998,374.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Eugene_Airport
+Eugene F. Kranz Toledo Express Airport,US,US-OH,NA,Toledo,TOL,KTOL,41.5868,-83.8078,683.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Toledo_Express_Airport
+Eugenio Maria De Hostos Airport,PR,PR-U-A,NA,Mayaguez,MAZ,TJMZ,18.255699157714844,-67.14849853515625,28.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Eugenio_Mar%C3%ADa_de_Hostos_Airport
+Evansville Regional Airport,US,US-IN,NA,Evansville,EVV,KEVV,38.0369987488,-87.5324020386,418.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Evansville_Regional_Airport
+Fairbanks International Airport,US,US-AK,NA,Fairbanks,FAI,PAFA,64.815102,-147.856003,439.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Fairbanks_International_Airport
+Falls International Airport,US,US-MN,NA,International Falls,INL,KINL,48.566200256347656,-93.4030990600586,1185.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Falls_International_Airport
+Fayetteville Regional Airport - Grannis Field,US,US-NC,NA,Fayetteville,FAY,KFAY,34.991199,-78.880302,189.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Fayetteville_Regional_Airport
+Flagstaff Pulliam Airport,US,US-AZ,NA,Flagstaff,FLG,KFLG,35.139757,-111.669826,7014.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Flagstaff_Pulliam_Airport
+Florence Regional Airport,US,US-SC,NA,Florence,FLO,KFLO,34.18539810180664,-79.7238998413086,146.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Florence_Regional_Airport
+Ford Airport,US,US-MI,NA,Kingsford,IMT,KIMT,45.81911,-88.114557,1182.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Ford_Airport_(Iron_Mountain)
+Fort Lauderdale Hollywood International Airport,US,US-FL,NA,Fort Lauderdale,FLL,KFLL,26.072599,-80.152702,9.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Fort_Lauderdale–Hollywood_International_Airport
+Fort Smith Regional Airport,US,US-AR,NA,Fort Smith,FSM,KFSM,35.336601,-94.367401,469.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Fort_Smith_Regional_Airport
+Fort Wayne International Airport,US,US-IN,NA,Fort Wayne,FWA,KFWA,40.978896,-85.194465,814.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Fort_Wayne_International_Airport
+Fort Yukon Airport,US,US-AK,NA,Fort Yukon,FYU,PFYU,66.571651,-145.249987,433.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Fort_Yukon_Airport
+Four Corners Regional Airport,US,US-NM,NA,Farmington,FMN,KFMN,36.741199,-108.230003,5506.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Four_Corners_Regional_Airport
+Frederick Douglass Greater Rochester International Airport,US,US-NY,NA,Rochester,ROC,KROC,43.1189,-77.672401,559.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Greater_Rochester_International_Airport
+Frederick W. Smith International Airport,US,US-TN,NA,Memphis,MEM,KMEM,35.043845,-89.97634,341.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Memphis_International_Airport
+Fresno Yosemite International Airport,US,US-CA,NA,Fresno,FAT,KFAT,36.775767,-119.718018,336.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Fresno_Yosemite_International_Airport
+Friday Harbor Airport,US,US-WA,NA,Friday Harbor,FRD,KFHR,48.523654,-123.024645,113.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Friday_Harbor_Airport
+Gainesville Regional Airport,US,US-FL,NA,Gainesville,GNV,KGNV,29.6900997162,-82.2717971802,152.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Gainesville_Regional_Airport
+Gambell Airport,US,US-AK,NA,Gambell,GAM,PAGM,63.767694,-171.733303,27.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Gambell_Airport
+Garden City Regional Airport,US,US-KS,NA,Garden City,GCK,KGCK,37.9275016785,-100.723999023,2891.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Garden_City_Regional_Airport
+General Mitchell International Airport,US,US-WI,NA,Milwaukee,MKE,KMKE,42.947201,-87.896599,723.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/General_Mitchell_International_Airport
+General Wayne A. Downing Peoria International Airport,US,US-IL,NA,Peoria,PIA,KPIA,40.663841,-89.692631,660.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/General_Wayne_A._Downing_Peoria_International_Airport
+George Bush Intercontinental Airport,US,US-TX,NA,Houston,IAH,KIAH,29.9844,-95.3414,97.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/George_Bush_Intercontinental_Airport
+Gerald R. Ford International Airport,US,US-MI,NA,Grand Rapids,GRR,KGRR,42.880798,-85.522797,794.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Gerald_R._Ford_International_Airport
+Glacier Park International Airport,US,US-MT,NA,Kalispell,FCA,KGPI,48.310501,-114.255997,2977.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Glacier_Park_International_Airport
+Glasgow Valley County Airport Wokal Field,US,US-MT,NA,Glasgow,GGW,KGGW,48.212502,-106.614998,2296.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Glasgow_Airport_(US)
+Golden Triangle Regional Airport,US,US-MS,NA,Columbus/W Point/Starkville,GTR,KGTR,33.450298,-88.5914,264.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Golden_Triangle_Regional_Airport
+Grand Canyon National Park Airport,US,US-AZ,NA,Grand Canyon - Tusayan,GCN,KGCN,35.9524,-112.147003,6609.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Grand_Canyon_National_Park_Airport
+Grand Forks International Airport,US,US-ND,NA,Grand Forks,GFK,KGFK,47.949299,-97.176102,845.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Grand_Forks_International_Airport
+Grand Junction Regional Airport,US,US-CO,NA,Grand Junction,GJT,KGJT,39.126663,-108.529387,4858.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Grand_Junction_Regional_Airport
+Grant County Airport,US,US-NM,NA,Silver City,SVC,KSVC,32.636701,-108.154736,5446.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Grant_County_Airport_(New_Mexico)
+Great Falls International Airport,US,US-MT,NA,Great Falls,GTF,KGTF,47.481998,-111.371002,3680.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Great_Falls_International_Airport
+Greater Binghamton/Edwin A Link field,US,US-NY,NA,Binghamton,BGM,KBGM,42.20869827,-75.97979736,1636.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Greater_Binghamton_Airport
+Greenbrier Valley Airport,US,US-WV,NA,Lewisburg,LWB,KLWB,37.857914,-80.400438,2302.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Greenbrier_Valley_Airport
+Greenville-Spartanburg International Airport,US,US-SC,NA,Greenville/Greer/Spartanburg,GSP,KGSP,34.895699,-82.218903,964.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Greenville-Spartanburg_International_Airport
+Gulfport Biloxi International Airport,US,US-MS,NA,Gulfport,GPT,KGPT,30.405582,-89.069836,28.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Gulfport-Biloxi_International_Airport
+Gunnison Crested Butte Regional Airport,US,US-CO,NA,Gunnison,GUC,KGUC,38.534672,-106.934566,7680.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Gunnison-Crested_Butte_Regional_Airport
+Gustavus Airport,US,US-AK,NA,Gustavus,GST,PAGS,58.4253006,-135.7070007,35.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Gustavus_Airport
+Hagerstown Regional Richard A Henson Field,US,US-MD,NA,Hagerstown,HGR,KHGR,39.708771,-77.728014,703.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Hagerstown_Regional_Airport
+Haines Airport,US,US-AK,NA,Haines,HNS,PAHN,59.243921,-135.523925,15.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Haines_Airport
+Hana Airport,US,US-HI,OC,Hana,HNM,PHHN,20.795601,-156.014008,78.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Hana_Airport
+Hancock County-Bar Harbor Airport,US,US-ME,NA,Bar Harbor,BHB,KBHB,44.45000076,-68.3615036,83.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Hancock_County-Bar_Harbor_Airport
+Harrisburg International Airport,US,US-PA,NA,Harrisburg,MDT,KMDT,40.192838,-76.762333,310.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Harrisburg_International_Airport
+Harry Reid International Airport,US,US-NV,NA,Las Vegas,LAS,KLAS,36.083361,-115.151817,2181.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Harry_Reid_International_Airport
+Hartsfield Jackson Atlanta International Airport,US,US-GA,NA,Atlanta,ATL,KATL,33.6367,-84.428101,1026.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Hartsfield–Jackson_Atlanta_International_Airport
+Hattiesburg Laurel Regional Airport,US,US-MS,NA,Moselle,PIB,KPIB,31.4671,-89.337097,298.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Hattiesburg-Laurel_Regional_Airport
+Havre City County Airport,US,US-MT,NA,Havre,HVR,KHVR,48.541387,-109.762859,2591.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Havre_City%E2%80%93County_Airport
+Hector International Airport,US,US-ND,NA,Fargo,FAR,KFAR,46.9207,-96.815804,902.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Hector_International_Airport
+Helena Regional Airport,US,US-MT,NA,Helena,HLN,KHLN,46.6068,-111.983002,3877.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Helena_Regional_Airport
+Hilo International Airport,US,US-HI,OC,Hilo,ITO,PHTO,19.72135,-155.045428,38.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Hilo_International_Airport
+Hilton Head Airport,US,US-SC,NA,Hilton Head Island,HHH,KHXD,32.2244,-80.697502,19.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Hilton_Head_Airport
+Hollywood Burbank/Bob Hope Airport,US,US-CA,NA,Burbank,BUR,KBUR,34.202834,-118.35805,778.0,yes,large_airport,no,https://en.wikipedia.org/wiki/Hollywood_Burbank_Airport
+Holy Cross Airport,US,US-AK,NA,Holy Cross,HCR,PAHC,62.18830108642578,-159.77499389648438,70.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Holy_Cross_Airport
+Homer Airport,US,US-AK,NA,Homer,HOM,PAHO,59.644456,-151.479235,84.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Homer_Airport
+Houghton County Memorial Airport,US,US-MI,NA,Hancock,CMX,KCMX,47.168399810791016,-88.48909759521484,1095.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Houghton_County_Memorial_Airport
+Huntsville International Airport,US,US-AL,NA,Huntsville,HSV,KHSV,34.636244,-86.774378,629.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Huntsville_International_Airport
+Huron Regional Airport,US,US-SD,NA,Huron,HON,KHON,44.385201,-98.2285,1289.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Huron_Regional_Airport
+Huslia Airport,US,US-AK,NA,Huslia,HSL,PAHL,65.697899,-156.350998,220.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Huslia_Airport
+Idaho Falls Regional Airport,US,US-ID,NA,Idaho Falls,IDA,KIDA,43.514599,-112.070999,4744.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Idaho_Falls_Regional_Airport
+Iliamna Airport,US,US-AK,NA,Iliamna,ILI,PAIL,59.754398,-154.910996,192.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Iliamna_Airport
+Imperial County Airport,US,US-CA,NA,Imperial,IPL,KIPL,32.83539,-115.574026,-54.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Imperial_County_Airport
+Indianapolis International Airport,US,US-IN,NA,Indianapolis,IND,KIND,39.7173,-86.294403,797.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Indianapolis_International_Airport
+Ithaca Tompkins Regional Airport,US,US-NY,NA,Ithaca,ITH,KITH,42.49100112915039,-76.4583969116211,1099.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Ithaca_Tompkins_Regional_Airport
+Jack Brooks Regional Airport,US,US-TX,NA,Beaumont/Port Arthur,BPT,KBPT,29.9508,-94.020699,15.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Jack_Brooks_Regional_Airport
+Jack Mc Namara Field Airport,US,US-CA,NA,Crescent City,CEC,KCEC,41.778929,-124.236403,61.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Del_Norte_County_Airport
+Jackson Hole Airport,US,US-WY,NA,Jackson,JAC,KJAC,43.6073,-110.737999,6451.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Jackson_Hole_Airport
+Jackson-Medgar Wiley Evers International Airport,US,US-MS,NA,Jackson,JAN,KJAN,32.311199,-90.075897,346.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Jackson-Evers_International_Airport
+Jacksonville International Airport,US,US-FL,NA,Jacksonville,JAX,KJAX,30.492469,-81.687813,30.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Jacksonville_International_Airport
+James M. Cox Dayton International Airport,US,US-OH,NA,Dayton,DAY,KDAY,39.902401,-84.219398,1009.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Dayton_International_Airport
+John F. Kennedy International Airport,US,US-NY,NA,New York,JFK,KJFK,40.639447,-73.779317,13.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport
+John Glenn Columbus International Airport,US,US-OH,NA,Columbus,CMH,KCMH,39.998001,-82.891899,815.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/John_Glenn_Columbus_International_Airport
+John Murtha Johnstown Cambria County Airport,US,US-PA,NA,Johnstown,JST,KJST,40.31610107421875,-78.83390045166016,2284.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Johnstown-Cambria_County_Airport
+John Wayne Orange County International Airport,US,US-CA,NA,Santa Ana,SNA,KSNA,33.675063,-117.869281,56.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/John_Wayne_Airport
+Jonesboro Municipal Airport,US,US-AR,NA,Jonesboro,JBR,KJBR,35.83169937133789,-90.64640045166016,262.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Jonesboro_Municipal_Airport
+Joplin Regional Airport,US,US-MO,NA,Joplin,JLN,KJLN,37.151798,-94.498299,981.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Joplin_Regional_Airport
+Joslin Field Magic Valley Regional Airport,US,US-ID,NA,Twin Falls,TWF,KTWF,42.4818,-114.487999,4154.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Magic_Valley_Regional_Airport
+Juneau International Airport,US,US-AK,NA,Juneau,JNU,PAJN,58.354935,-134.574416,21.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Juneau_International_Airport
+Kahului International Airport,US,US-HI,OC,Kahului,OGG,PHOG,20.896263,-156.431837,54.0,yes,large_airport,no,https://en.wikipedia.org/wiki/Kahului_Airport
+Kalamazoo/Battle Creek International Airport,US,US-MI,NA,Kalamazoo,AZO,KAZO,42.232105,-85.549637,874.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Kalamazoo-Battle_Creek_International_Airport
+Kansas City International Airport,US,US-MO,NA,Kansas City,MCI,KMCI,39.301699,-94.713893,1026.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Kansas_City_International_Airport
+Kapalua Airport,US,US-HI,OC,Lahaina,JHM,PHJH,20.9629,-156.673004,256.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Kapalua_Airport
+Kearney Regional Airport,US,US-NE,NA,Kearney,EAR,KEAR,40.727001,-99.006798,2131.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Kearney_Municipal_Airport
+Kenai Municipal Airport,US,US-AK,NA,Kenai,ENA,PAEN,60.570946,-151.245174,99.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Kenai_Municipal_Airport
+Ketchikan International Airport,US,US-AK,NA,Ketchikan,KTN,PAKT,55.35559845,-131.7140045,89.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Ketchikan_International_Airport
+Key Field / Meridian Regional Airport,US,US-MS,NA,Meridian,MEI,KMEI,32.3326,-88.7519,297.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Meridian_Regional_Airport
+Key West International Airport,US,US-FL,NA,Key West,EYW,KEYW,24.556119,-81.759579,3.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Key_West_International_Airport
+Killeen Regional Airport / Robert Gray Army Airfield,US,US-TX,NA,Fort Cavazos,GRK,KGRK,31.0672,-97.828903,1015.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Killeen_Regional_Airport
+King County International Airport - Boeing Field,US,US-WA,NA,Seattle,BFI,KBFI,47.527042,-122.29995,21.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Boeing_Field
+King Salmon Airport,US,US-AK,NA,King Salmon,AKN,PAKN,58.677845,-156.651965,73.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/King_Salmon_Airport
+Kingman Airport,US,US-AZ,NA,Kingman,IGM,KIGM,35.259499,-113.938004,3449.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Kingman_Airport_(Arizona)
+Kirksville Regional Airport,US,US-MO,NA,Kirksville,IRK,KIRK,40.09349822998047,-92.5448989868164,966.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Kirksville_Regional_Airport
+Klawock Airport,US,US-AK,NA,Klawock,KLW,PAKW,55.579201,-133.076004,80.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Klawock_Airport
+Knox County Regional Airport,US,US-ME,NA,Rockland,RKD,KRKD,44.060101,-69.099197,56.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Knox_County_Regional_Airport
+Kodiak Airport,US,US-AK,NA,Kodiak,ADQ,PADQ,57.75,-152.4940033,78.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Kodiak_Airport
+L M Clayton Airport,US,US-MT,NA,Wolf Point,OLF,KOLF,48.094501,-105.574997,1986.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/L._M._Clayton_Airport
+La Crosse Regional Airport,US,US-WI,NA,La Crosse,LSE,KLSE,43.879002,-91.256699,655.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/La_Crosse_Municipal_Airport
+LaGuardia Airport,US,US-NY,NA,New York,LGA,KLGA,40.777199,-73.872597,21.0,yes,large_airport,no,https://en.wikipedia.org/wiki/LaGuardia_Airport
+Lafayette Regional Airport,US,US-LA,NA,Lafayette,LFT,KLFT,30.205299,-91.987602,42.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lafayette_Regional_Airport
+Lake Charles Regional Airport,US,US-LA,NA,Lake Charles,LCH,KLCH,30.126100540161133,-93.22329711914062,15.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lake_Charles_Regional_Airport
+Lanai Airport,US,US-HI,OC,Lanai City,LNY,PHNY,20.785675,-156.951324,1308.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lanai_Airport
+Lancaster Airport,US,US-PA,NA,Lancaster,LNS,KLNS,40.121700286865234,-76.29609680175781,403.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lancaster_Airport_(Pennsylvania)
+Laramie Regional Airport,US,US-WY,NA,Laramie,LAR,KLAR,41.31209945678711,-105.6750030517578,7284.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Laramie_Regional_Airport
+Laredo International Airport,US,US-TX,NA,Laredo,LRD,KLRD,27.5438,-99.461601,508.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Laredo_International_Airport
+Lawton Fort Sill Regional Airport,US,US-OK,NA,Lawton,LAW,KLAW,34.567699,-98.416603,1110.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lawton-Fort_Sill_Regional_Airport
+Lea County Regional Airport,US,US-NM,NA,Hobbs,HOB,KHOB,32.6875,-103.217003,3661.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lea_County_Regional_Airport
+Lebanon Municipal Airport,US,US-NH,NA,Lebanon,LEB,KLEB,43.626098632799994,-72.30419921880001,603.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lebanon_Municipal_Airport_(New_Hampshire)
+Lehigh Valley International Airport,US,US-PA,NA,Allentown/Bethlehem,ABE,KABE,40.651773,-75.442797,393.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lehigh_Valley_International_Airport
+Lewiston Nez Perce County Airport,US,US-ID,NA,Lewiston,LWS,KLWS,46.3745002746582,-117.01499938964844,1442.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lewiston-Nez_Perce_County_Airport
+Liberal Mid-America Regional Airport,US,US-KS,NA,Liberal,LBL,KLBL,37.0442009,-100.9599991,2885.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Liberal_Municipal_Airport
+Lihue Airport,US,US-HI,OC,"Lihue, Kauai",LIH,PHLI,21.974393,-159.337146,153.0,yes,large_airport,no,https://en.wikipedia.org/wiki/Lihu'e_Airport
+Lincoln Airport,US,US-NE,NA,Lincoln,LNK,KLNK,40.844882,-96.76178,1219.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lincoln_Airport_%28Nebraska%29
+Long Beach International Airport,US,US-CA,NA,Long Beach,LGB,KLGB,33.816523,-118.149891,60.0,yes,large_airport,no,https://en.wikipedia.org/wiki/Long_Beach_Airport
+Long Island MacArthur Airport,US,US-NY,NA,Islip,ISP,KISP,40.796324,-73.101703,99.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Long_Island_MacArthur_Airport
+Los Angeles International Airport,US,US-CA,NA,Los Angeles,LAX,KLAX,33.942501,-118.407997,125.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Los_Angeles_International_Airport
+Louis Armstrong New Orleans International Airport,US,US-LA,NA,New Orleans,MSY,KMSY,29.993401,-90.264673,4.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Louis_Armstrong_New_Orleans_International_Airport
+Louisville Muhammad Ali International Airport,US,US-KY,NA,Louisville,SDF,KSDF,38.1706,-85.735076,501.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Louisville_International_Airport
+Lubbock Preston Smith International Airport,US,US-TX,NA,Lubbock,LBB,KLBB,33.663601,-101.822998,3282.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Lubbock_Preston_Smith_International_Airport
+Luis Munoz Marin International Airport,PR,PR-U-A,NA,San Juan,SJU,TJSJ,18.4394,-66.001801,9.0,yes,large_airport,no,https://en.wikipedia.org/wiki/Luis_Mu%C3%B1oz_Mar%C3%ADn_International_Airport
+Lynchburg Regional Airport - Preston Glenn Field,US,US-VA,NA,Lynchburg,LYH,KLYH,37.326698,-79.200401,938.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Lynchburg_Regional_Airport
+MBS International Airport,US,US-MI,NA,Freeland,MBS,KMBS,43.533181,-84.083104,668.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/MBS_International_Airport
+Mammoth Yosemite Airport,US,US-CA,NA,Mammoth Lakes,MMH,KMMH,37.625381,-118.84306,7135.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Mammoth_Yosemite_Airport
+Manchester-Boston Regional Airport,US,US-NH,NA,Manchester,MHT,KMHT,42.932598,-71.435699,266.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Manchester-Boston_Regional_Airport
+Manhattan Regional Airport,US,US-KS,NA,Manhattan,MHK,KMHK,39.14099884033203,-96.6707992553711,1057.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Manhattan_Regional_Airport
+Marquette/Sawyer International Airport,US,US-MI,NA,Gwinn,MQT,KSAW,46.351498,-87.395884,1221.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Sawyer_International_Airport
+Massena International Airport Richards Field,US,US-NY,NA,Massena,MSS,KMSS,44.936157,-74.844304,215.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Massena_International_Airport
+McAllen Miller International Airport,US,US-TX,NA,McAllen,MFE,KMFE,26.176141,-98.237965,107.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/McAllen-Miller_International_Airport
+McClellan-Palomar Airport,US,US-CA,NA,Carlsbad,CLD,KCRQ,33.1283,-117.279999,331.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/McClellan-Palomar_Airport
+McCook Ben Nelson Regional Airport,US,US-NE,NA,McCook,MCK,KMCK,40.207787,-100.592794,2583.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/McCook_Regional_Airport
+McGhee Tyson Airport,US,US-TN,NA,Knoxville/Maryville,TYS,KTYS,35.811001,-83.994003,981.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/McGhee_Tyson_Airport
+McGrath Airport,US,US-AK,NA,McGrath,MCG,PAMC,62.95289993,-155.6060028,341.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/McGrath_Airport
+McKellar-Sipes Regional Airport,US,US-TN,NA,Jackson,MKL,KMKL,35.599899,-88.915604,434.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/McKellar-Sipes_Regional_Airport
+Meadows Field,US,US-CA,NA,Bakersfield,BFL,KBFL,35.433601,-119.056999,510.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Meadows_Field_Airport
+Mekoryuk Airport,US,US-AK,NA,Mekoryuk,MYU,PAMY,60.372338,-166.269751,48.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Mekoryuk_Airport
+Melbourne Orlando International Airport,US,US-FL,NA,Melbourne,MLB,KMLB,28.102009,-80.641088,33.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Melbourne_International_Airport
+Memorial Field Airport,US,US-AR,NA,Hot Springs,HOT,KHOT,34.4788,-93.096262,540.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Hot_Springs_Memorial_Field_Airport
+Merced Regional Macready Field,US,US-CA,NA,Merced,MCE,KMCE,37.284698,-120.514,155.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Merced_Regional_Airport
+Mercedita International Airport,PR,PR-U-A,NA,Ponce,PSE,TJPS,18.008301,-66.563004,29.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Mercedita_Airport
+Merle K (Mudhole) Smith Airport,US,US-AK,NA,Cordova,CDV,PACV,60.491798,-145.477997,54.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Merle_K._(Mudhole)_Smith_Airport
+Mesa Gateway Airport,US,US-AZ,NA,Mesa,AZA,KIWA,33.3078,-111.654999,1382.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Phoenix%E2%80%93Mesa_Gateway_Airport
+Miami International Airport,US,US-FL,NA,Miami,MIA,KMIA,25.796011,-80.289751,8.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Miami_International_Airport
+Mid Delta Regional Airport,US,US-MS,NA,Greenville,GLH,KGLH,33.482899,-90.985603,131.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Greenville_Mid-Delta_Airport
+Mid Ohio Valley Regional Airport,US,US-WV,NA,Parkersburg (Williamstown),PKB,KPKB,39.3451,-81.439201,858.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Mid-Ohio_Valley_Regional_Airport
+Middle Georgia Regional Airport,US,US-GA,NA,Macon,MCN,KMCN,32.69279861450195,-83.64920043945312,354.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Middle_Georgia_Regional_Airport
+Midland International Air and Space Port,US,US-TX,NA,Midland,MAF,KMAF,31.942499,-102.202003,2871.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Midland_International_Airport
+Minneapolis–Saint Paul International Airport / Wold–Chamberlain Field,US,US-MN,NA,Minneapolis,MSP,KMSP,44.880081,-93.221741,841.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Minneapolis–Saint_Paul_International_Airport
+Minot International Airport,US,US-ND,NA,Minot,MOT,KMOT,48.25801,-101.279123,1716.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Minot_International_Airport
+Missoula Montana Airport,US,US-MT,NA,Missoula,MSO,KMSO,46.915816,-114.091107,3206.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Missoula_International_Airport
+Mobile Regional Airport,US,US-AL,NA,Mobile,MOB,KMOB,30.6912,-88.242798,219.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Mobile_Regional_Airport
+Modesto City Co-Harry Sham Field,US,US-CA,NA,Modesto,MOD,KMOD,37.625801,-120.954002,97.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Modesto_City-County_Airport
+Molokai Airport,US,US-HI,OC,Kaunakakai,MKK,PHMK,21.152901,-157.095993,454.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Molokai_Airport
+Monroe Regional Airport,US,US-LA,NA,Monroe,MLU,KMLU,32.510899,-92.037697,79.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Monroe_Regional_Airport
+Monterey Regional Airport,US,US-CA,NA,Monterey,MRY,KMRY,36.586777,-121.844183,257.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Monterey_Peninsula_Airport
+Montgomery Regional (Dannelly Field) Airport,US,US-AL,NA,Montgomery,MGM,KMGM,32.300598,-86.393997,221.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Montgomery_Regional_Airport
+Montrose Regional Airport,US,US-CO,NA,Montrose,MTJ,KMTJ,38.5098,-107.893997,5759.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Montrose_Regional_Airport
+Morgantown Municipal Airport Walter L. (Bill) Hart Field,US,US-WV,NA,Morgantown,MGW,KMGW,39.643305,-79.917598,1248.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Morgantown_Municipal_Airport
+Morristown Municipal Airport,US,US-NJ,NA,Morristown,MMU,KMMU,40.799062,-74.414949,187.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Morristown_Municipal_Airport
+Muskegon County Airport,US,US-MI,NA,Muskegon,MKG,KMKG,43.169498,-86.238197,629.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Muskegon_County_Airport
+Myrtle Beach International Airport,US,US-SC,NA,Myrtle Beach,MYR,KMYR,33.679699,-78.928299,25.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Myrtle_Beach_International_Airport
+Nantucket Memorial Airport,US,US-MA,NA,Nantucket,ACK,KACK,41.25310135,-70.06020355,47.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Nantucket_Memorial_Airport
+Naples Municipal Airport,US,US-FL,NA,Naples,APF,KAPF,26.1525993347,-81.7752990723,8.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Naples_Municipal_Airport
+Nashville International Airport,US,US-TN,NA,Nashville,BNA,KBNA,36.1245,-86.6782,599.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Nashville_International_Airport
+New Bedford Regional Airport,US,US-MA,NA,New Bedford,EWB,KEWB,41.67610168457031,-70.95690155029297,80.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/New_Bedford_Regional_Airport
+New York Stewart International Airport,US,US-NY,NA,Newburgh,SWF,KSWF,41.50421,-74.108901,491.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Stewart_International_Airport
+Newark Liberty International Airport,US,US-NJ,NA,Newark,EWR,KEWR,40.6894,-74.170545,18.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Newark_Liberty_International_Airport
+Newport News Williamsburg International Airport,US,US-VA,NA,Newport News,PHF,KPHF,37.131901,-76.492996,42.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Newport_News/Williamsburg_International_Airport
+Niagara Falls International Airport,US,US-NY,NA,Niagara Falls,IAG,KIAG,43.1073,-78.946198,589.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Niagara_Falls_International_Airport
+Nome Airport,US,US-AK,NA,Nome,OME,PAOM,64.51219940185547,-165.44500732421875,37.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Nome_Airport
+Norfolk International Airport,US,US-VA,NA,Norfolk,ORF,KORF,36.895341,-76.201,26.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Norfolk_International_Airport
+Norman Y. Mineta San Jose International Airport,US,US-CA,NA,San Jose,SJC,KSJC,37.362452,-121.929188,62.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/San_Jose_International_Airport
+North Central West Virginia Airport,US,US-WV,NA,Bridgeport,CKB,KCKB,39.2966,-80.228104,1217.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Harrison/Marion_Regional_Airport
+North Platte Regional Airport Lee Bird Field,US,US-NE,NA,North Platte,LBF,KLBF,41.12620163,-100.6839981,2777.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/North_Platte_Regional_Airport
+Northeast Florida Regional Airport,US,US-FL,NA,St Augustine,UST,KSGJ,29.9592,-81.339798,10.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/St._Augustine_Airport
+Northeast Wyoming Regional Airport,US,US-WY,NA,Gillette,GCC,KGCC,44.3489,-105.539001,4365.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Gillette%E2%80%93Campbell_County_Airport
+Northwest Alabama Regional Airport,US,US-AL,NA,Muscle Shoals,MSL,KMSL,34.745123,-87.612981,551.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Northwest_Alabama_Regional_Airport
+Northwest Arkansas National Airport,US,US-AR,NA,Fayetteville/Springdale/Rogers,XNA,KXNA,36.281898,-94.306801,1287.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Northwest_Arkansas_Regional_Airport
+Northwest Florida Beaches International Airport,US,US-FL,NA,Panama City Beach,ECP,KECP,30.357106,-85.795414,69.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Northwest_Florida_Beaches_International_Airport
+Nuiqsut Airport,US,US-AK,NA,Nuiqsut,NUI,PAQT,70.209999,-151.005998,38.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Nuiqsut_Airport
+OKC Will Rogers World Airport,US,US-OK,NA,Oklahoma City,OKC,KOKC,35.393388,-97.598248,1295.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Will_Rogers_World_Airport
+Oakland San Francisco Bay Airport,US,US-CA,NA,Oakland,OAK,KOAK,37.720085,-122.221184,9.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Oakland_International_Airport
+Ogden Hinckley Airport,US,US-UT,NA,Ogden,OGD,KOGD,41.195899963379,-112.0120010376,4473.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Ogden-Hinckley_Airport
+Ogdensburg International Airport,US,US-NY,NA,Ogdensburg,OGS,KOGS,44.6819,-75.4655,297.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Ogdensburg_International_Airport
+Ontario International Airport,US,US-CA,NA,Ontario,ONT,KONT,34.056,-117.600998,944.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/LA/Ontario_International_Airport
+Orcas Island Airport,US,US-WA,NA,Eastsound,ESD,KORS,48.708199,-122.910004,31.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Orcas_Island_Airport
+Orlando International Airport,US,US-FL,NA,Orlando,MCO,KMCO,28.429399490356445,-81.30899810791016,96.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Orlando_International_Airport
+Orlando Sanford International Airport,US,US-FL,NA,Orlando,SFB,KSFB,28.774277,-81.234626,55.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Orlando_Sanford_International_Airport
+Owensboro Daviess County Airport,US,US-KY,NA,Owensboro,OWB,KOWB,37.74010086,-87.16680145,407.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Owensboro-Daviess_County_Regional_Airport
+Page Municipal Airport,US,US-AZ,NA,Page,PGA,KPGA,36.924234,-111.447716,4316.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Page_Municipal_Airport
+Palm Springs International Airport,US,US-CA,NA,Palm Springs,PSP,KPSP,33.8297,-116.507004,477.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Palm_Springs_International_Airport
+Pangborn Memorial Airport,US,US-WA,NA,Wenatchee,EAT,KEAT,47.398899,-120.207001,1249.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Pangborn_Memorial_Airport
+Patrick Leahy Burlington International Airport,US,US-VT,NA,Burlington,BTV,KBTV,44.471901,-73.153297,335.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Burlington_International_Airport
+Pellston Regional Airport of Emmet County Airport,US,US-MI,NA,Pellston,PLN,KPLN,45.57089996,-84.79669952,721.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Pellston_Regional_Airport
+Pensacola International Airport,US,US-FL,NA,Pensacola,PNS,KPNS,30.472718,-87.186639,121.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Pensacola_Regional_Airport
+Petersburg James A Johnson Airport,US,US-AK,NA,Petersburg,PSG,PAPG,56.80170059,-132.9450073,111.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Petersburg_James_A._Johnson_Airport
+Philadelphia International Airport,US,US-PA,NA,Philadelphia,PHL,KPHL,39.871899,-75.241096,36.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Philadelphia_International_Airport
+Phoenix Sky Harbor International Airport,US,US-AZ,NA,Phoenix,PHX,KPHX,33.435302,-112.005905,1135.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Phoenix_Sky_Harbor_International_Airport
+Piedmont Triad International Airport,US,US-NC,NA,Greensboro,GSO,KGSO,36.09937,-79.937262,925.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Piedmont_Triad_International_Airport
+Pierre Regional Airport,US,US-SD,NA,Pierre,PIR,KPIR,44.38270187,-100.2860031,1744.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Pierre_Regional_Airport
+Pitt-Greenville Airport,US,US-NC,NA,Greenville,PGV,KPGV,35.635535,-77.384262,26.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Pitt-Greenville_Airport
+Pittsburgh International Airport,US,US-PA,NA,Pittsburgh,PIT,KPIT,40.491501,-80.232903,1203.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Pittsburgh_International_Airport
+Platinum Airport,US,US-AK,NA,Platinum,PTU,PAPM,59.017675,-161.827927,15.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Platinum_Airport
+Plattsburgh International Airport,US,US-NY,NA,Plattsburgh,PBG,KPBG,44.650902,-73.468102,234.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Plattsburgh_International_Airport
+Pocatello Regional Airport,US,US-ID,NA,Pocatello,PIH,KPIH,42.9098014831543,-112.59600067138672,4452.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Pocatello_Regional_Airport
+Point Lay LRRS Airport,US,US-AK,NA,Point Lay,PIZ,PPIZ,69.732903,-163.005005,22.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Point_Lay_LRRS_Airport
+Port Heiden Airport,US,US-AK,NA,Port Heiden,PTH,PAPH,56.957893,-158.630219,95.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Port_Heiden_Airport
+Portland International Airport,US,US-OR,NA,Portland,PDX,KPDX,45.588699,-122.598,31.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Portland_International_Airport
+Portland International Jetport,US,US-ME,NA,Portland,PWM,KPWM,43.646198,-70.309303,76.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Portland_International_Jetport
+Portsmouth International Airport at Pease,US,US-NH,NA,Portsmouth,PSM,KPSM,43.0779,-70.823303,100.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Pease_International_Airport
+Prescott Regional Airport - Ernest A. Love Field,US,US-AZ,NA,Prescott,PRC,KPRC,34.653502,-112.419883,5045.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Ernest_A._Love_Field
+President Donald J. Trump International Airport,US,US-FL,NA,West Palm Beach,PBI,KDJT,26.683201,-80.095596,19.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Palm_Beach_International_Airport
+Presque Isle International Airport,US,US-ME,NA,Presque Isle,PQI,KPQI,46.688999,-68.0448,534.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Presque_Isle_International_Airport
+Provo Municipal Airport,US,US-UT,NA,Provo,PVU,KPVU,40.218894,-111.722445,4497.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Provo_Municipal_Airport
+Pueblo Memorial Airport,US,US-CO,NA,Pueblo,PUB,KPUB,38.289101,-104.497002,4726.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Pueblo_Memorial_Airport
+Pullman-Moscow Regional Airport,US,US-WA,NA,Pullman,PUW,KPUW,46.741601,-117.11163,2556.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Pullman-Moscow_Regional_Airport
+Punta Gorda Airport,US,US-FL,NA,Punta Gorda,PGD,KPGD,26.9202,-81.990501,26.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Punta_Gorda_Airport_(Florida)
+Quad City International Airport,US,US-IL,NA,Moline,MLI,KMLI,41.448502,-90.5075,590.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Quad_City_International_Airport
+Quincy Regional Airport Baldwin Field,US,US-IL,NA,Quincy,UIN,KUIN,39.942699,-91.194603,768.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Quincy_Regional_Airport
+Rafael Hernández International Airport,PR,PR-U-A,NA,Aguadilla,BQN,TJBQ,18.4949,-67.129402,237.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Rafael_Hern%C3%A1ndez_Airport
+Raleigh County Memorial Airport,US,US-WV,NA,Beaver,BKW,KBKW,37.7873,-81.124199,2504.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Beckley_Raleigh_County_Memorial_Airport
+Raleigh-Durham International Airport,US,US-NC,NA,Raleigh/Durham,RDU,KRDU,35.878659,-78.7873,435.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Raleigh-Durham_International_Airport
+Ralph Wien Memorial Airport,US,US-AK,NA,Kotzebue,OTZ,PAOT,66.88469696,-162.598999,14.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Ralph_Wien_Memorial_Airport
+Range Regional Airport,US,US-MN,NA,Hibbing,HIB,KHIB,47.384831,-92.836905,1354.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Range_Regional_Airport
+Rapid City Regional Airport,US,US-SD,NA,Rapid City,RAP,KRAP,44.0452995300293,-103.05699920654295,3204.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Rapid_City_Regional_Airport
+Redding Municipal Airport,US,US-CA,NA,Redding,RDD,KRDD,40.50899887,-122.2929993,505.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Redding_Municipal_Airport
+Reno Tahoe International Airport,US,US-NV,NA,Reno,RNO,KRNO,39.4991,-119.767998,4415.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Reno-Tahoe_International_Airport
+Rhinelander Oneida County Airport,US,US-WI,NA,Rhinelander,RHI,KRHI,45.63119888305664,-89.46749877929688,1624.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Rhinelander-Oneida_County_Airport
+Rhode Island T. F. Green International Airport,US,US-RI,NA,Providence/Warwick,PVD,KPVD,41.725038,-71.425668,55.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/T._F._Green_Airport
+Richmond International Airport,US,US-VA,NA,Richmond,RIC,KRIC,37.505199,-77.319702,167.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Richmond_International_Airport
+Rick Husband Amarillo International Airport,US,US-TX,NA,Amarillo,AMA,KAMA,35.217857,-101.706444,3607.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Rick_Husband_Amarillo_International_Airport
+Rickenbacker International Airport,US,US-OH,NA,Columbus,LCK,KLCK,39.813801,-82.927803,744.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Rickenbacker_International_Airport
+Roanoke–Blacksburg Regional Airport,US,US-VA,NA,Roanoke,ROA,KROA,37.3255,-79.975403,1175.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Roanoke%E2%80%93Blacksburg_Regional_Airport
+Roberts Field,US,US-OR,NA,Redmond,RDM,KRDM,44.254101,-121.150002,3080.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Roberts_Field
+Rochester International Airport,US,US-MN,NA,Rochester,RST,KRST,43.908298,-92.5,1317.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Rochester_International_Airport
+Rogue Valley International-Medford Airport,US,US-OR,NA,Medford,MFR,KMFR,42.374199,-122.873001,1335.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Rogue_Valley_International-Medford_Airport
+Ronald Reagan Washington National Airport,US,US-DC,NA,Washington,DCA,KDCA,38.8521,-77.037697,15.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Ronald_Reagan_Washington_National_Airport
+Roswell Air Center Airport,US,US-NM,NA,Roswell,ROW,KROW,33.301601,-104.530998,3671.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Roswell_International_Air_Center
+Ruby Airport,US,US-AK,NA,Ruby,RBY,PARY,64.727203,-155.470001,658.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Ruby_Airport
+Rutland - Southern Vermont Regional Airport,US,US-VT,NA,Rutland,RUT,KRUT,43.5294,-72.9496,787.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Rutland_State_Airport
+Sacramento International Airport,US,US-CA,NA,Sacramento,SMF,KSMF,38.6954,-121.591003,27.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Sacramento_International_Airport
+Saint Cloud Regional Airport,US,US-MN,NA,Saint Cloud,STC,KSTC,45.5466,-94.059898,1031.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/St._Cloud_Regional_Airport
+Salina Municipal Airport,US,US-KS,NA,Salina,SLN,KSLN,38.79100036621094,-97.6521987915039,1288.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Salina_Municipal_Airport
+Salisbury Ocean City Wicomico Regional Airport,US,US-MD,NA,Salisbury,SBY,KSBY,38.34049987792969,-75.51029968261719,52.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Wicomico_Regional_Airport
+Salt Lake City International Airport,US,US-UT,NA,Salt Lake City,SLC,KSLC,40.78886,-111.979866,4227.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Salt_Lake_City_International_Airport
+San Angelo Regional Mathis Field,US,US-TX,NA,San Angelo,SJT,KSJT,31.35770034790039,-100.49600219726562,1919.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/San_Angelo_Regional_Airport
+San Antonio International Airport,US,US-TX,NA,San Antonio,SAT,KSAT,29.533701,-98.469803,809.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/San_Antonio_International_Airport
+San Diego International Airport,US,US-CA,NA,San Diego,SAN,KSAN,32.733601,-117.190002,17.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/San_Diego_International_Airport
+San Francisco International Airport,US,US-CA,NA,San Francisco,SFO,KSFO,37.619806,-122.374821,13.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/San_Francisco_International_Airport
+San Luis County Regional Airport,US,US-CA,NA,San Luis Obispo,SBP,KSBP,35.236801147499996,-120.641998291,212.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/San_Luis_Obispo_County_Regional_Airport
+San Luis Valley Regional Airport/Bergman Field,US,US-CO,NA,Alamosa,ALS,KALS,37.434898,-105.866997,7539.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/San_Luis_Valley_Regional_Airport
+Sand Point Airport,US,US-AK,NA,Sand Point,SDP,PASD,55.313908,-160.522099,21.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Sand_Point_Airport
+Santa Barbara Municipal Airport,US,US-CA,NA,Santa Barbara,SBA,KSBA,34.426201,-119.839996,13.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Santa_Barbara_Airport
+Santa Fe Municipal Airport,US,US-NM,NA,Santa Fe,SAF,KSAF,35.6171,-106.088997,6348.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Santa_Fe_Regional_Airport
+Santa Maria Public Airport Captain G Allan Hancock Field,US,US-CA,NA,Santa Maria,SMX,KSMX,34.898899,-120.457001,261.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Santa_Maria_Public_Airport
+Sarasota Bradenton International Airport,US,US-FL,NA,Sarasota/Bradenton,SRQ,KSRQ,27.394631,-82.554359,30.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Sarasota-Bradenton_International_Airport
+Savannah Hilton Head International Airport,US,US-GA,NA,Savannah,SAV,KSAV,32.126591,-81.19998,50.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Savannah/Hilton_Head_International_Airport
+Savoonga Airport,US,US-AK,NA,Savoonga,SVA,PASA,63.686401,-170.492996,53.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Savoonga_Airport
+Scott AFB/Midamerica Airport,US,US-IL,NA,Belleville,BLV,KBLV,38.5452,-89.835197,459.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Scott_Air_Force_Base
+Seattle–Tacoma International Airport,US,US-WA,NA,Seattle,SEA,KSEA,47.447943,-122.310276,433.0,yes,large_airport,no,https://en.wikipedia.org/wiki/Seattle%E2%80%93Tacoma_International_Airport
+Shenandoah Valley Regional Airport,US,US-VA,NA,Weyers Cave,SHD,KSHD,38.263802,-78.8964,1201.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Shenandoah_Valley_Regional_Airport
+Sheridan County Airport,US,US-WY,NA,Sheridan,SHR,KSHR,44.76919937133789,-106.9800033569336,4021.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Sheridan_County_Airport
+Show Low Regional Airport,US,US-AZ,NA,Show Low,SOW,KSOW,34.264062,-110.007091,6415.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Show_Low_Regional_Airport
+Shreveport Regional Airport,US,US-LA,NA,Shreveport,SHV,KSHV,32.444747,-93.826741,258.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Shreveport_Regional_Airport
+Sidney - Richland Regional Airport,US,US-MT,NA,Sidney,SDY,KSDY,47.705141,-104.194422,1985.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Sidney%E2%80%93Richland_Municipal_Airport
+Sioux Falls Regional Airport,US,US-SD,NA,Sioux Falls,FSD,KFSD,43.585463,-96.741152,1429.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Sioux_Falls_Regional_Airport
+Sioux Gateway Airport / Brigadier General Bud Day Field,US,US-IA,NA,Sioux City,SUX,KSUX,42.397605,-96.382237,1098.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Sioux_Gateway_Airport
+Sitka Rocky Gutierrez Airport,US,US-AK,NA,Sitka,SIT,PASI,57.04710006713867,-135.36199951171875,21.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Sitka_Rocky_Gutierrez_Airport
+South Arkansas Regional Airport at Goodwin Field,US,US-AR,NA,El Dorado,ELD,KELD,33.221001,-92.813301,277.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/South_Arkansas_Regional_Airport_at_Goodwin_Field
+South Bend International Airport,US,US-IN,NA,South Bend,SBN,KSBN,41.708304,-86.316922,799.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/South_Bend_Regional_Airport
+Southeast Iowa Regional Airport,US,US-IA,NA,Burlington,BRL,KBRL,40.783199310302734,-91.12550354003906,698.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Southeast_Iowa_Regional_Airport
+Southwest Florida International Airport,US,US-FL,NA,Fort Myers,RSW,KRSW,26.534685,-81.752816,30.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Southwest_Florida_International_Airport
+Southwest Georgia Regional Airport,US,US-GA,NA,Albany,ABY,KABY,31.532946,-84.196215,197.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Southwest_Georgia_Regional_Airport
+Southwest Oregon Regional Airport,US,US-OR,NA,North Bend,OTH,KOTH,43.41709899902344,-124.24600219726562,17.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Southwest_Oregon_Regional_Airport
+Southwest Wyoming Regional Airport,US,US-WY,NA,Rock Springs,RKS,KRKS,41.5942,-109.065001,6764.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Rock_Springs_-_Sweetwater_County_Airport
+Spokane International Airport,US,US-WA,NA,Spokane,GEG,KGEG,47.6199,-117.533997,2376.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Spokane_International_Airport
+Springfield Branson National Airport,US,US-MO,NA,Springfield,SGF,KSGF,37.245047,-93.388596,1268.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Springfield/Branson_National_Airport
+St George Airport,US,US-AK,NA,St George,STG,PAPB,56.577345,-169.663823,125.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/St._George_Airport_(Alaska)
+St George Regional Airport,US,US-UT,NA,St George,SGU,KSGU,37.036389,-113.510306,2941.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/St._George_Regional_Airport
+St Paul Island Airport,US,US-AK,NA,St Paul Island,SNP,PASN,57.166311,-170.222555,63.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/St._Paul_Island_Airport
+St. Louis Lambert International Airport,US,US-MO,NA,St Louis,STL,KSTL,38.748697,-90.370003,618.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/St._Louis_Lambert_International_Airport
+St. Petersburg Clearwater International Airport,US,US-FL,NA,Pinellas Park,PIE,KPIE,27.9102,-82.687401,11.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/St._Petersburg-Clearwater_International_Airport
+State College Regional Airport,US,US-PA,NA,State College,SCE,KUNV,40.849374,-77.84852,1239.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/University_Park_Airport
+Stockton Metropolitan Airport,US,US-CA,NA,Stockton,SCK,KSCK,37.893279,-121.238079,33.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Stockton_Metropolitan_Airport
+Syracuse Hancock International Airport,US,US-NY,NA,Syracuse,SYR,KSYR,43.11119842529297,-76.1063003540039,421.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Syracuse_Hancock_International_Airport
+Tallahassee International Airport,US,US-FL,NA,Tallahassee,TLH,KTLH,30.401209,-84.35433,81.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Tallahassee_Regional_Airport
+Tampa International Airport,US,US-FL,NA,Tampa,TPA,KTPA,27.9755,-82.533203,26.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Tampa_International_Airport
+Tatalina LRRS Airport,US,US-AK,NA,Takotna,TLJ,PATL,62.8944015503,-155.977005005,964.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Tatalina_LRRS_Airport
+Ted Stevens Anchorage International Airport,US,US-AK,NA,Anchorage,ANC,PANC,61.179004,-149.992561,152.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Ted_Stevens_Anchorage_International_Airport
+Teterboro Airport,US,US-NJ,NA,Teterboro,TEB,KTEB,40.850101,-74.060799,9.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Teterboro_Airport
+Texarkana Regional Airport (Webb Field),US,US-AR,NA,Texarkana,TXK,KTXK,33.453701,-93.990997,390.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Texarkana_Regional_Airport
+The Eastern Iowa Airport,US,US-IA,NA,Cedar Rapids,CID,KCID,41.884701,-91.7108,869.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/The_Eastern_Iowa_Airport
+Thief River Falls Regional Airport,US,US-MN,NA,Thief River Falls,TVF,KTVF,48.065701,-96.184998,1119.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Thief_River_Falls_Regional_Airport
+Topeka Regional Airport,US,US-KS,NA,Topeka,FOE,KFOE,38.950901,-95.663597,1078.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Topeka_Regional_Airport
+Trenton Mercer Airport,US,US-NJ,NA,Ewing Township,TTN,KTTN,40.276699,-74.813499,213.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Trenton-Mercer_Airport
+Tri Cities Airport,US,US-WA,NA,Pasco,PSC,KPSC,46.264702,-119.119003,410.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Tri-Cities_Airport_(Washington)
+Tri-Cities Regional TN/VA Airport,US,US-TN,NA,Blountville,TRI,KTRI,36.475201,-82.407401,1519.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Tri-Cities_Regional_Airport
+Tri-State Airport / Milton J. Ferguson Field,US,US-WV,NA,Huntington,HTS,KHTS,38.366699,-82.557999,828.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Tri-State_Airport
+Tucson International Airport,US,US-AZ,NA,Tucson,TUS,KTUS,32.115004,-110.938053,2643.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Tucson_International_Airport
+Tulsa International Airport,US,US-OK,NA,Tulsa,TUL,KTUL,36.197084,-95.886225,677.0,yes,large_airport,yes,https://en.wikipedia.org/wiki/Tulsa_International_Airport
+Tupelo Regional Airport,US,US-MS,NA,Tupelo,TUP,KTUP,34.26810073852539,-88.7698974609375,346.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Tupelo_Regional_Airport
+Tweed New Haven Airport,US,US-CT,NA,New Haven,HVN,KHVN,41.262869,-72.887694,12.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Tweed_New_Haven_Regional_Airport
+Tyler Pounds Regional Airport,US,US-TX,NA,Tyler,TYR,KTYR,32.35409927368164,-95.40239715576172,544.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Tyler_Pounds_Regional_Airport
+Unalakleet Airport,US,US-AK,NA,Unalakleet,UNK,PAUN,63.888401,-160.798996,27.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Unalakleet_Airport
+University of Illinois Willard Airport,US,US-IL,NA,Savoy,CMI,KCMI,40.039819,-88.276249,755.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/University_of_Illinois_Willard_Airport
+Valdez Pioneer Field,US,US-AK,NA,Valdez,VDZ,PAVD,61.132712,-146.246567,121.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Valdez_Airport
+Valdosta Regional Airport,US,US-GA,NA,Valdosta,VLD,KVLD,30.782499313354492,-83.27670288085938,203.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Valdosta_Regional_Airport
+Valley International Airport,US,US-TX,NA,Harlingen,HRL,KHRL,26.228500366210938,-97.65440368652344,36.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Valley_International_Airport
+Venango Regional Airport,US,US-PA,NA,Franklin,FKL,KFKL,41.3778991699,-79.8603973389,1540.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Venango_Regional_Airport
+Vernal Regional Airport,US,US-UT,NA,Vernal,VEL,KVEL,40.436214,-109.511661,5278.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Vernal_Airport
+Veterans Airport of Southern Illinois,US,US-IL,NA,Marion,MWA,KMWA,37.751208,-89.016568,472.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Veterans_Airport_of_Southern_Illinois
+Victoria Regional Airport,US,US-TX,NA,Victoria,VCT,KVCT,28.85260009765625,-96.9185028076172,115.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Victoria_Regional_Airport
+Visalia Municipal Airport,US,US-CA,NA,Visalia,VIS,KVIS,36.318699,-119.392998,295.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Visalia_Municipal_Airport
+Waco Regional Airport,US,US-TX,NA,Waco,ACT,KACT,31.611299514770508,-97.23049926757812,516.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Waco_Regional_Airport
+Waimea Kohala Airport,US,US-HI,OC,Waimea (Kamuela),MUE,PHMU,20.001301,-155.667999,2671.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Waimea-Kohala_Airport
+Wainwright Airport,US,US-AK,NA,Wainwright,AIN,PAWI,70.638,-159.994995,41.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Wainwright_Airport_(Alaska)
+Walla Walla Regional Airport,US,US-WA,NA,Walla Walla,ALW,KALW,46.09489822,-118.288002,1194.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Walla_Walla_Regional_Airport
+Washington Dulles International Airport,US,US-VA,NA,Dulles,IAD,KIAD,38.9445,-77.455803,312.0,yes,large_airport,no,https://en.wikipedia.org/wiki/Washington_Dulles_International_Airport
+Waterloo Regional Airport,US,US-IA,NA,Waterloo,ALO,KALO,42.557098388671875,-92.40029907226562,873.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Waterloo_Regional_Airport
+Watertown International Airport,US,US-NY,NA,Watertown,ART,KART,43.991901,-76.021698,325.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Watertown_International_Airport
+Watertown Regional Airport,US,US-SD,NA,Watertown,ATY,KATY,44.91400146,-97.15470123,1749.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Watertown_Regional_Airport
+Waynesville-St. Robert Regional Airport-Forney Field,US,US-MO,NA,Fort Leonard Wood,TBN,KTBN,37.7416,-92.140701,1159.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Waynesville_Regional_Airport_at_Forney_Field
+Westchester County Airport,US,US-NY,NA,White Plains,HPN,KHPN,41.06700134277344,-73.70760345458984,439.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Westchester_County_Airport
+Western Neb. Rgnl/William B. Heilig Airport,US,US-NE,NA,Scottsbluff,BFF,KBFF,41.87400055,-103.5960007,3967.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Western_Nebraska_Regional_Airport
+Wichita Dwight D. Eisenhower National Airport,US,US-KS,NA,Wichita,ICT,KICT,37.650314,-97.428583,1333.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Wichita_Dwight_D._Eisenhower_National_Airport
+Wichita Falls Municipal Airport / Sheppard Air Force Base,US,US-TX,NA,Wichita Falls,SPS,KSPS,33.9888,-98.491898,1019.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Wichita_Falls_Municipal_Airport
+Wiley Post Will Rogers Memorial Airport,US,US-AK,NA,Utqiaġvik,BRW,PABR,71.285402,-156.766008,44.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Wiley_Post-Will_Rogers_Memorial_Airport
+Wilkes-Barre/Scranton International Airport,US,US-PA,NA,Wilkes-Barre/Scranton,AVP,KAVP,41.337064,-75.724232,962.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Wilkes-Barre/Scranton_International_Airport
+William P. Hobby Airport,US,US-TX,NA,Houston,HOU,KHOU,29.645336,-95.276812,46.0,yes,large_airport,no,https://en.wikipedia.org/wiki/William_P._Hobby_Airport
+William R Fairchild International Airport,US,US-WA,NA,Port Angeles,CLM,KCLM,48.120201,-123.5,291.0,no,medium_airport,no,https://en.wikipedia.org/wiki/William_R._Fairchild_International_Airport
+Williamsport Regional Airport,US,US-PA,NA,Williamsport,IPT,KIPT,41.242126,-76.92245,529.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Williamsport_Regional_Airport
+Wilmington Airport,US,US-DE,NA,Wilmington,ILG,KILG,39.678699,-75.606499,80.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/New_Castle_Airport
+Wilmington International Airport,US,US-NC,NA,Wilmington,ILM,KILM,34.272345,-77.905117,32.0,yes,medium_airport,yes,https://en.wikipedia.org/wiki/Wilmington_International_Airport
+Worcester Regional Airport,US,US-MA,NA,Worcester,ORH,KORH,42.2673,-71.875702,1009.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Worcester-Metrowest-Boston_Airport
+Worland Municipal Airport,US,US-WY,NA,Worland,WRL,KWRL,43.965698,-107.950996,4227.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Worland_Municipal_Airport
+Wrangell Airport,US,US-AK,NA,Wrangell,WRG,PAWG,56.48429871,-132.3699951,49.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Wrangell_Airport
+Yakima Air Terminal McAllister Field,US,US-WA,NA,Yakima,YKM,KYKM,46.56819916,-120.5439987,1099.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Yakima_Air_Terminal
+Yakutat Airport,US,US-AK,NA,Yakutat,YAK,PAYA,59.508717,-139.660435,33.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Yakutat_Airport
+Yampa Valley Airport,US,US-CO,NA,Hayden,HDN,KHDN,40.481201,-107.218002,6606.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Yampa_Valley_Airport
+Yeager Airport,US,US-WV,NA,Charleston,CRW,KCRW,38.3731,-81.593201,981.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Yeager_Airport
+Yellowstone Regional Airport,US,US-WY,NA,Cody,COD,KCOD,44.520199,-109.024002,5102.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Yellowstone_Regional_Airport
+Youngstown Warren Regional Airport,US,US-OH,NA,Youngstown/Warren,YNG,KYNG,41.26070023,-80.67910004,1192.0,no,medium_airport,no,https://en.wikipedia.org/wiki/Youngstown-Warren_Regional_Airport
+Yuma International Airport / Marine Corps Air Station Yuma,US,US-AZ,NA,Yuma,YUM,KNYL,32.650938,-114.609375,213.0,yes,medium_airport,no,https://en.wikipedia.org/wiki/Yuma_International_Airport

@@ -175,6 +175,12 @@ deficiency ΔE of **9.4**, normal-vision ΔE **20.9**, and contrast at least
 greyscale printing, and a reader with a monochrome printer is not an edge case
 for a submitted report.
 
+Those three figures came from an external colour-vision checker, so unlike
+every other number in this report they cannot be re-derived from the
+repository. §8.7 implements the equivalent measurement in committed code for
+the twelve-carrier palette; doing the same for these three slots is worthwhile
+and has not been done.
+
 Two decisions worth stating:
 
 - **The palette is shared with `experiments/search-cost/plots.py`.** A chart
@@ -216,6 +222,101 @@ as requiring no token.** Provider metadata said the tiles were free; fetching
 one said otherwise. Only `OpenStreetMap` works without a key, and it is the
 default.
 
+That conclusion is correct and incomplete, and §8.7 is where it broke. A key is
+not the only thing a basemap can require. OSM's tile usage policy also demands
+that requests be **attributable**, enforced on the `Referer` header — so OSM
+serves real tiles to a page loaded over HTTP and a `403 / Access blocked`
+notice to the same file opened at a `file://` URL. The notice arrives as **HTTP
+200 with a PNG body**, so the check that caught the Carto watermark — counting
+failed tile requests — would have reported perfect success.
+
+## 8.7 One layer per airline
+
+Everything above draws an *answer* — a route a search returned. The layer
+machinery is built for N independent toggleable layers, and drawing two or
+three algorithms never asked it for more than that.
+`experiments/us-route-map` asks for thirteen, and changes what the reader is
+for: instead of reading a conclusion, they filter until they find one.
+
+The slice is the United States including Alaska, Hawaii and Puerto Rico —
+`--country US PR --airport-type large medium`, 473 airports and 10,363 route
+rows collapsing to 2,688 distinct airport pairs. Twelve carriers get a layer
+each, all switched on; a thirteenth holds the 132 pairs none of them serves,
+so the layers partition the network rather than merely overlapping it. The
+twelve layers draw 4,515 arcs between them, more than the 2,688 pairs, because
+a pair flown by two carriers is drawn once per layer — which is exactly what
+makes switching one off informative.
+
+Two things about the slice are easy to get wrong and both would be invisible
+in the output. **Puerto Rico is `PR`, not `US`** under ISO 3166-1, so
+narrowing on `US` alone silently drops every Caribbean arc. And **large
+airports alone leave Alaska as essentially Anchorage**, discarding the bush
+network that is most of the reason to draw Alaska at all.
+
+![Southwest (green, dashed) against American (blue, solid): a point-to-point
+mesh across the interior against a hub-and-spoke network with long spokes to
+Hawaii, Alaska and the Caribbean. Two layers of the thirteen, switched on
+together.](../images/us-route-map-structure.png)
+
+Nothing in the package had to be rewritten for this. The filter is
+`Catalog.airline()`, which already existed; the drawing is one `NetworkLayer`
+per carrier, which already batched and deduplicated; the checkboxes are the
+same `LayerControl` §8.4 attaches. `NetworkLayer` gained a colour, a dash
+pattern and a say in its own visibility, all defaulted so every existing
+caller is unaffected.
+
+**The carrier palette had to be measured, and measuring it refuted the first
+design.** §8.5 needs three colours; this needs twelve, and twelve
+simultaneously distinguishable hues do not exist under the colour-vision
+constraint. So identity became hue *and* stroke — the same construction that
+gives each algorithm a shape as well as a colour. The first attempt used six
+hues over two dash patterns, and under tritanopia the three warm hues collapse:
+vermillion against reddish purple measured ΔE **0.9**. Those were Delta and US
+Airways, two legacy majors, both solid. The failure is structural rather than
+unlucky, because six hues over two dash classes puts every hue in every class.
+Four hues over three dash classes fixes it by construction — each class holds
+each hue exactly once — and the worst same-stroke pair then measures ΔE
+**19.6** on the light surface and **30.4** on the dark, across normal vision
+and three simulated dichromacies.
+
+Same-stroke is the set that matters: two carriers a reader must separate by
+colour alone are two carriers drawn with the same dash. Unlike the ΔE figures
+in §8.5, which came from an external checker, this measurement is committed
+code — `palette_contrast()` in the experiment's `plots.py`, tested against
+properties any correct dichromat simulation must have — so it can be re-run
+and disputed.
+
+![Alaska (sky blue, dashed) and Hawaiian (vermillion, dotted): the bush network
+fanning out of Anchorage, the West Coast, and the Honolulu–mainland corridor.
+Neither is visible on a map of the continental United States.](../images/us-route-map-pacific.png)
+
+The deliverable is the interactive file, `docs/maps/us-route-map.html`, and it
+is committed — the only generated artifact in this repository that is. A map
+whose point is toggling twelve carriers cannot be delivered as a still, and one
+that needs a running Jupyter kernel to open is not delivered at all. It ships
+under a size bound the test suite enforces, at 2.01 MB.
+
+**Committing it is also what exposed the basemap defect above.** Opened the way
+a reader opens it — double-clicked, so `file://`, so no `Referer` — every OSM
+tile came back as a block notice, with the arcs and the filtering working
+perfectly on top. It survived review because every check had gone through a
+local HTTP server: the interactive map was verified over localhost, and the
+stills are rendered by Playwright over localhost. Both send a `Referer`. The
+one access path never tested was the only one the deliverable exists for.
+
+The map now uses Esri's World Light Gray Base, which needs neither a key nor a
+referer — verified from a `file://` URL, 35 tile requests, all 200 — and which
+as a desaturated canvas also stops the basemap competing with the arcs. What is
+*not* verified is whether Esri's terms permit this use outside their own SDKs;
+it demonstrably works, which is a different claim from being allowed. §8.6's
+lesson was that provider metadata is no substitute for fetching a tile, and the
+converse holds equally: fetching a tile is no substitute for reading the terms.
+
+Filtering was verified in a browser rather than assumed: on load the document
+carries 4,518 SVG paths, which is the 4,515 arcs plus three map decorations;
+unchecking every carrier but Hawaiian leaves 28; re-checking Alaska gives 275,
+which is 247 + 25 + 3.
+
 <div class="deck-slide" id="route-map">
 
 ### What an answer looks like
@@ -254,5 +355,51 @@ map. Unwrap, then frame on the *drawn* points rather than the airports.
 </div>
 
 <p class="footnote">`experiments/route-map`, world snapshot `2026-09-11-bb90a8`; folium 0.20.0, pyproj 3.7.2.</p>
+
+</div>
+
+<div class="deck-slide" id="us-route-map">
+
+### One layer per airline
+
+<div class="cards two figure-left">
+
+<div class="card figure">
+
+![](../../slides/images/us-route-map-pacific.png)
+
+<p class="caption">Two of thirteen layers. Alaska in sky blue dashed — the bush network out of Anchorage; Hawaiian in vermillion dotted — the Honolulu corridor. Neither shows on a lower-48 map.</p>
+
+</div>
+
+<div class="card">
+
+<span class="pill dijkstra">The reader does the asking</span>
+
+### 13 layers, 4,515 arcs, every one switchable
+
+US + Puerto Rico, large and medium airports: **473 airports, 2,688 pairs**.
+Twelve carriers get a layer, a thirteenth holds the **132** pairs they miss —
+so the layers *partition* the network.
+
+Checked in a browser: 4,515 arcs on load, **25** when only Hawaiian stays
+checked.
+
+<span class="pill warn">Measuring beat designing</span>
+
+### Six hues failed at ΔE 0.9
+
+Twelve distinguishable hues do not exist for a colour-blind reader, so
+identity is hue **and** stroke. Six hues over two dashes put Delta and US
+Airways at **ΔE 0.9** under tritanopia — both solid, indistinguishable.
+
+Four hues over three dashes, and the worst same-stroke pair measures
+**19.6**.
+
+</div>
+
+</div>
+
+<p class="footnote">`experiments/us-route-map`, snapshot `2026-09-15-8054eb`; interactive map at `docs/maps/us-route-map.html`, 2.01 MB.</p>
 
 </div>

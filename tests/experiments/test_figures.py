@@ -43,6 +43,16 @@ PAIRED_FIGURES: List[Tuple[str, str]] = [
 SAME_IN_BOTH_FIGURES: List[Tuple[str, str]] = [
     ("route-map", "route-map-hnl-bdl"),
     ("route-map", "route-map-syd-jfk"),
+    # `us-route-map` is a map too, so it shares the same exception. It also
+    # renders each still *once* and copies it, rather than rendering twice:
+    # screenshot output is not byte-deterministic -- two renders of the same
+    # map came out 25 bytes apart, because basemap tiles arrive and labels
+    # settle on their own schedule -- and this list demands they be identical.
+    ("us-route-map", "us-route-map-all"),
+    ("us-route-map", "us-route-map-lower-48"),
+    ("us-route-map", "us-route-map-structure"),
+    ("us-route-map", "us-route-map-pacific"),
+    ("us-route-map", "us-route-map-caribbean"),
 ]
 
 # `![alt](path)` in a chapter or appendix.
