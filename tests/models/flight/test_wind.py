@@ -71,7 +71,7 @@ class TestTheGridInterpolator:
 
     Removing scipy meant writing the interpolation, so these pin the three
     behaviours that were easy to get wrong. Equivalence with scipy was
-    verified over 8,120 points across 40 random grids before the dependency
+    verified over 8,080 points across 40 random grids before the dependency
     was dropped; these tests are what keeps the behaviour once the reference
     implementation is no longer installed to compare against.
     """
