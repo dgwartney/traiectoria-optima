@@ -10,7 +10,13 @@ the project, and this is what enforces it.
 import pytest
 
 from flight_planner.experiments import Snapshot
-from flight_planner.geo import Haversine, Point, Vincenty, haversine_heuristic
+from flight_planner.geo import (
+    Haversine,
+    Manhattan,
+    Point,
+    Vincenty,
+    haversine_heuristic,
+)
 
 SNAPSHOT_ID = "2026-09-11-bb90a8"
 
@@ -98,3 +104,29 @@ class TestAdmissibilityInvariant:
         )
 
         assert violations > 0
+
+    def test_manhattan_would_fail_it_on_essentially_every_edge(self, world_routes):
+        """The other way a heuristic goes wrong, and the far larger one.
+
+        Vincenty shows the guard can fail by a precision margin -- a better
+        formula measured on a different figure of the Earth. Manhattan shows it
+        can fail by a factor: a formula that is not measuring the same thing at
+        all. Between them they establish that the guard is about the
+        relationship between the estimate and the weights, and not about
+        accuracy.
+
+        Measured and explained in `experiments/manhattan-heuristic`.
+        """
+        manhattan = Manhattan()
+
+        violations = sum(
+            1
+            for route in world_routes
+            if manhattan.calculate(route.origin, route.destination)
+            > route.distance_km + 1e-9
+        )
+
+        # Every edge but one, which is a zero-length self-loop. Asserted
+        # exactly rather than as "most", so a formula change that quietly
+        # halved the overestimate would still be caught here.
+        assert violations == len(world_routes) - 1

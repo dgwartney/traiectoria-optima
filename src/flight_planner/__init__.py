@@ -30,10 +30,12 @@ from .flights import Airport, FlightPlanner, Route
 from .geo import (
     DistanceFormula,
     Haversine,
+    Manhattan,
     Memoized,
     Point,
     Vincenty,
     haversine_heuristic,
+    manhattan_heuristic,
 )
 from .pathfinding import (
     COST_HOPS,
@@ -60,6 +62,7 @@ __all__ = [
     "FlightPlanner",
     "Graph",
     "Haversine",
+    "Manhattan",
     "Memoized",
     "PathfindingAlgorithm",
     "Point",
@@ -69,4 +72,5 @@ __all__ = [
     "Vertex",
     "Vincenty",
     "haversine_heuristic",
+    "manhattan_heuristic",
 ]

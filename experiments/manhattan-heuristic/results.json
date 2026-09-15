@@ -1,0 +1,306 @@
+{
+  "experiment": "manhattan-heuristic",
+  "recorded": "2026-09-15T18:48:27+00:00",
+  "snapshot": {
+    "id": "2026-09-11-bb90a8",
+    "reference": "../../data/snapshots/2026-09-11-bb90a8",
+    "criteria": {},
+    "source_commit": "610936de75b2d3c45e0e84daea687b32daf35aa3"
+  },
+  "parameters": {
+    "epsilon_km": 1e-09,
+    "pair_sample": 300,
+    "pair_seed": 20260915,
+    "long_haul_pairs": [
+      [
+        "SFO",
+        "BOS"
+      ],
+      [
+        "LAX",
+        "JFK"
+      ],
+      [
+        "SEA",
+        "MIA"
+      ],
+      [
+        "HNL",
+        "BOS"
+      ],
+      [
+        "ANC",
+        "MIA"
+      ]
+    ],
+    "consistency_goals": 100,
+    "goal_sample_seed": 20260913
+  },
+  "results": {
+    "graph": {
+      "airports": 3387,
+      "routes": 66332
+    },
+    "per_edge": {
+      "checked": 66332,
+      "violations": 66331,
+      "violation_rate": 0.9999849243200868,
+      "worst_excess_km": 6453.145331506723,
+      "largest_understatement_km": -0.0,
+      "worst_edge": {
+        "origin": "DXB",
+        "destination": "SEA",
+        "weight_km": 11928.126135656155,
+        "estimate_km": 18381.27146716288
+      },
+      "ratio": {
+        "min": 1.0000010839763698,
+        "median": 1.315843074838279,
+        "p99": 1.4386575389444856,
+        "max": 1.541002438951132,
+        "edges_rated": 66331
+      },
+      "zero_weight_edges": 1
+    },
+    "consistency": {
+      "goals_sampled": 100,
+      "goals_available": 3387,
+      "checks": 6633200,
+      "violations": 1639619,
+      "violation_rate": 0.24718371223542182,
+      "worst_violation_km": 9963.976962112793
+    },
+    "sample": {
+      "pairs_requested": 300,
+      "pairs_with_a_route": 290,
+      "pairs_unreachable": 10,
+      "unreachable_pairs": [
+        [
+          "HUU",
+          "VDA"
+        ],
+        [
+          "NST",
+          "MQH"
+        ],
+        [
+          "BVS",
+          "ESM"
+        ],
+        [
+          "TGJ",
+          "YSY"
+        ],
+        [
+          "GEA",
+          "TFI"
+        ],
+        [
+          "GCI",
+          "PTJ"
+        ],
+        [
+          "CMP",
+          "FAI"
+        ],
+        [
+          "SVS",
+          "KOC"
+        ],
+        [
+          "COQ",
+          "TGJ"
+        ],
+        [
+          "TMS",
+          "MEB"
+        ]
+      ],
+      "suboptimal": 172,
+      "suboptimal_rate": 0.593103448275862,
+      "excess": {
+        "mean": 0.026171449780624734,
+        "median": 0.004256225331459262,
+        "max": 0.24611099691488986
+      },
+      "worst_pair": {
+        "origin": "TRN",
+        "destination": "TUA",
+        "optimal_km": 9915.412089527794,
+        "manhattan_km": 12355.70404370343,
+        "excess": 0.24611099691488986,
+        "legs_optimal": 3,
+        "legs_manhattan": 5,
+        "expanded": {
+          "dijkstra": 2481,
+          "haversine": 105,
+          "manhattan": 74
+        },
+        "pushed": {
+          "dijkstra": 3976,
+          "haversine": 748,
+          "manhattan": 510
+        },
+        "peak_frontier": {
+          "dijkstra": 783,
+          "haversine": 630,
+          "manhattan": 429
+        }
+      },
+      "mean_expanded": {
+        "dijkstra": 1552.3862068965518,
+        "haversine": 220.45172413793102,
+        "manhattan": 76.00344827586207
+      },
+      "mean_pushed": {
+        "dijkstra": 2669.0275862068966,
+        "haversine": 826.2793103448275,
+        "manhattan": 443.28275862068966
+      },
+      "mean_peak_frontier": {
+        "dijkstra": 725.8586206896551,
+        "haversine": 545.1103448275862,
+        "manhattan": 346.63448275862066
+      },
+      "mean_expansion_ratio": {
+        "manhattan_over_haversine": 0.5171733825651507,
+        "manhattan_over_dijkstra": 0.054461314225848455
+      }
+    },
+    "long_haul": {
+      "pairs": [
+        {
+          "origin": "SFO",
+          "destination": "BOS",
+          "optimal_km": 4341.022084519025,
+          "manhattan_km": 4341.022084519025,
+          "excess": 0.0,
+          "legs_optimal": 1,
+          "legs_manhattan": 1,
+          "expanded": {
+            "dijkstra": 746,
+            "haversine": 1,
+            "manhattan": 1
+          },
+          "pushed": {
+            "dijkstra": 1264,
+            "haversine": 105,
+            "manhattan": 105
+          },
+          "peak_frontier": {
+            "dijkstra": 418,
+            "haversine": 104,
+            "manhattan": 104
+          }
+        },
+        {
+          "origin": "LAX",
+          "destination": "JFK",
+          "optimal_km": 3974.1642519132665,
+          "manhattan_km": 3974.1642519132665,
+          "excess": 0.0,
+          "legs_optimal": 1,
+          "legs_manhattan": 1,
+          "expanded": {
+            "dijkstra": 590,
+            "haversine": 1,
+            "manhattan": 1
+          },
+          "pushed": {
+            "dijkstra": 1034,
+            "haversine": 150,
+            "manhattan": 150
+          },
+          "peak_frontier": {
+            "dijkstra": 353,
+            "haversine": 149,
+            "manhattan": 149
+          }
+        },
+        {
+          "origin": "SEA",
+          "destination": "MIA",
+          "optimal_km": 4379.35828963113,
+          "manhattan_km": 4379.35828963113,
+          "excess": 0.0,
+          "legs_optimal": 1,
+          "legs_manhattan": 1,
+          "expanded": {
+            "dijkstra": 784,
+            "haversine": 1,
+            "manhattan": 1
+          },
+          "pushed": {
+            "dijkstra": 1363,
+            "haversine": 91,
+            "manhattan": 91
+          },
+          "peak_frontier": {
+            "dijkstra": 467,
+            "haversine": 90,
+            "manhattan": 90
+          }
+        },
+        {
+          "origin": "HNL",
+          "destination": "BOS",
+          "optimal_km": 8192.79410953863,
+          "manhattan_km": 8210.323293735571,
+          "excess": 0.0021395855873556427,
+          "legs_optimal": 2,
+          "legs_manhattan": 2,
+          "expanded": {
+            "dijkstra": 1056,
+            "haversine": 3,
+            "manhattan": 2
+          },
+          "pushed": {
+            "dijkstra": 1985,
+            "haversine": 123,
+            "manhattan": 231
+          },
+          "peak_frontier": {
+            "dijkstra": 682,
+            "haversine": 120,
+            "manhattan": 229
+          }
+        },
+        {
+          "origin": "ANC",
+          "destination": "MIA",
+          "optimal_km": 6459.621513088026,
+          "manhattan_km": 6497.952604781781,
+          "excess": 0.005933953191543909,
+          "legs_optimal": 2,
+          "legs_manhattan": 2,
+          "expanded": {
+            "dijkstra": 778,
+            "haversine": 6,
+            "manhattan": 2
+          },
+          "pushed": {
+            "dijkstra": 1371,
+            "haversine": 167,
+            "manhattan": 230
+          },
+          "peak_frontier": {
+            "dijkstra": 526,
+            "haversine": 161,
+            "manhattan": 228
+          }
+        }
+      ],
+      "unreachable": []
+    }
+  },
+  "catalog": {
+    "chain": [],
+    "routes": [
+      66332
+    ],
+    "airports": [
+      3387
+    ],
+    "dangling": 0
+  }
+}

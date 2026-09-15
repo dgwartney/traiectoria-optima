@@ -40,7 +40,7 @@ make report                        # this PDF
 make deck                          # the presentation, from these same chapters
 ```
 
-The nine committed experiments under `experiments/` each hold an
+The ten committed experiments under `experiments/` each hold an
 `experiment.toml` naming the snapshot they ran against and a `results.json`
 holding their answer. [Appendix F](17-appendix-f-reproducibility.md) describes
 that machinery and lists the snapshots. `tests/experiments/` re-derives the

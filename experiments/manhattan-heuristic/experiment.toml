@@ -1,0 +1,56 @@
+# manhattan-heuristic
+#
+# The snapshot path is relative to this file and resolved against its own
+# location, so the experiment travels with the repository. Changing it points
+# the experiment at different data -- record a new result if you do.
+slug = "manhattan-heuristic"
+description = "What does a badly inadmissible heuristic buy, and what does it cost? A* with Manhattan distance on the world network."
+notebooks = ["explore.ipynb"]
+snapshot = "../../data/snapshots/2026-09-11-bb90a8"  # 2026-09-11-bb90a8
+
+# Whatever the notebook needs that is not the data itself. Recorded into
+# results.json alongside the results, so a run states its own inputs.
+[parameters]
+
+# An estimate above the value it must not exceed counts as a violation only if
+# it exceeds it by more than this. Same tolerance and same reasoning as
+# heuristic-admissibility: below it, a positive excess is float noise rather
+# than a real breach. Here it barely matters -- the excesses are thousands of
+# kilometres, not last-bit differences -- but the two experiments report the
+# same quantity and should measure it the same way.
+epsilon_km = 1e-9
+
+# Origin-destination pairs drawn uniformly from the airports in the snapshot.
+#
+# Random rather than hand-picked, because the headline number is a *rate*: how
+# often A* with this heuristic returns a route that is not the shortest. A
+# hand-picked list can show that suboptimality happens, which is a weaker
+# claim, and it can be chosen -- accidentally -- to make it happen more or less
+# often than it does. Three hundred pairs times three algorithms is about
+# thirty seconds.
+#
+# The seed is recorded so the rate is reproducible rather than merely
+# repeatable.
+pair_sample = 300
+pair_seed = 20260915
+
+# The five long-haul pairs from experiments/search-cost, reused verbatim so
+# the per-pair table here lines up with that experiment's rather than
+# describing five different queries. They are also the pairs the project
+# catalogue asks the algorithm comparison to run on.
+long_haul_pairs = [
+    ["SFO", "BOS"],
+    ["LAX", "JFK"],
+    ["SEA", "MIA"],
+    ["HNL", "BOS"],
+    ["ANC", "MIA"],
+]
+
+# Consistency is checked over every edge against a sample of goals rather than
+# all of them, for the same reason heuristic-admissibility samples: every goal
+# would be 3,387 x 66,332 = 224.6 million checks. A hundred goals is 6.6
+# million, in about nine seconds, and the property does not vary by goal.
+#
+# Drawn from this seed, so the recorded number is reproducible.
+consistency_goals = 100
+goal_sample_seed = 20260913

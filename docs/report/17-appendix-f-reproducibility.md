@@ -91,7 +91,7 @@ own data.
 
 <div class="card">
 
-<span class="pill astar">Nine committed experiments</span>
+<span class="pill astar">Ten committed experiments</span>
 
 ### The answer travels with its derivation
 
@@ -123,7 +123,7 @@ absent columns read as their default rather than raising.
 
 ## F.4 The experiments
 
-Nine are committed. Each is a directory holding an `experiment.toml` that names
+Ten are committed. Each is a directory holding an `experiment.toml` that names
 its snapshot **as a path relative to itself** — so the experiment travels with
 the repository, and works the same from a clone, a source checkout or a Colab
 session — a notebook or script, and a `results.json` holding the answer.
@@ -135,6 +135,7 @@ session — a notebook or script, and a `results.json` holding the answer.
 | `networkx-parity` | Do our algorithms agree with an independent implementation? | world | §5, [App. D](15-appendix-d-networkx-parity.md) |
 | `astar-consistency` | Is A\* optimal for an admissible heuristic, or only a consistent one? | US large | §4.3, §5, [App. E](16-appendix-e-astar-consistency.md) |
 | `heuristic-admissibility` | Is the heuristic admissible *here*, and would a more accurate formula break it? | world | §4.3, §9 |
+| `manhattan-heuristic` | What does a badly inadmissible heuristic buy, and what does it cost? | world | No chapter yet. Cited by `flight_planner.geo.heuristic`'s docstring as the counterexample to §4.3's argument, and listed here so that absence is deliberate rather than an oversight |
 | `data-cleaning` | What did cleaning discard, and is the snapshot what the pipeline produces? | world | §2.3, §9 |
 | `route-map` | What does an answer look like, drawn rather than printed? | world | §8, §9 |
 | `shortest-vs-fewest` | What does skipping a stop cost? | US large | §9 |

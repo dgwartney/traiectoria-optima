@@ -29,8 +29,10 @@ viz/          RouteMap, MapLayer family      drawing what an experiment found
   nothing about airports, distances, or algorithms; it just stores
   vertices/edges and exposes `get_outgoing_edges`.
 - **`Point`** / **`DistanceFormula`** (`geo/`) — a
-  geographic coordinate and pluggable formulas (`Haversine`, `Vincenty`) for
-  computing distance between two `Point`s. Independent of `Graph` entirely.
+  geographic coordinate and pluggable formulas (`Haversine`, `Vincenty`, and
+  `Manhattan` — the last committed as a measured counterexample rather than a
+  choice) for computing distance between two `Point`s. Independent of
+  `Graph` entirely.
 - **`PathfindingAlgorithm`** family (`pathfinding/`) — `Dijkstra`, `BFS`,
   `AStar`, one module each, over `strategy.py`, `result.py` and
   `observers.py`. Each operates purely on the generic
@@ -144,9 +146,10 @@ uv run pytest tests/flight_planner/
 
 One `pytest` test class per production class (`TestVertex`, `TestEdge`,
 `TestPoint`, `TestAirport`, `TestRoute`, `TestGraph`, `TestMinHeap`,
-`TestHaversine`, `TestVincenty`, `TestMemoized`, `TestDijkstra`, `TestBFS`,
-`TestAStar`, `TestFlightPlanner`, `TestAirportLoader`, `TestRouteLoader`,
-`TestSearchResult`, `TestSearchObserver`, `TestExpansionTrace`),
+`TestHaversine`, `TestVincenty`, `TestManhattan`, `TestMemoized`,
+`TestDijkstra`, `TestBFS`, `TestAStar`, `TestFlightPlanner`,
+`TestAirportLoader`, `TestRouteLoader`, `TestSearchResult`,
+`TestSearchObserver`, `TestExpansionTrace`),
 covering equality/identity semantics, the Strategy-delegation contracts
 (`Graph.shortest_path`, `Point.distance_to`), and each algorithm's
 path/cost/unreachable/same-start-goal behavior.

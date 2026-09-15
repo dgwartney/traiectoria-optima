@@ -159,6 +159,48 @@ d = √[ (x2 − x1)² + (y2 − y1)² ]
 **Cons:** Only accurate within a single UTM zone; distortion increases significantly if points span multiple zones or are far apart.
 
 
+## 7. Manhattan (Taxicab) Distance
+
+**Model:** Flat-plane approximation
+**Type:** Approximate planar distance, L1 norm
+
+The Equirectangular method above with the L1 norm in place of L2: rather than the
+straight-line hypotenuse, the sum of the two legs. It is the standard heuristic for
+grid pathfinding, where movement is restricted to the axes and the sum of the legs
+*is* the shortest path.
+
+### Formula
+
+```
+x = Δλ * cos(φm)
+y = Δφ
+d = R * (|y| + |x|)
+```
+
+Where:
+- φm = mean latitude = (φ1 + φ2) / 2
+- Δλ, Δφ = differences in longitude and latitude, in radians, with Δλ folded to
+  the short way round so an antimeridian pair is not measured going the long way
+
+**Pros:** The cheapest of the formulas here, and as an A\* heuristic it steers the
+search harder than any admissible estimate can, cutting expansions by about half
+against great-circle distance on this project's graph.
+**Cons:** It is not a distance on the sphere at all, and it **overestimates**. Since
+`|x| + |y| ≥ √(x² + y²)`, it is never below the Equirectangular figure and so never
+below the great-circle distance either. That makes it **inadmissible as an A\*
+heuristic here**: measured over the world snapshot it exceeds its own edge weight on
+66,331 of 66,332 edges, overestimating the median edge by a third, and A\* guided by
+it returns a suboptimal route on 172 of 290 random pairs while reporting it as
+optimal. `experiments/manhattan-heuristic` measures the trade in full;
+`flight_planner.geo.Manhattan` implements it, and is committed as that measured
+counterexample rather than as an option.
+
+Note that this is the one method here whose problem is not accuracy. Vincenty is
+*more* accurate than haversine and also breaks admissibility on this graph, for the
+same underlying reason: the edge weights are haversine numbers, so only haversine
+stands in the right relationship to them.
+
+
 ## Summary Table
 
 | Method | Earth Model | Accuracy | Best Use Case |
@@ -169,6 +211,7 @@ d = √[ (x2 − x1)² + (y2 − y1)² ]
 | Vincenty | Ellipsoid | Millimeter-level | High-precision geodesy, most points on Earth |
 | Karney (Geodesic) | Ellipsoid | Millimeter-level, all cases | Modern gold standard, handles edge cases |
 | Projected (UTM) | Projected ellipsoid | High within zone | Local/regional GIS analysis |
+| Manhattan (Taxicab) | Flat plane, L1 | Overestimates; not a spherical distance | Grid pathfinding. Inadmissible as an A\* heuristic here — see §7 |
 
 
 
@@ -304,6 +347,25 @@ def utm_distance(lat1, lon1, lat2, lon2):
 ```
 
 
+### 7. Manhattan (Taxicab) Distance
+
+```python
+from math import radians, cos
+
+def manhattan(lat1, lon1, lat2, lon2, R=6371.0):
+    phi1, phi2 = radians(lat1), radians(lat2)
+    phi_m = (phi1 + phi2) / 2
+
+    # Fold the longitude difference to the short way round, so a pair either
+    # side of the antimeridian is not measured going the long way.
+    dlon = abs(lon2 - lon1)
+    dlambda = radians(min(dlon, 360.0 - dlon))
+    dphi = phi2 - phi1
+
+    return R * (abs(dphi) + abs(dlambda) * cos(phi_m))
+```
+
+
 ## Example Usage
 
 ```python
@@ -315,6 +377,7 @@ print("Spherical Law of Cosines:", spherical_law_of_cosines(lat1, lon1, lat2, lo
 print("Equirectangular:", equirectangular(lat1, lon1, lat2, lon2), "km")
 print("Vincenty:", vincenty(lat1, lon1, lat2, lon2), "km")
 print("Karney:", karney_geodesic(lat1, lon1, lat2, lon2), "km")
+print("Manhattan:", manhattan(lat1, lon1, lat2, lon2), "km")
 ```
 
 

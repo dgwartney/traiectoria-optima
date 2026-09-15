@@ -39,9 +39,25 @@ truth on **38,901 of 66,332 edges (58.6%)**, by up to 25.66 km. A more accurate
 formula produces a *less correct* A*. Precision and admissibility are different
 properties, and improving the first can break the second.
 
-Every figure above is recorded by `experiments/heuristic-admissibility/`,
-pinned to the world snapshot and re-derived by
-`tests/experiments/test_heuristic_admissibility.py`. Earlier versions of this
+**Why not Manhattan.** The other direction, and the larger failure. Taxicab
+distance — the textbook grid heuristic — exceeds its own edge weight on
+**66,331 of 66,332 edges (99.998%)**, by up to 6,453.15 km, overestimating the
+median edge by a third. A* guided by it expands about half the vertices this
+heuristic does, and returns a suboptimal route on **172 of the 290** seeded
+random pairs that have a route at all. Recorded by
+`experiments/manhattan-heuristic/`, and the reason it is worth stating beside
+Vincenty: one is wrong by tens of kilometres because it measures a different
+figure of the Earth, the other by thousands because it is not measuring
+great-circle distance at all. Accuracy is not the axis. What decides
+admissibility is whether the estimate can exceed the weights, and the weights
+here are haversine numbers by construction.
+
+Every figure above is recorded, pinned to the world snapshot and re-derived
+by a test rather than trusted: the haversine and Vincenty ones by
+`experiments/heuristic-admissibility/` and
+`tests/experiments/test_heuristic_admissibility.py`, the Manhattan ones by
+`experiments/manhattan-heuristic/` and
+`tests/experiments/test_manhattan_heuristic.py`. Earlier versions of this
 docstring quoted the same comparison over the first 5,000 routes in snapshot
 order — 1,905 and 3,095 — which the experiment still records under
 `legacy_leading_slice` so those numbers can be traced rather than appearing to

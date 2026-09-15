@@ -8,6 +8,7 @@ two layers together in `flight_planner.flights`.
 from .formula import DistanceFormula
 from .haversine import Haversine
 from .heuristic import haversine_heuristic
+from .manhattan import Manhattan, manhattan_heuristic
 from .memoized import Memoized
 from .point import Point
 from .vincenty import Vincenty
@@ -15,8 +16,10 @@ from .vincenty import Vincenty
 __all__ = [
     "DistanceFormula",
     "Haversine",
+    "Manhattan",
     "Memoized",
     "Point",
     "Vincenty",
     "haversine_heuristic",
+    "manhattan_heuristic",
 ]

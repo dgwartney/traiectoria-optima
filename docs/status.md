@@ -148,7 +148,7 @@ Then, depending on what you are picking up:
 src/flight_planner/
   adt/min_heap.py        from-scratch array-backed binary heap; no heapq anywhere
   core/                  generic Vertex, Edge, Graph[V, E]
-  geo/                   Point, Haversine, Vincenty
+  geo/                   Point, Haversine, Vincenty, Manhattan
   pathfinding/           strategy.py, bfs.py, dijkstra.py, astar.py,
                          result.py, observers.py
   flights/               Airport, Route, FlightPlanner
