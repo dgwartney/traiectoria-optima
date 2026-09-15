@@ -1,7 +1,7 @@
 ---
 title: "A1: Flight Route Planner"
 subtitle: "Final Report"
-author: "David Gwartney"
+author: "David Gwartney, Aastha Sharma, Jake Lu"
 date: 2026-09-13
 ---
 
