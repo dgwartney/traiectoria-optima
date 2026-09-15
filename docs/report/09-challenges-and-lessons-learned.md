@@ -65,50 +65,6 @@ record.
 
 ## 9.2 A more accurate formula made A\* less correct
 
-This is the project's best finding, and it arrived as a surprise while trying
-to justify something that was already working.
-
-`AStar`'s docstring claimed the heuristic was **admissible**, which the textbook
-says is the condition for optimality. Randomized differential testing (§5.5)
-disagreed: on 27 of 10,866 generated queries A\* returned a suboptimal cost, and
-on 25 of those the reported cost **contradicted the itinerary it handed back**.
-The docstring was citing the right theorem for a different algorithm — ours
-closes a vertex permanently on first expansion, so it needs the stronger
-condition of **consistency** (§4.3).
-
-That raised the obvious question: why has nothing ever gone wrong on flight
-data? The tempting answer is geometry — a great-circle arc is the shortest path
-on a sphere, so a direct distance cannot exceed a chain of flights. **That
-answer is wrong, or at least not the reason.** It assumes the edge weights are
-great-circle arcs, and they are, but only because `src/data/flight_network.py`
-generates them by calling the same `Haversine()` class at the same 6371.0 km
-radius the heuristic uses. Estimate and weight are not two measurements that
-agree. They are one measurement, used twice.
-
-So admissibility here is **an invariant between two parts of the build, not a
-theorem about the earth** — and an invariant can be broken by an edit somewhere
-else.
-
-The framing makes a prediction the geometric one does not: replacing the
-heuristic with a *more accurate* formula should break it. It does. `Vincenty`
-measures on the WGS-84 ellipsoid and is the better model of the planet by any
-physical standard. Substituted as the heuristic while the weights stay
-haversine, its estimates exceed the truth on **38,901 of 66,332 edges (58.6%)**,
-by up to 25.66 km — every one a potential silently-wrong route.
-
-The textbook intuition fails in the same place. Haversine is usually described
-as *underestimating* geodesic distance, because a sphere cuts corners an
-ellipsoid does not. Measured across all 66,332 edges, haversine **exceeds** the
-WGS-84 geodesic on 27,430 of them (41.4%), by up to 35.18 km. The error runs
-both ways.
-
-**A heuristic is not a measurement of the world. It is a lower bound on a cost
-model, and it has to be consistent with the cost model rather than accurate
-about reality.** That generalises well past flight routing, and it is the one
-thing in this report we would not have predicted at the start.
-
-## 9.2 A More Accurate Formula Made A* Less Correct
-
 Randomized differential testing revealed that our A* implementation returned suboptimal costs on 27 of 10,866 queries—with 25 reporting costs that contradicted their returned itineraries. The core findings:
 
 * **Wrong Theoretical Guarantee:**
@@ -119,7 +75,6 @@ Randomized differential testing revealed that our A* implementation returned sub
 * **Real-World Precision Breaks the Heuristic:** Replacing the heuristic with the `Vincenty` formula (which models the accurate WGS-84 ellipsoid) while keeping edge weights on spherical Haversine broke admissibility:
 * Vincenty overestimated the Haversine edge weights on **58.6% of edges** (38,901 of 66,332), by up to 25.66 km.
 * Overestimating actual model costs breaks the lower-bound requirement, causing A* to silently discard optimal paths.
-
 
 * **Bidirectional Geometric Error:** Contrary to the belief that spherical calculations strictly underestimate ellipsoidal geodesics, Haversine also exceeded Vincenty on **41.4% of edges** (by up to 35.18 km).
 

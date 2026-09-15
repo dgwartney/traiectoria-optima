@@ -197,12 +197,11 @@ Take the patch. The case for it:
   itinerary — far harder to defend in a report than a re-expansion is.
 - It makes the docstring true as written.
 
-If the patch is **not** taken, then all three places `astar.py` says
-*admissible* — lines 25, 35 and 61 — must be changed to say *consistent*, and
-the report's admissibility argument must make the stronger claim. Which the
-project's own heuristic does satisfy, as the 658,470 checks above show. What
-is not defensible is leaving the docstring promising one condition while the
-code requires another.
+The patch has not been taken. The cheap half has: all three places `astar.py`
+said *admissible* now say *consistent*, so the report's admissibility argument
+makes the stronger claim — which the project's own heuristic does satisfy, as
+the 658,470 checks above show. What would not have been defensible is leaving
+the docstring promising one condition while the code requires another.
 
 One existing test needs a note either way:
 `tests/flight_planner/test_observers.py::TestReportedCountsAreTrue::test_no_vertex_is_expanded_twice`
