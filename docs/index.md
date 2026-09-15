@@ -23,7 +23,7 @@ Documentation site for the Traiectoria Optima project.
 ## Deliverables
 
 - [Final report](report/README.md) — one file per chapter, assembled into a
-  PDF by `make report`. §1, §2, §6 and §7 are written and appendices A–G are
+  PDF by `make report`. §1, §2, §6 and §7 are written and appendices A–H are
   in place; §3–§5 and §8–§11 are outlines.
 - [Deck](deck/README.md) — the presentation, built from the report chapters by
   `make deck`. It has no content of its own: every slide is a block inside the
@@ -98,4 +98,7 @@ stale links.
   graph terms as the report uses them. Formerly `glossary.md`.
 
 [Appendix F](report/17-appendix-f-reproducibility.md) is a condensation of
-[Experiments](experiments.md), which stays here as the full reference.
+[Experiments](experiments.md). Unlike the five above, that page was not
+retired: it stays here as the living, canonical version, and its full text
+also appears in the report, reformatted, as
+[Appendix H](report/19-appendix-h-experiments.md).

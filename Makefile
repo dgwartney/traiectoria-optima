@@ -131,7 +131,8 @@ REPORT_CHAPTERS = \
 	$(REPORT_DIR)/15-appendix-d-networkx-parity.md \
 	$(REPORT_DIR)/16-appendix-e-astar-consistency.md \
 	$(REPORT_DIR)/17-appendix-f-reproducibility.md \
-	$(REPORT_DIR)/18-appendix-g-glossary.md
+	$(REPORT_DIR)/18-appendix-g-glossary.md \
+	$(REPORT_DIR)/19-appendix-h-experiments.md
 
 # A file holding nothing but a bare \newpage. Interleaving it between the
 # chapters is what starts each one on a fresh page. It is a separate file
