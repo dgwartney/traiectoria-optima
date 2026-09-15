@@ -25,13 +25,16 @@ reviewed and diffed independently. The assembled PDF is built by
 | E | [A\* and Heuristic Consistency](16-appendix-e-astar-consistency.md) |
 | F | [Reproducibility: Snapshots and Experiments](17-appendix-f-reproducibility.md) |
 | G | [Glossary](18-appendix-g-glossary.md) |
+| H | [Experiments: Snapshots, Catalogs, and Recorded Results](19-appendix-h-experiments.md) |
 
 The appendices are ordered to match the chapters that cite them, not by when
 they were written: A accounts for the code the chapters argue about, B and C
 back §3 and §4.3, D and E hold the full results §5 summarises, F describes the
 machinery every figure depends on, and G is the glossary. Five of them — B, C, D, E and G — began life as documents under
 `docs/` and were moved here once it was clear they served one part of the
-report rather than the repository as a whole.
+report rather than the repository as a whole. H is last for the same reason
+as G: it is the full companion to F rather than something cited by a single
+chapter, so it belongs at the end rather than wedged in beside F.
 
 ## Two files that are not chapters
 

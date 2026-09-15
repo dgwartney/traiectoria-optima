@@ -2,8 +2,10 @@
 
 Every figure in this report names a frozen dataset and a committed answer. This
 appendix describes the machinery that makes that possible. It is a condensation:
-[`docs/experiments.md`](../experiments.md) is the full reference, with the
-worked examples, the Colab recipe, and the complete narrowing vocabulary.
+[Appendix H](19-appendix-h-experiments.md) carries the full reference in this
+report — the worked examples and the complete narrowing vocabulary;
+[`docs/experiments.md`](../experiments.md) is the same material kept current
+outside the PDF, plus the Google Colab recipe.
 
 ## F.1 The problem
 
