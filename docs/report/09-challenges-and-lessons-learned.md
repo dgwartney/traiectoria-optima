@@ -10,11 +10,8 @@ Six lessons, each one paid for:
 | | Lesson |
 |---|---|
 | §9.1 | Data lies quietly. A silent wrong value costs more than a crash |
-| §9.2 | A filter can be tightened by something downstream of it |
-| §9.3 | The same formula in two places is a bug that has not happened yet |
-| §9.4 | **Precision and correctness are different properties**, and improving one can break the other |
-| §9.5 | Not every disagreement is a defect — some are a different question |
-| §9.6 | Provider metadata is not a substitute for making the request |
+| §9.2 | A more accurate formula made A\* less correct |
+| §9.3 | What looked like defects and were not |
 
 ## 9.1 Data that lies quietly
 
@@ -34,13 +31,6 @@ asserts both cases by name so the guard cannot be removed quietly.
 This is the single most instructive bug in the project, because the library was
 behaving exactly as documented. The failure was ours, and no amount of care
 reading our own code would have found it — only looking at the data would.
-
-**Wikipedia citation markers travel with the value.** The international-airport
-list is scraped from Wikipedia, where a cited IATA cell renders as
-`<sup class="reference">[1]</sup>`. The scraper captures the cell's *text*, so
-`MHH` arrives as `MHH[1]` and joins against nothing. `FOOTNOTE_MARKER` strips
-it. A related case: Wikipedia writes EuroAirport Basel-Mulhouse-Freiburg as
-`BSL/MLH/EAP`, while OurAirports files the airport under the first code only.
 
 **Ten codes that genuinely disagree.** After normalisation, ten of 1,492
 scraped codes still did not join, because Wikipedia and OurAirports disagree
@@ -63,14 +53,6 @@ experiment measured it** rather than describing it. A hand-curated reference
 file is exactly the sort of thing that keeps being cited long after the code
 stopped reading it.
 
-**An API that was reselling our own data, badly.** Coordinates were once
-resolved with one HTTP request per airport to AirportsAPI.com. It turned out to
-be serving OurAirports data back over the network: **1,477 of 1,483 coordinate
-pairs were bit-identical, and of the three that differed by more than 0.05°,
-the API was wrong in all three.** A network dependency, a rate limit and a
-reproducibility hole, in exchange for three incorrect rows. Coordinates now
-come from the file the repository already vendors.
-
 **What "cleaning" actually removes.** Of 85,884 airport rows, **76,831 have no
 three-character IATA code** — helipads, seaplane bases, closed strips, private
 fields. That single test is the whole airport filter; the missing-latitude,
@@ -81,58 +63,7 @@ resolve — 663 origins, 660 destinations, 8 with neither. All 1,331 are
 committed row-by-row with their reason, because a count is not a provenance
 record.
 
-## 9.2 The `OR` that became an `AND`
-
-The earliest subset derivation selected United's routes with
-
-```sql
-source_airport_code IN (...) OR destination_airport_code IN (...)
-```
-
-against the raw tables — either endpoint being a US large airport was enough.
-But the distance join downstream `INNER JOIN`ed **both** endpoints against a
-US-large-only airport table, which silently tightened that `OR` into an `AND`.
-**The stated filter admitted 1,996 routes. The pipeline yielded 861. And 861 is
-what was published.**
-
-Nothing was wrong with either statement in isolation. The predicate said one
-thing and the join enforced another, so the SQL documented an intent the data
-never had. `src/sql/flight_data.sql` now writes the `AND` explicitly, with the
-history in a comment, because the alternative is a file that contradicts the
-numbers it produced.
-
-The general lesson is the one worth carrying: **a filter's real selectivity is
-whatever survives the whole pipeline**, and a join is a filter. This is also
-why the experiment framework reports *dangling edges* rather than quietly
-building a graph whose vertices arrived by accident (Appendix F).
-
-## 9.3 One formula, used once
-
-Two separate incidents, the same cause.
-
-**The SQL haversine.** The original pipeline hand-rolled the haversine in SQL
-trigonometry while `flight_planner.geo.Haversine` was a tested implementation
-of the same formula sitting in the same repository. The duplicate was wrong, and
-the fix (`ba6aca5`) rewrote 1,725 lines of `routes.csv` — every distance in the
-published dataset had been computed by the copy. The transform is pandas now,
-reusing the tested class; SQLite is still written, from the same DataFrames, so
-the two serializations cannot drift.
-
-**Twelve heuristics.** A\* needs a heuristic function, and one had been written
-inline nearly every place A\* was called — notebooks, demos, experiments. By
-the time anyone counted there were **twelve hand-rolled implementations, and one
-of them was not admissible.** An inadmissible heuristic does not crash; it
-returns a route that is merely pretty good, and calls it shortest. They were
-replaced by the single `geo.haversine_heuristic()`, with tests asserting it
-matches the pipeline's own distance calculation — which is precisely the
-invariant §4.3's whole argument now rests on.
-
-**The lesson:** the same formula in two places is not duplication, it is a bug
-that has not happened yet. Both incidents were caught by comparing the copies
-against each other, which is only possible because there was a tested original
-to compare *to*.
-
-## 9.4 A more accurate formula made A\* less correct
+## 9.2 A more accurate formula made A\* less correct
 
 This is the project's best finding, and it arrived as a surprise while trying
 to justify something that was already working.
@@ -176,7 +107,25 @@ model, and it has to be consistent with the cost model rather than accurate
 about reality.** That generalises well past flight routing, and it is the one
 thing in this report we would not have predicted at the start.
 
-## 9.5 What looked like defects and were not
+## 9.2 A More Accurate Formula Made A* Less Correct
+
+Randomized differential testing revealed that our A* implementation returned suboptimal costs on 27 of 10,866 queries—with 25 reporting costs that contradicted their returned itineraries. The core findings:
+
+* **Wrong Theoretical Guarantee:**
+* **Admissible Heuristic (Never Overestimates):** The rule of thumb that an estimate should never guess a route is longer than it actually is. The docstring claimed this alone guaranteed the best route, but that only applies if the algorithm is allowed to revisit and correct paths it already explored.
+* **Consistent Heuristic (Never Skips Corners):** A stricter rule ensuring your estimate steadily decreases as you take real steps forward—the estimated distance to the destination can't drop by more than the actual distance you just traveled. Because our algorithm locks down a location forever the first time it reaches it (to save memory and time), it requires this stronger guarantee to avoid locking in a bad route too early.
+
+* **Accidental Correctness via Code Coupling:** Flight routing originally worked not because of Earth's true geometry, but because edge weights in `flight_network.py` and the heuristic both called the exact same `Haversine()` function (radius 6371.0 km). Admissibility was an invariant of shared code, not physical geography.
+* **Real-World Precision Breaks the Heuristic:** Replacing the heuristic with the `Vincenty` formula (which models the accurate WGS-84 ellipsoid) while keeping edge weights on spherical Haversine broke admissibility:
+* Vincenty overestimated the Haversine edge weights on **58.6% of edges** (38,901 of 66,332), by up to 25.66 km.
+* Overestimating actual model costs breaks the lower-bound requirement, causing A* to silently discard optimal paths.
+
+
+* **Bidirectional Geometric Error:** Contrary to the belief that spherical calculations strictly underestimate ellipsoidal geodesics, Haversine also exceeded Vincenty on **41.4% of edges** (by up to 35.18 km).
+
+**Core Takeaway:** A heuristic is not a measurement of the physical world. It is a lower bound strictly bound to an internal cost model—improving its real-world accuracy without updating the model will break optimality.
+
+## 9.3 What looked like defects and were not
 
 Three results that read as failures until the question was stated precisely.
 Each cost time, and in two cases nearly cost a "fix" that would have made the
@@ -209,53 +158,6 @@ mistaking a tie-break for a failure.
 **The pattern in all three:** the disagreement was real and the interpretation
 was wrong. Each was resolved by stating what the algorithm had actually been
 asked, not by changing the algorithm.
-
-## 9.6 Tooling that reports one thing and does another
-
-Two smaller traps, both resolved by testing the thing instead of reading about
-it.
-
-**Tile providers.** The map's first basemap default was CartoDB positron, which
-under folium 0.20.0 renders `API KEY REQUIRED` diagonally across every tile;
-Stadia returns HTTP 401 for every request. The detail worth keeping is that
-**`xyzservices` reports the Stadia providers as requiring no token.** Provider
-metadata said the tiles were free; fetching one said otherwise. `RouteMap` now
-refuses the whole family at construction rather than letting a watermarked map
-be found after it is already in a report (§8.6).
-
-**A test that could not fail.** While building the deck, the slide-fit check
-passed on a deliberately broken deck. Two causes: reveal.js leaves distant
-slides at `display: none`, so their measured heights are zero; and in print
-mode `scrollHeight` always equals `clientHeight`. A test that cannot fail is
-worse than no test, because it reports coverage it does not have — so the
-check now measures each slide's content against its frame in print mode, and a
-companion test asserts every slide was actually laid out. Both were verified by
-breaking a slide on purpose and watching them fail.
-
-## 9.7 What we would do differently
-
-**Write the provenance record first.** Every figure in this report names a
-checksummed `results.json` — except, for most of the project, the cleaning
-figures, which lived as console output and prose. The `data-cleaning`
-experiment was written late, and the first thing it did was contradict §2.3
-about the overrides file. A number nothing re-derives is a number that drifts.
-
-**State what the code needs, not what the textbook says.** `AStar` asserted
-admissibility for a year because that is the condition in the literature. The
-gap between the theorem and the implementation was the defect, and it was found
-by a randomized sweep rather than by reading.
-
-**Put the demo behind an assertion from the start.** The textbook seven-airport
-network was a script that printed results for a human to check, which is not
-evidence. Turning it into `tests/demos/test_book_example.py` took twenty minutes
-and should have been how it was written (§5.1). Twelve other demo modules are
-still in that state.
-
-**Decide the pair-counting convention once.** `graph-stats` reports 36,717
-distinct *directed* pairs and `route-map` reports 18,814 *undirected* ones. Both
-are correct and for a while they read as a contradiction. Naming the convention
-in each artifact resolved it — and produced a fact neither had stated: **911
-airport pairs are served in one direction only** (§2.5).
 
 <div class="deck-slide" id="lessons">
 
