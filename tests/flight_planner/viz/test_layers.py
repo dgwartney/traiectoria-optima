@@ -47,6 +47,10 @@ def route(origin, destination, distance_km, flight_number="XX0001"):
 SFO_BOS = route(SFO, BOS, 4341.0)
 SFO_JFK = route(SFO, JFK, 4152.0)
 AKL_LAX = route(AKL, LAX, 10490.0)
+# A two-leg answer to the same pair SFO_BOS answers in one, which is what a
+# layer control has to tell apart.
+SFO_LAX = route(SFO, LAX, 543.0)
+LAX_BOS = route(LAX, BOS, 4180.0)
 
 
 class TestTheInterface:
@@ -254,10 +258,35 @@ class TestPathLayer:
         # The legend restates the finding rather than just naming a colour.
         layer = PathLayer([SFO_JFK, SFO_BOS], name="Dijkstra")
 
-        assert layer.name() == "Dijkstra (8,493 km)"
+        assert layer.name() == "SFO-BOS · Dijkstra (8,493 km)"
+
+    def test_its_name_says_which_pair_it_answers(self):
+        # A map comparing algorithms over *two* pairs is the case this is for:
+        # without the endpoints, "Dijkstra" and "Dijkstra" are two identical
+        # checkboxes and the only thing telling them apart is a kilometre
+        # figure the reader has to already know the answer to.
+        one = PathLayer([SFO_LAX, LAX_BOS], name="Dijkstra")
+        other = PathLayer([SFO_JFK], name="Dijkstra")
+
+        assert one.name().startswith("SFO-BOS · ")
+        assert other.name().startswith("SFO-JFK · ")
+
+    def test_the_pair_is_the_endpoints_not_every_stop(self):
+        # The endpoints are what the layers of one comparison share, so they
+        # are what groups them in the control. Intermediate stops differ per
+        # algorithm and belong in the per-leg tooltips, which already have them.
+        layer = PathLayer([SFO_LAX, LAX_BOS], name="Dijkstra")
+
+        assert "LAX" not in layer.name()
 
     def test_it_names_itself_from_the_airports_when_unnamed(self):
+        # No prefix here: the fallback name is already the airport codes, and
+        # "SFO-BOS · SFO-DEN-BOS" says it twice.
         assert PathLayer([SFO_JFK]).name().startswith("SFO-JFK")
+        assert "·" not in PathLayer([SFO_LAX, LAX_BOS]).name()
+
+    def test_an_empty_path_still_names_itself(self):
+        assert PathLayer([], name="Dijkstra").name() == "Dijkstra"
 
     def test_it_takes_its_colour_from_the_palette_by_series_name(self):
         built = PathLayer([SFO_BOS], name="Dijkstra").build(folium)

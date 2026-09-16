@@ -88,15 +88,38 @@ class PathLayer(MapLayer):
     def name(self) -> str:
         """Return the label shown in the layer control.
 
+        A named layer is prefixed with the pair it answers -- `"HNL-BDL ·
+        Dijkstra (8,072 km, 1,019 expanded)"`. Without it, a map comparing
+        algorithms over *two* pairs shows `"Dijkstra"` twice and `"BFS"` twice,
+        and the only thing telling the duplicates apart is a kilometre figure
+        the reader would have to already know the answer to. The endpoints are
+        also what the layers of one comparison share, so leading with them
+        groups each pair's layers together as the eye runs down the control.
+
+        The pair is the endpoints, not every stop: intermediate airports differ
+        per algorithm, which would break that grouping, and they are already in
+        each leg's own hover tooltip. An *unnamed* layer gets no prefix,
+        because its fallback name is the airport codes and `"SFO-BOS ·
+        SFO-DEN-BOS"` says it twice.
+
         Returns:
-            The given name or the airport codes along the path, followed by the
-            kilometre total and any annotation.
+            The given name prefixed by its endpoints, or the airport codes
+            along the path, followed by the kilometre total and any annotation.
         """
-        label = self._name or self._codes()
+        label = f"{self._pair()} · {self._name}" if self._name and self._legs else (
+            self._name or self._codes()
+        )
         parts = [f"{self.distance_km():,.0f} km"] if self._legs else []
         if self._annotation:
             parts.append(self._annotation)
         return f"{label} ({', '.join(parts)})" if parts else label
+
+    def _pair(self) -> str:
+        """Return the endpoints of the whole path, e.g. `SFO-BOS`."""
+        return (
+            f"{self._legs[0].origin.iata_code}-"
+            f"{self._legs[-1].destination.iata_code}"
+        )
 
     def distance_km(self) -> float:
         """Return the total distance along the path."""

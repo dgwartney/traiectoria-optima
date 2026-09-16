@@ -474,10 +474,13 @@ Two details make it notebook-native:
 
 - **`_repr_html_` calls `finish()`.** A bare `RouteMap()` chain as the last
   expression in a cell renders, so the common case never has to remember `.finish()`.
-- **The layer name carries the number.** `.path(legs, name="Dijkstra")` labels the
-  layer `Dijkstra (8,072 km)` — the total is computed from
+- **The layer name carries the pair and the number.** `.path(legs, name="Dijkstra")`
+  labels the layer `HNL-BDL · Dijkstra (8,072 km)` — the total is computed from
   `sum(leg.distance_km ...)`, so the legend restates the finding rather than just
-  naming a color. That is visible in the screenshot's layer control.
+  naming a color. That is visible in the screenshot's layer control. The endpoints
+  lead the label because a map comparing algorithms over two pairs otherwise shows
+  `Dijkstra` twice with nothing but a kilometre figure to tell the two apart;
+  leading with the pair also groups each comparison's layers together.
 
 #### Shape 3 — declarative, driven by `experiment.toml`
 

@@ -263,6 +263,66 @@ class TestFraming:
         assert route_map.finish() is not None
 
 
+class TestExtrasDrawnOnTheFinishedMap:
+    """The render-order trap that silently kills a map's whole layer control.
+
+    folium's `LayerControl` collects its overlays when the document is
+    *rendered*, by walking the map's children -- but it emits its own JS where
+    it sits in the insertion order. Add a feature group after the control and
+    the control still lists it, referencing a `var` declared further down the
+    script. Hoisting makes that `undefined`, Leaflet calls `.setZIndex` on it,
+    and the script throws: no layer control, no legend, and every plugin added
+    after it silently missing too. Nothing raises in Python and the map still
+    draws its lines, so only the browser console shows it.
+
+    `finish(decorate=...)` is the way out: the callback runs after every layer
+    is built -- so `drawn_points()` is populated and an overlay can trace a
+    path already on the map -- and before the control is attached.
+    """
+
+    @staticmethod
+    def _overlay_order(html):
+        """Return `(control_index, {overlay_var: definition_index})`."""
+        control = html.index("L.control.layers(")
+        overlays = html[html.index("overlays :") : control]
+        return control, {
+            name: html.index(f"var {name} = ")
+            for name in re.findall(r":\s*(feature_group_\w+|geo_json_\w+)", overlays)
+        }
+
+    def test_every_overlay_is_defined_before_the_control_lists_it(self):
+        def add_an_extra(folium_map):
+            folium.FeatureGroup(name="A* (animated)").add_to(folium_map)
+
+        route_map = RouteMap().path([SFO_DEN, DEN_BOS], name="Dijkstra")
+        html = route_map.finish(decorate=add_an_extra).get_root().render()
+
+        control, definitions = self._overlay_order(html)
+        assert definitions, "no overlays found -- the assertion below is vacuous"
+        for name, defined_at in definitions.items():
+            assert defined_at < control, f"{name} is used before it is defined"
+
+    def test_the_extra_reaches_the_layer_control(self):
+        def add_an_extra(folium_map):
+            folium.FeatureGroup(name="A* (animated)").add_to(folium_map)
+
+        route_map = RouteMap().path([SFO_DEN, DEN_BOS], name="Dijkstra")
+        html = route_map.finish(decorate=add_an_extra).get_root().render()
+
+        assert re.search(r'"A\* \(animated\)"\s*:', html)
+
+    def test_the_callback_sees_the_points_the_layers_drew(self):
+        # An overlay tracing a finished path is the reason the hook runs after
+        # build rather than before it.
+        seen = []
+        path = PathLayer([SFO_DEN, DEN_BOS], name="Dijkstra")
+        RouteMap().add(path).finish(
+            decorate=lambda _map: seen.append(list(path.drawn_points()))
+        )
+
+        assert seen and seen[0]
+
+
 class TestNotebookRendering:
     def test_it_renders_as_the_value_of_a_cell(self):
         # The common case must not have to remember .finish().
@@ -284,8 +344,10 @@ class TestTheNamedConstructors:
         route_map = RouteMap.compare(_planner(), "SFO", "BOS", _algorithms())
         names = [layer.name() for layer in route_map.layers]
 
-        assert any(name.startswith("Dijkstra") for name in names)
-        assert any(name.startswith("BFS") for name in names)
+        # Each path layer leads with the pair it answers, so the algorithm is
+        # named after it rather than at the front -- see PathLayer.name().
+        assert any(name.startswith("SFO-BOS · Dijkstra") for name in names)
+        assert any(name.startswith("SFO-BOS · BFS") for name in names)
 
     def test_compare_can_draw_the_network_underneath_it(self):
         catalog = _catalog()

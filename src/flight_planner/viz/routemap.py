@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Iterable, List, Mapping, Optional, Sequence, Tuple
+from typing import Any, Callable, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 from .airports import AirportLayer
 from .geodesic import Geodesic
@@ -222,11 +222,33 @@ class RouteMap:
 
     # --- finishing ------------------------------------------------------
 
-    def finish(self) -> Any:
+    def finish(self, decorate: Optional[Callable[[Any], Any]] = None) -> Any:
         """Build every layer, frame the map, and attach the layer control.
 
         Idempotent: calling it twice rebuilds rather than stacking duplicate
         layers, so a notebook can render the same object repeatedly.
+
+        THE TRAP `decorate` EXISTS FOR. The layer control has to be attached
+        last, because folium collects its overlays at *render* time by walking
+        the map's children -- but emits its own JavaScript where it sits in the
+        insertion order. Anything added to the map after `finish()` returns is
+        therefore listed by a control that runs *before* the `var` holding it
+        is assigned. `var` hoisting makes that `undefined`, Leaflet calls
+        `.setZIndex` on it, and the script throws at that line: no layer
+        control, no legend, and every plugin added after it missing too.
+
+        Nothing raises in Python, `save()` writes a file, and the lines still
+        draw -- the map merely loses the control that names them. Only the
+        browser console says why. So extras go through this hook instead of
+        onto the returned map.
+
+        Args:
+            decorate: Called with the `folium.Map` after every layer is built
+                and framed, and before the layer control is attached. The point
+                in the build where `drawn_points()` is populated, so an overlay
+                can trace a path already on the map -- an animated `AntPath`
+                over an existing `PathLayer` is the case this was written for.
+                Anything it adds appears in the layer control.
 
         Returns:
             The `folium.Map`.
@@ -281,6 +303,10 @@ class RouteMap:
         bounds = self.bounds()
         if bounds is not None:
             self._map.fit_bounds(bounds, padding=(20, 20))
+
+        if decorate is not None:
+            decorate(self._map)
+
         folium.LayerControl(collapsed=False).add_to(self._map)
         return self._map
 
