@@ -232,3 +232,6 @@ __marimo__/
 
 # reveal.js is fetched by `make vendor-reveal`, not committed.
 vendor/
+
+# Packaged deck bundle is a build artifact.
+deck-standalone.zip
